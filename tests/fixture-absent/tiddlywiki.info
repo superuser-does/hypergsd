@@ -1,0 +1,8 @@
+{
+  "description": "HyperGSD without the Contacts sub-plugin (degradation fixture)",
+  "plugins": ["hypergsd"],
+  "config": {
+    "default-tiddler-location": "$:/core/config/DefaultTiddlerLocation"
+  },
+  "storyRiver": []
+}

@@ -1,0 +1,7 @@
+{
+  "description": "HyperGSD headless fixture",
+  "config": {
+    "default-tiddler-location": "$:/core/config/DefaultTiddlerLocation"
+  },
+  "storyRiver": []
+}

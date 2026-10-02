@@ -1,0 +1,42 @@
+title: wiki-test/list-complete-refresh
+description: Completing an action drops its row and its emptied project group from the next action list on refresh, without a re-render
+type: text/vnd.tiddlywiki-multiple
+
+title: P one
+tags: $:/GSD/Project
+gsd_status: active
+
++
+
+title: A one
+tags: $:/GSD/Action
+gsd_status: next
+gsd_complete: false
+gsd_project: P one
+
++
+
+title: A two
+tags: $:/GSD/Action
+gsd_status: next
+gsd_complete: false
+
++
+
+title: Output
+
+\whitespace trim
+
+<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/next-action-list"/>
+
++
+
+title: Actions
+
+<$action-setfield $tiddler="A one" gsd_complete="true"/>
+
++
+
+title: ExpectedResult
+
+<p><p><div class="tw-menu-list-item"><span class="gsd-list-heading"><label class="tc-checkbox "><input type="checkbox"><span> Next actions<span class="tc-reveal" hidden="true"></span></span></label></span><hr><span class="tc-reveal"><div class="tc-eventcatcher"><p><div class="hgsd-group-strip"><span class="gsd-muted">Sort by:</span><select value="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"><optgroup label="Completed"><option value="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc">Recently completed</option><option value="$:/plugins/yan/hypergsd/ui/sort-by/completed-asc">Oldest completed</option></optgroup><optgroup label="Created"><option value="$:/plugins/yan/hypergsd/ui/sort-by/created-desc">Recently created</option><option value="$:/plugins/yan/hypergsd/ui/sort-by/created-asc">Oldest created</option></optgroup><optgroup label="Modified"><option value="$:/plugins/yan/hypergsd/ui/sort-by/modified-desc">Recently modified</option><option value="$:/plugins/yan/hypergsd/ui/sort-by/modified-asc">Oldest modified</option></optgroup><optgroup label="Priority"><option value="$:/plugins/yan/hypergsd-priorities/ui/sort-by/priority">Priority</option></optgroup><optgroup label="Title"><option value="$:/plugins/yan/hypergsd/ui/sort-by/title-asc">Title A–Z</option><option value="$:/plugins/yan/hypergsd/ui/sort-by/title-desc">Title Z–A</option></optgroup></select><span class="gsd-muted">Group by:</span><label class="tc-radio "><input type="radio"><span><span class="tc-tiny-gap-left">None</span></span></label><label class="tc-radio tc-radio-selected"><input type="radio"><span><span class="tc-tiny-gap-left">Projects</span></span></label><label class="tc-radio "><input type="radio"><span><span class="tc-tiny-gap-left">Contacts</span></span></label><label class="tc-radio "><input type="radio"><span><span class="tc-tiny-gap-left">Contexts</span></span></label><label class="tc-radio "><input type="radio"><span><span class="tc-tiny-gap-left">Realms</span></span></label><label class="tc-radio "><input type="radio"><span><span class="tc-tiny-gap-left">Priority</span></span></label><label class="tc-checkbox "><input checked="true" type="checkbox"><span> <em>include ungrouped</em></span></label></div></p><div class="tc-menu-list-item hgsd-project-list"><div class="hgsd-group-title">No group</div><div class="gsd-list-item"><div class="hgsd-interactive"><input data-hgsd-action="complete" data-tiddler="A two" type="checkbox"> </div><div class="hgsd-interactive"><label class="item-status action-next"><input checked="true" data-hgsd-action="status" data-status="next" data-tiddler="A two" name="$($(item-title)$)-status-995103279" type="radio"><span>n</span></label><label class="item-status action-waiting"><input data-hgsd-action="status" data-status="waiting" data-tiddler="A two" name="$($(item-title)$)-status-995103279" type="radio"><span>w</span></label><label class="item-status action-future"><input data-hgsd-action="status" data-status="future" data-tiddler="A two" name="$($(item-title)$)-status-995103279" type="radio"><span>f</span></label></div><span class="hgsd-row-priority" style="--hgsd-prio-a:#B3261E;--hgsd-prio-a-ink:#FFFFFF;--hgsd-prio-b:#E39A4A;--hgsd-prio-b-ink:#38220B;--hgsd-prio-c:#78909C;--hgsd-prio-c-ink:#1B2430;"><select class="hgsd-priority-select" title="Priority"><option value="">–</option><option value="A">H</option><option value="B">M</option><option value="C">L</option></select></span><a class="tc-tiddlylink tc-tiddlylink-resolves gsd-list-item-title" href="#A%20two">A two</a><span><button class="tc-btn-invisible gsd-muted gsd-button" title="Add a context"><svg class="tc-image-save-button tc-image-button" height="1em" viewBox="25 25 225 225" width="1em"> <path d="M216 96v120H96v-56H40V40h120v56Z" opacity="0.2"></path> <path d="M216 88h-48V40a8 8 0 0 0-8-8H40a8 8 0 0 0-8 8v120a8 8 0 0 0 8 8h48v48a8 8 0 0 0 8 8h120a8 8 0 0 0 8-8V96a8 8 0 0 0-8-8m-8 120H104v-48a8 8 0 0 0-8-8H48V48h104v48a8 8 0 0 0 8 8h48Z"></path> </svg></button><span class="tc-reveal" hidden="true"></span></span></div></div></div></span></div></p></p>

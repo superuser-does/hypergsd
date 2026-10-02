@@ -1,0 +1,22 @@
+title: wiki-test/status-fragment
+description: The status row fragment renders one radio pill per action status with the item's own status checked
+type: text/vnd.tiddlywiki-multiple
+
+title: A one
+tags: $:/GSD/Action
+gsd_status: next
+gsd_complete: false
+
++
+
+title: Output
+
+\whitespace trim
+
+<$tiddler tiddler="A one"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/list-items/status"/></$tiddler>
+
++
+
+title: ExpectedResult
+
+<p><div class="hgsd-interactive"><label class="item-status action-next"><input checked="true" data-hgsd-action="status" data-status="next" data-tiddler="A one" name="$($(item-title)$)-status--485100838" type="radio"><span>n</span></label><label class="item-status action-waiting"><input data-hgsd-action="status" data-status="waiting" data-tiddler="A one" name="$($(item-title)$)-status--485100838" type="radio"><span>w</span></label><label class="item-status action-future"><input data-hgsd-action="status" data-status="future" data-tiddler="A one" name="$($(item-title)$)-status--485100838" type="radio"><span>f</span></label></div></p>
