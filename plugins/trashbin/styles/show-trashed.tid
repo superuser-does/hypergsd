@@ -1,0 +1,9 @@
+tags: 
+title: $:/plugins/kookma/trashbin/styles/show-trashed
+type: text/vnd.tiddlywiki
+
+[data-tags~="$:/tags/trashbin"] .tc-tiddler-body,
+[data-tags~="$:/tags/trashbin"] .tc-tags-wrapper
+{
+ display:none;
+}

@@ -1,0 +1,13 @@
+{
+  "name": "hypergsd",
+  "version": "1.0.0",
+  "description": "Get Stuff Done in hypermedia: the HyperGSD plugin family for TiddlyWiki",
+  "private": true,
+  "scripts": {
+    "test": "node tests/run-all.js",
+    "bench": "node tests/run-bench.js"
+  },
+  "devDependencies": {
+    "tiddlywiki": "^5.4.1"
+  }
+}
