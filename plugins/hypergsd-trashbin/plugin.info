@@ -1,0 +1,12 @@
+{
+    "title": "$:/plugins/yan/hypergsd-trashbin",
+    "name": "HyperGSD Trashbin",
+    "description": "Trash completed items via kookma's Trashbin instead of deleting",
+    "author": "Yannis Anthymidis",
+    "core-version": ">=5.4.0",
+    "plugin-type": "plugin",
+    "parent-plugin": "$:/plugins/yan/hypergsd",
+    "dependents": ["$:/plugins/yan/hypergsd", "$:/plugins/kookma/trashbin"],
+    "list": "readme",
+    "version": "0.2.1"
+}

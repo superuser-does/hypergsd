@@ -1,0 +1,16 @@
+title: $:/language/hypergsd/Toolbar/
+
+# Page-toolbar buttons ($:/plugins/yan/hypergsd/ui/buttons/*). Captions render in
+# the toolbar settings; tooltips/labels render on the buttons themselves.
+NewAction/Caption: new action
+NewAction/Description: add a new action
+NewAction/Hint: add new action
+NewAction/Label: new action
+NewProject/Caption: new project
+NewProject/Description: add a new project
+NewProject/Hint: add new project
+NewProject/Label: new project
+Dashboard/Caption: dashboard
+Dashboard/Description: open the dashboard
+Dashboard/Hint: open dashboard
+Dashboard/Label: dashboard

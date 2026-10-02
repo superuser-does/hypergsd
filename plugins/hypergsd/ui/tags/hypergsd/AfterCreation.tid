@@ -1,0 +1,3 @@
+title: $:/tags/hypergsd/AfterCreation
+
+<!-- No list-field pinning: navigation is not a member (the creation paths navigate themselves after the hook, honouring the new-action-navigate / new-project-navigate toggles), so no rule tears down the invoking tree mid-flight — members are order-independent by construction. -->

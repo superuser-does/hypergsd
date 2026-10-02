@@ -1,0 +1,24 @@
+caption: Capture sidebar hooks
+title: $:/plugins/yan/hypergsd/docs/api/tags/capture-blocks
+
+! Summary
+Add an entry to the capture sidebar: a "new (thing)" button, a defaults control (a labelled line such as //Default context://), or any other line.
+
+! Detail
+The capture sidebar renders numbered blocks — one per `$:/tags/hypergsd/Capture/Block/<n>` tag tiddler — and inside each block, one line per member:
+
+;`$:/tags/hypergsd/Capture/Block/1`
+:Capture defaults — the shipped members are the //Default context:// select and the //Default realm:// picker, each member owning both its label and its control.
+;`$:/tags/hypergsd/Capture/Block/2`
+:The common new-item buttons: new action, new project, new reference.
+;`$:/tags/hypergsd/Capture/Block/3`
+:The rarer new-item buttons: new contact, new context.
+;`$:/tags/hypergsd/Capture/Block/4`
+:The realm note.
+
+A button is usually a single `<$hgsd.new-button>` invocation with its own `lingo-base` (tooltip/aria via full-path transclusions in attribute position). The button for a type shipped by a sub-plugin must live in that sub-plugin: absence of the plugin removes the member (and its strings) structurally, with no existence gate needed. A block whose members are all absent renders no gap.
+
+Each block's tag tiddler owns its members' order via the `list` field (unlisted members append alphabetically; a user edit of the field reorders the entries), and its `caption` labels the block's drag list in Settings → Sidebar. Order and visibility are configured per block there: drag and drop within a block, and the checkbox hides an entry — `$:/config/hypergsd/Capture/visibility/<title>`, default show.
+
+! Best Practice
+Give a new-item button a `gsd-type` matching a `$:/tags/hypergsd/Type` tag-list member, and inherit the defaults by passing no `gsd-project`/`gsd-realm` — the capture sidebar's effective context/realm flow through `$hgsd.new-button`'s inheritance. Pick the block that matches how common the item is, or add a `Block/<n>` tiddler of your own.

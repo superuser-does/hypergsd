@@ -1,0 +1,6 @@
+caption: {{$:/language/hypergsd/Lists/GroupBy/project}}
+hgsd-group-filter: [all[current]get[gsd_project]]
+hgsd-group-key: project
+hgsd-types: action project reference
+tags: $:/tags/hypergsd/GroupBy
+title: $:/plugins/yan/hypergsd/ui/group-by/project

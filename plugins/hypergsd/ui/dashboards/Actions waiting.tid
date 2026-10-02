@@ -1,0 +1,4 @@
+title: GSD/Actions waiting
+
+<!-- The by-contact view ships as the visible default; the flat waiting list is seeded hidden — enable it in the Lists tab. -->
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Waiting" visibility-base="$:/config/hypergsd/Lists/Waiting/visibility/"/>

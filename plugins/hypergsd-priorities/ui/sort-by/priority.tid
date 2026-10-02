@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Lists/SortBy/priority}}
+hgsd-sort-category: Priority
+hgsd-sort-filter: :sort[get[gsd_priority]else[zz]]
+hgsd-sort-key: priority
+hgsd-types: action project
+tags: $:/tags/hypergsd/SortBy
+title: $:/plugins/yan/hypergsd-priorities/ui/sort-by/priority

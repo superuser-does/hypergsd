@@ -1,0 +1,37 @@
+caption: Convert warnings
+title: $:/plugins/yan/hypergsd/docs/api/tags/convert-warning
+
+! Summary
+Add a warning sentence to the action-to-project convert confirmation.
+
+! Detail
+Tag a tiddler with `$:/tags/hypergsd/Convert/Warning` to extend the message shown when a user converts an action into a project. The fragment carries two fields:
+
+| !Field | !Required | !Description |
+|`warning` |yes |The key of the message string: the sentence lives in the language tiddler `$:/language/hypergsd/Convert/Warnings/<key>` |
+|`conditions` |no |A filter expression; the warning shows only when it outputs at least one title. Blank or absent means the warning always shows |
+
+The `conditions` filter runs with the variable `host-title` set to the action being converted. It is evaluated through `subfilter`, which passes its incoming source through — the tag-list member itself — so a `conditions` filter must start with a selection operator (`all[tiddlers]` or similar); starting with `tag[]` or another filtering operator would filter the member and return nothing. Ship the fragment from your plugin and it is gated on your plugin's presence automatically — no fragment, no warning.
+
+! Example
+The HyperGSD Contacts sub-plugin ships this fragment (`$:/plugins/yan/hypergsd-contacts/modules/convert-warnings/contact`):
+
+```
+title: $:/plugins/MyPlugin/convert-warnings/stale
+tags: $:/tags/hypergsd/Convert/Warning
+hgsd-conditions: [<host-title>get[my_field]!match[]]
+hgsd-warning: StaleField
+```
+
+with the sentence shipped in your plugin's language files:
+
+```
+title: $:/language/hypergsd/Convert/Warnings/
+...
+Warnings/StaleField: The my_field value will be kept, but it no longer applies to a project.
+```
+
+An unconditional warning simply omits the `conditions` field.
+
+! Best practice
+Keep each message to one sentence — each appears on its own line in the confirmation after the base question, and several may apply at once. Test both the applicable and inapplicable paths: a `conditions` filter must output nothing for the warning to stay hidden.

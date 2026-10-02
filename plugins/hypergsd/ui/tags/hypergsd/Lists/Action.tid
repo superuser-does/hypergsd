@@ -1,0 +1,2 @@
+list: $:/plugins/yan/hypergsd/ui/lists/next-action-list $:/plugins/yan/hypergsd/ui/lists/waiting-action-list $:/plugins/yan/hypergsd/ui/lists/future-action-list $:/plugins/yan/hypergsd/ui/lists/completed-action-list
+title: $:/tags/hypergsd/Lists/Action

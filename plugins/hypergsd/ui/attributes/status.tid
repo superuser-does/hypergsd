@@ -1,0 +1,29 @@
+caption: {{$:/language/hypergsd/Sections/Status/Caption}}
+description: {{$:/language/hypergsd/Sections/Status/Description}}
+tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/1 $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/1
+title: $:/plugins/yan/hypergsd/ui/attributes/status
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+
+<!-- One renderer, one save mechanism: the pills' plain inputs + data-attrs work identically against a real tiddler (panel: immediate save) or the modal state temp (per-type memory fields + gsd_status; submit resolves). The modal cascade is type-generic — memory field (gsd_<type>_status) → inherited gsd-status validated against the type tag's set → the tag's default — so custom statuses validate and types without statuses render nothing. The panel reads the live field. sr-only legend: a radio group must be a named fieldset. The complete gate reads the target so the modal (field absent → else[false]) passes. -->
+<%if [<section-type>match[action]] [<section-type>match[project]] %>
+<%if [<section-target>get[gsd_complete]else[false]match[false]] %>
+<fieldset class="hgsd-interactive">
+    <legend class="hgsd-screen-reader-only"><<lingo Status/Legend>></legend>
+    <$let type-mem-field={{{ [<section-type>addsuffix[_status]addprefix[gsd_]] }}}>
+    <%if [<section-mode>match[modal]] %>
+        <%if [<section-status-target>has<type-mem-field>] %>
+            <$let display-status={{{ [<section-status-target>get<type-mem-field>] }}}><$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status=<<display-status>>/></$let>
+        <%elseif [function[hgsd-status-set],<section-type>match<gsd-status>] %>
+            <$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status=<<gsd-status>>/>
+        <%else%>
+            <$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status={{{ [function[hgsd-status-default],<section-type>] }}}/>
+        <%endif%>
+    <%else%>
+        <$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status={{{ [<section-status-target>get[gsd_status]] }}}/>
+    <%endif%>
+    </$let>
+</fieldset>
+<%endif%>
+<%endif%>

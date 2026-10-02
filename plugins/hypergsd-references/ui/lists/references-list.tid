@@ -1,0 +1,12 @@
+caption: {{$:/language/hypergsd/Settings/Lists/References/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/References/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/References
+tags: $:/tags/hypergsd/Lists/Reference
+title: $:/plugins/yan/hypergsd-references/ui/lists/references-list
+
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/References}}
+    list-filter="[tag[$:/GSD/Reference]]"
+    group-select="yes"
+    sort-select="yes"
+    add-button=<<new-reference-button>> />

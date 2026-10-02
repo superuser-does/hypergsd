@@ -1,0 +1,22 @@
+caption: {{$:/language/hypergsd/Sections/Realm/Caption}}
+description: {{$:/language/hypergsd/Sections/Realm/Description}}
+tags: $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/2
+title: $:/plugins/yan/hypergsd/ui/modal/realm
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+<label>
+<<lingo Realm/Label>>
+<br/>
+<$select tiddler="$:/state/hypergsd/effective-realm" default="">
+    <option value=""><<lingo Realm/None>></option>
+    <$list filter="[all[tags]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]sort[]]">
+        <option value=<<currentTiddler>>><$view field="title"/></option>
+    </$list>
+    <option value="new"><<lingo Realm/New>></option>
+</$select>
+<!-- "New realm" flow: the typed name lives on a temp OUTSIDE every refresh-gate prefix (the $:/temp/gsd-new-title pattern — a $:/state/hypergsd title rides the gates' prefix runs, re-rendering the attribute chassis plus every open panel per keystroke); it is read once at submit and becomes $:/GSD/Realm/<name>. The <br/> lives INSIDE the reveal gate so nothing dangles when hidden — element interiors parse inline and \whitespace trim eats newline runs, so a newline cannot do the job. -->
+<$list filter="[[$:/state/hypergsd/effective-realm]get[text]match[new]]">
+<br/><$text text="$:/GSD/Realm/"/><$edit-text tiddler="$:/temp/gsd-new-realm-name" default="" tag="input" />
+</$list>
+</label>

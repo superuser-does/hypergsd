@@ -1,0 +1,11 @@
+caption: {{$:/language/hypergsd/Settings/Colours/Caption}}
+list-after: $:/plugins/yan/hypergsd/ui/control-panel/sidebar
+tags: $:/tags/hypergsd/Settings
+title: $:/plugins/yan/hypergsd/ui/control-panel/colours
+
+\procedure lingo-base() $:/language/hypergsd/Settings/
+
+<<lingo Colours/Prompt>>
+
+<$transclude
+    $tiddler="$:/plugins/yan/hypergsd/ui/stylesheet/colour-manager" />

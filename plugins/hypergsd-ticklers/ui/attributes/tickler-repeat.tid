@@ -1,0 +1,17 @@
+caption: {{$:/language/hypergsd/Sections/Tickler/Repeat/Caption}}
+description: {{$:/language/hypergsd/Sections/Tickler/Repeat/Description}}
+list-after: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler
+tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/2 $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/2
+title: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+
+<!-- DUAL-CONTEXT repeat-interval section, hidden unless the target carries a tickler date — an interval is meaningless without one (the check never reads it). Ordered after the date section via list-after (the render loop re-sorts alphabetically; the title keeps the two in agreement). Writes gsd_tickler_repeat_days straight to the target in both contexts. The <br/> puts the control under its caption, matching the date section. -->
+<%if [<section-type>match[action]] %><%if [<section-target>has[gsd_tickler_date]] %>
+<label>
+<<lingo Tickler/Repeat/Label>>
+<br/>
+<$edit-text tiddler=<<section-target>> field="gsd_tickler_repeat_days" tag="input" type="number" class="hgsd-tickler-repeat-input" default=""/>
+</label>
+<%endif%><%endif%>

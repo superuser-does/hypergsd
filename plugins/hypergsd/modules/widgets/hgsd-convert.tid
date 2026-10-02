@@ -1,0 +1,45 @@
+tags: $:/tags/Global/View
+title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-convert
+
+\whitespace trim
+
+<!-- Scope: $:/tags/Global/View — only consumer is ui/panel/convert.tid (attributes panel). -->
+\widget $hgsd.convert(current-status, class, style, role, tooltip)
+<!-- Conversion asks for confirmation on every convert. The message beyond the base question comes from $:/tags/hypergsd/Convert/Warning fragments: a warning field (lingo key) plus an optional conditions filter (blank = always applicable); host-title (the converted action) is ambient for every conditions filter. -->
+<$let host-title=<<currentTiddler>>>
+<!-- nl: a real newline for the confirm message (native dialogs render \n as a line break). Built via decodeuricomponent because entities don't decode inside triple-brace filter attributes, and a trailing empty operand breaks the attribute scanner — hence the else[nl] guard. -->
+<$let pct={{{ [[%0A]] }}}>
+<$let nl={{{ [<pct>decodeuricomponent[]else[nl]] }}}>
+<$let warn-always={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[!has[hgsd-conditions]] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<nl>] }}}>
+<$let warn-cond={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<nl>] }}}>
+<$let part-always={{{ [<warn-always>!match[]addprefix<nl>] }}}>
+<$let part-cond={{{ [<warn-cond>!match[]addprefix<nl>] }}}>
+<$let msg={{{ [[$:/language/hypergsd/Convert/Base]] :map[get[text]] +[addsuffix<part-always>] +[addsuffix<part-cond>] }}}>
+<$button
+    class=<<class>>
+    style=<<style>>
+    role=<<role>>
+    tooltip=<<tooltip>> >
+    <$slot $name="ts-raw">{{$:/language/hypergsd/Convert/DefaultButtonLabel}}</$slot>
+    <$action-confirm $message=<<msg>>>
+        <%if [<current-status>match[next]] %>
+            <$action-setfield $tiddler=<<currentTiddler>> gsd_status="active"/>
+        <%else%>
+            <$action-setfield $tiddler=<<currentTiddler>> gsd_status="future"/>
+        <%endif%>
+        <$action-setfield $tiddler=<<currentTiddler>> gsd_prerequisites=""/>
+        <$fieldmangler tiddler=<<currentTiddler>>>
+            <$action-sendmessage $message="tm-remove-tag" $param="$:/GSD/Action"/>
+            <$action-sendmessage $message="tm-add-tag" $param="$:/GSD/Project"/>
+        </$fieldmangler>
+    </$action-confirm>
+</$button>
+</$let>
+</$let>
+</$let>
+</$let>
+</$let>
+</$let>
+</$let>
+</$let>
+\end

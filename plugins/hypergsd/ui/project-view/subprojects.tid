@@ -1,0 +1,14 @@
+caption: {{$:/language/hypergsd/Lists/Subprojects}}
+tags: $:/tags/hypergsd/ProjectView $:/tags/hypergsd/ProjectView/Portion/Full
+title: $:/plugins/yan/hypergsd/ui/project-view/subprojects
+
+\whitespace trim
+
+<!-- Project-view list member rendered by the shared $hgsd.list widget (its view controls are opt-in, so this page shows no group-by/sort-by strip; realm-scope blank keeps the project's own page unscoped where dashboards honour the realm filter; Portion/Full keeps it in the trailing band). The chassis transcludes this in block mode, rebinding currentTiddler to this member tiddler; section-target (set by view-body-project around the chassis) carries the project, so the $set restores it for the filter and the quick-add button. -->
+<$set name="currentTiddler" value=<<section-target>>>
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/Subprojects}}
+    list-filter="[tag[$:/GSD/Project]!is[draft]gsd_project<currentTiddler>sort[title]sort[gsd_status]sort[gsd_complete]]"
+    realm-scope=""
+    add-button=<<new-subproject-button>>/> <!-- gsd_status sorts "active" before "future", then completed projects last -->
+</$set>

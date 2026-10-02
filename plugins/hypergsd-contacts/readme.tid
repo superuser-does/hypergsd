@@ -1,0 +1,19 @@
+title: $:/plugins/yan/hypergsd-contacts/readme
+type: text/vnd.tiddlywiki
+
+''HyperGSD Contacts'' is a sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds the //Contact// type and easy ways to enter it. You can use contacts to track actions for companies, people and even animals.
+
+! What it ships
+
+* the `contact` type — the `$:/GSD/Contact` tag-list member, so contacts appear in the new-item modal's Type dropdown and are created with the right tag
+* the ''Contact'' panel section on actions (set the responsible contact) and the ''Contact'' modal section
+* the ''Contacts'' dashboard page: //Actions by contact// in the first portion column (always grouped by contact, with the multi-contact search — the picker in the list's strip ahead of Sort by; pick contacts and the list filters to them, empty selection shows every contacted action, the selection persists across sessions) plus the ''Contact list'' roster in the trailing full-width band
+* the contact list (heading //Contact list//) on the main dashboard
+* the contact view template (next/waiting/future/completed actions per contact, with quick-add buttons)
+* the ''Contact link'' row suffix (`$:/tags/hypergsd/ListItem/Suffix`) — a jump-to-contact icon on rows of delegated actions, hidden on the contact tiddler and in lists grouped by contact; the tooltip is the contact's title
+* the ''Waiting Actions By Contact'' list (the visible default on the Actions waiting page; the flat waiting list is the default when this sub-plugin is absent)
+* the contact-delegation after-creation rule (creating a contact from an action's picker assigns it to that action)
+* a convert-confirmation warning for contacts (see [[the Convert/Warning contract|$:/plugins/yan/hypergsd/docs/api/tags/convert-warning]])
+* its own settings page (panel position + contacts dashboard list) under HyperGSD's settings
+
+Everything attaches through HyperGSD's tag lists. If you were to remove this plugin, you would have `gsd_contact` fields left but nothing else.

@@ -1,0 +1,63 @@
+caption: Refresh gates
+tags: $:/tags/hypergsd/Docs
+title: $:/plugins/yan/hypergsd/docs/refresh-gates
+
+! Summary
+
+A quick guide to the hgsd-refresh-whitelist considerations for anything a sub-plugin adds — row/link fragments, panel or modal sections, dashboard lists, pickers. Get these wrong and your UI silently goes stale until the next unrelated edit. Get them right and, most of the time, there is nothing to do at all.
+
+! How the freeze works
+
+HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when one of the ''changed'' tiddlers matches the gate's whitelist filter (an input-driven filter evaluated over the change set). Gates nest — the list engine has a derivation gate, a per-list gate and a ''row freeze''; the panel and modal have their own. Refresh is about VISUALS only: clicks reach the delegated event handler regardless of gates.
+
+! What is already covered
+
+| !Surface you add | !Wakes on (no action needed for these) |
+|Panel or modal section (`$:/tags/hypergsd/PanelTemplate` / `ModalTemplate`) |your section tiddler's edits, the item's edits (type gate), the type tag list, `$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`, the picker temps `$:/temp/hypergsd/add-<id>-<target>` (scoped per host), the modal's own temp/state tiddlers, ListItem tag-list edits |
+|Dashboard or view list (an `$hgsd.list` instance via the list tag lists) |item edits and deletions, realm tag-tiddler edits, `$:/config/hypergsd/*`, per-list collapse states, ListItem tag-list edits, the contextualise namespaces |
+|Dashboard page chassis (`hgsd-dashboard-portions`) |tag list/membership edits, per-list visibility config, and the page's own `$hgsd.toggle` state writes (scoped `show-completed` prefix runs with a subtraction that drops other pages' toggles) — a member using a custom `state-prefix` on the toggle must add matching runs to this gate |
+|Row fragment (`$:/tags/hypergsd/ListItem/Prefix` or `/Suffix`) |''the row's own item'' changing, ListItem tag-list edits, per-fragment visibility config — plus anything you declare yourself (below) |
+|Link fragment (`$:/tags/hypergsd/LinkItem`) |the link target changing (renders inside the host's gates); the realm globe reads `$:/config/hypergsd/realm-selection`, already covered |
+|Portion placement |portions are ordinary tag-list members — no refresh implications beyond the row's own item |
+|Status vocabulary |replacing [[$:/plugins/yan/hypergsd/modules/status-sets]] (a same-title shadow — the only override surface) re-renders pills, rows, colours and modal validation live, via the type gate's `status-sets` prefix run |
+
+! The one thing you may need: a `hgsd-refresh-whitelist` field
+
+If a fragment renders from state tiddlers ''of its own'' (a reveal, a picker, a feature toggle), declare them on the fragment tiddler:
+
+```
+title: $:/plugins/MyPlugin/ui/list-items/due-date
+tags: $:/tags/hypergsd/ListItem/Suffix
+hgsd-refresh-whitelist: [prefix[$:/state/MyPlugin/due]] [prefix[$:/temp/MyPlugin/due]]
+```
+
+Rules: each entry is a single bracketed filter run, entries separated by spaces (no bare spaces inside a run). The row's own item, the tag lists and visibility config are already in the engine's base — do not repeat them. The field is read per list render, so editing it takes effect immediately. The same applies to feature configs: any tiddler titled under `$:/config/hypergsd/…` (the contextualise chips' `$:/config/hypergsd/Contexts/show-contexts`, for example) is admitted by every gate's base prefix run, so a fragment gated on such a config needs no whitelist entry at all.
+
+! Worked examples from the shipped sub-plugins
+
+* ''Contacts'' — the free case: its contact sections use `$hgsd.pick-field`, whose temps (`$:/temp/hypergsd/add-…`) and popups (`$:/state/popup/pick-…`) are chassis-whitelisted, and its per-contact lists are `$hgsd.list` instances. Nothing refresh-related was needed.
+* ''Ticklers'' — the in-row date input opens a picker popup under `$:/state/popup/pick-…`; its fragment (`ui/list-items/tickler`) declares `[prefix[$:/state/popup/pick-]]` in a `hgsd-refresh-whitelist` field. Before the field existed, this required a main-plugin whitelist edit.
+* ''Contexts'' — the contextualise fragment keeps feature state under `$:/state/hypergsd/contextualise` (per-copy titles: row + group + list scope) plus popup/temp prefixes; its `hgsd-refresh-whitelist` field declares all three. (The list engine's own gates also carry these as pass-through runs, because the feature's popups live ''inside'' the frozen list derivation — see below.)
+
+! Outside rows and links
+
+* A panel/modal ''section'' with custom state: put it under a covered namespace (`$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`) and nothing is needed. Anything else currently requires a main-plugin gate edit — file it upstream; the panel gate lives in `ui/ViewTemplate/view-body`.
+* State that must reach ''inside'' frozen lists beyond row content (the derivation itself): the outer gates carry pass-through runs for the contextualise namespaces as the worked example — same upstream route.
+* New-item modal sections: the chassis provides `new-temp`/`new-state`; section edits and the type tag list already wake the modal.
+
+! Recursion safety
+
+The engine's own recursion guard counts widgets (a depth of 1000) while the browser's stack counts JS frames, and a HyperGSD level is expensive in frames: gate attribute evaluation, refreshSelf cascades and per-row executes mean the raw "maximum call stack size exceeded" surfaces at a widget depth of roughly 150–400 — before the engine's friendly recursion error can trip. The depth budget is tracked by the telemetry section of the headless benchmark (`node scripts/hypergsd-bench.js` in the wiki checkout); the shipped surfaces sit at ≤67% of it (worst: the dashboard chassis at 100), and an engine list rendered from inside a row fragment — the one nesting shape that would breach the budget — is unreachable through the data model: mount such a list at a page slot, as the context page does.
+
+* ''No `\define` in gate plumbing.'' `\function` and `\procedure` only: a `\define` whose body references another `\define` cycles through variable substitution with no engine guard, which is a direct stack overflow.
+* ''A whitelist admits only what the gated subtree reads.'' Never match a tiddler that any part of the subtree writes at render time — that is a refresh loop (write → change → gate opens → re-render → write). Action-time writes are what gates exist for; a render-time write inside a gated region is the bug.
+* ''Break reference cycles in whitelist derivations.'' A self-referential whitelist does not crash: the engine returns a marker string as a filter result, the marker counts as a whitelist hit, and the gate silently ''opens'' (a gate that never freezes, with no error anywhere).
+
+! Symptoms
+
+| !Symptom | !Cause |
+|UI stale until the next unrelated edit |your state tiddler matches no whitelist — add a `hgsd-refresh-whitelist` field (fragments) or move the state under a covered namespace (sections) |
+|Popup opens but the surrounding row does not react |popup state is covered; your fragment's ''other'' reads are not — declare them |
+|Works in the panel, stale on dashboard rows |the panel gate covers your state, the row gate does not — `hgsd-refresh-whitelist` |
+|"Maximum call stack size exceeded" on render or refresh |a render loop through nested construction — a gate admitting a tiddler its own subtree writes at render time, or a fragment rendering the engine recursively — or a tree over the depth budget (run the benchmark's depth telemetry) |
+|Page flickers or loops, then hangs |dispatcher livelock: change → refresh → render-time write → change, one cycle per stack — same root cause as the stack error, slower to die |

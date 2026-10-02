@@ -1,0 +1,9 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/LinkRealmGlobe/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/LinkRealmGlobe/Hint}}
+tags: $:/tags/hypergsd/LinkItem
+title: $:/plugins/yan/hypergsd/ui/link-items/realm
+
+\whitespace trim
+
+<!-- The cross-realm globe as a LinkItem: fires when the link target falls outside the review sidebar's current realm selection. The gate (the $:/config/hypergsd/realm-warning switch + the scope test) lives in hgsd-realm-warning; untag this member to remove the globe from every link surface at once. -->
+<$transclude $variable="hgsd-realm-warning" linked-tiddler=<<linked-tiddler>>/>

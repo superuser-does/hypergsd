@@ -1,0 +1,2 @@
+list: $:/plugins/yan/hypergsd/ui/modal/type $:/plugins/yan/hypergsd/ui/attributes/status $:/plugins/yan/hypergsd/ui/attributes/project $:/plugins/yan/hypergsd-contacts/ui/attributes/contact $:/plugins/yan/hypergsd-contexts/ui/modal/context $:/plugins/yan/hypergsd/ui/modal/realm
+title: $:/tags/hypergsd/ModalTemplate

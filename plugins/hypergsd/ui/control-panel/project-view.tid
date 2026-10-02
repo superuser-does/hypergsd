@@ -1,0 +1,13 @@
+caption: {{$:/language/hypergsd/Settings/ProjectView/Caption}}
+tags: $:/tags/hypergsd/Settings/Lists
+title: $:/plugins/yan/hypergsd/ui/control-panel/project-view
+
+\whitespace trim
+
+\procedure lingo-base() $:/language/hypergsd/Settings/
+
+! <<lingo ProjectView/Lists>>
+
+//<<lingo ProjectView/Lists/Prompt>>//
+
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/ProjectView" visibility-base="$:/config/hypergsd/ProjectView/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/portion-item-template"/>

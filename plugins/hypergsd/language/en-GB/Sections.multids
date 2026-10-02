@@ -1,0 +1,51 @@
+title: $:/language/hypergsd/Sections/
+
+# Section tag list: captions/descriptions render in the Settings → Panel and
+# modal tab, panel and modal sections render the rest. One key group per section.
+
+Complete/Caption: Complete
+Complete/Description: Mark the item as complete
+Complete/MarkedLabel: Completed
+Complete/UnmarkedLabel: Complete
+Complete/Warning/Subtitle: Mark item as complete
+Complete/Warning/Question: Are you sure you want to mark this item as complete?
+Complete/Warning/CompleteAnyway: Complete anyway
+Complete/Warning/Relevant: Relevant tiddlers:
+Complete/Warnings/OpenChildren: Actions or sub-projects
+Complete/Warnings/OpenActions: There are incomplete actions
+Complete/Warnings/OpenSubprojects: There are incomplete sub-projects
+Convert/Caption: Convert
+Convert/Description: Convert the action to a project
+Convert/Hint: Convert action to project
+Convert/ButtonLabel: convert
+PrereqOf/Caption: Pre-requisite of
+PrereqOf/Description: Add actions that wait on this one
+PrereqOf/Label: Pre-requisite of:
+PrereqOf/Add/Hint: Add new dependent action
+PrereqOf/Choose: -- choose --
+PrereqOf/Add/Caption: new
+DependsOn/Caption: Depends on
+DependsOn/Description: Link the actions this action depends on
+DependsOn/Label: Depends on:
+DependsOn/Choose: -- choose --
+DependsOn/Add/Hint: Add new action
+DependsOn/Add/Caption: new
+Project/Caption: Project
+Project/Description: Set the item's project
+Project/OfLabel: Of project:
+Project/SubLabel: Sub-project of:
+Status/Caption: Status
+Status/Description: Set the item's status (next, waiting, future…)
+Status/Legend: Status:
+Status/next: next
+Status/waiting: waiting
+Status/future: future
+Status/active: active
+Realm/Caption: Realm
+Realm/Description: Set the item's realm
+Realm/Label: Realm:
+Realm/None: -- no realm --
+Realm/New: -- new realm --
+Type/Caption: Type
+Type/Description: Choose what kind of item to create
+Type/Label: Type:

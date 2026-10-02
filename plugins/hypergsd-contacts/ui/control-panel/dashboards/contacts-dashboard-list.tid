@@ -1,0 +1,5 @@
+caption: {{$:/language/hypergsd/Settings/Pages/Contact/Caption}}
+tags: $:/tags/hypergsd/Settings/Lists/Dashboard
+title: $:/plugins/yan/hypergsd-contacts/ui/control-panel/dashboards/contacts-dashboard-list
+
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Lists/Contact" visibility-base="$:/config/hypergsd/Lists/Contact/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template"/>

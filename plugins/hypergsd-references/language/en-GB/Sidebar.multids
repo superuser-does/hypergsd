@@ -1,0 +1,8 @@
+title: $:/language/hypergsd/Sidebar/
+
+# References additions to the shared Sidebar string namespace. The capture entry
+# button ships from this plugin, so its strings ship with it (the main plugin
+# never renders them).
+Capture/NewReference/Hint: Add new reference
+Capture/NewReference/Label: new reference
+Review/References: References

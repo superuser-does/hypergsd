@@ -1,0 +1,8 @@
+title: $:/language/hypergsd/Lists/
+
+# Ticklers additions to the shared Lists namespace (dashboard + row suffix).
+RequiringAction: Ticklers requiring action
+UpcomingTicklers: Upcoming ticklers
+OldTicklers: Old ticklers
+OldTicklers/Show: show old ticklers...
+OldTicklers/Hide: hide old ticklers

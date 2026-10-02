@@ -1,0 +1,49 @@
+title: $:/language/hypergsd/Lists/
+
+# Rendered list headings shared across dashboards and view bodies, plus the
+# list-row glyphs, list toggles and per-list quick-add buttons.
+
+NextActions: Next actions
+FutureActions: Future actions
+WaitingActions: Waiting actions
+CompletedActions: Completed actions
+CompletedProjects: Completed projects
+ActiveProjects: Active projects
+FutureProjects: Future projects
+Subprojects: Sub-projects
+NoNextActions: Projects without next actions
+OpenActionsUnderCompletedProjects: Open actions under completed projects
+NoGroup: No group
+ShowCompletedLists: show completed items…
+HideCompletedLists: hide completed items
+ShowCompletedActions: show completed actions…
+HideCompletedActions: hide completed actions
+GroupByProject: Group by project
+Row/next: n
+Row/waiting: w
+Row/future: f
+Row/active: a
+Row/BodyText: This tiddler contains text in its body
+Add/Next: add new next action
+Add/Waiting: add new waiting action
+Add/Future: add new future action
+Add/Subproject: add new active subproject
+GroupBy/project: Projects
+GroupBy/realm: Realms
+GroupBy/status: Status
+GroupBy/Ungrouped: include ungrouped
+GroupBy/None: None
+GroupBy: Group by:
+SortBy: Sort by:
+SortBy/modified: Recently modified
+SortBy/modified-asc: Oldest modified
+SortBy/title-asc: Title A--Z
+SortBy/title-desc: Title Z--A
+SortBy/created-desc: Recently created
+SortBy/created-asc: Oldest created
+SortBy/Category/Modified: Modified
+SortBy/Category/Title: Title
+SortBy/Category/Created: Created
+SortBy/completed-desc: Recently completed
+SortBy/completed-asc: Oldest completed
+SortBy/Category/Completed: Completed

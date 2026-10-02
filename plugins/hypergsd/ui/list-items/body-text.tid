@@ -1,0 +1,21 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/BodyText/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/BodyText/Hint}}
+tags: $:/tags/hypergsd/ListItem/Suffix
+title: $:/plugins/yan/hypergsd/ui/list-items/body-text
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Lists/
+
+<!-- The one deliberate negative gsd_complete check in the plugin: this fragment renders on contact rows, which never carry the field — "not complete" must include "no completion concept". Everywhere else incomplete is gsd_complete[false]. -->
+<!-- Type suppression is declared by the owning plugin, not named here: $:/config/hypergsd/ListItem/type-hide/body-text holds hgsd-type values whose rows must not show this fragment (the references plugin seeds it with "reference"); no config tiddler means every type shows it. item-type derives exactly as status.tid derives its own. -->
+<$let item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
+<%if [is[current]!field:text[]!gsd_complete[true]] %>
+<%if [enlist{$:/config/hypergsd/ListItem/type-hide/body-text}match<item-type>] %>
+<!-- suppressed for this item type -->
+<%else%>
+<div class="gsd-muted" title={{$:/language/hypergsd/Lists/Row/BodyText}}>
+    <$transclude $tiddler="$:/plugins/yan/hypergsd/images/excerpt" size="12pt"/>
+</div>
+<%endif%>
+<%endif%>
+</$let>

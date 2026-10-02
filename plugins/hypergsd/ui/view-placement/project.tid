@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Settings/ViewPlacement/Project}}
+hgsd-config: Project
+hgsd-default: bottom
+hgsd-type-tag: $:/GSD/Project
+list: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project
+tags: $:/tags/hypergsd/ViewPlacement
+title: $:/plugins/yan/hypergsd/ui/view-placement/project

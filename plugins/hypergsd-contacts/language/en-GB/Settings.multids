@@ -1,0 +1,19 @@
+title: $:/language/hypergsd/Settings/
+
+# Contacts additions to the shared Settings string namespace (same key space
+# as the main plugin; the sub-plugin owns only these keys).
+Contacts/Placement/Caption: Contact tiddlers
+Lists/ContactList/Caption: Contact list
+Lists/ContactList/Hint: All contacts
+Lists/ContactFilter/Caption: Actions by contact
+Lists/ContactFilter/Hint: Incomplete next, waiting and future actions with a contact, grouped by contact and filtered by the picked contacts
+Lists/WaitingByContact/Caption: Waiting actions list by contact
+Lists/WaitingByContact/Hint: Incomplete waiting actions with a contact, grouped by contact
+Lists/NextByContact/Caption: Next actions list by contact
+Lists/NextByContact/Hint: Incomplete next actions with a contact, grouped by contact
+Lists/FutureByContact/Caption: Future actions list by contact
+Lists/FutureByContact/Hint: Incomplete future actions with a contact, grouped by contact
+Fragments/ContactLink/Caption: Contact link
+Fragments/ContactLink/Hint: Icon jumping to the contact, hidden on the contact tiddler and in lists grouped by contact
+
+Pages/Contact/Caption: Contacts dashboard

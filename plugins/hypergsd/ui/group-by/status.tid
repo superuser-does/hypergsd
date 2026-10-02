@@ -1,0 +1,10 @@
+caption: {{$:/language/hypergsd/Lists/GroupBy/status}}
+hgsd-group-filter: [all[current]get[gsd_status]match[next]then[1|next]] [all[current]get[gsd_status]match[waiting]then[2|waiting]] [all[current]get[gsd_status]match[future]then[3|future]] [all[current]get[gsd_status]match[active]then[1|active]]
+hgsd-group-key: status
+hgsd-label-filter: [all[current]split[|]last[]addprefix[$:/language/hypergsd/Sections/Status/]get[text]] :else[all[current]split[|]last[]]
+hgsd-synthetic-keys: yes
+hgsd-types: action project
+tags: $:/tags/hypergsd/GroupBy
+title: $:/plugins/yan/hypergsd/ui/group-by/status
+
+<!-- Ships hidden ($:/config/hypergsd/GroupBy/hidden/ + this title reads hide; tick in Settings → Dashboards → Grouping options to offer it). Keys carry a rank prefix because sort[title] in the shared renderer is the only ordering mechanism — the ranks encode status-set order (next and active share rank 1, then waiting 2, future 3; beyond nine ranks zero-pad the prefix) and label-filter strips the prefix and resolves the Sections/Status lingo so headings match the pills under a replaced vocabulary. Replacing the status vocabulary means editing this member's runs alongside modules/status-sets. -->

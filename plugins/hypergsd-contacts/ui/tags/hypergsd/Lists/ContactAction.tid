@@ -1,0 +1,2 @@
+list: [[$:/plugins/yan/hypergsd-contacts/ui/lists/contact-next-action-list]] [[$:/plugins/yan/hypergsd-contacts/ui/lists/contact-waiting-action-list]] [[$:/plugins/yan/hypergsd-contacts/ui/lists/contact-future-action-list]] [[$:/plugins/yan/hypergsd-contacts/ui/lists/contact-completed-action-list]]
+title: $:/tags/hypergsd/Lists/ContactAction

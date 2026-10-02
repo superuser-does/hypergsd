@@ -1,0 +1,8 @@
+caption: {{$:/language/hypergsd/Sidebar/Capture/DefaultRealm/Caption}}
+description: {{$:/language/hypergsd/Sidebar/Capture/DefaultRealm/Hint}}
+tags: $:/tags/hypergsd/Capture/Block/1
+title: $:/plugins/yan/hypergsd/ui/sidebar/capture/default-realm
+
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<<lingo Capture/DefaultRealm/Label>><$hgsd.realm-picker state-tiddler="$:/state/hypergsd/effective-realm" />

@@ -1,0 +1,13 @@
+caption: {{$:/language/hypergsd/Sidebar/Capture/NewContact/Label}}
+description: {{$:/language/hypergsd/Sidebar/Capture/NewContact/Hint}}
+tags: $:/tags/hypergsd/Capture/Block/3
+title: $:/plugins/yan/hypergsd-contacts/ui/sidebar/capture/new-contact
+
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<!-- Ships from the sub-plugin: its absence removes the tag-list member (and the contact type) structurally — no existence gate needed, same argument as the contacts dashboard list. -->
+<$hgsd.new-button
+    gsd-type="contact"
+    tooltip={{$:/language/hypergsd/Sidebar/Capture/NewContact/Hint}}>
+    {{$:/plugins/yan/hypergsd-contacts/images/contact}}&nbsp;<<lingo Capture/NewContact/Label>>
+</$hgsd.new-button>

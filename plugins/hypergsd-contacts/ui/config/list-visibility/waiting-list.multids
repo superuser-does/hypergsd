@@ -1,0 +1,4 @@
+title: $:/config/hypergsd/Lists/Waiting/visibility/$:/
+
+plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact: show
+plugins/yan/hypergsd/ui/lists/waiting-action-list: hide

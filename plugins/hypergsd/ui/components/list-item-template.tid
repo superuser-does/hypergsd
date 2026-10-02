@@ -1,0 +1,30 @@
+title: $:/plugins/yan/hypergsd/ui/components/list-item-template
+
+\whitespace trim
+
+<!-- Item template for the per-list Settings pages: the core row, the Portion picker (ui/components/portion-picker), and a Group by + Sort by pair writing the list's DEFAULT directly — the selects bind the config tiddler natively (the same write the view strip uses), so no state tiddler or actions. The key is the heading: each list tiddler's heading field carries its heading's lingo title, whose text equals the widget's list-heading parameter, so Settings and the widget land on the same $:/config/hypergsd/list-default/<heading> tiddler. Rows without a heading field (third-party lists) hide the pair — their picks would be silent no-ops. Members unticked in Settings are excluded (the hidden/ config lookup, same contract as the strip). Option labels render the member's caption with the key-field lingo as fallback (the hgsd-view-label pattern inlined — that procedure is View-scoped and the control panel renders outside that import). -->
+<$transclude $tiddler="$:/core/ui/ControlPanel/Toolbars/ItemTemplate"/>
+<%if [<currentTiddler>get[hgsd-heading]] %>
+<$let heading-text={{{ [<currentTiddler>get[hgsd-heading]get[text]] }}}>
+<$let list-default-heading={{{ [[$:/config/hypergsd/list-default/]addsuffix<heading-text>] }}}>
+<span class="hgsd-list-pickers">
+    <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/portion-picker"/>
+    <span class="gsd-muted">{{$:/language/hypergsd/Lists/SortBy}}</span>
+    <$select tiddler=<<list-default-heading>> field="hgsd-sort" default={{{ [<list-default-heading>get[hgsd-sort]else[]] }}}>
+        <option value="">{{$:/language/hypergsd/Settings/Dashboards/Lists/DefaultOption}}</option>
+        <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
+            <option value=<<sort-member>>><$tiddler tiddler=<<sort-member>>><$transclude field="caption"><$let member-key={{{ [<sort-member>get[hgsd-sort-key]else<sort-member>] }}}><$text text={{{ [[$:/language/hypergsd/Lists/SortBy/]addsuffix<member-key>get[text]else<member-key>] }}}/></$let></$transclude></$tiddler></option>
+        </$list>
+    </$select>
+    <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
+    <$select tiddler=<<list-default-heading>> field="hgsd-group" default={{{ [<list-default-heading>get[hgsd-group]else[]] }}}>
+        <option value="">{{$:/language/hypergsd/Settings/Dashboards/Lists/DefaultOption}}</option>
+        <option value="none">{{$:/language/hypergsd/Lists/GroupBy/None}}</option>
+        <$list filter="[[$:/tags/hypergsd/GroupBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]]" variable="group-member">
+            <option value=<<group-member>>><$tiddler tiddler=<<group-member>>><$transclude field="caption"><$let member-key={{{ [<group-member>get[hgsd-group-key]else<group-member>] }}}><$text text={{{ [[$:/language/hypergsd/Lists/GroupBy/]addsuffix<member-key>get[text]else<member-key>] }}}/></$let></$transclude></$tiddler></option>
+        </$list>
+    </$select>
+</span>
+</$let>
+</$let>
+<%endif%>

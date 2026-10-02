@@ -1,0 +1,147 @@
+title: $:/language/hypergsd/Settings/
+
+# Settings surface strings. Keys are referenced either via <<lingo>> after a
+# \procedure lingo-base() override, or as {{$:/language/...}} transclusions in
+# caption/description fields (the ItemTemplate wikifies both).
+
+# Root settings tab ($:/plugins/yan/hypergsd/ui/control-panel)
+Root/Caption: HyperGSD
+
+# Behaviour settings tab ($:/plugins/yan/hypergsd/ui/control-panel/behaviour)
+Behaviour/Caption: Behaviour
+Behaviour/NewActionNavigate: Navigate to new actions upon creation
+Behaviour/NewProjectNavigate: Navigate to new projects upon creation
+Behaviour/InheritTags: Inherit the tiddler's tags when creating from its panel
+Behaviour/InheritTags/Prompt: //Items you create outside the story river have nothing to inherit tags from. Tags beginning `$:/` are never copied onto the new item.//
+Behaviour/PickerInstantCommit: Commit picker selections instantly:
+Behaviour/PickerInstantCommit/Fine: For fine pointers (mouse input)
+Behaviour/PickerInstantCommit/Coarse: For coarse pointers (touch input)
+Behaviour/CloseOnComplete: Close tiddlers when marked as complete:
+Behaviour/CloseOnComplete/Never: Never
+Behaviour/CloseOnComplete/Itself: Only from the tiddler itself
+Behaviour/CloseOnComplete/Always: From anywhere
+
+# Panel and modal settings tab ($:/plugins/yan/hypergsd/ui/control-panel/sections)
+PanelModal/Caption: Panel and modal
+# View placement settings tab ($:/plugins/yan/hypergsd/ui/control-panel/view-placement)
+ViewPlacement/Caption: View placement
+ViewPlacement/Prompt: Choose whether HyperGSD content appears above or below the tiddler's body text field.
+ViewPlacement/Action: Action tiddlers
+ViewPlacement/Project: Project tiddlers
+ViewPlacement/Top: Top
+ViewPlacement/Bottom: Bottom
+PanelModal/Layout: Panel and modal layout
+PanelModal/Layout/Vertical: Vertical
+PanelModal/Layout/Horizontal: Horizontal
+PanelModal/Sections: Section visibility
+PanelModal/Prompt: Choose which sections are displayed in the view panel and the new-item modal. Drag and drop entries to change the ordering.
+PanelModal/Panel: Panel sections
+PanelModal/Modal: Modal sections
+PanelModal/PortionTop: Top, full-width
+PanelModal/PortionFull: Bottom, full-width
+PanelModal/Portion/Hint: Portions are the layout slots an entry renders in. Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag
+
+# Lists settings tab ($:/plugins/yan/hypergsd/ui/control-panel/lists)
+Lists/Caption: Lists
+Lists/RealmWarning: Show warning on items outside of realm selection
+
+# Project view settings tab ($:/plugins/yan/hypergsd/ui/control-panel/project-view)
+ProjectView/Caption: Project view
+ProjectView/Lists: Lists
+ProjectView/Lists/Prompt: Choose which lists are displayed on a project tiddler. Drag and drop to change the ordering.
+
+# Dashboards settings tab ($:/plugins/yan/hypergsd/ui/control-panel/dashboards)
+Dashboards/Caption: Dashboards
+Dashboards/General: General
+Dashboards/FutureProjectItems: Show items under future projects
+Dashboards/Grouping/Heading: Grouping options
+Dashboards/Sorting/Heading: Sorting options
+Dashboards/Lists: Lists
+Dashboards/Lists/Prompt: Choose which lists are displayed in each dashboard. Drag and drop to change the ordering
+Dashboards/Lists/DefaultOption: List default
+
+# Sidebar settings tab ($:/plugins/yan/hypergsd/ui/control-panel/sidebar)
+Sidebar/Caption: Sidebar
+Sidebar/Prompt: Reorder or hide the entries in the capture and review sidebars.
+Sidebar/CaptureHeading: Capture sidebar tab
+Sidebar/ReviewHeading: Review sidebar tab
+Sidebar/CaptureBlock/1: Capture defaults
+Sidebar/CaptureBlock/2: New action, project and reference
+Sidebar/CaptureBlock/3: New contact and context
+Sidebar/CaptureBlock/4: Realm note
+Sidebar/Block/1: Realm selection
+Sidebar/Block/2: Project links
+Sidebar/Block/3: Action links
+Sidebar/Block/4: Contexts and ticklers
+Sidebar/Block/5: References, contacts and cleanup
+
+# Fragments settings tab ($:/plugins/yan/hypergsd/ui/control-panel/fragments)
+Fragments/Caption: Fragments
+Fragments/Prompt: Reorder or hide the fragments rendered in list rows and beside links.
+Fragments/LinkItems/Label: Link items
+Fragments/RowBefore/Label: List row items, before the tiddler title
+Fragments/RowAfter/Label: List row items, after the tiddler title
+Fragments/Complete/Caption: Completion checkbox
+Fragments/Complete/Hint: Tick to complete the item; stamps the completion date and promotes dependants
+Fragments/Status/Caption: Status selector
+Fragments/Status/Hint: The per-type status pills beside the title
+Fragments/CompletionDate/Caption: Completion date
+Fragments/CompletionDate/Hint: The stamped date shown on completed items
+Fragments/BodyText/Caption: Body text indicator
+Fragments/BodyText/Hint: Marks items that have body text
+Fragments/Delete/Caption: Delete button
+Fragments/Delete/Hint: Sends completed items to the trash bin
+Fragments/RealmGlobe/Caption: Other realm indicator
+Fragments/RealmGlobe/Hint: Marks rows that fall outside the current realm selection
+Fragments/LinkRealmGlobe/Caption: Other realm indicator
+Fragments/LinkRealmGlobe/Hint: Marks links whose target falls outside the current realm selection
+Fragments/ProjectLink/Caption: Project link
+Fragments/ProjectLink/Hint: Icon jumping to the item's project, hidden on the project tiddler and in lists grouped by project
+
+# Colours settings tab ($:/plugins/yan/hypergsd/ui/control-panel/colours)
+Colours/Caption: Colours
+Colours/Prompt: Adjust the status colours for HyperGSD actions and projects.
+Colours/DeleteNote: Colours are stored in [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]]. Delete it to restore the default colours.
+
+# Keyboard shortcut descriptions ($:/plugins/yan/hypergsd/ui/config/ShortcutInfo/*)
+Shortcuts/ModalClose: Close the HyperGSD creation modal
+Shortcuts/ModalSubmit: Confirm and create the new HyperGSD item
+Shortcuts/NewAction: Open the HyperGSD modal to create a new action
+Shortcuts/NewProject: Open the HyperGSD modal to create a new project
+
+# Dashboard page captions ($:/plugins/yan/hypergsd/ui/control-panel/dashboards/*-list)
+Pages/Main/Caption: Dashboard
+Pages/Action/Caption: Action dashboard
+Pages/Project/Caption: Project dashboard
+Pages/CompletedAction/Caption: Completed actions
+Pages/CompletedProject/Caption: Completed projects
+Pages/NoNextAction/Caption: No next action
+Pages/Waiting/Caption: Waiting actions
+Pages/Cleanup/Caption: Cleanup: completed items
+Pages/CleanupOpenActions/Caption: Cleanup: open actions under completed projects
+
+# List tiddler captions and hints ($:/plugins/yan/hypergsd/ui/lists/*)
+Lists/NextActions/Caption: Next action list
+Lists/NextActions/Hint: Incomplete actions with status next
+Lists/FutureActions/Caption: Future action list
+Lists/FutureActions/Hint: Incomplete actions with status future
+Lists/WaitingActions/Caption: Waiting action list
+Lists/WaitingActions/Hint: Incomplete actions with status waiting
+Lists/CompletedActions/Caption: Completed action list
+Lists/CompletedActions/Hint: Completed actions, newest completion first
+Lists/CleanupActions/Caption: Completed action list
+Lists/CleanupActions/Hint: Completed actions older than the cleanup timeout
+Lists/ActiveProjects/Caption: Active project list
+Lists/ActiveProjects/Hint: Projects with status active
+Lists/FutureProjects/Caption: Future project List
+Lists/FutureProjects/Hint: Projects with status future
+Lists/CompletedProjects/Caption: Completed projects list
+Lists/CompletedProjects/Hint: Completed projects
+Lists/CleanupProjects/Caption: Completed project list
+Lists/CleanupProjects/Hint: Completed projects older than the cleanup timeout
+Lists/NoNextAction/Caption: No next action list
+Lists/NoNextAction/Hint: Active projects that have no next action
+Lists/OpenActionsUnderCompletedProjects/Caption: Open actions under completed projects
+Lists/OpenActionsUnderCompletedProjects/Hint: Incomplete actions whose project is complete
+TagBasis/Prompt: Tiddlers tagged with
+TagBasis/Portions: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag

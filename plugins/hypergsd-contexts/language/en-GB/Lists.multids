@@ -1,0 +1,10 @@
+title: $:/language/hypergsd/Lists/
+
+# Contexts additions to the shared Lists namespace (context view heading + row suffix).
+Context/Heading: HyperGSD context
+Contextualise/Hint: Add a context
+Contextualise/Choose: Choose a context
+Contextualise/Add: Add
+Contextualise/Create: Create
+Contextualise/Create/Hint: Create a new context and add it
+GroupBy/context: Contexts

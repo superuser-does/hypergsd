@@ -1,0 +1,7 @@
+list-before: $:/core/ui/ViewTemplate/body
+tags: $:/tags/ViewTemplate
+title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-top
+
+\whitespace trim
+
+<$transclude $variable="hgsd-view-body-slot" side="top"/>

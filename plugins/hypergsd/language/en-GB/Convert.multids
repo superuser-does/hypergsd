@@ -1,0 +1,7 @@
+title: $:/language/hypergsd/Convert/
+
+# Action-to-project conversion. Fragment tiddlers ($:/tags/hypergsd/Convert/Warning)
+# carry a warning field holding the KEY of an entry under Warnings/ below.
+Base: Convert this action into a project?
+DefaultButtonLabel: convert
+Warnings/Prerequisite: Other actions depend on this action as a prerequisite. Prerequisites only apply between actions, not projects.

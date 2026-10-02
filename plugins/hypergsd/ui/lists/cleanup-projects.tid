@@ -1,0 +1,12 @@
+caption: {{$:/language/hypergsd/Settings/Lists/CleanupProjects/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/CleanupProjects/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/CompletedProjects
+tags: $:/tags/hypergsd/Lists/Cleanup
+title: $:/plugins/yan/hypergsd/ui/lists/cleanup-projects
+
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
+    list-filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>] +[!nsort[gsd_comp_date]]"
+    group-select="yes"
+    sort-select="yes"
+    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />

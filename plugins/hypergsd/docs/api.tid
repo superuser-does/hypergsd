@@ -1,0 +1,12 @@
+caption: HyperGSD API
+title: $:/plugins/yan/hypergsd/docs/api
+
+The HyperGSD API gives plugin and content authors a way to integrate with the HyperGSD framework without editing shadow tiddlers — the same goal GSD5's API docs served, updated for HyperGSD's tag-driven architecture.
+
+Where GSD5 identified items by the `gsd_type` field, HyperGSD uses ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD/Contact`, `$:/GSD/Reference` and the `GSD/Contexts` tag (the dashboard tiddler). Extension points are system tags you attach to your own tiddler; user-data tag lists such as contexts are open `GSD/*` tags.
+
+! HyperGSD API
+
+<div class="tc-table-of-contents">
+<<toc-selective-expandable "$:/tags/hypergsd/Docs">>
+</div>

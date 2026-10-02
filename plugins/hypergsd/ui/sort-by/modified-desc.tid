@@ -1,0 +1,6 @@
+caption: {{$:/language/hypergsd/Lists/SortBy/modified}}
+hgsd-sort-category: Modified
+hgsd-sort-filter: +[!sort[modified]]
+hgsd-sort-key: modified
+tags: $:/tags/hypergsd/SortBy
+title: $:/plugins/yan/hypergsd/ui/sort-by/modified-desc

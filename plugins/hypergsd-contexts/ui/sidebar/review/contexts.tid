@@ -1,0 +1,8 @@
+caption: {{$:/language/hypergsd/Sidebar/Review/Contexts}}
+tags: $:/tags/hypergsd/Review/4
+title: $:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<$link to="GSD/Contexts"><<lingo Review/Contexts>></$link><br/>

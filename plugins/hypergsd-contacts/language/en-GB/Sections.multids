@@ -1,0 +1,7 @@
+title: $:/language/hypergsd/Sections/
+
+# Contacts additions to the shared Sections string namespace.
+Contact/Caption: Contact
+Contact/Description: Set the action's contact
+Contact/Label: Contact:
+Contact/None: -- None --

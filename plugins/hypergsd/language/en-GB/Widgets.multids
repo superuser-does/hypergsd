@@ -1,0 +1,16 @@
+title: $:/language/hypergsd/Widgets/
+
+# Cross-area lingo
+NoneOption: -- none --
+PickNoGroup: (none)
+EditPlaceholder: type to change / leave blank to clear
+Change: change
+New/Hint: new
+AddNewPrefix: Add new
+CreateAdd/HintA: Create tiddler
+CreateAdd/HintB: and add it
+CreateAdd/LabelA: create&#x20;
+CreateAdd/LabelB: &#x20;and add
+NewButtonDefault: New HyperGSD Tiddler
+RealmPickerNone: -- no realm --
+RealmWarning/Hint: Outside your realm selection

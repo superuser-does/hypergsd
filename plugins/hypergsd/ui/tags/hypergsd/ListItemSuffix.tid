@@ -1,0 +1,2 @@
+list: [[$:/plugins/yan/hypergsd/ui/list-items/comp-date]] [[$:/plugins/yan/hypergsd/ui/list-items/body-text]] [[$:/plugins/yan/hypergsd/ui/list-items/realm]] [[$:/plugins/yan/hypergsd/ui/list-items/project-link]] [[$:/plugins/yan/hypergsd/ui/list-items/delete]]
+title: $:/tags/hypergsd/ListItem/Suffix

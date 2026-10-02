@@ -1,0 +1,6 @@
+caption: {{$:/language/hypergsd/Lists/GroupBy/realm}}
+hgsd-group-filter: [all[current]tags[]prefix[$:/GSD/Realm/]]
+hgsd-group-key: realm
+hgsd-label-filter: [all[current]removeprefix[$:/GSD/Realm/]]
+tags: $:/tags/hypergsd/GroupBy
+title: $:/plugins/yan/hypergsd/ui/group-by/realm

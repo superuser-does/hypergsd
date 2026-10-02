@@ -1,0 +1,93 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/Contextualise/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/Contextualise/Hint}}
+hgsd-refresh-whitelist: [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]]
+tags: $:/tags/hypergsd/ListItem/Suffix
+title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
+
+\whitespace trim
+\procedure hgsd-contextualise-add()
+<!-- Reads the pick at invoke time (enter and the Add button both route through here). tm-add-tag with an empty param would add an empty tag, so the guard is required (unlike the prereq picker's self-guarding listops). -->
+<$let picked-context={{{ [<pick-temp>get[hgsd-pick]trim[]] }}}>
+<%if [<picked-context>!match[]] %>
+<$fieldmangler tiddler=<<currentTiddler>>>
+    <$action-sendmessage $message="tm-add-tag" $param=<<picked-context>>/>
+</$fieldmangler>
+<$action-setfield $tiddler=<<pick-temp>> hgsd-pick=""/>
+<%endif%>
+</$let>
+\end
+\procedure hgsd-contextualise-create()
+<!-- Create-and-add reduced to context needs (no list-field target, no realm inheritance, no AfterCreation rules). The row-item tagging nests inside $action-createtiddler — createTiddler-title publishes only to its own subtree. -->
+<$let picked-context={{{ [<pick-temp>get[hgsd-pick]trim[]] }}}>
+<%if [<picked-context>!match[]] :and[!is[tiddler]] %>
+<$action-createtiddler $basetitle=<<picked-context>> tags="GSD/Contexts">
+    <$fieldmangler tiddler=<<currentTiddler>>>
+        <$action-sendmessage $message="tm-add-tag" $param=<<createTiddler-title>>/>
+    </$fieldmangler>
+    <$action-setfield $tiddler=<<pick-temp>> hgsd-pick=""/>
+</$action-createtiddler>
+<%endif%>
+</$let>
+\end
+
+<!-- Incomplete actions only (contexts describe where an action happens; completed rows are history). The cluster sits OUTSIDE hgsd-interactive: the central eventcatcher would starve this fragment's own buttons (trashbin fragment precedent). Applied contexts render as linked chips before the button (a chip for the tiddler whose view we are inside is redundant — storyTiddler suppression, unset outside the story river), hidden via $:/config/hypergsd/Contexts/show-contexts (Settings → Dashboards → Context page; absent = show — the config prefix is admitted by every gate's base run, so no whitelist entry is needed). The three state/temp/popup titles are per-COPY, built as row-group-scope: the row title first (per-row alone was the 2026-09-05 dead-toggle fix — qualify cannot supply it, its transclusion-chain hash is identical for every row of a list, and a shared title leaves every row's button holding a render-time setTo that re-writes "open" onto an already-open state, no change event, a dead-looking button); then current-group (ambient from the grouped renderer, as project-link/contact-link read it — an action grouped under two contexts renders two copies that must not open each other's picker; unset in flat lists, where it appends nothing); then the list scope (listState, the ambient qualified collapse-state title both row hosts derive once per list, stripped of its $:/temp/gsd-list/ prefix — separates the same row's copies across list instances; where no host derives it, it degrades to row-only). A copy that appears later — the context just added — has no state tiddler and renders closed, so the picker input's focus="yes" never scrolls a newly-appeared copy into view. The picker id carries group and scope too, keeping its popup state per-copy. The reveal is inline, not popup-tracked — the picker input's cancelPopups cannot close it. All three state/temp prefixes must stay within the chassis-gate runs added for this fragment. -->
+<%if [is[current]tag[$:/GSD/Action]gsd_complete[false]] %>
+<$let list-scope={{{ [<listState>removeprefix[$:/temp/gsd-list/]] }}} >
+<$let contextualise-state={{{ [[$:/state/hypergsd/contextualise-]addsuffix<currentTiddler>addsuffix[-]addsuffix<current-group>addsuffix[-]addsuffix<list-scope>] }}}
+    pick-temp={{{ [[$:/temp/hypergsd/add-context-]addsuffix<currentTiddler>addsuffix[-]addsuffix<current-group>addsuffix[-]addsuffix<list-scope>] }}} >
+<span>
+    <%if [[$:/config/hypergsd/Contexts/show-contexts]get[text]else[yes]match[yes]] %>
+    <!-- Applied contexts as tag pills via tag-pill-BODY directly: the outer tag-pill hop only wrapped the pill and re-bound currentTiddler, while the body hop is load-bearing (it resolves the palette sections into plain params, which attribute position cannot do) — one hop less down the row's widget stack, the navigate action targets the loop variable itself, and the bench's chip assertion guards the core-internal macro name. -->
+    <$list filter="[all[current]tags[]tag[GSD/Contexts]] -[<storyTiddler>] +[sort[]]" variable="applied-context">
+        <$transclude $variable="tag-pill-body" tag=<<applied-context>>
+            colour={{{ [<applied-context>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerColourFilter]!is[draft]get[text]] }}}
+            icon={{{ [<applied-context>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerIconFilter]!is[draft]get[text]] }}}
+            palette={{$:/palette}}
+            element-tag="$button" element-attributes=""
+            actions="""<$action-navigate $to=<<applied-context>>/>"""/>
+    </$list>
+    <%endif%>
+    <$button
+        class="tc-btn-invisible gsd-muted gsd-button"
+        tooltip={{$:/language/hypergsd/Lists/Contextualise/Hint}}
+        set=<<contextualise-state>>
+        setTo={{{ [<contextualise-state>get[text]match[open]then[]else[open]] }}} >
+        <$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/images/context" size="1em"/>
+    </$button>
+    <$reveal state=<<contextualise-state>> type="match" text="open">
+        <div class="hgsd-sizer-droplist">
+            <div>
+                <!-- Option-click appends the tag instantly (the picker-instant-commit setting gates it; coarse pointers default off and fall back to the buttons). Duplicate-safe by the candidate filter: a context drops out of the list the moment it lands on the row, so the append never re-adds. Enter in the picker input adds the picked context (prereq picker pattern); the transcluded procedure carries the guard — control flow inside a bare actions string is silently ignored. -->
+                <$keyboard key="enter" actions="""<$transclude $variable="hgsd-contextualise-add" $fillignore="yes"/>""">
+                    <$hgsd.pick
+                        tiddler=<<pick-temp>>
+                        field="hgsd-pick"
+                        list-filter="[tag[GSD/Contexts]] -[all[current]tags[]]"
+                        none-title={{$:/language/hypergsd/Lists/Contextualise/Choose}}
+                        id={{{ [[contextualise-]addsuffix<current-group>addsuffix[-]addsuffix<list-scope>] }}}
+                        search-mode="title"
+                        focus="yes"
+                        realm-scope=""
+                        commit-kind="append"
+                        commit-tiddler=<<currentTiddler>>
+                        commit-field="tags"/>
+                </$keyboard>
+            </div>
+            <div>
+                <$button tooltip={{$:/language/hypergsd/Lists/Contextualise/Hint}}>
+                    <$transclude $variable="hgsd-contextualise-add"/>
+                    {{$:/language/hypergsd/Lists/Contextualise/Add}}
+                </$button>
+                <%if [<pick-temp>get[hgsd-pick]!match[]] :and[!is[tiddler]] %>
+                    <$button tooltip={{$:/language/hypergsd/Lists/Contextualise/Create/Hint}}>
+                        <$transclude $variable="hgsd-contextualise-create"/>
+                        {{$:/language/hypergsd/Lists/Contextualise/Create}}
+                    </$button>
+                <%endif%>
+            </div>
+        </div>
+    </$reveal>
+</span>
+</$let>
+</$let>
+<%endif%>

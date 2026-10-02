@@ -1,0 +1,152 @@
+mask-closable: yes
+subtitle: {{$:/language/hypergsd/NewItem/Subtitle}}
+title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
+
+\procedure lingo-base() $:/language/hypergsd/NewItem/
+
+<!-- Optional-field writer: sets the field ONLY for a non-blank value — a blank parameter means "absent", never a blank field on the tiddler. -->
+\procedure hgsd-set-field-if-present(target, field, value)
+<%if [<value>!match[]] %>
+<$action-setfield $tiddler=<<target>> $field=<<field>> $value=<<value>> />
+<%endif%>
+\end
+
+\procedure create-gsd-tiddler(gsd-type,gsd-status,gsd-complete,gsd-update-status,gsd-calling-tiddler,new-title)
+    <$action-createtiddler
+        $basetitle=<<new-title>>
+        tags="">
+        <$fieldmangler tiddler=<<createTiddler-title>>>
+        <$action-sendmessage $message="tm-add-tag" $param={{{ [all[shadows+tiddlers]tag[$:/tags/hypergsd/Type]] :filter[get[hgsd-type]match<gsd-type>] +[first[]] }}} />
+        <%if [<gsd-type>match[action]] [<gsd-type>match[project]] %>
+            <$action-setfield $tiddler=<<createTiddler-title>> gsd_status=<<gsd-status>> gsd_complete=<<gsd-complete>> />
+        <%endif%>
+        <!-- Inheritance rules: $:/tags/hypergsd/Inheritance members run only here, at the point of creation (the submit action — never a render path). Contract: create-title, new-type, calling-tiddler (blank = invoked outside a tiddler panel, e.g. the toolbar), new-temp, new-state. Tag rules send tm-add-tag within the fieldmangler. Field-writing rules are point-less: the pass-through below copies the temp's RENDER-TIME fields (a rendered list's children cache — mid-submit temp mutation, deletion included, never reaches it), so field values are the attribute sections' responsibility at pick time. Plain tag scan, deliberately no list-field pinning: members are removable by untagging (docs/api/tags/inheritance). -->
+                <$list filter="[all[shadows+tiddlers]tag[$:/tags/hypergsd/Inheritance]!is[draft]]" variable="inheritance-rule">
+            <$let create-title=<<createTiddler-title>> new-type=<<gsd-type>> calling-tiddler=<<gsd-calling-tiddler>> new-temp="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state">
+                <$transclude $tiddler=<<inheritance-rule>> $mode="block"/>
+            </$let>
+        </$list>
+        <!-- Every field on $:/temp/gsd-new-temp (the DATA temp — internal modal state lives on $:/temp/gsd-new-state) becomes a field on the created tiddler, blanks skipped; gsd_status/gsd_complete are written explicitly above. The fixed -title runs are STRUCTURAL (housekeeping fields), and negated -enlist[...] runs do not parse — negated title runs are the safe exclusion form. A sub-plugin section just writes gsd_whatever to the data temp. -->
+        <$list filter="[[$:/temp/gsd-new-temp]fields[]] -title -text -tags -type -created -modified" variable="copy-field">
+            <$transclude $variable="hgsd-set-field-if-present" target=<<createTiddler-title>> field=<<copy-field>> value={{{ [[$:/temp/gsd-new-temp]get<copy-field>] }}} />
+        </$list>
+        <!-- Prereq linking: when creating an action from within another action, add the calling action to the new tiddler's gsd_prerequisites -->
+        <%if [<gsd-type>match[action]] %>
+            <%if [<gsd-calling-tiddler>!is[blank]] %>
+                <%if [<gsd-calling-tiddler>tag[$:/GSD/Action]] %>
+                    <$action-listops $tiddler=<<createTiddler-title>> $field="gsd_prerequisites" $subfilter="[<gsd-calling-tiddler>]" />
+                <%endif%>
+            <%endif%>
+        <%endif%>
+        <!-- Status updates via gsd-calling-tiddler (for contact delegation, etc.). Nested ifs rather than [X]:and[Y]: a variable run inside :and acts as a constructor and replaces the input, so both branches would always fire. -->
+        <%if [<gsd-calling-tiddler>!is[blank]] %>
+            <%if [<gsd-calling-tiddler>tag[$:/GSD/Action]] %>
+                <%if [<gsd-update-status>match[true]] %>
+                    <$action-setfield $tiddler=<<gsd-calling-tiddler>> $field="gsd_status" $value="waiting" />
+                <%endif%>
+            <%endif%>
+            <%if [<gsd-calling-tiddler>tag[$:/GSD/Project]] %>
+                <%if [<gsd-update-status>match[true]] %>
+                    <$action-setfield $tiddler=<<gsd-calling-tiddler>> $field="gsd_status" $value="future" />
+                <%endif%>
+            <%endif%>
+        <%endif%>
+        <!-- AfterCreation extension point: contract variables are $let inside the runner — plain tiddler transclusion inherits the caller's scope but DROPS extra <$transclude> attributes (those only reach procedures/widgets). Invoked via $transclude $variable because macrocall parameters do not evaluate <var> indirection. -->
+        <$transclude $variable="hgsd-run-after-create" new-title=<<createTiddler-title>> new-type=<<gsd-type>> calling-tiddler=<<gsd-calling-tiddler>> new-source="modal" />
+        <!-- Navigation, AFTER the hook (the former navigate rule — moved here so field-writing rules can never be cut short by the story changing mid-chain). The modal always navigates by type rule: actions honour new-action-navigate, projects new-project-navigate, every other type always. Pickers never navigate (their field-add is the point), which is why this lives in the modal and not in the hook. -->
+        <%if [<gsd-type>match[action]] %>
+            <%if [[$:/config/hypergsd/new-action-navigate]get[text]else[yes]match[yes]] %>
+                <$action-navigate $to=<<createTiddler-title>> />
+            <%endif%>
+        <%elseif [<gsd-type>match[project]] %>
+            <%if [[$:/config/hypergsd/new-project-navigate]get[text]else[yes]match[yes]] %>
+                <$action-navigate $to=<<createTiddler-title>> />
+            <%endif%>
+        <%else%>
+            <$action-navigate $to=<<createTiddler-title>> />
+        <%endif%>
+        <$action-sendmessage $message="tm-close-tiddler" title=<<currentTiddler>>/>
+        </$fieldmangler>
+        </$action-createtiddler>
+\end
+
+\procedure hgsd-modal-submit()
+    <!-- Status resolution cascade: the per-type memory field on new-state (set by the event handler) beats the button's gsd-status parameter, which is validated against the type tag's set; if invalid or blank, the tag's default-status applies. Non-action/project types pass the raw status through. -->
+    <!-- Project resolution and the status cascade stay here (core relationships); contact/realm/context inheritance lives in $:/tags/hypergsd/Inheritance members applied inside create-gsd-tiddler at the point of creation. -->
+    <$let final-type={{{ [<new-state>get[hgsd-type]else<gsd-type>] }}}
+        title-val={{{ [[$:/temp/gsd-new-title]get[hgsd-title]] }}}
+        raw-status={{{ [<new-state>get[gsd_status]else<gsd-status>] }}}
+        final-project={{{ [<new-temp>has[gsd_project]then<new-temp>get[gsd_project]else<gsd-project>] :and[tag[$:/GSD/Project]] }}} >
+        <!-- Resolved optional values are written back to the DATA temp (validated: :and[tag] runs above), replacing whatever the pick sections left — then create-gsd-tiddler's pass-through copies them. Delete first so a blank resolution leaves NO field rather than a stale one. -->
+        <$action-deletefield $tiddler=<<new-temp>> gsd_project/>
+        <$transclude $variable="hgsd-set-field-if-present" target=<<new-temp>> field="gsd_project" value=<<final-project>> />
+        <$let type-mem-field={{{ [<final-type>addsuffix[_status]addprefix[gsd_]] }}}>
+        <!-- Branch bodies only resolve the status onto the DATA temp (same write-back pattern as project/contact above); the single create-gsd-tiddler call below reads it back — one place to touch when its parameter list changes. -->
+        <%if [<final-type>match[action]] [<final-type>match[project]] %>
+            <%if [<new-state>has<type-mem-field>] %>
+                <$action-setfield $tiddler=<<new-temp>> gsd_status={{{ [<new-state>get<type-mem-field>] }}}/>
+            <%elseif [function[hgsd-status-set],<final-type>match<gsd-status>] %>
+                <$action-setfield $tiddler=<<new-temp>> gsd_status=<<gsd-status>>/>
+            <%else%>
+                <$action-setfield $tiddler=<<new-temp>> gsd_status={{{ [function[hgsd-status-default],<final-type>] }}}/>
+            <%endif%>
+        <%else%>
+            <$action-setfield $tiddler=<<new-temp>> gsd_status=<<raw-status>>/>
+        <%endif%>
+        <$transclude $variable="create-gsd-tiddler" gsd-type=<<final-type>> gsd-status={{{ [<new-temp>get[gsd_status]] }}} gsd-complete=<<gsd-complete>> gsd-update-status=<<gsd-update-status>> gsd-calling-tiddler=<<gsd-calling-tiddler>> new-title=<<title-val>>/>
+        </$let>
+    </$let>
+    <!-- Create another: the modal's whole context (type, status memory, project, contact, contexts) lives on the two temps below, so keeping them and re-sending tm-modal reopens with every attribute retained and only the title wiped. create-gsd-tiddler has already closed the modal by here. The title temp is CLEARED, not deleted: a deletion forces the modal's change listener to rebuild the edit-text and drop focus; a blank field syncs the input value in place. -->
+    <%if [[$:/state/hypergsd/create-another]get[text]else[no]match[yes]] %>
+        <$action-setfield $tiddler="$:/temp/gsd-new-title" hgsd-title=""/>
+        <$action-sendmessage $message="tm-modal" $param="$:/plugins/yan/hypergsd/ui/new-gsd-modal" gsd-type=<<gsd-type>> gsd-status=<<gsd-status>> gsd-complete=<<gsd-complete>> gsd-project=<<gsd-project>> gsd-contact=<<gsd-contact>> gsd-update-status=<<gsd-update-status>> gsd-calling-tiddler=<<gsd-calling-tiddler>> />
+        <!-- Focus: the edit-text's focus=true fires while the wrapper is still detached (modal.js appends after render), so it never takes. The selector is scoped to the LAST wrapper because the modal being replaced lingers ~400ms for its close animation, and a bare .gsd-new-modal resolves to that dying wrapper's input first. -->
+        <$action-sendmessage $message="tm-focus-selector" $param=".tc-modal-wrapper:last-of-type .gsd-new-modal"/>
+    <%else%>
+    <$action-sendmessage $message="tm-close-tiddler"/>
+    <!-- The temps are deleted only on submit, never on cancel: a cancelled modal (Esc or mask click) deliberately keeps its entries so they survive into the next open. The title lives on its OWN temp so title keystrokes never touch gsd-new-temp — that is what lets the $refresh gate below freeze the attribute sections while typing (fallback reads gsd-new-temp's gsd-title for pre-split state). -->
+    <$action-deletetiddler $tiddler=<<new-temp>> />
+    <$action-deletetiddler $tiddler=<<new-state>> />
+    <$action-deletetiddler $tiddler="$:/temp/gsd-new-title" />
+    <%endif%>
+\end
+<$let new-temp="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state">
+    <$keyboard tag="div" key="((hgsd-modal-close))" actions="""<$action-sendmessage $message="tm-close-tiddler"/>""">
+        <$keyboard key="((hgsd-modal-submit))" actions=<<hgsd-modal-submit>>>
+            <$let current-type={{{ [<new-state>get[hgsd-type]else<gsd-type>] }}}>
+            <$edit-text
+                tiddler="$:/temp/gsd-new-title"
+                field="hgsd-title"
+                placeholder={{{ [[$:/language/hypergsd/NewItem/TitlePlaceholder]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<current-type>] }}}
+                class="gsd-new-modal"
+                focus="true" />
+            <$button actions=<<hgsd-modal-submit>> class="gsd-new-modal-btn">
+                <<lingo Create>>
+            </$button>
+            <$checkbox tiddler="$:/state/hypergsd/create-another" field="text" checked="yes" unchecked="no" default="no">
+                <<lingo CreateAnother>>
+            </$checkbox>
+
+            <!-- Inline parse mode inside <$keyboard> never forms paragraphs from blank lines, so the gap above Attributes is a literal empty paragraph -->
+            <p>&nbsp;</p>
+
+            <!-- Attribute rows are tag-driven sections: $:/tags/hypergsd/ModalTemplate (list field = order), Group/1, Group/2, ... tags for placement (untagged sections land in Group/1), visibility via $:/config/hypergsdModal/visibility/<title>. Chassis variables (new-temp, current-type) and the tm-modal parameters propagate into the transcluded sections. -->
+            <fieldset class="hgsd-modal-attributes">
+                <legend><h3><<lingo Attributes>></h3></legend>
+                <!-- Freezes the attribute sections against unrelated cycles (title typing lives on gsd-new-title, outside this whitelist). Prefix/tag runs ONLY — a literal [[title]] run emits unconditionally and defeats the gate. The scoped add- pair comes FIRST (:and replaces the output so far): pick-field sections draft typed picks on $:/temp/hypergsd/add-<id>-<new-temp>, and without this run those keystrokes never re-render the dropdown. -->
+                <$refresh subfilter="[prefix[$:/temp/hypergsd/add-]] :and[suffix<new-temp>] [tag[$:/tags/hypergsd/ModalTemplate]] [prefix[$:/tags/hypergsd/ModalTemplate]] [tag[$:/tags/hypergsd/Type]] [prefix[$:/temp/gsd-new-temp]] [prefix[$:/temp/gsd-new-state]] [prefix[$:/state/popup/pick-]] [prefix[$:/state/hypergsd]] [prefix[$:/GSD/Realm/]] -[is[draft]]">
+                <!-- SECTION CONTEXT: the same names view-body sets — dual-context sections (ui/attributes) read these. section-target is the DATA temp (submit copies it onto the created tiddler); gsd_status is deliberately NOT seeded (the pass-through would overwrite the per-type status resolution at submit — status flows through new-state instead). -->
+                <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+                <$let section-target=<<new-temp>>
+                    section-mode="modal"
+                    section-status-target=<<new-state>>
+                    section-type=<<current-type>>>
+                <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/ModalTemplate" visibility-base="$:/config/hypergsdModal/visibility/"/>
+                </$let>
+                </$eventcatcher>
+                </$refresh>
+            </fieldset>
+            </$let>
+        </$keyboard>
+    </$keyboard>
+</$let>

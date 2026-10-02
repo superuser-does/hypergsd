@@ -1,0 +1,17 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/ui/components/link-items
+
+\whitespace trim
+
+<!-- LinkItem tag list: fragments rendered after a GSD link — the link-target counterpart of the ListItem row tag list. Members render with linked-tiddler = the target title and the ambient scope intact; order via the tag tiddler's list field. The span is the centring container (stylesheet .hgsd-link-items). Members transclude INLINE: block mode wraps a member's widget line in a <p>, and a gated-off member leaves that empty paragraph behind, defeating the container's :empty margin collapse. -->
+\procedure hgsd-link-items(linked-tiddler)
+<%if [<linked-tiddler>!match[]] %>
+<span class="hgsd-link-items">
+<$list filter="[[$:/tags/hypergsd/LinkItem]] :and[tagging[]]" variable="link-item">
+    <%if [[$:/config/hypergsd/LinkItem/visibility/]addsuffix<link-item>get[text]else[show]match[show]] %>
+        <$transclude $tiddler=<<link-item>> $mode="inline"/>
+    <%endif%>
+</$list>
+</span>
+<%endif%>
+\end

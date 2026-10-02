@@ -1,0 +1,14 @@
+tags: $:/tags/hypergsd/Inheritance
+title: $:/plugins/yan/hypergsd/modules/inheritance/informal-tags
+
+\whitespace trim
+
+<!-- The tag-inheritance default: TiddlyWiki users categorise with their own tags, so a new item created from a tiddler's panel inherits the caller's tags — everything except $:/-prefixed (system) tags, which keeps type/realm/tickler families from leaking onto the new item; deliberate system-tag relationships ship their own rule. A blank calling-tiddler (toolbar/sidebar, outside the story river) inherits nothing. Runs only at the point of creation — no render path evaluates this. -->
+<!-- The Settings → Behaviour kill switch: off stops tag inheritance; realm/context rules are unaffected (deliberate mechanisms with their own contracts). -->
+<%if [[$:/config/hypergsd/inherit-tags]get[text]else[yes]match[yes]] %>
+<%if [<calling-tiddler>!is[blank]] %>
+<$list filter="[<calling-tiddler>tags[]!prefix[$:/]]" variable="inherited-tag">
+<$action-sendmessage $message="tm-add-tag" $param=<<inherited-tag>>/>
+</$list>
+<%endif%>
+<%endif%>

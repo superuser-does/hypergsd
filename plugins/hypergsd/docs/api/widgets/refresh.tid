@@ -1,0 +1,26 @@
+caption: <$refresh>
+title: $:/plugins/yan/hypergsd/docs/api/widgets/refresh
+
+! Introduction
+The `<$refresh>` widget (JS module `$:/plugins/yan/hypergsd/modules/widgets/refresh.js`) freezes its children against TiddlyWiki's default refresh: they only re-render when a tiddler matching the `subfilter` whitelist changes. This is the plugin's core performance architecture — dashboards stay invisible to the CPU until a GSD item actually changes.
+
+The subfilter is evaluated with the widget as filter context, so whitelists can reference `<currentTiddler>`.
+
+! Content and Attributes
+
+|!Attribute |!Description |
+|subfilter |Filter whose output is the whitelist of "interesting" changed titles |
+|''any other attribute'' |Any additional attribute acts as a ''buster'': if its value changes between renders, the widget re-renders itself (`refreshSelf`) regardless of the whitelist |
+
+! Whitelist authoring rules
+
+* Prefix and tag runs only — a literal `[[title]]` run emits its title unconditionally and defeats the gate.
+* Only one `:and` chain per filter; additional scoping uses subtraction runs (`-[…]`).
+* Reusable runs: `[subfilter<hgsd-type-gate>]` (items of any type in the Type tag list). The type gate is draft-immune (a draft inherits the base tiddler's tags, so without the exclusion every keystroke in an open editor opened every gate carrying the run).
+
+! Example
+```
+<$refresh subfilter="[subfilter<hgsd-type-gate>] [prefix[$:/config/hypergsd]] -[is[draft]]" hgsd-filter-buster=<<item-titles>>>
+    …frozen content…
+</$refresh>
+```

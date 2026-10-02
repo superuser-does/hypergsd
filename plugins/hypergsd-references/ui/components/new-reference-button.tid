@@ -1,0 +1,16 @@
+tags: $:/tags/Global/View
+title: $:/plugins/yan/hypergsd-references/ui/components/new-reference-button
+
+\whitespace trim
+
+<!-- Scope: $:/tags/Global/View — consumers are the project view and the References dashboard. Blank gsd-project/gsd-realm mean "no inheritance". Global-tagged: full-path transclusions only — importvariables flattens this scope, so a lingo-base here would leak into every importer. -->
+\procedure new-reference-button(project:"", realm:"")
+<$hgsd.new-button
+    gsd-type="reference"
+    gsd-project=<<project>>
+    gsd-realm=<<realm>>
+    tooltip={{$:/language/hypergsd/Lists/Add/Reference}}
+    class="gsd-list-new-button tc-btn-invisible" >
+    {{$:/core/images/new-button}}
+</$hgsd.new-button>
+\end

@@ -1,0 +1,4 @@
+list: $:/plugins/yan/hypergsd/ui/view-placement/action $:/plugins/yan/hypergsd/ui/view-placement/project $:/plugins/yan/hypergsd-contacts/ui/view-placement/contact $:/plugins/yan/hypergsd-references/ui/view-placement/reference
+title: $:/tags/hypergsd/ViewPlacement
+
+<!-- Tag list for view placement. One member per GSD type: hgsd-type-tag is the type tag the view renders on, list = body templates in transclusion order, hgsd-config names the leaf under $:/config/hypergsd/Placement/, hgsd-default (top/bottom) applies while that config is unset. The view-body-top/-bottom hooks loop this tag list — no hook names a plugin, an absent sub-plugin is simply a shorter tag list; the Settings "View placement" tab renders one Top/Bottom radio pair per member (caption = lingo transclusion). Ordering: this list field, then alphabetical. -->

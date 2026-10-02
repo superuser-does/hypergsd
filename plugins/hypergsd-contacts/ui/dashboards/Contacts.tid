@@ -1,0 +1,6 @@
+icon: $:/plugins/yan/hypergsd-contacts/images/contact
+title: GSD/Contacts
+
+<!-- Pure chassis page: the multi-contact filter picker is a Strip tag-list member rendered inside the "Actions by contact" list's own strip by the engine, so nothing feature-owned sits at page level. -->
+<!-- The shared dashboard chassis (Portion columns, Top/Full bands, per-member visibility, refresh gating) — NOT a hand-rolled member loop: the Contact settings tab offers the Portion picker, so this page must honour portion claims like every other dashboard page does. -->
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Contact" visibility-base="$:/config/hypergsd/Lists/Contact/visibility/"/>

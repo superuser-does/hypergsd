@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Sections/Tickler/Shift/Week/Short}}
+days: 7
+description: {{$:/language/hypergsd/Sections/Tickler/Shift/Week/Hint}}
+label: <<lingo Tickler/Shift/Week/Short>>
+tags: $:/tags/hypergsd/Ticklers/Shift $:/tags/hypergsd/Ticklers/Alert
+title: $:/plugins/yan/hypergsd-ticklers/ui/shift/week
+tooltip: <<lingo Tickler/Shift/Week/Hint>>

@@ -1,0 +1,6 @@
+caption: {{$:/language/hypergsd/Lists/SortBy/title-desc}}
+hgsd-sort-category: Title
+hgsd-sort-filter: +[!sort[title]]
+hgsd-sort-key: title-desc
+tags: $:/tags/hypergsd/SortBy
+title: $:/plugins/yan/hypergsd/ui/sort-by/title-desc

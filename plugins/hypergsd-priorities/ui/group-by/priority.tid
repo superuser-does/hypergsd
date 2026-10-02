@@ -1,0 +1,10 @@
+caption: {{$:/language/hypergsd/Lists/GroupBy/priority}}
+hgsd-group-filter: [all[current]get[gsd_priority]]
+hgsd-group-key: priority
+hgsd-label-filter: [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<currentTiddler>get[text]else[]trim[]minlength[1]] [<currentTiddler>] +[limit[1]]
+hgsd-synthetic-keys: yes
+hgsd-types: action project
+tags: $:/tags/hypergsd/GroupBy
+title: $:/plugins/yan/hypergsd-priorities/ui/group-by/priority
+
+<!-- Synthetic keys (A/B/C are not tiddlers — headings must stay plain, not create-links), and no rank prefix is needed: sort[title] orders A,B,C exactly High→Medium→Low; items without the field fall to the engine's keyless "No group", always last. -->

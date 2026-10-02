@@ -1,0 +1,12 @@
+{
+    "title": "$:/plugins/yan/hypergsd-ticklers",
+    "name": "HyperGSD Ticklers",
+    "description": "Tickler reminders for HyperGSD",
+    "author": "Yannis Anthymidis",
+    "core-version": ">=5.4.0",
+    "plugin-type": "plugin",
+    "parent-plugin": "$:/plugins/yan/hypergsd",
+    "dependents": ["$:/plugins/yan/hypergsd"],
+    "list": "readme",
+    "version": "0.3.0"
+}

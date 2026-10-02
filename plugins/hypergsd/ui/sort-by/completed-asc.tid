@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Lists/SortBy/completed-asc}}
+hgsd-sort-category: Completed
+hgsd-sort-filter: +[nsort[gsd_comp_date]]
+hgsd-sort-key: completed-asc
+hgsd-types: action project
+tags: $:/tags/hypergsd/SortBy
+title: $:/plugins/yan/hypergsd/ui/sort-by/completed-asc

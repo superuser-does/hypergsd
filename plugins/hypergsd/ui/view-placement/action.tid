@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Settings/ViewPlacement/Action}}
+hgsd-config: Action
+hgsd-default: bottom
+hgsd-type-tag: $:/GSD/Action
+list: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body
+tags: $:/tags/hypergsd/ViewPlacement
+title: $:/plugins/yan/hypergsd/ui/view-placement/action

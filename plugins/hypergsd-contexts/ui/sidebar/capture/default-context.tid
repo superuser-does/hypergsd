@@ -1,0 +1,15 @@
+caption: {{$:/language/hypergsd/Sidebar/Capture/DefaultContext/Caption}}
+description: {{$:/language/hypergsd/Sidebar/Capture/DefaultContext/Hint}}
+tags: $:/tags/hypergsd/Capture/Block/1
+title: $:/plugins/yan/hypergsd-contexts/ui/sidebar/capture/default-context
+
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<label>
+<<lingo Capture/DefaultContext/Label>><$select tiddler="$:/state/hypergsd/effective-context" default="">
+    <option value=""><<lingo Capture/NoContext>></option>
+    <$list filter="[tag[GSD/Contexts]!is[draft]sort[title]]">
+        <option value=<<currentTiddler>>><$view field="title"/></option>
+    </$list>
+</$select>
+</label>

@@ -1,0 +1,44 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd-ticklers/modules/alert-body
+
+\whitespace trim
+\procedure hgsd-tickler-alert-click()
+<$transclude $variable="hgsd-handle-click"/>
+<!-- The action tree renders before any action invokes, so the guard reads the PRE-click value: an incomplete target means this click completes it, so the alert dismisses with it (the completion-warning branch is the exception — the modal leaves the target incomplete and the alert returns at the next hourly raise if its date has not rolled forward) -->
+<%if [<dom-data-hgsd-action>match[complete]] %>
+<%if [<dom-data-tiddler>gsd_complete[true]] %>
+<!-- an already-complete target only uncompletes; the alert stays -->
+<%else%>
+<$action-deletetiddler $tiddler=<<currentTiddler>>/>
+<%endif%>
+<%endif%>
+\end
+\procedure hgsd-tickler-alert()
+<$let target-tiddler={{{ [<currentTiddler>removeprefix[$:/temp/alert/]] }}} now-raw=<<now "[UTC]YYYY0MM0DD000000000" >> >
+<$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-tickler-alert-click>> >
+<div class="hgsd-tickler-alert">
+<$link to=<<target-tiddler>> />
+<div class="hgsd-interactive">
+<label>
+<%if [<target-tiddler>gsd_complete[true]] %>
+<input type="checkbox" data-tiddler=<<target-tiddler>> data-hgsd-action="complete" checked>
+<%else%>
+<input type="checkbox" data-tiddler=<<target-tiddler>> data-hgsd-action="complete">
+<%endif%>
+{{$:/language/hypergsd/Sections/Complete/UnmarkedLabel}}
+</label>
+<!-- Alert members shift from NOW (a repeating tickler's stored date has already rolled forward, so shifting the stored date instead would double-shift); the shared widget carries the shift and the history append, and after-shift-actions binds the banner's deletion (the $button widget stops click propagation, so the catcher cannot see shift clicks) -->
+<$set name="tickler-alert-title" value=<<currentTiddler>>>
+<$list filter="[[$:/tags/hypergsd/Ticklers/Alert]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/Ticklers/Alert/visibility/]get[text]else[show]match[show]]" variable="shift-member">
+<$tiddler tiddler=<<shift-member>>>
+<$hgsd.tickler-shift target-tiddler=<<target-tiddler>> base-date=<<now-raw>> days={{!!days}} label={{!!label}} tooltip={{!!tooltip}} after-shift-actions="""<$action-deletetiddler $tiddler=<<tickler-alert-title>>/>"""/>
+</$tiddler>
+</$list>
+</$set>
+</div>
+</div>
+</$eventcatcher>
+</$let>
+\end
+
+<!-- Alert banner body (the check writes this procedure call into each alert's text). Global-tagged, so it uses full-path lingo transclusions only — no lingo-base (an imported file-local base would leak across the flattened Global import scope). Renders inside the core AlertTemplate with currentTiddler set to the alert — the target IS the alert's own title (the check's basetitle embeds the action title; the prefix strip above recovers it), and its component field stays the localised banner title the core AlertTemplate prints. The Complete control is the core HyperGSD checkbox contract verbatim (raw input with data attributes inside .hgsd-interactive, dispatched to hgsd-handle-click through the same eventcatcher selector), so completion keeps the warning gate, the gsd_comp_date stamp and dependant promotion; the click handler above adds the alert's own dismissal. The shift members are data-only tag-list tiddlers rendered by the shared `$hgsd.tickler-shift` widget (`modules/widgets/hgsd-tickler-shift`); the alert binds the widget's after-shift-actions parameter so the buttons also dismiss it. The title link only navigates — the link widget stops click propagation, so it cannot carry dismissal actions. -->

@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Sections/Tickler/Shift/Year/Short}}
+days: 365
+description: {{$:/language/hypergsd/Sections/Tickler/Shift/Year/Hint}}
+label: <<lingo Tickler/Shift/Year/Short>>
+tags: $:/tags/hypergsd/Ticklers/Shift
+title: $:/plugins/yan/hypergsd-ticklers/ui/shift/year
+tooltip: <<lingo Tickler/Shift/Year/Hint>>

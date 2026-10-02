@@ -1,0 +1,28 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/ui/components/realm-warning
+
+\whitespace trim
+
+<!-- Cross-realm link warning: a globe beside a link whose target falls outside the realm selection — the same hgsd-realm-selection scope the list engine filters rows with, so the globe means "this link is filtered out of your current view". Visibility mirrors the engine's sentinel branching: a realmed link is visible iff at least one of its realms is selected; a realm-less link only when the no-realm sentinel is present. Realm membership uses the tags[]prefix idiom — !tags[prefix[...]] does not parse. Consumers: panel project/contact sections, prereq/dependants rows. One config switch ($:/config/hypergsd/realm-warning) turns every surface off. -->
+\procedure hgsd-realm-warning(linked-tiddler)
+<%if [[$:/config/hypergsd/realm-warning]get[text]else[show]!match[hide]] %>
+<%if [<linked-tiddler>!match[]] %>
+<$let scope-list={{{ [subfilter<hgsd-realm-selection>] +[format:titlelist[]join[ ]] }}}
+    scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}} >
+<%if [enlist<scope-tags>tagging[]match<linked-tiddler>] %>
+<!-- in the selection: visible — a branch body must never be empty (an empty conditional branch transcludes the condition's output items) -->
+<%else%>
+<%if [<linked-tiddler>tags[]prefix[$:/GSD/Realm/]] %>
+<span class="hgsd-realm-warning" title={{$:/language/hypergsd/Widgets/RealmWarning/Hint}}>{{$:/plugins/yan/hypergsd/images/globe}}</span>
+<%else%>
+<%if [enlist<scope-list>match[no-realm]limit[1]] %>
+<!-- realm-less link, sentinel present: visible -->
+<%else%>
+<span class="hgsd-realm-warning" title={{$:/language/hypergsd/Widgets/RealmWarning/Hint}}>{{$:/plugins/yan/hypergsd/images/globe}}</span>
+<%endif%>
+<%endif%>
+<%endif%>
+</$let>
+<%endif%>
+<%endif%>
+\end

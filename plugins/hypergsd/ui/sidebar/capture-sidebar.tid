@@ -1,0 +1,19 @@
+caption: {{$:/language/hypergsd/Sidebar/Capture/Caption}}
+list-after: $:/core/ui/SideBar/Journal
+tags: $:/tags/SideBar
+title: $:/plugins/yan/hypergsd/ui/sidebar/capture-sidebar
+
+\whitespace trim
+
+<!-- Block tag list: each $:/tags/hypergsd/Capture/Block/<n> tag tiddler is one block (its list field pins within-block order; unlisted entries append alphabetically). Entries ship in whichever plugin owns them, so an absent sub-plugin is simply a missing entry — the loop never gates on existence; a block whose members are all absent renders no div, so no double gap. The strip-prefix/nsort/re-prefix keeps numeric block order past 9; the gap between blocks is one adjacent-sibling margin rule on .hgsd-sidebar-block. Hidden entries ($:/config/hypergsd/Capture/visibility/<title> = hide, default show, written by the Settings → Sidebar tab) are gated per entry. -->
+<$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Capture/Block/]!is[draft]removeprefix[$:/tags/hypergsd/Capture/Block/]nsort[]addprefix[$:/tags/hypergsd/Capture/Block/]]" variable="capture-block">
+<%if [all[shadows+tiddlers]tag<capture-block>!is[draft]limit[1]] %>
+<div class="hgsd-sidebar-block">
+<$list filter="[all[shadows+tiddlers]tag<capture-block>!is[draft]]" variable="capture-entry">
+<%if [[$:/config/hypergsd/Capture/visibility/]addsuffix<capture-entry>get[text]else[show]match[show]] %>
+<$transclude $tiddler=<<capture-entry>> $mode="block"/>
+<%endif%>
+</$list>
+</div>
+<%endif%>
+</$list>

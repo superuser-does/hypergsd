@@ -1,0 +1,17 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/Complete/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/Complete/Hint}}
+tags: $:/tags/hypergsd/ListItem/Prefix
+title: $:/plugins/yan/hypergsd/ui/list-items/complete
+
+\whitespace trim
+
+<%if [is[current]tag[$:/GSD/Action]][is[current]tag[$:/GSD/Project]] %>
+<div class="hgsd-interactive">
+    <%if [is[current]gsd_complete[true]] %>
+        <input type="checkbox" data-tiddler=<<currentTiddler>> data-hgsd-action="complete" checked>
+    <%else%>
+        <input type="checkbox" data-tiddler=<<currentTiddler>> data-hgsd-action="complete">
+    <%endif%>
+    &nbsp;
+</div>
+<%endif%>

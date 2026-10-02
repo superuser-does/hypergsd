@@ -1,0 +1,8 @@
+caption: {{$:/language/hypergsd/Sidebar/Review/ActionsWaiting}}
+tags: $:/tags/hypergsd/Review/2
+title: $:/plugins/yan/hypergsd/ui/sidebar/review/actions-waiting
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<$link to="GSD/Actions waiting"><<lingo Review/ActionsWaiting>></$link><br/>

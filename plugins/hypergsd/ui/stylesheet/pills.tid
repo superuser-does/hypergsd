@@ -1,0 +1,72 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/yan/hypergsd/ui/stylesheet/pills
+
+/* Status pills: per-status colours arrive as custom properties on the
+   pill's class (set below). Row pills (item-status) keep the span +
+   sibling-combinator shape; the attribute section's radio list
+   (view-status, rules after the generated colour block) styles the
+   label itself. The dashes are written &#x2D;&#x2D; because stylesheet
+   tiddlers render through wikitext, whose typography rule converts
+   literal -- to an en-dash; entities decode after that pass. */
+.item-status span {
+    display: inline-block;
+    border: 1px solid <<colour sidebar-controls-foreground>>;
+    min-width: 1.5em;
+    text-align: center;
+    font-weight: 600;
+    color: <<colour sidebar-controls-foreground>>;
+}
+.item-status input[type=radio] {
+    display: none;
+}
+.item-status input[type=radio]:checked + span {
+    background-color: var(&#x2D;&#x2D;pill-bg);
+    color: var(&#x2D;&#x2D;pill-fg);
+    border-color: var(&#x2D;&#x2D;pill-fg);
+}
+
+<!-- Pill colour classes are generated per status from the hgsd-status-colours dictionary -->
+<$list variable="status-colour-type" filter="[[action]] [[project]]">
+<$list variable="status-colour-status" filter="[function[hgsd-status-set],<status-colour-type>]">
+<$let k={{{ [<status-colour-type>addsuffix[-]addsuffix<status-colour-status>] }}}
+    kb={{{ [<status-colour-type>addsuffix[-]addsuffix<status-colour-status>addsuffix[-border]] }}}>
+.<$text text=<<k>>/>&#x20;{&#x2D;&#x2D;pill-bg:{{{ [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]getindex<k>else[#888888]] }}};&#x2D;&#x2D;pill-fg:{{{ [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]getindex<kb>else[#666666]] }}};
+}
+</$let>
+</$list>
+</$list>
+
+/* The attribute section's radio list: list chrome stripped, flex keeps
+   the pills on one row (wrapping on narrow panels); an empty set renders an empty list, which collapses. */
+.hgsd-radio-group {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    &:empty {
+        display: none;
+    }
+}
+
+/* The label is the pill: :has() carries the checked state, so no span
+   is needed, and the fill reads the --pill-* properties the generated
+   rules above hang on the label's view-status <type>-<status> hook
+   classes. */
+.view-status {
+    display: inline-block;
+    border: 1px solid <<colour sidebar-controls-foreground>>;
+    min-width: 5em;
+    padding-inline: 0.6em;
+    text-align: center;
+    font-weight: 600;
+    color: <<colour sidebar-controls-foreground>>;
+    & input[type=radio] {
+        display: none;
+    }
+    &:has(input:checked) {
+        background-color: var(&#x2D;&#x2D;pill-bg);
+        color: var(&#x2D;&#x2D;pill-fg);
+        border-color: var(&#x2D;&#x2D;pill-fg);
+    }
+}

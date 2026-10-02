@@ -1,0 +1,6 @@
+title: $:/language/hypergsd/Lists/
+
+# References additions to the shared Lists string namespace (same key space as
+# the main plugin; the sub-plugin owns only these keys).
+References: References
+Add/Reference: add new reference

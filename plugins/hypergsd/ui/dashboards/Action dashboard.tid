@@ -1,0 +1,4 @@
+icon: $:/plugins/yan/hypergsd/images/action
+title: GSD/Action dashboard
+
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Action" visibility-base="$:/config/hypergsd/Lists/Action/visibility/"/>

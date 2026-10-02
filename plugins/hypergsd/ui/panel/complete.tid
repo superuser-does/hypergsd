@@ -1,0 +1,31 @@
+caption: {{$:/language/hypergsd/Sections/Complete/Caption}}
+description: {{$:/language/hypergsd/Sections/Complete/Description}}
+tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/1
+title: $:/plugins/yan/hypergsd/ui/panel/complete
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+
+<%if [is[current]tag[$:/GSD/Action]] [is[current]tag[$:/GSD/Project]] %>
+<!-- Label wrapper: clicking the "Complete" text forwards a click to the checkbox, which bubbles to the eventcatcher like a direct box click. -->
+<div class="hgsd-interactive">
+    <label>
+        <%if [is[current]gsd_complete[true]] %>
+            <input type="checkbox" data-tiddler=<<currentTiddler>> data-hgsd-action="complete" checked>
+        <%else%>
+            <input type="checkbox" data-tiddler=<<currentTiddler>> data-hgsd-action="complete">
+        <%endif%>
+        &nbsp;
+        <span class="hgsd-slightly-large-text">
+            <%if [is[current]gsd_complete[true]] %>
+            <<lingo Complete/MarkedLabel>>&ensp;
+            <span class="gsd-muted gsd-small-text">
+                (<$view field="gsd_comp_date" format="relativedate"/>)
+            </span>
+            <%else%>
+            <<lingo Complete/UnmarkedLabel>>
+            <%endif%>
+        </span>
+    </label>
+</div>
+<%endif%>

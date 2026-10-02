@@ -1,0 +1,7 @@
+title: $:/language/hypergsd/Sections/
+
+# Contexts additions to the shared Sections namespace (modal context section).
+Context/Caption: Context
+Context/Description: Set the item's context
+Context/Label: Context:
+Context/None: -- None --

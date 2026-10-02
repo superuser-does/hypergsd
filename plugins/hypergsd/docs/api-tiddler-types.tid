@@ -1,0 +1,22 @@
+caption: Tiddler Types
+tags: $:/tags/hypergsd/Docs
+title: $:/plugins/yan/hypergsd/docs/api/tiddler-types
+
+An item's type is a plain tag. The built-in type tags are members of the `$:/tags/hypergsd/Type` tag list, which drives refresh gating, the modal's Type dropdown and tag application on creation.
+
+! Built-in types
+
+;[[Action|$:/plugins/yan/hypergsd/docs/api/tiddler-types/action]]
+:Tag `$:/GSD/Action` — the basic unit of work.
+;[[Project|$:/plugins/yan/hypergsd/docs/api/tiddler-types/project]]
+:Tag `$:/GSD/Project` — groups actions, subprojects and references.
+;[[Contact|$:/plugins/yan/hypergsd-contacts/docs/type]] (ships from the [[HyperGSD Contacts|$:/plugins/yan/hypergsd-contacts/readme]] sub-plugin)
+:Tag `$:/GSD/Contact` — a person things can be delegated to.
+;[[Context|$:/plugins/yan/hypergsd-contexts/docs/type]] (ships from the [[HyperGSD Contexts|$:/plugins/yan/hypergsd-contexts/readme]] sub-plugin)
+:Tag `GSD/Contexts` (the dashboard tiddler is the tag list) — where/how an action happens; multiple contexts per action.
+;[[Reference|$:/plugins/yan/hypergsd-references/docs/type]] (ships from the [[HyperGSD References|$:/plugins/yan/hypergsd-references/readme]] sub-plugin)
+:Tag `$:/GSD/Reference` — supporting material attached to a project.
+
+! Extension types
+
+New types need no code changes: create a tiddler tagged `$:/tags/hypergsd/Type` with a unique `hgsd-type` field — see [[Type tag list|$:/plugins/yan/hypergsd/docs/api/tags/type-tag-list]].

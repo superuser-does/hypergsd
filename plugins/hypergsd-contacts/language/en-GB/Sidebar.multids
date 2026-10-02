@@ -1,0 +1,8 @@
+title: $:/language/hypergsd/Sidebar/
+
+# Contacts additions to the shared Sidebar string namespace. The capture entry
+# button ships from this plugin, so its strings ship with it (the main plugin
+# never renders them).
+Capture/NewContact/Hint: Add a new contact
+Capture/NewContact/Label: new contact
+Review/Contacts: Contacts

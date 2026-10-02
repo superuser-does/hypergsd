@@ -1,0 +1,18 @@
+caption: {{$:/language/hypergsd/Settings/Lists/Caption}}
+list-after: $:/plugins/yan/hypergsd/ui/control-panel/sections
+tags: $:/tags/hypergsd/Settings
+title: $:/plugins/yan/hypergsd/ui/control-panel/lists
+
+\whitespace trim
+
+\procedure lingo-base() $:/language/hypergsd/Settings/
+
+<$checkbox tiddler="$:/config/hypergsd/realm-warning"
+    field="text" checked="show" unchecked="hide" default="show"
+    class="tc-control-panel-item"
+><$link to="$:/config/hypergsd/realm-warning" class="tc-tiny-gap-left"><<lingo Lists/RealmWarning>></$link></$checkbox>
+
+<<tabs
+    "[all[shadows+tiddlers]tag[$:/tags/hypergsd/Settings/Lists]!is[draft]]"
+    "$:/plugins/yan/hypergsd/ui/control-panel/project-view"
+    "$:/state/tab/hypergsdlistspanel">>

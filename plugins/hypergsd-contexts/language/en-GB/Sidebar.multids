@@ -1,0 +1,10 @@
+title: $:/language/hypergsd/Sidebar/
+
+Capture/DefaultContext/Label: Default context:&#x2004;
+# Contexts additions to the shared Sidebar namespace (capture defaults + entry button).
+Capture/NoContext: -- no context --
+Capture/NewContext/Hint: Add new context
+Capture/NewContext/Label: new context
+Review/Contexts: Contexts
+Capture/DefaultContext/Caption: Default context
+Capture/DefaultContext/Hint: The context inherited by new items created in the capture sidebar

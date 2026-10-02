@@ -1,0 +1,3 @@
+caption: {{$:/language/hypergsd/Settings/Sidebar/Block/5}}
+list: $:/plugins/yan/hypergsd-references/ui/sidebar/review/references $:/plugins/yan/hypergsd-contacts/ui/sidebar/review/contacts $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup-open-actions
+title: $:/tags/hypergsd/Review/5

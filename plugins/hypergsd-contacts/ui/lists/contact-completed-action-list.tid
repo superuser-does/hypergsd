@@ -1,0 +1,14 @@
+caption: {{$:/language/hypergsd/Settings/Lists/CompletedActions/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/CompletedActions/Hint}}
+tags: $:/tags/hypergsd/Lists/ContactAction $:/tags/hypergsd/Lists/ContactAction/Portion/Full
+title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-completed-action-list
+
+<!-- Portion/Full member: renders in the contact view's trailing band behind its own disclosure ($hgsd.toggle; the state namespace is the one the view's refresh gate admits). -->
+<$hgsd.toggle
+    text={{$:/language/hypergsd/Lists/ShowCompletedActions}}
+    hide-text={{$:/language/hypergsd/Lists/HideCompletedActions}}
+    class="hgsd-completed-toggle">
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
+    list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_complete[true]] +[sort[title]!nsort[gsd_comp_date]]"/> <!-- title pre-sort is the tiebreak for equal timestamps; undated legacy items sink. No add-button: completed items are finished, not captured. -->
+</$hgsd.toggle>

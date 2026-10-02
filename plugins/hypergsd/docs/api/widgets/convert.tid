@@ -1,0 +1,17 @@
+caption: <$hgsd.convert>
+title: $:/plugins/yan/hypergsd/docs/api/widgets/convert
+
+! Introduction
+The convert widget turns the current Action tiddler into a Project tiddler in one click: it removes the `$:/GSD/Action` tag, adds `$:/GSD/Project`, clears `gsd_prerequisites`, and sets the new project's status — `active` if the action was `next`, otherwise `future`.
+
+! Content and Attributes
+The widget's content becomes the button label (defaults to `convert`).
+
+|!Attribute |!Description |
+|current-status |The action's current `gsd_status`; determines the resulting project status |
+|class, style, aria-label, role, tooltip |Standard button attributes |
+
+! Example
+```
+<$hgsd.convert current-status={{!!gsd_status}} class="tc-btn-invisible">↰ project</$hgsd.convert>
+```

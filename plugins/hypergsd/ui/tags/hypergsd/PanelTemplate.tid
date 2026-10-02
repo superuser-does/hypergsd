@@ -1,0 +1,2 @@
+list: $:/plugins/yan/hypergsd/ui/panel/complete $:/plugins/yan/hypergsd/ui/attributes/status $:/plugins/yan/hypergsd/ui/panel/convert $:/plugins/yan/hypergsd/ui/attributes/project $:/plugins/yan/hypergsd/ui/panel/prereq $:/plugins/yan/hypergsd/ui/panel/dependants $:/plugins/yan/hypergsd-contacts/ui/attributes/contact
+title: $:/tags/hypergsd/PanelTemplate

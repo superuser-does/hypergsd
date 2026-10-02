@@ -1,0 +1,4 @@
+hgsd-conditions: [all[tiddlers]tag[$:/GSD/Action]!is[draft]] [all[tiddlers]tag[$:/GSD/Project]!is[draft]] +[gsd_project<host-title>] :filter[get[gsd_complete]else[false]!match[true]]
+hgsd-warning: OpenChildren
+tags: $:/tags/hypergsd/Complete/Warning
+title: $:/plugins/yan/hypergsd/modules/complete-warnings/open-children

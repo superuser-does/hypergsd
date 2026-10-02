@@ -1,0 +1,10 @@
+title: GSD/Projects without next actions
+
+\procedure lingo-base() $:/language/hypergsd/Dashboards/
+<div class="tc-message-box">
+    <p>
+        <<lingo NoNextAction/Message>>
+    </p>
+</div>
+
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/NoNextAction" visibility-base="$:/config/hypergsd/Lists/NoNextAction/visibility/"/>

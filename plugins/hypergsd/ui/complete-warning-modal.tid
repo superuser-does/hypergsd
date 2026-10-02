@@ -1,0 +1,32 @@
+mask-closable: yes
+subtitle: {{$:/language/hypergsd/Sections/Complete/Warning/Subtitle}}
+title: $:/plugins/yan/hypergsd/ui/complete-warning-modal
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+
+<!-- Re-evaluates the same tag list the gate used (list-field membership, host-title bound before the loop so member conditions resolve). The header names the action; the body opens with the confirmation question, then each firing member's message renders as its own bullet; every member's condition outputs pool into ONE linked list under a plain-text lead-in. The links loop gates its separator br BEFORE each item except the first (the 1-based counter), so no break sits between the last link and the button. Inline parse mode inside <$keyboard> never forms paragraphs or wikitext lists, so the layout uses explicit tags; closing rides the modal's own chrome (mask, close button, the ((hgsd-modal-close)) key binding) — no Cancel button. -->
+<$keyboard tag="div" key="((hgsd-modal-close))" actions="""<$action-sendmessage $message="tm-close-tiddler"/>""">
+<$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+<$let host-title=<<hgsd-host>>>
+<p><<lingo Complete/Warning/Question>></p>
+<ul>
+    <$list filter="[list[$:/tags/hypergsd/Complete/Warning]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}]" variable="warn-member">
+        <li>
+            <$let warn-key={{{ [<warn-member>get[hgsd-warning]else<warn-member>] }}} >
+            <$text text={{{ [[$:/language/hypergsd/Sections/Complete/Warnings/]addsuffix<warn-key>get[text]else<warn-key>] }}} />
+            </$let>
+        </li>
+    </$list>
+</ul>
+<p><<lingo Complete/Warning/Relevant>></p>
+<$list filter="[list[$:/tags/hypergsd/Complete/Warning]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map:flat[subfilter{!!hgsd-conditions}] +[unique[]]" variable="warn-item" counter="warn-idx">
+    <$list filter="[<warn-idx>!match[1]]"><br/></$list>
+    <$link to=<<warn-item>>><$text text=<<warn-item>>/></$link>
+</$list>
+<div class="hgsd-interactive">
+    <button class="tc-button" data-tiddler=<<hgsd-host>> data-hgsd-action="complete-confirmed"><<lingo Complete/Warning/CompleteAnyway>></button>
+</div>
+</$let>
+</$eventcatcher>
+</$keyboard>

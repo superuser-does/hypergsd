@@ -1,0 +1,86 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/modules/event-handler
+
+\whitespace trim
+
+\procedure hgsd-do-complete(item-title)
+    <$let currentStatus={{{ [<item-title>get[gsd_complete]] }}}>
+    <$action-setfield
+        $tiddler=<<item-title>>
+        gsd_complete={{{ [<currentStatus>match[true]then[false]else[true]] }}}
+        gsd_comp_date={{{ [<currentStatus>match[true]then[]else<now [UTC]YYYY0MM0DD0hh0mm0ssXXX>] }}} />
+    <%if [<currentStatus>!match[true]] %>
+        <!-- Exact prerequisite membership: match<item-title> on the enlisted field, not a substring search, so only true dependants are promoted -->
+        <$list filter="[tag[$:/GSD/Action]!is[draft]gsd_status[future]] :filter[get[gsd_prerequisites]enlist-input[]match<item-title>]" variable="dependant">
+            <$action-setfield $tiddler=<<dependant>> gsd_status="next"/>
+        </$list>
+    <%endif%>
+    </$let>
+\end
+
+\procedure hgsd-close-completed(item-title)
+    <!-- Story-river close writes $:/StoryList directly: the warning modal's body consumes every tm-close-tiddler it bubbles, so a message from the confirmed path could not remove the item, and the membership gate keeps an unopened item from minting an empty story list. Modes: always closes from any completion origin; own-page only when the completing click was the item's own page (the direct click's currentTiddler match, or hgsd-from-item carried by the warning modal). -->
+    <$let close-mode={{{ [[$:/config/hypergsd/close-on-complete]get[text]else[never]] }}}
+        origin-allowed={{{ [<item-title>match<currentTiddler>then[yes]] [<hgsd-from-item>match[yes]then[yes]] +[first[]else[no]] }}}>
+    <$let should-close={{{ [<origin-allowed>match[yes]] :filter[<close-mode>match[own-page]] [<close-mode>match[always]then[yes]] +[first[]else[no]] }}}>
+    <%if [<should-close>match[yes]] %>
+        <%if [[$:/StoryList]contains<item-title>] %>
+            <$action-listops $tiddler="$:/StoryList" $subfilter="-[<item-title>]"/>
+        <%endif%>
+    <%endif%>
+    </$let>
+    </$let>
+\end
+
+\procedure hgsd-handle-complete-event(item-title)
+<%if [<dom-data-hgsd-action>match[complete]] %>
+    <%if [<item-title>get[gsd_complete]else[false]match[true]] %>
+        <$transclude $variable="hgsd-do-complete" item-title=<<item-title>>/>
+    <%else%>
+        <!-- Completion warning: the tag's list field IS the membership ([list[]], not tagging[] — a deleted entry retires its warning). host-title must be bound BEFORE the gate so member conditions (evaluated via subfilter) can see it; +[limit[1]] keeps the gate's output single-item so the $let survives the triple-brace trap. -->
+        <$let host-title=<<item-title>> warn-first={{{ [list[$:/tags/hypergsd/Complete/Warning]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] +[limit[1]] }}}>
+        <%if [<warn-first>!match[]] %>
+            <!-- Identical-value write: still fires a change event, re-rendering the natively-toggled checkbox unchecked — without touching the modified timestamp. -->
+            <$action-setfield $tiddler=<<item-title>> gsd_complete={{{ [<item-title>get[gsd_complete]else[false]] }}} $timestamp="no"/>
+            <!-- tv-story-list/tv-history-list: eventcatchers can render outside the story river's navigator, so the modal gets them explicitly. hgsd-from-item records whether the completing click came from the item's own page (the currentTiddler match) — only that origin may close the completed item. -->
+            <$action-sendmessage
+                $message="tm-modal"
+                $param="$:/plugins/yan/hypergsd/ui/complete-warning-modal"
+                mask-closable="yes"
+                tv-story-list="$:/StoryList"
+                tv-history-list="$:/HistoryList"
+                hgsd-host=<<item-title>>
+                hgsd-from-item={{{ [<item-title>match<currentTiddler>then[yes]else[no]] }}} />
+        <%else%>
+            <$transclude $variable="hgsd-do-complete" item-title=<<item-title>>/>
+            <$transclude $variable="hgsd-close-completed" item-title=<<item-title>>/>
+        <%endif%>
+        </$let>
+    <%endif%>
+<%elseif [<dom-data-hgsd-action>match[complete-confirmed]] %>
+    <!-- Still-incomplete guard: hgsd-do-complete TOGGLES, so a second stacked modal confirming an already-completed host must no-op, not uncomplete -->
+    <%if [<item-title>get[gsd_complete]else[false]match[false]] %>
+        <$transclude $variable="hgsd-do-complete" item-title=<<item-title>>/>
+        <$transclude $variable="hgsd-close-completed" item-title=<<item-title>>/>
+    <%endif%>
+    <$action-sendmessage $message="tm-close-tiddler"/>
+<%endif%>
+\end
+
+\procedure hgsd-handle-click()
+<$let clickedTiddler=<<dom-data-tiddler>>>
+<%if [<dom-data-hgsd-action>match[complete]] [<dom-data-hgsd-action>match[complete-confirmed]] %>
+    <$transclude $variable="hgsd-handle-complete-event" item-title=<<clickedTiddler>>/>
+<%elseif [<dom-data-hgsd-action>match[status]] %>
+    <$action-setfield $tiddler=<<clickedTiddler>> gsd_status=<<dom-data-status>> />
+    <!-- Per-type status memory exists ONLY for the modal's state tiddler ($:/temp/gsd-new-state): the fields remember each type's last pick across modal type flips. The shared radio renderer carries data-hgsd-status-field in both contexts, so this write is guarded to the temp — no reader consults the field on real tiddlers. -->
+    <%if [<dom-data-hgsd-status-field>!match[]] %>
+        <%if [<clickedTiddler>match[$:/temp/gsd-new-state]] %>
+            <$action-setfield $tiddler=<<clickedTiddler>> $field=<<dom-data-hgsd-status-field>> $value=<<dom-data-status>> />
+        <%endif%>
+    <%endif%>
+<%elseif [<dom-data-hgsd-action>match[delete]] %>
+    <$action-sendmessage $message="tm-delete-tiddler" $param=<<clickedTiddler>> />
+<%endif%>
+</$let>
+\end

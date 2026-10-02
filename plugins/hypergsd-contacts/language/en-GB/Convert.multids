@@ -1,0 +1,4 @@
+title: $:/language/hypergsd/Convert/
+
+# Contacts additions to the shared Convert string namespace.
+Warnings/Contact: The contact field will be kept, but it no longer applies to a project.

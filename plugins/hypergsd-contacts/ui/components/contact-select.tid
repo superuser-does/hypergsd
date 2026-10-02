@@ -1,0 +1,43 @@
+tags: $:/tags/hypergsd/Strip
+title: $:/plugins/yan/hypergsd-contacts/ui/components/contact-select
+hgsd-strip-host: Actions by contact
+
+\whitespace trim
+
+<!-- The Contacts page's multi-contact search, as a Strip tag-list member of the "Actions by contact" list: renders as the strip's leading control, ahead of Sort by. A muted label (the Sort by: convention — the colon rides in the lingo string) introduces the filter group; then one inline chip per picked contact (title link + × removal, the prereq-row vocabulary), the picker and the Add button — the pick-append pattern: the dropdown only FILLS the input (a raw $hgsd.pick, no commit-kind), the persistently-visible Add button (core's EditTemplate/Fields/Add/Button string, like every other pick row) commits, and ((input-accept)) — the core named shortcut, Enter by default, the keyboard-driven-input convention — runs the same commit from the keyboard. Both routes share hgsd-contact-add, gated on the pick naming an existing tiddler (the pick-keyboard-commit shape — the guard evaluates only at keypress/click, and a partial typed name neither commits nor clears the box: pick from the dropdown, or type a contact's exact title). Deliberately NO placeholder on the picker input and NO empty-state hint: the label alone explains the control, an empty box meaning no filtering. No refresh gate of its own: this renders inside the host list's row gate, whose subfilter carries the picker's popup and temp prefixes (pick-contact-filter runs, chassis and row gates), and the selection commits to the config namespace every gate already admits. Writes land on the persistent selection tiddler the host list member's contact gate reads. -->
+\procedure hgsd-contact-add()
+<$let picked-now={{{ [<pick-tiddler>get[hgsd-pick]else[]] }}}>
+<%if [<picked-now>!match[]is[tiddler]] %>
+<$action-listops $tiddler=<<selection-title>> $field="list" $subfilter="[<picked-now>]"/>
+<$action-setfield $tiddler=<<pick-tiddler>> hgsd-pick=""/>
+<%endif%>
+</$let>
+\end
+<$let selection-title="$:/config/hypergsd/contact-filter/selection">
+<$let pick-tiddler="$:/temp/hypergsd/contact-filter/pick">
+    <span class="hgsd-contact-select">
+        <span class="gsd-muted">{{$:/language/hypergsd/Lists/ContactFilter/Filter}}</span>
+        <$list filter="[<selection-title>get[list]enlist-input[]] +[unique[]sort[title]]" variable="contact-item">
+            <span class="hgsd-contact-chip">
+                <$link to=<<contact-item>>><$view tiddler=<<contact-item>> field="title"/></$link>
+                <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{{ [[$:/language/hypergsd/Lists/ContactFilter/Remove/HintA]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<contact-item>] +[addsuffix[ ]] +[addsuffix{$:/language/hypergsd/Lists/ContactFilter/Remove/HintB}] }}}>
+                    <$action-listops $tiddler=<<selection-title>> $field="list" $subfilter="-[<contact-item>]"/>
+                    {{$:/core/images/close-button}}
+                </$button>
+            </span>
+        </$list>
+        <$keyboard key="((input-accept))" actions="""<$transclude $variable="hgsd-contact-add"/>""">
+            <$hgsd.pick
+                tiddler=<<pick-tiddler>>
+                field="hgsd-pick"
+                id="contact-filter"
+                list-filter="[tag[$:/GSD/Contact]]"
+                none-title={{$:/language/hypergsd/Lists/ContactFilter/Choose}}
+                search-mode="extended"/>
+        </$keyboard>
+        <$button actions="""<$transclude $variable="hgsd-contact-add"/>""">
+            {{$:/language/EditTemplate/Fields/Add/Button}}
+        </$button>
+    </span>
+</$let>
+</$let>

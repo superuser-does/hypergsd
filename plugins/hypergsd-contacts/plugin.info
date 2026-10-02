@@ -1,0 +1,13 @@
+{
+    "title": "$:/plugins/yan/hypergsd-contacts",
+    "name": "HyperGSD Contacts",
+    "icon": "$:/plugins/yan/hypergsd-contacts/images/contact",
+    "description": "Contacts for HyperGSD",
+    "author": "Yannis Anthymidis",
+    "core-version": ">=5.4.0",
+    "plugin-type": "plugin",
+    "parent-plugin": "$:/plugins/yan/hypergsd",
+    "dependents": ["$:/plugins/yan/hypergsd"],
+    "list": "readme",
+    "version": "0.2.1"
+}

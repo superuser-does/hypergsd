@@ -1,0 +1,6 @@
+title: $:/language/hypergsd/Settings/
+
+# Trashbin additions to the shared Settings string namespace (same key space
+# as the main plugin; the sub-plugin owns only these keys).
+Fragments/TrashButton/Caption: Trash button
+Fragments/TrashButton/Hint: Sends the item to the trashbin

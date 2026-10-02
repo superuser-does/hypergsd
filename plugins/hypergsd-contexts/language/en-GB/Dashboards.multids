@@ -1,0 +1,4 @@
+title: $:/language/hypergsd/Dashboards/
+
+# Contexts additions to the shared Dashboards namespace (Contexts page).
+Contexts/NewContext/Placeholder: New context...

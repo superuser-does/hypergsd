@@ -1,0 +1,4 @@
+list: $:/plugins/yan/hypergsd/modules/complete-warnings/open-actions $:/plugins/yan/hypergsd/modules/complete-warnings/open-subprojects
+title: $:/tags/hypergsd/Complete/Warning
+
+<!-- Tag list for the completion warning: marking an item complete with a tripping member pops a confirm modal instead. Unlike the other HyperGSD tag lists, the list field above IS the membership, not just ordering — the engine enumerates [list[$:/tags/hypergsd/Complete/Warning]], so append a member title to activate it and delete a title to retire it (the shipped built-in included). Members still carry the tag for discovery, but an unlisted member never fires. -->

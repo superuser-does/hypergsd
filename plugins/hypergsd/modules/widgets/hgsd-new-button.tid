@@ -1,0 +1,65 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-new-button
+
+\whitespace trim
+\procedure gsd-select-action()
+<$action-sendmessage $message="tm-focus-selector" $param=".gsd-new-modal"/>
+\end
+\widget $hgsd.new-button(
+    gsd-type,
+    gsd-status,
+    gsd-complete,
+    gsd-project,
+    gsd-contact,
+    gsd-context,
+    gsd-realm,
+    gsd-update-status: "no",
+    gsd-calling-tiddler,
+    class,
+    style,
+    role,
+    tooltip,
+    disabled
+)
+<$messagecatcher $gsd-select-entry=<<gsd-select-action>> >
+    <$button
+        class=<<class>>
+        style=<<style>>
+        role=<<role>>
+        tooltip=<<tooltip>> >
+        <$slot $name="ts-raw">{{$:/language/hypergsd/Widgets/NewButtonDefault}}</$slot>
+        <!-- Always reset the type to ensure the button's intent wins over any stale temp state. -->
+        <$action-setfield $tiddler="$:/temp/gsd-new-state" hgsd-type=<<gsd-type>> />
+        <!-- Only overwrite project inheritance when the button explicitly belongs to a project. -->
+        <%if [<gsd-project>!is[blank]] %>
+            <$action-setfield $tiddler="$:/temp/gsd-new-temp" gsd_project=<<gsd-project>> />
+        <%endif%>
+        <!-- Contact inheritance seeds the data temp — the unified contact section is a pick-field over the target, so the seeded value drives both its display and the submit resolution. -->
+        <%if [<gsd-contact>!is[blank]] %>
+            <$action-setfield $tiddler="$:/temp/gsd-new-temp" gsd_contact=<<gsd-contact>> />
+        <%endif%>
+        <!-- Context inheritance: $filter replaces on every click so re-opens never duplicate. Callers that don't pass gsd-calling-tiddler fall back to the tiddler the button renders in. The !match[] guard matters: an unset parameter yields [""] in a filter pipeline, which does not trigger a plain else (empty strings are not empty pipelines). -->
+        <$let caller={{{ [<gsd-calling-tiddler>!match[]else<currentTiddler>] }}}>
+        <$action-listops $tiddler="$:/temp/gsd-new-state" $field="gsd_inherited_contexts" $filter="[<caller>tags[]tag[GSD/Contexts]]" />
+        </$let>
+        <!-- Inherit realm from parent tiddler only if user hasn't explicitly set one -->
+        <%if [<gsd-realm>!is[blank]] %>
+            <%if [[$:/state/hypergsd/effective-realm]!has[text]] %>
+                <$action-setfield $tiddler="$:/state/hypergsd/effective-realm" text=<<gsd-realm>> />
+            <%endif%>
+        <%endif%>
+        <$action-sendmessage
+            $message="tm-modal"
+            $param="$:/plugins/yan/hypergsd/ui/new-gsd-modal"
+            mask-closable="yes"
+            gsd-type=<<gsd-type>>
+            gsd-status=<<gsd-status>>
+            gsd-complete=<<gsd-complete>>
+            gsd-project=<<gsd-project>>
+            gsd-contact=<<gsd-contact>>
+            gsd-update-status=<<gsd-update-status>>
+            gsd-calling-tiddler=<<gsd-calling-tiddler>> />
+        <$action-sendmessage $message="gsd-select-entry"/>
+    </$button>
+</$messagecatcher>
+\end

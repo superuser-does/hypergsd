@@ -1,0 +1,40 @@
+caption: Localisation
+tags: $:/tags/hypergsd/Docs
+title: $:/plugins/yan/hypergsd/docs/api/localisation
+
+All user-visible strings live in language tiddlers under the `$:/language/hypergsd/` prefix, mirroring the core translation mechanism. English (`en-GB`) strings ship inside the plugins as shadows — always present — in `language/en-GB/*.multids` files, one per feature family. The Contacts sub-plugin contributes keys to the same namespaces from its own `language/` folder; where a text is identical to a main-plugin key it reuses that key rather than duplicating it.
+
+! Families
+
+|!File |!Contents |
+|`Settings.multids` |control panel: Behaviour tab, Colours tab, Panel and modal tab, list-visibility pages, colour manager, shortcut descriptions |
+|`Sections.multids` |section tag list (view panel + modal): captions, descriptions, labels, status radio labels |
+|`Convert.multids` |convert base message, default button label, `Warnings/*` sentences |
+|`Lists.multids` |rendered list headings, list toggles, row glyphs, quick-add tooltips |
+|`Dashboards.multids` |per-dashboard prose, References sort controls, table headers |
+|`Toolbar.multids` |page-toolbar buttons |
+|`Sidebar.multids` |Capture and Review tabs |
+|`NewItem.multids` |new-item modal frame |
+|`Widgets.multids` |pick/pick-field/create-and-add/new-button/realm-picker defaults |
+
+! Adding a string
+
+# Add a key to the relevant `.multids` file (title prefix `title: $:/language/hypergsd/<Family>/`).
+# Reference it according to context:
+#* **Transcluded tiddlers** (pages, panels, dashboards, sidebars, list tiddlers): add `\procedure lingo-base() $:/language/hypergsd/<Family>/` and use `<<lingo Key>>` in body position.
+#* **Global-tagged tiddlers** (imported widgets/procedures such as `$hgsd.pick-field`): `importvariables` flattens all definitions into one scope, so a file-level `lingo-base` leaks and gets shadowed — use full-path transclusions `{{$:/language/hypergsd/<Family>/Key}}` instead. This also applies in **attribute position everywhere**: `tooltip={{$:/language/...}}` (attribute-position `<<lingo>>` yields the raw `{{...}}` text unexecuted).
+#* **Field values** (caption/description/subtitle): `caption: {{$:/language/...}}` — templates and the modal header wikify them.
+#* **Composed strings** (a literal joined with a value): resolve the piece inside a filter via `[[$:/language/.../Key]] :map[get[text]]` then `+[addsuffix[ ]] +[addsuffix<value>]`; `{title}` indirect operands work in `else[...]` and `addsuffix{...}` for fallbacks and suffixes.
+
+The convert-warning contract is the one special case: a fragment's `warning` field holds the *key* of a sentence under `$:/language/hypergsd/Convert/Warnings/`, and the widget resolves it while composing the message (see [[Convert warnings|$:/plugins/yan/hypergsd/docs/api/tags/convert-warning]]).
+
+! Translations
+
+Not yet — the core language switcher only activates the selected language plugin and its `dependents`, so a plugin's strings have no supported way to ride the switch. Once upstream bundled sub-plugins land (TiddlyWiki5 PR #8957, targeted v5.5.0), translations ship as language sub-plugins inside the main plugin (`languages/<code>/` with its own `plugin.info`), automatically activated when their language is selected, with these English shadows as the per-key fallback. Until then the `.multids` structure above is already the shape that mechanism overrides.
+
+! Notes for this codebase
+
+* Keep `.multids` values single-line; wikilinks inside values render fine (`[[Cleanup]]`).
+* `\whitespace trim` drops separator whitespace between inline nodes — compose multi-part labels as a single filter string (see `create-and-add`'s default label).
+* Status values (`next`, `waiting`, `future`, `active`) are data, not prose — the radio *labels* are keys, the *values* stay literal.
+* Key-binding values (`escape`, `alt+A`…) and the `$:/GSD/Realm/` prefix shown beside inputs are structural — never translate.

@@ -1,0 +1,33 @@
+caption: {{$:/language/hypergsd/Sections/PrereqOf/Caption}}
+description: {{$:/language/hypergsd/Sections/PrereqOf/Description}}
+tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/1
+title: $:/plugins/yan/hypergsd/ui/panel/dependants
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+<%if [is[current]tag[$:/GSD/Action]] %>
+<!-- Mirror of the DependsOn section, writing the OTHER side through the same shared twins: hgsd-prereq-row with direction "item" (the × trims THIS action's title off the row item's list), $hgsd.pick-append with direction "item" (the picked action gains THIS title as its prerequisite). viewing-title is load-bearing: $list owns currentTiddler as its iteration variable, so the loop filter cannot read <currentTiddler> directly — the let snapshots it before the loop. -->
+<$let viewing-title=<<currentTiddler>> >
+<div class="hgsd-interactive">
+    <div>
+        <<lingo PrereqOf/Label>>
+        <br/>
+        <$list filter="[tag[$:/GSD/Action]] :filter[get[gsd_prerequisites]enlist-input[]match<viewing-title>] +[sort[gsd_complete]]" variable="dependant-item">
+            <$transclude $variable="hgsd-prereq-row" item=<<dependant-item>> direction="item"/>
+        </$list>
+        <$hgsd.pick-append
+            field="gsd_prerequisites"
+            id="dependant"
+            direction="item"
+            list-filter="[tag[$:/GSD/Action]gsd_complete[false]] -[<currentTiddler>]"
+            group-by="gsd_project"
+            none-title={{$:/language/hypergsd/Sections/PrereqOf/Choose}}
+            new-type="action"
+            new-status="next"
+            new-project={{!!gsd_project}}
+            tooltip={{$:/language/hypergsd/Sections/PrereqOf/Add/Hint}}
+            caption={{$:/language/hypergsd/Sections/PrereqOf/Add/Caption}}/>
+    </div>
+</div>
+</$let>
+<%endif%>

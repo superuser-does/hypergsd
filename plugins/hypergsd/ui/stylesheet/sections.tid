@@ -1,0 +1,134 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
+
+/* Tag-driven section containers (panel + modal). One bare div per group
+   tag in use (Group/1, Group/2, ...). The row wraps, so a cramped group
+   drops below instead of hugging the right edge. Empty groups collapse,
+   and a group hugs its content — never wider than the chassis. Spacing
+   rides on container rules so third-party sections inherit without
+   classes. */
+.hgsd-capture {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[center]else[flex-start]] }}};
+    gap: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[0.6rem 2em]else[2em]] }}};
+    width: fit-content;
+    max-width: 100%;
+}
+
+/* Labels flow natively (caption then control, one line, wrapping). A
+   section needing a line break inside a label uses a literal <br/>:
+   element interiors parse inline, so blank lines never form paragraphs
+   there, and \whitespace trim eats newline runs outright.
+
+   Groups are bare divs — ".hgsd-capture > div". The one transcluded
+   display value is the whole orientation mechanism: vertical keeps each
+   group a stacked box (groups sit side by side); horizontal flattens
+   them via display:contents, so their sections join the single wrapping
+   flow in .hgsd-capture and no group can linger as a second column at
+   the right edge. Panel and modal share the chassis, so both follow the
+   setting. */
+.hgsd-capture > div {
+    display: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[contents]else[flex]] }}};
+    flex-direction: column;
+    row-gap: 0.6rem;
+    &:empty {
+        display: none;
+    }
+    & input[type=checkbox] {
+        vertical-align: inherit;
+    }
+}
+
+/* Portion regions (modules/section-portions): the dashboard columns row —
+   full-width flex, equal tracks, one div per Portion/N in use (panels and
+   the modal keep .hgsd-capture's fit-content row, sandwiched between the
+   bands). The two band slots bracket the row as plain block siblings, so
+   each spans the full width: Portion/Top above (its margin-bottom replaces
+   the row's gap), Portion/Full below (margin-top likewise).
+   Members carry no layout CSS — only these chassis wrappers do. */
+.hgsd-portion-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 2em;
+    align-items: flex-start;
+}
+.hgsd-portion-columns > div {
+    flex: 1 1 0;
+    min-width: 0;
+}
+.hgsd-portion-top {
+    margin-bottom: 1em;
+}
+.hgsd-portion-full {
+    margin-top: 1em;
+}
+
+/* The panel chassis is a styled fieldset: tc-tiddler-info supplies padding,
+   background and top/bottom hairlines; this rule completes the border box on
+   all four sides (revert option: see docs/panel-chrome.tid). */
+.hgsd-panel-fieldset {
+    border: 1px solid <<colour tiddler-info-border>>;
+    min-width: 0;
+    & .hgsd-capture {
+        padding-inline: 0.75em;
+    }
+    & fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+    }
+}
+
+.hgsd-modal-attributes {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    & fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+    }
+}
+
+.hgsd-panel-fieldset legend,
+.hgsd-modal-attributes legend {
+    padding: 0;
+}
+
+/* The Attributes legend uses a real h3 for theme-native heading typography */
+.hgsd-modal-attributes legend h3 {
+    margin-block: 0 0.25em;
+}
+
+.gsd-panel {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.gsd-info-mod {
+    padding-block: 1em;
+    margin-bottom: 1.5em;
+}
+
+@media (max-width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}) {
+    /* Narrow screens always stack, overriding the horizontal setting */
+    .gsd-panel,
+    .hgsd-capture,
+    .hgsd-portion-columns {
+        flex-direction: column;
+    }
+}
+
+/* Edit-state fieldset in the project/contact field editors: strip the
+   browser's default border box and let it fill the flex row. */
+.hgsd-edit-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+}

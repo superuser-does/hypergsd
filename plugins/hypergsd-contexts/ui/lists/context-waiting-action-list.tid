@@ -1,0 +1,10 @@
+caption: {{$:/language/hypergsd/Settings/Lists/WaitingActions/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/WaitingActions/Hint}}
+tags: $:/tags/hypergsd/Lists/ContextAction
+title: $:/plugins/yan/hypergsd-contexts/ui/lists/context-waiting-action-list
+
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/WaitingActions}}
+    list-filter="[tag[$:/GSD/Action]tag<currentTiddler>gsd_status[waiting]gsd_complete[false]] +[sort[title]]"
+    group-by="gsd_project"
+    group-state={{{ [{$:/state/hypergsd/context-group}match[false]then[false]else[true]] }}}/>

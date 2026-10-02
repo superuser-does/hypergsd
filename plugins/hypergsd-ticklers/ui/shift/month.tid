@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Sections/Tickler/Shift/Month/Short}}
+days: 30
+description: {{$:/language/hypergsd/Sections/Tickler/Shift/Month/Hint}}
+label: <<lingo Tickler/Shift/Month/Short>>
+tags: $:/tags/hypergsd/Ticklers/Shift
+title: $:/plugins/yan/hypergsd-ticklers/ui/shift/month
+tooltip: <<lingo Tickler/Shift/Month/Hint>>

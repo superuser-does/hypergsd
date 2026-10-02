@@ -1,0 +1,24 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd-priorities/modules/priority-sets
+
+\whitespace trim
+
+<!-- The priority vocabulary, the shared write path and the creation-seed resolution single-source here (the status-sets pattern). hgsd-priority-rank: A=3 (top) through C=1; absent, empty or unknown values rank 0 = not set. hgsd-priority-set: THE write path — the panel radios' catcher handler (hgsd-priority-click), the panel's Not set row, the list-row select's normalising actions and any future surface all commit through it. hgsd-priority-seed: the AfterCreation rule's resolver — inherit the linked project's priority, else the configured default; only valid A/B/C values survive (each candidate run self-validates via single-operand match — multi-operand match misparses). To swap the vocabulary, replace this tiddler wholesale: same title, keep $:/tags/Global and all three names. -->
+\function hgsd-priority-rank(value) [<value>match[A]then[3]] [<value>match[B]then[2]] [<value>match[C]then[1]] +[limit[1]else[0]]
+
+\function hgsd-priority-seed(item) [<item>get[gsd_project]get[gsd_priority]else[]trim[]match[A]] [<item>get[gsd_project]get[gsd_priority]else[]trim[]match[B]] [<item>get[gsd_project]get[gsd_priority]else[]trim[]match[C]] [[$:/config/hypergsd/priorities/default]get[text]else[]trim[]match[A]] [[$:/config/hypergsd/priorities/default]get[text]else[]trim[]match[B]] [[$:/config/hypergsd/priorities/default]get[text]else[]trim[]match[C]] +[limit[1]]
+
+\procedure hgsd-priority-set(item-title, priority-value)
+<%if [<priority-value>minlength[1]] %>
+    <$action-setfield $tiddler={{{ [<item-title>] }}} $field="gsd_priority" $value={{{ [<priority-value>] }}}/>
+<%else%>
+    <$action-deletefield $tiddler={{{ [<item-title>] }}} $field="gsd_priority"/>
+<%endif%>
+\end
+
+<!-- The panel radios' click handler: the catcher catches the label-forwarded synthetic click (display:none inputs skip the change cascade, so the write rides the click), and the dom-data-* variables carry the input's static attributes. -->
+\procedure hgsd-priority-click()
+<$let clicked-tiddler=<<dom-data-tiddler>> clicked-priority=<<dom-data-priority>>>
+<$transclude $variable="hgsd-priority-set" item-title=<<clicked-tiddler>> priority-value=<<clicked-priority>>/>
+</$let>
+\end

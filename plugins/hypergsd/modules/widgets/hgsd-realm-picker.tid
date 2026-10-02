@@ -1,0 +1,16 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-realm-picker
+
+\whitespace trim
+
+<!-- Plain realm select bound to a state tiddler: the capture side's effective-realm and any sub-plugin that needs "pick a realm into my state". The review sidebar does NOT use this — list scoping is the realm-selection checkboxes (multi-select set math). Default "" so an unset picker leaves new items unscoped rather than synthesising a Realm tag; the parameter surface is deliberately just state-tiddler. -->
+\widget $hgsd.realm-picker(state-tiddler:"$:/state/hypergsd/effective-realm")
+<$select tiddler=<<state-tiddler>> default="">
+    <option value="">{{$:/language/hypergsd/Widgets/RealmPickerNone}}</option>
+    <$list filter="[all[tags]prefix[$:/GSD/Realm/]sort[title]]" variable="realmTag">
+        <$let realmName={{{ [<realmTag>removeprefix[$:/GSD/Realm/]] }}}>
+            <option value=<<realmName>>><$text text=<<realmName>>/></option>
+        </$let>
+    </$list>
+</$select>
+\end

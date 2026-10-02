@@ -1,0 +1,25 @@
+caption: {{$:/language/hypergsd/Settings/Lists/ContactFilter/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/ContactFilter/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/ContactFilter
+tags: $:/tags/hypergsd/Lists/Contact $:/tags/hypergsd/Lists/Contact/Portion/1
+title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-filtered-action-list
+
+\whitespace trim
+
+<!-- The Contacts page's combined action list, in Portion/1: incomplete next, waiting and future actions with a contact (the three page members it replaced). ALWAYS grouped by contact — the legacy group-by path with group-select off (no Group by radios, no ungrouped checkbox; Sort by stays) — so the grouping needs no view-state machinery and no GroupBy member. The contact gate is one operator run: the action's contact feeds listed[list], whose back-reference finds the selection tiddler precisely (its list field is a genuine titlelist, so multi-word contacts stay one entry; the trailing match scopes the listers to the selection tiddler alone, keeping unrelated list fields out). all[current] is the only item reference — operand-form variables do not resolve through subfilter, the grouped renderer's group filters rely on the same source form. The gate joins list-filter as data (the rows-filter pattern) only while the selection is non-empty — then/else cannot carry bracketed literals, so both texts ride plain attributes; an empty selection drops the gate and shows every contacted action. The filter picker itself is a Strip tag-list member (ui/components/contact-select.tid), rendered into this list's strip by the engine. -->
+<$let selected-contacts={{{ [[$:/config/hypergsd/contact-filter/selection]get[list]enlist-input[]] +[unique[]sort[title]format:titlelist[]join[ ]] }}}>
+    <$let gate-text="[all[current]get[gsd_contact]listed[list]match[$:/config/hypergsd/contact-filter/selection]]">
+        <$let gate-run=":filter[subfilter<gate-text>]">
+            <$let contact-gate={{{ [enlist<selected-contacts>limit[1]then<gate-run>else[]] }}}>
+                <$let meeting-filter={{{ "[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]has[gsd_contact]] [tag[$:/GSD/Action]gsd_status[waiting]gsd_complete[false]has[gsd_contact]] [tag[$:/GSD/Action]gsd_status[future]gsd_complete[false]has[gsd_contact]]" [<contact-gate>] +[join[ ]] }}}>
+                    <$hgsd.list
+                        list-heading={{$:/language/hypergsd/Lists/ContactFilter}}
+                        list-filter=<<meeting-filter>>
+                        group-by="gsd_contact"
+                        sort-select="yes"
+                        sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>
+                </$let>
+            </$let>
+        </$let>
+    </$let>
+</$let>

@@ -1,0 +1,8 @@
+title: $:/language/hypergsd/Settings/
+
+# Contexts additions to the shared Settings string namespace (same key space
+# as the main plugin; the sub-plugin owns only these keys).
+Pages/Context/Caption: Context page
+Fragments/Contextualise/Caption: Contextualise button
+Fragments/Contextualise/Hint: Tagged contexts are linked, plus a button that lets you apply more contexts
+Fragments/Contextualise/ShowApplied: Show tagged contexts with links

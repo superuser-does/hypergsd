@@ -1,0 +1,8 @@
+title: $:/language/hypergsd/NewItem/
+
+# New-item modal frame ($:/plugins/yan/hypergsd/ui/new-gsd-modal).
+Subtitle: New HyperGSD Tiddler
+TitlePlaceholder: new
+Create: create
+CreateAnother: create another
+Attributes: Attributes

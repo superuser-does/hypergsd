@@ -1,0 +1,10 @@
+tags: $:/tags/hypergsd/AfterCreation
+title: $:/plugins/yan/hypergsd-contacts/modules/after-create/contact-delegation
+
+\whitespace trim
+<!-- When a CONTACT is created from an action (new-button or the contact pick-field), assign it to that action's gsd_contact (delegation). Idempotent for picker creations: the picker's own target-field write sets gsd_contact to the same value. -->
+<%if [<hgsd-new-type>match[contact]] %>
+    <%if [<hgsd-calling-tiddler>tag[$:/GSD/Action]] %>
+        <$action-setfield $tiddler=<<hgsd-calling-tiddler>> gsd_contact=<<hgsd-new-title>> />
+    <%endif%>
+<%endif%>

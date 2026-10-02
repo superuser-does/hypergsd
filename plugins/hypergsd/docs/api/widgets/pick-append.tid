@@ -1,0 +1,27 @@
+caption: <$hgsd.pick-append>
+title: $:/plugins/yan/hypergsd/docs/api/widgets/pick-append
+
+! Introduction
+A one-row list adder wrapping `<$hgsd.pick>` — the pick family's list member, sibling of `<$hgsd.pick-field>` (the three-state single-value editor). Picking appends one title to a list field; the Add button appears only once a commitable pick is typed — existing title, or any title on hosts without creation (a blank box shows the "new" button alone, and a typed non-existent title leaves create-and-add as the only commit affordance) — and the keyboard shortcut (Enter by default) on a typed non-existent title creates that tiddler and adds it. Used by the DependsOn (`direction="own"`) and Prerequisite-of (`direction="item"`) panels.
+
+! Content and Attributes
+
+|!Attribute |!Default |!Description |
+|field |— |''Required.'' The list field to append to |
+|tiddler |(blank) |Write target; blank = the current tiddler |
+|id |— |''Required.'' Unique per control within the tiddler (popup/temp state keys derive from it) |
+|list-filter |— |''Required.'' Candidate filter for the inner picker |
+|direction |`own` |The one semantic bit: `own` appends the picked title to the target's field; `item` appends the target's title to the ''picked'' tiddler's field (the mirror side — the other action gains the prerequisite) |
+|group-by |(blank) |Field to group the picker's candidates by |
+|none-title |(blank) |Placeholder text of the picker's empty option |
+|search-mode |`extended` |The inner picker's search mode |
+|new-type |(blank) |Type tag for create-and-add / the new button; blank omits both |
+|new-status |`next` |Status written to created tiddlers |
+|new-update-status |`no` |Passed to the new button |
+|new-project |(blank) |Project written to created tiddlers (the panels pass the host's `gsd_project`) |
+|new-complete |`false` |Completion written to created tiddlers |
+|tooltip |(blank) |Overrides the new button's tooltip; blank = the generic "Add new «type»" |
+|caption |(blank) |Overrides the new button's label; blank = the generic "new" |
+
+! Notes
+The direction bit uses the same vocabulary as `hgsd-prereq-row` (the shared row procedure), so both halves of a caller speak one word. The temp tiddler is `$:/temp/hypergsd/add-<id>-<target>` (transient, per-write-target — two simultaneously open tiddlers never collide) and sits under the prefix the view-body refresh guard whitelists. The keyboard commit routes through `hgsd-pick-keyboard-commit` (see [[$hgsd.pick|$:/plugins/yan/hypergsd/docs/api/widgets/pick]]) — whichever key the row's `$keyboard` binding names, Enter by default: when the typed pick is non-blank, names no existing tiddler and `new-type` is set, the tiddler is created and added exactly as the create-and-add button would (realm/project inheritance included); otherwise the pick is appended as before — the whole fork, existence check included, evaluates only when the key is pressed. The Add button keeps the direct append (its action attributes evaluate only at invoke), with the pick read through literal filter text so a multi-word pick stays one quoted operand.

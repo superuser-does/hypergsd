@@ -1,0 +1,9 @@
+tags: $:/tags/Global/View
+title: $:/plugins/yan/hypergsd/modules/type-gate
+
+\whitespace trim
+
+<!-- Generic refresh-gate run for GSD item types: evaluates to the known-type tags carried by the CHANGED tiddlers, so non-empty output opens any gate carrying [subfilter<hgsd-type-gate>] as an additive run — an extension type refreshes every GSD view the moment the type's tag tiddler exists, and a status-sets replacement (the vocabulary's only override surface) re-renders live the same way. Drafts are excluded on the input side: a draft inherits the base tiddler's tags, so without the !is[draft] head every keystroke in an open editor emitted the type tag and opened every gate carrying this subfilter (the 2026-09-12 mass-refresh fix — draft saves never need to wake these views; a saved edit changes the real tiddler and fires the gate properly). $:/tags/Global/View (not Global): every consumer renders inside a ViewTemplate. MUST be used via subfilter as a PLAIN additive run: inlining its text where another :and chain exists would wipe that chain's output (one :and chain per filter). -->
+\procedure hgsd-type-gate()
+[!is[draft]tags[]] :and[tag[$:/tags/hypergsd/Type]] [prefix[$:/plugins/yan/hypergsd/modules/status-sets]]
+\end

@@ -1,0 +1,11 @@
+tags: $:/tags/hypergsd/AfterCreation
+title: $:/plugins/yan/hypergsd-priorities/modules/after-create/default-priority
+
+\whitespace trim
+
+<!-- Seeds new actions and projects: an item linked to a project at creation (the gsd_project the creation path already applied — subprojects too) inherits that project's priority, else the configured default; only valid A/B/C values are written (hgsd-priority-seed validates). RENDER-TIME TRAP: the creation paths render this tree BEFORE the item exists (the modal renders its action tree on open; createTiddler-title is only set at invoke) — so every field read must ride an ACTION attribute, which evaluates at invoke. <%if%> gates on <%if%>-frozen {{{ }}} lets would see the pre-creation blank title forever (the Inheritance tag doc's render-time cache, same trap — that is why the type gate, stable from open, is the only <%if%> here). action-setfield cannot skip a write, so the target filter sinks to a $:/temp tiddler when there is nothing to seed or the item already carries a priority — the write lands harmlessly and temps never persist. -->
+<%if [<hgsd-new-type>match[action]] [<hgsd-new-type>match[project]] %>
+<$action-setfield
+    $tiddler={{{ [<hgsd-new-title>] :filter[get[gsd_priority]else[]match[]] :filter[function[hgsd-priority-seed],<hgsd-new-title>minlength[1]] [[$:/temp/hypergsd/priority-seed-sink]] +[limit[1]] }}}
+    gsd_priority={{{ [function[hgsd-priority-seed],<hgsd-new-title>] }}} />
+<%endif%>

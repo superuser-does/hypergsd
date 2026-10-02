@@ -1,0 +1,38 @@
+caption: Procedures and Globals
+tags: $:/tags/hypergsd/Docs
+title: $:/plugins/yan/hypergsd/docs/api/procedures
+
+Besides widgets, HyperGSD exports procedures on the `$:/tags/Global` tag (plus shared components under `$:/plugins/yan/hypergsd/ui/components/` and chassis procedures in `modules/section-portions`). They are implementation surfaces you can call from custom content, but their parameter contracts are internal — unlike widgets, they may change between releases.
+
+! Globals
+
+;`hgsd-item()`
+:Row composer used by every list row: ListItem/Prefix fragments → title link → ListItem/Suffix fragments. See [[ListItem Prefix/Suffix|$:/plugins/yan/hypergsd/docs/api/tags/list-item]].
+
+;`hgsd-render-inner(hgsd-titles)`
+:Rendering half of `$hgsd.list` (collapsible block, refresh freeze, eventcatcher, flat/grouped branches). `hgsd-titles` must be a pre-formatted titlelist string.
+
+;`hgsd-handle-click()`
+:Centralised click handler invoked by each region's `<$eventcatcher>`. Dispatches on the `data-hgsd-action` attribute (`complete`, `status`, `delete`) with `data-tiddler`, `data-status` and `data-hgsd-status-field` parameters. The two completion actions route through `hgsd-handle-complete-event(item-title)` (warning gate → confirm modal → `hgsd-do-complete`), which also applies the optional story close. Extending it requires editing `$:/plugins/yan/hypergsd/modules/event-handler`.
+
+;`hgsd-handle-complete-event(item-title)` / `hgsd-close-completed(item-title)`
+:The completion cluster and its optional epilogue, both in `$:/plugins/yan/hypergsd/modules/event-handler`. `$:/config/hypergsd/close-on-complete` selects the story close mode: `never` (default) leaves the river alone; `own-page` removes the item only when the completing click was its own panel (the warning modal receives `hgsd-from-item` to carry that origin through its confirm button); `always` removes it from any completion surface — lists and alerts included. The removal is a direct `$:/StoryList` list write, not `tm-close-tiddler`.
+
+;`hgsd-type-gate`
+:A ``\procedure`` (Global/View scope) holding the generic refresh-gate run `[tags[]] :and[tag[$:/tags/hypergsd/Type]]` — every item of a listed type's edits open all frozen views. Reference it in custom `$refresh` whitelists as `[subfilter<hgsd-type-gate>]` (procedures work exactly like defines as `subfilter<>` operands).
+
+;`hgsd-status-radios(target-tiddler, current-type, current-status)`
+:The ONE status-pill renderer, used by the unified ui/attributes/status section in both panel and modal contexts: each chassis carries the eventcatcher, and hgsd-handle-click writes `gsd_status` to whatever `data-tiddler` names, plus the per-type memory field guarded to `$:/temp/gsd-new-state`. The section computes the display status per context — the panel reads the live field; the modal runs the memory cascade (per-type field → validated inherited `gsd-status` → type default).
+:Renders the status radio pills as a radio list — a `ul/li` structure with one label-wrapped plain input per status, the label itself the pill (filled by the stylesheet via `:has(input:checked)`) — persisting the per-type selection in `gsd_action_status`/`gsd_project_status`. The status vocabulary is hardcoded in [[$:/plugins/yan/hypergsd/modules/status-sets]]; replace that tiddler wholesale to swap it.
+
+;`hgsd-pick-ui()` / `hgsd-pick-scoped()` / `hgsd-pick-select()` / `hgsd-pick-list()`
+:The picker pipeline behind `<$hgsd.pick>` (popup chrome → realm scoping → select box → option list). See the [[$hgsd.pick|$:/plugins/yan/hypergsd/docs/api/widgets/pick]] page for the public parameter surface.
+
+! Scope variables provided to extensions
+
+| !Where | !Variables in scope |
+|Panel sections |`currentTiddler` (the viewed item) plus the chassis contract: `section-target` (the item), `section-type`, `section-mode` (`panel`), `section-status-target` |
+|Modal sections |`new-temp` (the data temp tiddler), `new-state` (internal modal state), `current-type` (selected type), the same `section-*` contract (`section-target` = the data temp, `section-mode` = `modal`), plus the invoking button's `gsd-*` parameters |
+|AfterCreation rules |`hgsd-new-title`, `hgsd-new-type`, `hgsd-calling-tiddler`, `hgsd-new-source` (`modal` or `picker`) |
+|Row fragments |`currentTiddler` (the row's item) |
+|Link fragments |`linked-tiddler` (the link target) with the host's ambient scope intact |

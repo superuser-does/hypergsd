@@ -1,0 +1,16 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/modules/status-sets
+
+\whitespace trim
+
+<!-- The status vocabulary single-sources here: pills, rows, modal cascades and generated colours all read these two \functions, so one edit changes every surface. Status words must be single words; a type without a run resolves an empty set and renders no pills. Labels/glyphs fall back to the word and its first letter, so a replacement vocabulary needs no language strings. To swap the vocabulary, replace this tiddler wholesale: same title, keep $:/tags/Global, keep both function names and the two \procedures — a shadowing tiddler wins the import, and the type gate refreshes open views. -->
+\function hgsd-status-set(type) [<type>match[action]then[next waiting future]split[ ]] [<type>match[project]then[active future]split[ ]]
+\function hgsd-status-default(type) [<type>match[action]then[next]] [<type>match[project]then[active]]
+
+\procedure hgsd-status-label(status)
+<%if [[$:/language/hypergsd/Sections/Status/]addsuffix<status>get[text]] %><$text text={{{ [[$:/language/hypergsd/Sections/Status/]addsuffix<status>get[text]] }}}/><%else%><$text text=<<status>>/><%endif%>
+\end
+
+\procedure hgsd-row-glyph(status)
+<%if [[$:/language/hypergsd/Lists/Row/]addsuffix<status>get[text]] %><$text text={{{ [[$:/language/hypergsd/Lists/Row/]addsuffix<status>get[text]] }}}/><%else%><$text text={{{ [<status>split[]first[]] }}}/><%endif%>
+\end

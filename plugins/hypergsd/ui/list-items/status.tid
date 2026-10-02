@@ -1,0 +1,24 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/Status/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/Status/Hint}}
+tags: $:/tags/hypergsd/ListItem/Prefix
+title: $:/plugins/yan/hypergsd/ui/list-items/status
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Lists/
+
+<!-- The row's status radios: one loop over the item's type tag list set (modules/status-sets — the type resolves from the item's own tags via the tag list, so any typed item with statuses gets pills; reference/contact rows resolve an empty set and the loop renders nothing). Row context is captured before the loop — $list rebinds currentTiddler to the status word. -->
+<$let item-title=<<currentTiddler>>
+    item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
+<%if [<item-type>!match[]] %>
+<%if [is[current]gsd_complete[false]] %>
+<div class="hgsd-interactive">
+<$list filter="[function[hgsd-status-set],<item-type>]" variable="pill-status">
+    <label class={{{ [<item-type>addsuffix[-]addsuffix<pill-status>addprefix[item-status ]] }}}>
+        <%if [<item-title>gsd_status<pill-status>] %><input type="radio" name=<<qualify "$($(item-title)$)-status">> data-tiddler=<<item-title>> data-status=<<pill-status>> data-hgsd-action="status" checked><%else%><input type="radio" name=<<qualify "$($(item-title)$)-status">> data-tiddler=<<item-title>> data-status=<<pill-status>> data-hgsd-action="status"><%endif%>
+        <span><$transclude $variable="hgsd-row-glyph" status=<<pill-status>>/></span>
+    </label>
+</$list>
+</div>
+<%endif%>
+<%endif%>
+</$let>

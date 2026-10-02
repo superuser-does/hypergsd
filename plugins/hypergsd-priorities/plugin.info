@@ -1,0 +1,12 @@
+{
+    "title": "$:/plugins/yan/hypergsd-priorities",
+    "name": "HyperGSD Priorities",
+    "description": "Priorities for HyperGSD",
+    "author": "Yannis Anthymidis",
+    "core-version": ">=5.4.0",
+    "plugin-type": "plugin",
+    "parent-plugin": "$:/plugins/yan/hypergsd",
+    "dependents": ["$:/plugins/yan/hypergsd"],
+    "list": "readme",
+    "version": "0.1.0"
+}

@@ -1,0 +1,19 @@
+caption: Keyboard shortcuts
+title: $:/plugins/yan/hypergsd/docs/api/tags/shortcuts
+
+! Summary
+Bind keyboard shortcuts to modal actions using the core `$:/tags/KeyboardShortcut` tag.
+
+! Detail
+HyperGSD ships four shortcut triggers, each a tiddler tagged `$:/tags/KeyboardShortcut` with a `key` field naming a shortcut definition in `$:/config/ShortcutInfo/`:
+
+| !Trigger | !Shortcut tiddler | !Action |
+|`ui/shortcuts/new-action-trigger` |`((hgsd-new-action))` |Open the new-item modal for an action (clears inherited project, focuses the title field) |
+|`ui/shortcuts/new-project-trigger` |`((hgsd-new-project))` |Open the modal for a project (focuses the title field) |
+|modal submit |`((hgsd-modal-submit))` |Create from the modal |
+|modal close |`((hgsd-modal-close))` |Cancel the modal |
+
+Add your own by copying the pattern: tag the trigger with `$:/tags/KeyboardShortcut`, set `key: ((my-shortcut))`, and create the `$:/config/ShortcutInfo/my-shortcut` tiddler users edit to choose the actual key.
+
+! Best Practice
+Shortcuts that open the modal should clear the fields they do not want inherited (see the shipped triggers' `<$action-deletefield>` calls).

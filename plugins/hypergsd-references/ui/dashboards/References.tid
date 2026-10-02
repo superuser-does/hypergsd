@@ -1,0 +1,6 @@
+icon: $:/plugins/yan/hypergsd-references/images/reference
+title: GSD/References
+
+<!-- No toolbar: sorting and grouping both live in the list's own view strip ($hgsd.list's sort-select/group-select). -->
+
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Reference" visibility-base="$:/config/hypergsd/Lists/Reference/visibility/"/>

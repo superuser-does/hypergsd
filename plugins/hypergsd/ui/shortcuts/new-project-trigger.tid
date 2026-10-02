@@ -1,0 +1,18 @@
+key: ((hgsd-new-project))
+tags: $:/tags/KeyboardShortcut
+title: $:/plugins/yan/hypergsd/ui/shortcuts/new-project-trigger
+
+\whitespace trim
+<$action-deletefield $tiddler="$:/temp/gsd-new-temp" $field="gsd_project" />
+<!-- tv-story-list/tv-history-list: the shortcut renders outside the story river's navigator, so modal.js cannot capture them from scope — without them the modal's own navigator gets a bogus story title and navigations from inside the modal (created-tiddler opens, create-another reopens) write to a tiddler literally titled "undefined". -->
+<$action-sendmessage
+    $message="tm-modal"
+    $param="$:/plugins/yan/hypergsd/ui/new-gsd-modal"
+    mask-closable="yes"
+    tv-story-list="$:/StoryList"
+    tv-history-list="$:/HistoryList"
+    gsd-type="project"
+    gsd-status="active"
+    gsd-complete="false" />
+<!-- Focus: the modal's focus=true fires while the wrapper is detached, so the field is selected after the modal opens — :last-of-type skips the dying wrapper of a just-replaced modal. -->
+<$action-sendmessage $message="tm-focus-selector" $param=".tc-modal-wrapper:last-of-type .gsd-new-modal"/>

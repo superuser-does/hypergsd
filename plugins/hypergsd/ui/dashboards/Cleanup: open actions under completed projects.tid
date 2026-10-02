@@ -1,0 +1,10 @@
+title: GSD/Cleanup: open actions under completed projects
+
+\procedure lingo-base() $:/language/hypergsd/Dashboards/
+<div class="tc-message-box">
+
+<<lingo CleanupOpenActions/Message>>
+
+</div>
+
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/CompletedProjectAction" visibility-base="$:/config/hypergsd/Lists/CompletedProjectAction/visibility/"/>

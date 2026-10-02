@@ -1,0 +1,13 @@
+title: $:/language/hypergsd/Settings/
+
+# Priorities additions to the shared Settings string namespace.
+Priorities/Caption: Priorities
+Priorities/Default/Label: Default priority for new items:
+Priorities/Default/None: -- none --
+Fragments/Priority/Caption: Priority select
+Fragments/Priority/Hint: A priority select on action and project rows
+Priorities/Config/Heading: Priority level configuration
+Priorities/Config/PriorityHeading: Priority
+Priorities/Config/ColourHeading: Colour
+Priorities/Config/NameHeading: Name
+Priorities/Config/ShortHeading: Short name

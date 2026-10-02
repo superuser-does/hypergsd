@@ -1,0 +1,95 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
+
+.gsd-list-heading {
+    font-weight: 600;
+    /* Collapse toggle input is hidden — the whole title label is the click target */
+    & input[type=checkbox] {
+        display: none;
+    }
+    & svg {
+        height: 1em;
+    }
+}
+
+.gsd-list-new-button svg {
+    margin-inline-start: 0.5em;
+}
+
+.gsd-list-item {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.2em;
+}
+
+/* Row children other than the title link refuse to shrink; the title flexes. */
+.gsd-list-item > div,
+.gsd-list-item > span {
+    flex-shrink: 0;
+}
+
+/* LinkItem container: inline-flex + middle keeps members centred and spaced
+   after the link in any host; members carry no alignment CSS of their own.
+   The :empty collapse keeps a fragment-less span from contributing its
+   margin — the clear-button class is the sole spacing after the value. */
+.hgsd-link-items {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-inline-start: 0.25em;
+    &:empty {
+        margin-inline-start: 0;
+    }
+}
+
+/* The value-clear × of every picker surface — pick-field's set state, the
+   prereq rows, the contact chips: one deliberate distance from the value it
+   clears; the svg rides the text line at 1em on every host. */
+.hgsd-clear-button {
+    margin-inline-start: 0.25em;
+    & svg {
+        height: 1em;
+    }
+}
+
+.gsd-list-item-title {
+    margin-inline: 0.5em;
+}
+
+.hgsd-group-title {
+    padding-block: 0.5em 0.2em;
+    &:first-of-type {
+        padding-top: 0;
+    }
+    & a {
+        color: inherit;
+    }
+}
+
+.hgsd-completed-toggle {
+    margin-top: 1em;
+}
+.hgsd-toggle-open {
+    margin-block: 1em;
+}
+
+/* Grouping strip: a flex row — the gap spaces the controls (the sort block,
+   each dimension radio, the ungrouped checkbox) and keeps wrapped lines
+   readable on narrow viewports. The gap guarantees a space after every colon
+   in every locale — no hug rules, entities or spacer elements. */
+.hgsd-group-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3em 0.75em;
+    margin-block: 0.3em;
+}
+
+/* List-settings picker cluster (list-item-template): the strip's spacing
+   mechanism reused — the gap spaces the pickers. */
+.hgsd-list-pickers {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.75em;
+}

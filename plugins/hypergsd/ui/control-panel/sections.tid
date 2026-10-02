@@ -1,0 +1,25 @@
+caption: {{$:/language/hypergsd/Settings/PanelModal/Caption}}
+list-after: $:/plugins/yan/hypergsd/ui/control-panel/behaviour
+tags: $:/tags/hypergsd/Settings
+title: $:/plugins/yan/hypergsd/ui/control-panel/sections
+
+\whitespace trim
+
+\procedure lingo-base() $:/language/hypergsd/Settings/
+
+! <<lingo PanelModal/Layout>>
+
+<$radio tiddler="$:/config/hypergsd/panel-layout" value="vertical" default="vertical"><span class="tc-tiny-gap-left"><<lingo PanelModal/Layout/Vertical>></span></$radio><br/>
+<$radio tiddler="$:/config/hypergsd/panel-layout" value="horizontal"><span class="tc-tiny-gap-left"><<lingo PanelModal/Layout/Horizontal>></span></$radio>
+
+! <<lingo PanelModal/Sections>>
+
+//<<lingo PanelModal/Prompt>>//
+
+!! <<lingo PanelModal/Panel>>
+
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/>
+
+!!<<lingo PanelModal/Modal>>
+
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/ModalTemplate" visibility-base="$:/config/hypergsdModal/visibility/"/>

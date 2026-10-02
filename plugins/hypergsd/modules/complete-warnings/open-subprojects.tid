@@ -1,0 +1,4 @@
+hgsd-conditions: [all[tiddlers]gsd_project<host-title>!is[draft]tag[$:/GSD/Project]] :filter[get[gsd_complete]else[false]!match[true]]
+hgsd-warning: OpenSubprojects
+tags: $:/tags/hypergsd/Complete/Warning
+title: $:/plugins/yan/hypergsd/modules/complete-warnings/open-subprojects

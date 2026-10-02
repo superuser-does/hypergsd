@@ -1,0 +1,4 @@
+title: $:/config/hypergsd/Lists/Contact/visibility/$:/
+
+plugins/yan/hypergsd-contacts/ui/lists/contact-list: show
+plugins/yan/hypergsd-contacts/ui/lists/contact-filtered-action-list: show

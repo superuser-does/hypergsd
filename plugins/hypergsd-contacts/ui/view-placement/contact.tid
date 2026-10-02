@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Settings/Contacts/Placement/Caption}}
+hgsd-config: Contact
+hgsd-default: top
+hgsd-type-tag: $:/GSD/Contact
+list: $:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact
+tags: $:/tags/hypergsd/ViewPlacement
+title: $:/plugins/yan/hypergsd-contacts/ui/view-placement/contact

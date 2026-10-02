@@ -1,0 +1,6 @@
+title: $:/config/hypergsd/Lists/Action/visibility/$:/
+
+plugins/yan/hypergsd/ui/lists/next-action-list: show
+plugins/yan/hypergsd/ui/lists/waiting-action-list: show
+plugins/yan/hypergsd/ui/lists/future-action-list: hide
+plugins/yan/hypergsd/ui/lists/completed-action-list: show

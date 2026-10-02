@@ -1,0 +1,14 @@
+caption: {{$:/language/hypergsd/Sidebar/Capture/NewProject/Label}}
+description: {{$:/language/hypergsd/Sidebar/Capture/NewProject/Hint}}
+tags: $:/tags/hypergsd/Capture/Block/2
+title: $:/plugins/yan/hypergsd/ui/sidebar/capture/new-project
+
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<$hgsd.new-button
+    gsd-type="project"
+    gsd-status="active"
+    gsd-complete="false"
+    tooltip={{$:/language/hypergsd/Sidebar/Capture/NewProject/Hint}}>
+    {{$:/plugins/yan/hypergsd/images/project}} <<lingo Capture/NewProject/Label>>
+</$hgsd.new-button>

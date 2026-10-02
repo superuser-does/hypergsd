@@ -1,0 +1,32 @@
+caption: {{$:/language/hypergsd/Lists/References}}
+list-before: $:/plugins/yan/hypergsd/ui/project-view/subprojects
+tags: $:/tags/hypergsd/ProjectView $:/tags/hypergsd/ProjectView/Portion/Full
+title: $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
+
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Lists/
+
+<!-- A project view list member: the project's references. Tagged into $:/tags/hypergsd/ProjectView so it renders through the dashboard chassis; the member vanishes structurally when this sub-plugin is absent (the tagged tiddler itself is absent). section-target (set by view-body-project around the chassis) carries the project; the $set restores currentTiddler the chassis rebound to this member. -->
+<$set name="currentTiddler" value=<<section-target>>>
+<$qualify title={{{ [[$:/temp/gsd-list/]addsuffix<currentTiddler>addsuffix[-]addsuffix[References]] }}} name="listState">
+<div class="tw-menu-list-item">
+    <span class="gsd-list-heading">
+        <$checkbox tiddler=<<listState>> field="text" checked="hide" unchecked="show" default="show" class="hgsd-list-collapse">
+            &nbsp;<<lingo References>>
+            <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes">{{$:/core/images/chevron-down}}</$reveal>
+        </$checkbox>
+        <!-- Invoked via $transclude $variable — macrocall parameters do NOT support <var> indirection (project:<currentTiddler> would pass the literal string). -->
+        <$let caller-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}} >
+            <$transclude $variable="new-reference-button" project=<<currentTiddler>> realm=<<caller-realm>> />
+        </$let>
+    </span>
+    <hr/>
+    <$reveal state=<<listState>> type="match" text="show" default="show" retain="yes">
+        <$list filter="[tag[$:/GSD/Reference]!is[draft]gsd_project<currentTiddler>sort[title]]">
+            <<hgsd-item>>
+        </$list>
+    </$reveal>
+</div>
+</$qualify>
+</$set>

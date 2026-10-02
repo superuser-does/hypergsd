@@ -1,0 +1,10 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/yan/hypergsd-contacts/ui/stylesheet/contact-select
+
+/* The multi-contact search strip's chips: inline flow (\whitespace trim in the
+   component removes inter-element whitespace), the margin spacing one chip
+   from the next; the ×'s distance and icon size are the shared
+   hgsd-clear-button class of the main plugin. */
+.hgsd-contact-chip {
+    margin-inline-end: 0.4em;
+}

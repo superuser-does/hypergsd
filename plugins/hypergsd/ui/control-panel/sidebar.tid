@@ -1,0 +1,26 @@
+caption: {{$:/language/hypergsd/Settings/Sidebar/Caption}}
+list-after: $:/plugins/yan/hypergsd/ui/control-panel/lists
+tags: $:/tags/hypergsd/Settings
+title: $:/plugins/yan/hypergsd/ui/control-panel/sidebar
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Settings/
+
+//<<lingo Sidebar/Prompt>>//
+
+! <<lingo Sidebar/CaptureHeading>>
+
+<!-- The capture blocks, in numeric order — same contract as the review blocks below: each block tag tiddler's caption labels its drag list; drag-reorder writes that block's list field, hide writes $:/config/hypergsd/Capture/visibility/<entry>, which the sidebar renderer honours. The plain list-item template: these entries have no portions, so no Portion select on their rows. -->
+<$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Capture/Block/]!is[draft]removeprefix[$:/tags/hypergsd/Capture/Block/]nsort[]addprefix[$:/tags/hypergsd/Capture/Block/]]" variable="capture-block">
+''<$tiddler tiddler=<<capture-block>>><$transclude field="caption"><$text text=<<capture-block>>/></$transclude></$tiddler>''
+<$transclude $variable="hgsd-visibility-list" tag-list=<<capture-block>> visibility-base="$:/config/hypergsd/Capture/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template" portions="no"/>
+</$list>
+
+<!-- The review blocks, in numeric order: each block tag tiddler's caption labels its drag list; drag-reorder writes that block's list field, hide writes $:/config/hypergsd/Review/visibility/<entry>, which the sidebar renderer honours. The plain list-item template, same as the capture blocks: review entries have no portions. -->
+
+! <<lingo Sidebar/ReviewHeading>>
+
+<$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Review/]!is[draft]removeprefix[$:/tags/hypergsd/Review/]nsort[]addprefix[$:/tags/hypergsd/Review/]]" variable="review-block">
+''<$tiddler tiddler=<<review-block>>><$transclude field="caption"><$text text=<<review-block>>/></$transclude></$tiddler>''
+<$transclude $variable="hgsd-visibility-list" tag-list=<<review-block>> visibility-base="$:/config/hypergsd/Review/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template" portions="no"/>
+</$list>

@@ -1,0 +1,23 @@
+caption: {{$:/language/hypergsd/Settings/Priorities/Caption}}
+tags: $:/tags/hypergsd/Settings
+title: $:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Settings/
+
+<<lingo Priorities/Default/Label>>
+<$select tiddler="$:/config/hypergsd/priorities/default" default="">
+    <option value=""><<lingo Priorities/Default/None>></option>
+    <$list filter="[enlist[A B C]]" variable="priority-stop">
+        <option value=<<priority-stop>> ><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}} /></option>
+    </$list>
+</$select>
+
+! <<lingo Priorities/Config/Heading>>
+
+<!-- hgsd-priority-config class exists so the table can keep its natural width when shown in a tab -->
+|<<lingo Priorities/Config/PriorityHeading>> |<<lingo Priorities/Config/ColourHeading>> |<<lingo Priorities/Config/NameHeading>> |<<lingo Priorities/Config/ShortHeading>> |h
+|hgsd-priority-config|k
+| A |<$edit-text tiddler="$:/plugins/yan/hypergsd-priorities/ui/config/colours" index="A" type="color" tag="input" class="tc-palette-manager-colour-input"/> |<$edit-text tiddler="$:/language/hypergsd/Lists/Priorities/Name/A" tag="input" size="12" rows="1"/> |<$edit-text tiddler="$:/language/hypergsd/Lists/Priorities/Short/A" tag="input" size="4" rows="1"/> |
+| B |<$edit-text tiddler="$:/plugins/yan/hypergsd-priorities/ui/config/colours" index="B" type="color" tag="input" class="tc-palette-manager-colour-input"/> |<$edit-text tiddler="$:/language/hypergsd/Lists/Priorities/Name/B" tag="input" size="12" rows="1"/> |<$edit-text tiddler="$:/language/hypergsd/Lists/Priorities/Short/B" tag="input" size="4" rows="1"/> |
+| C |<$edit-text tiddler="$:/plugins/yan/hypergsd-priorities/ui/config/colours" index="C" type="color" tag="input" class="tc-palette-manager-colour-input"/> |<$edit-text tiddler="$:/language/hypergsd/Lists/Priorities/Name/C" tag="input" size="12" rows="1"/> |<$edit-text tiddler="$:/language/hypergsd/Lists/Priorities/Short/C" tag="input" size="4" rows="1"/> |

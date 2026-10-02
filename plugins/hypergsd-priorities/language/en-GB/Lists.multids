@@ -1,0 +1,14 @@
+title: $:/language/hypergsd/Lists/
+
+# Priorities additions to the shared Lists namespace (the SortBy and GroupBy members).
+SortBy/priority: Priority
+SortBy/Category/Priority: Priority
+GroupBy/priority: Priority
+Priorities/Unset: –
+Priorities/Row/Hint: Priority
+Priorities/Name/A: High
+Priorities/Name/B: Medium
+Priorities/Name/C: Low
+Priorities/Short/A: H
+Priorities/Short/B: M
+Priorities/Short/C: L

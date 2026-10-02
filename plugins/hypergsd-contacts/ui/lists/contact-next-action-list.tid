@@ -1,0 +1,9 @@
+caption: {{$:/language/hypergsd/Settings/Lists/NextActions/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/NextActions/Hint}}
+tags: $:/tags/hypergsd/Lists/ContactAction
+title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-next-action-list
+
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/NextActions}}
+    list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_status[next]gsd_complete[false]] +[sort[title]]"
+    add-button=<<new-contact-next-button>>/>

@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Settings/References/Placement/Caption}}
+hgsd-config: Reference
+hgsd-default: top
+hgsd-type-tag: $:/GSD/Reference
+list: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body
+tags: $:/tags/hypergsd/ViewPlacement
+title: $:/plugins/yan/hypergsd-references/ui/view-placement/reference

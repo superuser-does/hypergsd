@@ -1,0 +1,6 @@
+caption: {{$:/language/hypergsd/Lists/SortBy/created-desc}}
+hgsd-sort-category: Created
+hgsd-sort-filter: +[!sort[created]]
+hgsd-sort-key: created-desc
+tags: $:/tags/hypergsd/SortBy
+title: $:/plugins/yan/hypergsd/ui/sort-by/created-desc

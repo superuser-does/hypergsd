@@ -1,0 +1,6 @@
+info-tiddler: $:/info/browser/pointer-coarse
+media-query: (pointer: coarse)
+tags: $:/tags/MediaQueryTracker
+title: $:/plugins/yan/hypergsd/ui/config/pointer-coarse-tracker
+
+<!-- Core's media-query tracker writes yes/no to the info tiddler at boot and on every primary-pointer flip; the picker's instant-commit gate reads it at pick time (modules/widgets/hgsd-pick). -->

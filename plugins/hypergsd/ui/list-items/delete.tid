@@ -1,0 +1,17 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/Delete/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/Delete/Hint}}
+tags: $:/tags/hypergsd/ListItem/Suffix
+title: $:/plugins/yan/hypergsd/ui/list-items/delete
+
+\whitespace trim
+<%if [is[current]tag[$:/GSD/Action]gsd_complete[true]] [is[current]tag[$:/GSD/Project]gsd_complete[true]] %>
+<div class="hgsd-interactive">
+    <button 
+        class="tc-btn-invisible gsd-muted gsd-button" 
+        data-tiddler=<<currentTiddler>> 
+        data-hgsd-action="delete"
+        title={{$:/language/Buttons/Delete/Hint}}>
+        {{$:/core/images/delete-button}}
+    </button>
+</div>
+<%endif%>

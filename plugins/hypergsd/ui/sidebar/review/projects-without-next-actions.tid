@@ -1,0 +1,8 @@
+caption: {{$:/language/hypergsd/Sidebar/Review/ProjectsWithoutNext}}
+tags: $:/tags/hypergsd/Review/3
+title: $:/plugins/yan/hypergsd/ui/sidebar/review/projects-without-next-actions
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<$link to="GSD/Projects without next actions"><<lingo Review/ProjectsWithoutNext>></$link><br/>

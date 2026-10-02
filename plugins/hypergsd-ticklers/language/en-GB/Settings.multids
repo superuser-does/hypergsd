@@ -1,0 +1,10 @@
+title: $:/language/hypergsd/Settings/
+
+# Ticklers additions to the shared Settings string namespace (same key space
+# as the main plugin; the sub-plugin owns only these keys).
+Fragments/Tickler/Caption: Tickler date
+Fragments/Tickler/Hint: The in-place due-date input on tickler rows
+Ticklers/Caption: Ticklers
+Ticklers/Heading: Date increment options
+Ticklers/Shift/Heading: Panel
+Ticklers/Alert/Heading: Alerts

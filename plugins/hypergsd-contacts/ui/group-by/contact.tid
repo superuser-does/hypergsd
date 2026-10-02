@@ -1,0 +1,6 @@
+caption: {{$:/language/hypergsd/Lists/GroupBy/contact}}
+hgsd-group-filter: [all[current]get[gsd_contact]]
+hgsd-group-key: contact
+hgsd-types: action
+tags: $:/tags/hypergsd/GroupBy
+title: $:/plugins/yan/hypergsd-contacts/ui/group-by/contact

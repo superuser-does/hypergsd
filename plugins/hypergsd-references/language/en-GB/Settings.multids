@@ -1,0 +1,8 @@
+title: $:/language/hypergsd/Settings/
+
+# References additions to the shared Settings string namespace (same key space
+# as the main plugin; the sub-plugin owns only these keys).
+References/Placement/Caption: Reference tiddlers
+Lists/References/Caption: Reference list
+Lists/References/Hint: Reference material for the project
+Pages/Reference/Caption: References

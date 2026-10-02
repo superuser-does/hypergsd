@@ -1,0 +1,15 @@
+caption: {{$:/language/hypergsd/Settings/Lists/CleanupActions/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/CleanupActions/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/CompletedActions
+tags: $:/tags/hypergsd/Lists/Cleanup
+title: $:/plugins/yan/hypergsd/ui/lists/cleanup-actions
+
+<!-- One invocation: the config fork collapsed into the guard itself — the :filter run keeps completed actions whose project is complete or missing, and its else tail readmits every dropped item while the config ($:/config/hypergsd/cleanup-uncompleted-project-actions, show/hide) says show (single-run chains only: multi-run subfilters do not parse inside suffix operands). -->
+<$let show-uncompleted-parent-items={{{ [[$:/config/hypergsd/cleanup-uncompleted-project-actions]get[text]else[hide]match[show]then[true]else[false]] }}} >
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
+    list-filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] +[!nsort[gsd_comp_date]]"
+    group-select="yes"
+    sort-select="yes"
+    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc"/>
+</$let>

@@ -1,0 +1,29 @@
+title: $:/language/hypergsd/Sidebar/
+
+# Capture and Review sidebar tabs ($:/plugins/yan/hypergsd/ui/sidebar/*).
+Capture/Caption: Capture
+Capture/DefaultRealm/Label: Default realm:&#x2004;
+Capture/DefaultRealm/Caption: Default realm
+Capture/DefaultRealm/Hint: The realm inherited by new items created in the capture sidebar
+Capture/NewAction/Hint: Add a new action
+Capture/NewAction/Label: new action
+Capture/NewProject/Hint: Add a new project
+Capture/NewProject/Label: new project
+Capture/RealmNote: You can create a new realm by creating a new GSD item of any other type.
+Capture/RealmNote/Caption: Realm note
+Capture/RealmNote/Hint: The small-print hint about creating new realms
+Review/Caption: Review
+Review/SelectRealms: Select realms:&#x2004;
+Review/All/Hint: Show every realm and items without a realm
+Review/None/Hint: Show nothing until realms are ticked
+Review/All: all
+Review/None: none
+Review/NoRealm: Items not in a realm
+Review/ProjectDashboard: Project dashboard
+Review/ProjectsWithoutNext: Projects without next actions
+Review/ProjectsCompleted: Projects completed
+Review/ActionDashboard: Action dashboard
+Review/ActionsWaiting: Actions waiting
+Review/ActionsCompleted: Actions completed
+Review/Cleanup: Cleanup: completed items
+Review/CleanupOpenActions: Cleanup: open actions under completed projects

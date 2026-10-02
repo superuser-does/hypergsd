@@ -1,0 +1,78 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/yan/hypergsd/ui/stylesheet/stylesheet
+
+/* Visually hidden but available to assistive tech */
+.hgsd-screen-reader-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.gsd-small-text {
+    font-size: 0.8em;
+}
+
+.hgsd-slightly-large-text {
+    font-size: 1.1em;
+}
+
+.gsd-muted {
+    color: <<colour muted-foreground>>;
+    fill: <<colour muted-foreground>>;
+}
+
+.gsd-button:hover {
+    color: <<colour sidebar-muted-foreground-hover>>;
+    fill: <<colour sidebar-muted-foreground-hover>>;
+}
+
+/* Realm selection fieldset (review sidebar + embeddable component): native
+   fieldset chrome removed; the stacking layout is the inline display:grid on
+   the element itself, not a rule here. */
+.hgsd-realm-fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    & legend {
+        margin-block-end: 0.25em;
+    }
+}
+
+.project-view-template {
+    margin-bottom: 4em;
+}
+
+/* Centre, not stretch — rows pairing this class with .gsd-list-item rely on
+   the shared alignment resolving to centre. */
+.hgsd-sizer-droplist {
+    display: flex;
+    align-items: center;
+}
+
+.hgsd-sizer-select {
+    flex: 1 1 0;
+    min-width: 0;
+    & > select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* 2026-09-27: the former margin-inline-start sat INSIDE the fallback button,
+   an asymmetric gap before the word with none after — the button's own padding
+   separates it now (the row carries no flex gap; adjacent buttons space
+   themselves via core button padding). */
+.hgsd-new-hint {
+    text-decoration: underline;
+}
+
+/* Sidebars: the vertical gap between numbered blocks — sibling selector so the first and last blocks get no extra margin. */
+.hgsd-sidebar-block + .hgsd-sidebar-block {
+    margin-top: 1em;
+}

@@ -1,0 +1,26 @@
+caption: {{$:/language/hypergsd/Sections/Tickler/Caption}}
+description: {{$:/language/hypergsd/Sections/Tickler/Description}}
+tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/2 $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/2
+title: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+
+<!-- due to browser limitations, the native date input offers no way to clear the date when it is used without confirmation, so there is an explicit action-deletefield to clear it easily -->
+<%if [<section-type>match[action]] %>
+<label>
+<<lingo Tickler/Label>>
+<br/>
+<$transclude $variable="hgsd-date-input" target-tiddler=<<section-target>> target-field="gsd_tickler_date" history-field="gsd_tickler_date_history"/>
+<%if [<section-mode>!match[modal]] %>
+<%if [<section-target>has[gsd_tickler_date]] %>
+&nbsp;<$list filter="[[$:/tags/hypergsd/Ticklers/Shift]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/Ticklers/Shift/visibility/]get[text]else[show]match[show]]" variable="shift-member">
+<$tiddler tiddler=<<shift-member>>>
+<$hgsd.tickler-shift target-tiddler=<<section-target>> base-date={{{ [<section-target>get[gsd_tickler_date]] }}} days={{!!days}} label={{!!label}} tooltip={{!!tooltip}} class="tc-btn-invisible"/>&nbsp;
+</$tiddler>
+</$list>
+&nbsp;<$button class="tc-btn-invisible gsd-muted" tooltip={{$:/language/hypergsd/Sections/Tickler/Clear/Hint}}><$action-deletefield $tiddler=<<section-target>> $field="gsd_tickler_date"/>{{$:/core/images/delete-button}}</$button>
+<%endif%>
+<%endif%>
+</label>
+<%endif%>

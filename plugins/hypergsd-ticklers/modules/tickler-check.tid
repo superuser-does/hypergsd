@@ -1,0 +1,36 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd-ticklers/modules/tickler-check
+
+\whitespace trim
+\procedure hgsd-tickler-check()
+<$let today=<<now "[UTC]YYYY0MM0DD000000000" >>
+    localToday=<<now "YYYY0MM0DD" >> >
+<!-- Fire ticklers WITHOUT consuming them: the date field is never removed, so an overdue tickler stays visible (and recoverable) in the dashboard until handled. The raise window is due-day-or-overdue on the LOCAL calendar clock (the stored date part — the 17-character midnight form minus its nine trailing zeros — is at or before today's local date), so the day's ticklers alert from local midnight — the trigger module books a dedicated midnight run — and a tickler missed while the wiki was closed alerts as overdue at the first check after; rollover below stays on the UTC string clock. The banner title carries which: the component field is the due or overdue lingo string per item (the core AlertTemplate prints it beside the due date from modified). The raise ignores completion for repeating ticklers — a completed recurring chore still gets its one due-day or missed-cycle banner (the nag), and the same run's rollover has already booked the next date, so the banner never repeats within a cycle; one-shots stay silent once complete. A banner closed with the toolbar close button is re-raised here at the top of the next hour while the target still qualifies — repeating ticklers stop re-raising once rolled (one banner per cycle), so in practice only one-shots persist. The body needs no target field — the basetitle embeds the action title and the body strips the $:/temp/alert/ prefix. -->
+<$let due-label={{$:/language/hypergsd/Sections/Tickler/AlertDue}}
+    overdue-label={{$:/language/hypergsd/Sections/Tickler/AlertOverdue}}>
+<$list filter="[tag[$:/GSD/Action]!is[draft]gsd_complete[false]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]removesuffix[000000000]compare:string:lteq<localToday>]">
+<$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert"/>"""/>
+</$list>
+<!-- Completed repeating ticklers raise too — the nag — once per cycle or missed occurrence (the rollover below books the next date in this same run). The interval guard mirrors the rollover's convention: absent, empty, zero or non-numeric means one-shot, and a one-shot stays silent when complete. -->
+<$list filter="[tag[$:/GSD/Action]!is[draft]gsd_complete[true]has[gsd_tickler_date]has[gsd_tickler_repeat_days]] :filter[get[gsd_tickler_date]removesuffix[000000000]compare:string:lteq<localToday>] :filter[get[gsd_tickler_repeat_days]else[0]compare:integer:gt[0]]">
+<$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert"/>"""/>
+</$list>
+</$let>
+<!-- Repeating rollover: advance whole intervals from the fired date (phase preserved, idle periods caught up in one pass). Maintenance, not nagging — it runs at whatever overdue age (only the alert pass above is due-day-only). The arithmetic is core filters: format:date[TIMESTAMP] reads epoch milliseconds, add shifts them, format:timestamp canonicalises back to the midnight store form (a bare [all[]]-seeded list field append records each rolled date — the last history entry is always the current date). An unparseable date drops out of the chain, nothing is written and the field stays as it is. -->
+<$list filter="[tag[$:/GSD/Action]!is[draft]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:lteq<today>]">
+<$let fired-date={{!!gsd_tickler_date}}
+    interval-days={{{ [<currentTiddler>get[gsd_tickler_repeat_days]else[0]] }}} >
+<%if [<interval-days>compare:integer:gt[0]] %>
+<$let rolled={{{ [range[1],[2000]] :map[<currentTiddler>multiply<interval-days>multiply[86400000]] :map[<fired-date>format:date[TIMESTAMP]add<currentTiddler>format:timestamp[]] +[compare:string:gt<today>] +[first[1]] }}} >
+<%if [<rolled>minlength[17]] %>
+<$action-setfield $tiddler=<<currentTiddler>> gsd_tickler_date=<<rolled>>/>
+<$action-listops $tiddler=<<currentTiddler>> $field="gsd_tickler_date_history" $subfilter="[<rolled>]"/>
+<%endif%>
+</$let>
+<%endif%>
+</$let>
+</$list>
+</$let>
+\end
+
+<!-- All check policy lives here; the JS trigger (modules/startup/tickler.js) only runs this procedure at startup, at the top of every hour and at local midnight. -->

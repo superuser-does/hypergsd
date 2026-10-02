@@ -1,0 +1,12 @@
+caption: {{$:/language/hypergsd/Settings/Lists/NoNextAction/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/NoNextAction/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/NoNextActions
+tags: $:/tags/hypergsd/Lists/NoNextAction
+title: $:/plugins/yan/hypergsd/ui/lists/no-next-action
+
+<$hgsd.list
+    list-heading={{$:/language/hypergsd/Lists/NoNextActions}}
+    list-filter="[tag[$:/GSD/Project]!gsd_status[future]gsd_complete[false]] -[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]get[gsd_project]] +[sort[title]]"
+    group-select="yes"
+    sort-select="yes"
+    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>

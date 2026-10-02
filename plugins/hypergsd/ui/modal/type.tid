@@ -1,0 +1,17 @@
+caption: {{$:/language/hypergsd/Sections/Type/Caption}}
+description: {{$:/language/hypergsd/Sections/Type/Description}}
+tags: $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/1
+title: $:/plugins/yan/hypergsd/ui/modal/type
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+
+<label>
+<<lingo Type/Label>>
+<br/>
+<$select tiddler=<<new-state>> field="hgsd-type" default=<<gsd-type>>>
+    <$list filter="[[$:/tags/hypergsd/Type]] :and[tagging[]]">
+        <option value={{{ [<currentTiddler>get[hgsd-type]] }}}><$view field="hgsd-type"/></option>
+    </$list>
+</$select>
+</label>

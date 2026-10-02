@@ -1,0 +1,14 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/Tickler/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/Tickler/Hint}}
+hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-]]
+tags: $:/tags/hypergsd/ListItem/Suffix
+title: $:/plugins/yan/hypergsd-ticklers/ui/list-items/tickler
+
+\whitespace trim
+
+<!-- Self-gating row suffix (comp-date pattern): only actions carrying a gsd_tickler_date render it. The date input sits in place in the row — the row's centred flex layout aligns it with every other suffix fragment. The repeat interval is edited in the panel section or the standard editor. -->
+<%if [is[current]tag[$:/GSD/Action]has[gsd_tickler_date]] %>
+<span>
+<$transclude $variable="hgsd-date-input" target-tiddler=<<currentTiddler>> target-field="gsd_tickler_date" history-field="gsd_tickler_date_history"/>
+</span>
+<%endif%>

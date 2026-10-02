@@ -1,0 +1,4 @@
+hgsd-conditions: [all[tiddlers]tag[$:/GSD/Action]!is[draft]] :filter[get[gsd_prerequisites]enlist-input[]match<host-title>] +[limit[1]]
+hgsd-warning: Prerequisite
+tags: $:/tags/hypergsd/Convert/Warning
+title: $:/plugins/yan/hypergsd/modules/convert-warnings/prerequisite

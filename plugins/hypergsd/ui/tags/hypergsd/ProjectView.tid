@@ -1,0 +1,2 @@
+list: $:/plugins/yan/hypergsd/ui/project-view/next-actions $:/plugins/yan/hypergsd/ui/project-view/waiting-actions $:/plugins/yan/hypergsd/ui/project-view/future-actions $:/plugins/yan/hypergsd/ui/project-view/completed-actions $:/plugins/yan/hypergsd/ui/project-view/subprojects $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
+title: $:/tags/hypergsd/ProjectView

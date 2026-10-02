@@ -1,0 +1,12 @@
+title: $:/language/hypergsd/Dashboards/
+
+Cleanup/DaysLabel: Days before actions and projects appear here:&#x2004;
+Cleanup/IntroA: The following actions and projects are older than
+Cleanup/IntroB: days and can be archived.
+Cleanup/UncompletedProjectActions: Show completed actions of uncompleted projects
+CleanupOpenActions/Message: The following actions are still open but their project is complete. They should be completed, moved to another project, or deleted.
+NoNextAction/Message: The following projects are without a next action. They should be examined for the next possible action to be taken.
+Table/ProjectColumn: Project dashboard
+Table/ActionsColumn: Action dashboard
+Table/CompletedProjectsColumn: Completed projects
+Table/CompletedActionsColumn: Completed actions

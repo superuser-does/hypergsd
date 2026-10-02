@@ -1,0 +1,20 @@
+caption: <$hgsd.realm-picker>
+title: $:/plugins/yan/hypergsd/docs/api/widgets/realm-picker
+
+! Introduction
+A plain realm `<$select>` bound to a state tiddler — the one-line way to give any surface "let the user pick a realm into my state". The shipped Capture sidebar uses it for the effective realm (`Default realm:`); the review sidebar does not (list scoping is the multi-select realm-selection checkboxes).
+
+Not to be confused with `<$hgsd.pick>`: the realm-picker is a compact bound select with no popup, no search, and no candidate filtering — when those are needed, use `$hgsd.pick` with a realm `list-filter`/`realm-scope`.
+
+! Attributes
+
+|!Attribute |!Default |!Description |
+|state-tiddler |`$:/state/hypergsd/effective-realm` |State tiddler the select writes the chosen realm name to |
+
+The empty option writes `""` (labelled by `$:/language/hypergsd/Widgets/RealmPickerNone`), so an unset picker leaves new items unscoped rather than synthesising a `Realm` tag. Options are the `$:/GSD/Realm/` tags, sorted by title.
+
+! Historical
+The single-realm-model parameters (`show-match`, `show-filter-mode`, `show-exclude`) were removed on 2026-08-30 with the multi-select realm model and will not return. The widget was briefly retired on 2026-09-01 and restored the same day — it is documented public surface for sub-plugin authors.
+
+! Example
+<$hgsd.realm-picker state-tiddler="$:/state/hypergsd/effective-realm"/>

@@ -1,0 +1,13 @@
+title: $:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours
+type: application/x-tiddler-dictionary
+
+action-next: #BCE8C3
+action-next-border: #057105
+action-waiting: #FFDEAD
+action-waiting-border: #AA7E0D
+action-future: #A8DCF6
+action-future-border: #18729F
+project-active: #BCE8C3
+project-active-border: #057105
+project-future: #A8DCF6
+project-future-border: #18729F

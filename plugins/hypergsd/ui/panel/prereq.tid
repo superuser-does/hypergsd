@@ -1,0 +1,31 @@
+caption: {{$:/language/hypergsd/Sections/DependsOn/Caption}}
+description: {{$:/language/hypergsd/Sections/DependsOn/Description}}
+tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/1
+title: $:/plugins/yan/hypergsd/ui/panel/prereq
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sections/
+<%if [is[current]tag[$:/GSD/Action]] %>
+<!-- Rows and the add-row are the shared prereq twins: hgsd-prereq-row draws each row (direction "own" — the × trims the row item off THIS action's list), $hgsd.pick-append adds to it (picked title appended to gsd_prerequisites). -->
+<div class="hgsd-interactive">
+    <div>
+        <<lingo DependsOn/Label>>
+        <br/>
+        <$list filter="[all[current]get[gsd_prerequisites]enlist-input[]] +[sort[gsd_complete]]" variable="prereq-item">
+            <$transclude $variable="hgsd-prereq-row" item=<<prereq-item>>/>
+        </$list>
+        <$hgsd.pick-append
+            field="gsd_prerequisites"
+            id="prereq"
+            direction="own"
+            list-filter="[tag[$:/GSD/Action]gsd_complete[false]] -[<currentTiddler>]"
+            group-by="gsd_project"
+            none-title={{$:/language/hypergsd/Sections/DependsOn/Choose}}
+            new-type="action"
+            new-status="next"
+            new-project={{!!gsd_project}}
+            tooltip={{$:/language/hypergsd/Sections/DependsOn/Add/Hint}}
+            caption={{$:/language/hypergsd/Sections/DependsOn/Add/Caption}}/>
+    </div>
+</div>
+<%endif%>

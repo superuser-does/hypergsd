@@ -1,0 +1,5 @@
+title: $:/config/hypergsd/Lists/Project/visibility/$:/
+
+plugins/yan/hypergsd/ui/lists/active-project-list: show
+plugins/yan/hypergsd/ui/lists/future-project-list: show
+plugins/yan/hypergsd/ui/lists/completed-project-list: show

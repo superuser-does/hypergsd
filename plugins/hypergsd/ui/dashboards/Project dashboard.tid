@@ -1,0 +1,4 @@
+icon: $:/plugins/yan/hypergsd/images/project
+title: GSD/Project dashboard
+
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Project" visibility-base="$:/config/hypergsd/Lists/Project/visibility/"/>

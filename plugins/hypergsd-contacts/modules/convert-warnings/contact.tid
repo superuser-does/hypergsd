@@ -1,0 +1,4 @@
+hgsd-conditions: [<host-title>get[gsd_contact]!match[]]
+hgsd-warning: Contact
+tags: $:/tags/hypergsd/Convert/Warning
+title: $:/plugins/yan/hypergsd-contacts/modules/convert-warnings/contact

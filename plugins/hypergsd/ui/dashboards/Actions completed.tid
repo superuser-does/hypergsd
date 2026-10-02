@@ -1,0 +1,3 @@
+title: GSD/Actions completed
+
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/CompletedAction" visibility-base="$:/config/hypergsd/Lists/CompletedAction/visibility/"/>

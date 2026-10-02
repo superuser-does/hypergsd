@@ -1,0 +1,9 @@
+{
+    "title": "$:/plugins/yan/hypergsd",
+    "name": "HyperGSD",
+    "description": "Get Stuff Done in hypermedia",
+    "author": "Yannis Anthymidis",
+    "core-version": ">=5.4.0",
+    "list": "readme",
+    "version": "0.12.0"
+}

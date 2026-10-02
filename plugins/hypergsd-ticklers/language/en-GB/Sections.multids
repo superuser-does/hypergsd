@@ -1,0 +1,20 @@
+title: $:/language/hypergsd/Sections/
+
+# Ticklers additions to the shared Sections namespace (modal + panel sections).
+Tickler/AlertDue: Tickler due
+Tickler/AlertOverdue: Tickler overdue
+Tickler/Caption: Tickler date
+Tickler/Description: Set a tickler date on the action
+Tickler/Label: Tickler date:
+Tickler/Clear/Hint: Clear the tickler date
+Tickler/Repeat/Label: Repeat after days:
+Tickler/Repeat/Caption: Tickler repeat interval
+Tickler/Repeat/Description: Set the tickler repeat interval in days
+Tickler/Shift/Day/Short: +d
+Tickler/Shift/Day/Hint: Add 1 day
+Tickler/Shift/Week/Short: +w
+Tickler/Shift/Week/Hint: Add 7 days
+Tickler/Shift/Month/Short: +m
+Tickler/Shift/Month/Hint: Add 30 days
+Tickler/Shift/Year/Short: +y
+Tickler/Shift/Year/Hint: Add 365 days

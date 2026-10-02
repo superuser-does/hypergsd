@@ -1,0 +1,7 @@
+title: $:/language/hypergsd/Sections/
+
+# Priorities additions to the shared Sections namespace (the panel section).
+Priority/Caption: Priority
+Priority/Description: Set a priority on the item
+Priority/Label: Priority:
+Priority/Clear/Hint: Clear the priority

@@ -1,0 +1,20 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd-ticklers/modules/widgets/hgsd-tickler-shift
+
+\whitespace trim
+<!-- The shared date-shift button: moves a tickler's date by whole days from base-date (negative days bring the date forward) and records the new date on the history list; after-shift-actions runs afterwards (empty by default, which the button skips — the alert binds the banner's deletion there). label renders in body position and tooltip accepts plain text or <<lingo>> keys resolved against lingo-base; class passes straight through — empty keeps the browser-default button look, and the panel set passes tc-btn-invisible so its buttons hug the panel row. -->
+\widget $hgsd.tickler-shift(target-tiddler, base-date, days, label:"", tooltip:"", class:"", after-shift-actions:"", lingo-base:"$:/language/hypergsd/Sections/")
+<!-- The tooltip alone goes through wikify: the button widget writes the title attribute raw, so a <<lingo>> value must be resolved to text first (the label needs no such round — body position wikifies) -->
+<$wikify name="resolved-tooltip" text=<<tooltip>> >
+<$let shift-milliseconds={{{ [<days>multiply[86400000]] }}}
+    new-date={{{ [<base-date>format:date[TIMESTAMP]add<shift-milliseconds>format:timestamp[]] }}} >
+<$button tooltip=<<resolved-tooltip>> class=<<class>> actions=<<after-shift-actions>> >
+<%if [<new-date>minlength[17]] %>
+<$action-setfield $tiddler=<<target-tiddler>> gsd_tickler_date=<<new-date>>/>
+<$action-listops $tiddler=<<target-tiddler>> $field="gsd_tickler_date_history" $subfilter="[<new-date>]"/>
+<%endif%>
+<<label>>
+</$button>
+</$let>
+</$wikify>
+\end

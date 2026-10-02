@@ -1,0 +1,19 @@
+title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project
+
+\whitespace trim
+
+<% if [is[current]tag[$:/GSD/Project]] %>
+<div class="project-view-template">
+<!-- Freezes the view against the global refresh cycle. Scoped by SUBTRACTION runs (a second :and chain would wipe the first's output): the additive runs let item/config changes and ALL temps through, then the subtraction runs drop OTHER hosts' temps, so a toggle or collapse in one view refreshes only that view. A host name that is a prefix/suffix of another host's over-refreshes — never under-refreshes. Member visibility and drag-reorder are admitted by the hgsd-dashboard-portions gate this row now transcludes (the chassis carries its own refresh). -->
+<$let this-liststate-prefix={{{ [[$:/temp/gsd-list/]addsuffix<currentTiddler>] }}} >
+<$refresh subfilter="[subfilter<hgsd-type-gate>] [prefix[$:/config/hypergsd]] [prefix[$:/temp/gsd-list/]] [prefix[$:/state/hypergsd/show-completed/]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] -[prefix[$:/temp/gsd-list/]!prefix<this-liststate-prefix>] -[prefix[$:/state/hypergsd/show-completed/]!suffix<currentTiddler>] -[is[draft]]">
+<$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+<!-- section-target carries the project past the chassis's block-mode transclusion, which rebinds currentTiddler to each member tiddler; every member restores currentTiddler from this. -->
+<$set name="section-target" value=<<currentTiddler>>>
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/ProjectView" visibility-base="$:/config/hypergsd/ProjectView/visibility/"/>
+</$set>
+</$eventcatcher>
+</$refresh>
+</$let>
+</div>
+<% endif %>

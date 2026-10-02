@@ -1,0 +1,19 @@
+caption: {{$:/plugins/yan/hypergsd/images/project}} {{$:/language/hypergsd/Toolbar/NewProject/Caption}}
+description: {{$:/language/hypergsd/Toolbar/NewProject/Description}}
+tags: $:/tags/PageControls
+title: $:/plugins/yan/hypergsd/ui/buttons/add-project-button
+
+\whitespace trim
+<$hgsd.new-button
+    gsd-type="project"
+    gsd-status="active"
+    gsd-complete="false"
+    tooltip={{$:/language/hypergsd/Toolbar/NewProject/Hint}}
+    class={{{ [<tv-config-toolbar-class>] [<class>] +[join[ ]] }}} >
+    <$list filter="[<tv-config-toolbar-icons>match[yes]]">
+        {{$:/plugins/yan/hypergsd/images/project}}
+    </$list>
+    <$list filter="[<tv-config-toolbar-text>match[yes]]">
+        <span class="tc-btn-text">{{$:/language/hypergsd/Toolbar/NewProject/Label}}</span>
+    </$list>
+</$hgsd.new-button>
