@@ -66,7 +66,7 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
 
 /* The panel chassis is a styled fieldset: tc-tiddler-info supplies padding,
    background and top/bottom hairlines; this rule completes the border box on
-   all four sides (revert option: see docs/panel-chrome.tid). */
+   all four sides (revert option: see Panel chrome). */
 .hgsd-panel-fieldset {
     border: 1px solid <<colour tiddler-info-border>>;
     min-width: 0;

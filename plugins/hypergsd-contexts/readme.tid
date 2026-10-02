@@ -8,7 +8,7 @@ type: text/vnd.tiddlywiki
 
 ! What it ships
 
-* The `context` member of the [[type tag list|$:/plugins/yan/hypergsd/docs/api/tags/type-tag-list]] — contexts are ordinary tags tagged `GSD/Contexts` (the dashboard tiddler itself is the tag list); an action can carry several at once.
+* The `context` member of the [[type tag list|Type tag list]] — contexts are ordinary tags tagged `GSD/Contexts` (the dashboard tiddler itself is the tag list); an action can carry several at once.
 * The [[GSD/Contexts]] dashboard: create contexts and list them.
 * The context view template: a context's page shows its next/waiting/future actions, optionally grouped by project.
 * The contextualise row button: the contexts icon on any incomplete action's row opens an inline picker to add or create contexts in place — a typed name that matches no tiddler is created tagged `GSD/Contexts` and applied. Contexts already on the action show as core tag pills beside the icon; clicking a pill opens that context (each row's picker toggles independently). The pills can be hidden via Settings → Dashboards → Context page ("Show tagged contexts with links" — the checkbox links to its `$:/config/hypergsd/Contexts/show-contexts` tiddler, core-control-panel style).

@@ -393,8 +393,8 @@ plugins/hypergsd/
 │   the config tiddler; no whitelist entry needed, the $:/config/hypergsd
 │   prefix is in every gate base)), the context image, its
 │   two CSS rules (FIRST
-│   sub-plugin stylesheet) and its docs type page (kept under the main docs
-│   namespace title, the contacts pattern). Main keeps only inert-when-absent
+│   sub-plugin stylesheet) and its docs type page (repo wiki content, tagged
+│   `Documentation`/`HyperGSD API`, the contacts pattern). Main keeps only inert-when-absent
 │   couplings: new-button's inherited-contexts, the modal chassis's context-tag
 │   resolution, realm-selection's whitelist tag run, Type.tid's list entry.
 │   plugins/hypergsd-ticklers (2026-08-30) ships ticklers (GSD5-ticklers
@@ -460,8 +460,9 @@ plugins/hypergsd/
 │   tiddler (core keeps only the gate + the path; no core hook names a
 │   sub-plugin body — the ViewPlacement tag list supplies every placement); rows render through
 │   the host project page's ProjectView member list (shared hgsd-item). Also
-│   the reference image, docs/type and lingo in
-│   the shared namespaces (no own Settings tab — the view-placement tag list
+│   the reference image and lingo in
+│   the shared namespaces (its docs type page is repo wiki content, tagged
+│   `Documentation`/`HyperGSD API`; no own Settings tab — the view-placement tag list
 │   absorbed it into core's Panel and modal tab). References have no status set and never complete; core keeps
 │   inert-when-absent reference branches only where they mirror the contact
 │   precedent (new-gsd-modal's context suppression, the project picker's
@@ -632,16 +633,16 @@ plugins/hypergsd/
     │                            visibility draggables) + item template
     ├── dashboards/              8 user-facing pages (title prefix `GSD/`; Contacts/
     │                            Contexts/References pages ship from their sub-plugins)
-    ├── docs/                    API documentation set (2026-08-27, modelled on
-    │                            gsd5-docs/docs/api/): api.tid index (TOC over
-    │                            $:/tags/hypergsd/Docs) + widgets/procedures/
-    │                            list-widget/fields/tiddler-types/system-tags
-    │                            sections + per-widget/type/tag detail pages +
-    │                            api-comparison.tid (GSD5 ↔ HyperGSD) +
-    │                            refresh-gates.tid (2026-09-04, sub-plugin
-    │                            hgsd-refresh-whitelist guide — sorts last in the
-    │                            TOC); plus the pre-existing panel-chrome.tid
-    │                            decision record.
+    ├── docs/                    API documentation set — moved 2026-10-02 to the
+    │                            repo wiki's tiddlers/ as flat-titled content
+    │                            tiddlers tagged Documentation/`HyperGSD API`
+    │                            (incl. the sub-plugin type pages); `HyperGSD
+    │                            API` index (TOC over its tag) + widgets/
+    │                            procedures/list-widget/fields/tiddler-types/
+    │                            system-tags sections + per-widget/type/tag
+    │                            detail pages +
+    │                            the GSD5 comparison, refresh-gates and
+    │                            panel-chrome pages
     │                            complete/toggle pages deleted 2026-09-01 with their
     │                            already-gone widgets (docs were orphans); the
     │                            realm-picker page was deleted then REINSTATED the
@@ -665,7 +666,7 @@ plugins/hypergsd/
     │                            hgsd-status-radios(target-tiddler,current-type,
     │                            current-status), each chassis carries the eventcatcher,
     │                            the handler's per-type memory write guards to
-    │                            $:/temp/gsd-new-state — see docs/api-procedures.tid.
+    │                            $:/temp/gsd-new-state — see Procedures and Globals.
     ├── modal/                   2 modal-only sections (type, realm), tag-driven; context
     │                            ships from Contexts
     ├── panel/                   4 panel-only sections (complete/convert/prereq/
@@ -779,8 +780,8 @@ re-render the sections) → `hgsd-modal-submit` (project resolution + status cas
 `$:/tags/hypergsd/Inheritance` members at the point of creation (contract
 vars create-title/new-type/calling-tiddler/new-temp/new-state; core ships
 informal-tags — caller's non-`$/:` tags flow onto the new item, blank caller =
-nothing — and realm; HyperGSD-Contexts ships context-tags; docs/api/tags/
-inheritance; plain tag scan, removable by untagging; runs only in the submit
+nothing — and realm; HyperGSD-Contexts ships context-tags; the contract is
+Inheritance; plain tag scan, removable by untagging; runs only in the submit
 action — no render path).
 
 Picker path — two layers. **`$hgsd.pick`** (raw): prereq/dependants section
@@ -963,7 +964,7 @@ Coupling notes:
 - Extension surface: Type tag list, AfterCreation, PanelTemplate/ModalTemplate
   (+ Group tags), ListItem Prefix/Suffix, dashboard list tags (incl. the
   revived ContactAction), per-list visibility, KeyboardShortcut triggers (see
-  docs/api). The pre-fork `$:/tags/hypergsdCollect`/`HyperGSDReview` hook tags
+  HyperGSD API). The pre-fork `$:/tags/hypergsdCollect`/`HyperGSDReview` hook tags
   were removed with their loops (2026-08-30) — no relic tiddlers remain.
 - Colour editor: `ui/stylesheet/colour-manager.tid` does
   `\import "$:/PaletteManager"` — a CORE tiddler since TW 5.3 (the old
@@ -1153,7 +1154,7 @@ literal `no-realm` sentinel = "include realm-less"; missing = pristine =
 all+sentinel, empty = nothing; written by the realm-selection component's
 checkboxes/Select
 all/none via action-listops; read by $hgsd.list's shown-realms/show-realmless
-derivation — see docs/api/boilerplates/realm-scoping for the contract),
+derivation — see Boilerplate: realm scoping for the contract),
 `effective-realm`, `effective-context` (creation side,
 separate vocabulary); UI state —
 `show-completed/<tiddler>` and `show-completed/<dashboard page>` (lazy lists — $hgsd.toggle members default to the page-title form; the old literal `show-completed/dashboard` key died 2026-09-05),
@@ -1243,7 +1244,7 @@ inline styles hoisted to classes: .hgsd-toolbar/.context-view-template/
   the advisory 150 budget. An engine list rendered from INSIDE a row fragment
   (~155–180) would breach it — unreachable through the data model today; mount
   such a list at a page slot instead.
-  Safety rules live in docs/refresh-gates.tid: no \define in gate plumbing
+  Safety rules live in Refresh gates: no \define in gate plumbing
   (its variable-substitution path is unguarded mutual recursion — a direct
   stack overflow); a whitelist admits only what the subtree READS, never a
   render-time write (write → change → gate opens → re-render is the loop);
@@ -1394,7 +1395,7 @@ Vestigial mechanisms (inert after the fork; documented, not bugs):
   right-hand box, replaced same day; the group row also wraps now, so a
   cramped group drops below).
   Panel chassis is a styled `<fieldset class="hgsd-panel-fieldset">` (border
-  box; revert option in `ui/docs/panel-chrome.tid`); modal Attributes is a
+  box; revert option in Panel chrome); modal Attributes is a
   `<fieldset class="hgsd-modal-attributes">` + visible legend. Status radios
   are nested named fieldsets (visible legend in the modal, sr-only in the
   panel). Third-party sections need only the membership tag (+ optional
@@ -1519,7 +1520,7 @@ sub-plugin contributes keys to the same namespaces from its own `language/` fold
 and reuses main keys for identical texts. Consumers: `lingo-base` + `<<lingo>>` in
 transcluded tiddlers, full-path transclusions in Global-tagged files and attribute
 position, filter-side pieces via `:map[get[text]]` and `{title}` operands (see
-docs/api/localisation.tid for the full recipe and traps). Convert fragments carry
+Localisation for the full recipe and traps). Convert fragments carry
 lingo KEYS in their warning field. Translations wait on upstream bundled sub-plugins
 (TiddlyWiki5 PR #8957, targeted v5.5.0).
 

@@ -13,7 +13,7 @@ type: text/vnd.tiddlywiki
 * the ''Contact link'' row suffix (`$:/tags/hypergsd/ListItem/Suffix`) — a jump-to-contact icon on rows of delegated actions, hidden on the contact tiddler and in lists grouped by contact; the tooltip is the contact's title
 * the ''Waiting Actions By Contact'' list (the visible default on the Actions waiting page; the flat waiting list is the default when this sub-plugin is absent)
 * the contact-delegation after-creation rule (creating a contact from an action's picker assigns it to that action)
-* a convert-confirmation warning for contacts (see [[the Convert/Warning contract|$:/plugins/yan/hypergsd/docs/api/tags/convert-warning]])
+* a convert-confirmation warning for contacts (see [[the Convert/Warning contract|Convert warnings]])
 * its own settings page (panel position + contacts dashboard list) under HyperGSD's settings
 
 Everything attaches through HyperGSD's tag lists. If you were to remove this plugin, you would have `gsd_contact` fields left but nothing else.

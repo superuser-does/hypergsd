@@ -46,9 +46,9 @@ What you get for free:
 
 Custom portions: the Portion picker in Settings (beside each draggable row) assigns the layout slot — numbered portions sit side by side, `Portion/Top` spans the full width above them ("Top, full-width") and `Portion/Full` below ("Bottom, full-width"); the same vocabulary serves panel sections, modal sections and dashboard lists.
 
-Custom statuses: the status vocabulary is hardcoded in [[$:/plugins/yan/hypergsd/modules/status-sets]] (next/waiting/future for actions, active/future for projects). Replace that tiddler wholesale — same title, keep the Global tag and both function names, re-ship the label/glyph procedures — and pills, row glyphs, colours and modal validation follow. See [[the action type page|$:/plugins/yan/hypergsd/docs/api/tiddler-types/action]].
+Custom statuses: the status vocabulary is hardcoded in [[$:/plugins/yan/hypergsd/modules/status-sets]] (next/waiting/future for actions, active/future for projects). Replace that tiddler wholesale — same title, keep the Global tag and both function names, re-ship the label/glyph procedures — and pills, row glyphs, colours and modal validation follow. See [[the action type page|Action]].
 
-Custom completion warnings: completing an item whose tag list warning trips (by default, a project with open actions or sub-projects) asks for confirmation first. The `list` field of `$:/tags/hypergsd/Complete/Warning` is the active set — append a member title to add a warning, delete one to retire it (the built-in included). See [[the completion warnings page|$:/plugins/yan/hypergsd/docs/api/tags/complete-warning]].
+Custom completion warnings: completing an item whose tag list warning trips (by default, a project with open actions or sub-projects) asks for confirmation first. The `list` field of `$:/tags/hypergsd/Complete/Warning` is the active set — append a member title to add a warning, delete one to retire it (the built-in included). See [[the completion warnings page|Completion warnings]].
 
 Notes:
 
@@ -94,16 +94,16 @@ Any list tiddler can carry its own disclosure — wrap its content in `$hgsd.tog
 
 * `text` / `hide-text` are the button labels (hide-text defaults to text); `state` overrides the default state tiddler, which is `$:/state/hypergsd/show-completed/<hosting page>` — members sharing the default toggle together on a page.
 * `class` is added to both buttons (the widget contributes `hgsd-toggle-closed`/`-open` state hooks); `unwrap-tag-lists` lists tag lists where the content renders bare — the pattern the dedicated Completed pages use for these very lists.
-* The default state prefix is the one the dashboard chassis refresh gate admits; a custom prefix inside a dashboard member needs matching gate runs ([[refresh gates|docs/refresh-gates]]).
+* The default state prefix is the one the dashboard chassis refresh gate admits; a custom prefix inside a dashboard member needs matching gate runs ([[refresh gates|Refresh gates]]).
 * `$hgsd.toggle` is a thin convenience over the standard `<$reveal>` idiom — drop to core widgets when you need more than it exposes.
 
 ! Grouping dimensions
 
-Pass `group-select="yes"` to any `$hgsd.list` and it renders a radio strip under its heading letting the user group the list by any offered dimension — Projects, Contacts, Contexts, Realms out of the box — plus an "include ungrouped" toggle. Dimensions live in the `$:/tags/hypergsd/GroupBy` tag list: a member is pure data (`group-key`, a per-item `group-filter` emitting group titles, optional `label-filter`), so a third-party field becomes groupable with one small tiddler. Sorting works the same way through `$:/tags/hypergsd/SortBy` — a member carries a complete sort expression (`sort-filter`), so multi-field sorts are just more runs. Members name themselves with a `caption` field (a lingo transclusion, the core PageControls convention), and both tag lists are drag-ordered in Settings → Dashboards. Choices persist per list, and `group-default`/`sort-default` name tag-list tiddlers for out-of-the-box behaviour. Every shipped dashboard list now carries the strip. See [[Grouping dimensions|docs/api/tags/group-by]] and [[Sorting dimensions|docs/api/tags/sort-by]].
+Pass `group-select="yes"` to any `$hgsd.list` and it renders a radio strip under its heading letting the user group the list by any offered dimension — Projects, Contacts, Contexts, Realms out of the box — plus an "include ungrouped" toggle. Dimensions live in the `$:/tags/hypergsd/GroupBy` tag list: a member is pure data (`group-key`, a per-item `group-filter` emitting group titles, optional `label-filter`), so a third-party field becomes groupable with one small tiddler. Sorting works the same way through `$:/tags/hypergsd/SortBy` — a member carries a complete sort expression (`sort-filter`), so multi-field sorts are just more runs. Members name themselves with a `caption` field (a lingo transclusion, the core PageControls convention), and both tag lists are drag-ordered in Settings → Dashboards. Choices persist per list, and `group-default`/`sort-default` name tag-list tiddlers for out-of-the-box behaviour. Every shipped dashboard list now carries the strip. See [[Grouping dimensions|Grouping dimensions]] and [[Sorting dimensions|Sorting dimensions]].
 
 Currently, en-US/GB language only.
 
-Full API documentation for extension authors — widgets, hooks, fields and state, item types, and a GSD5 comparison — lives under [[$:/plugins/yan/hypergsd/docs/api]].
+Full API documentation for extension authors — widgets, hooks, fields and state, item types, and a GSD5 comparison — lives under [[HyperGSD API]].
 
 [[Contributors|$:/plugins/yan/hypergsd/contributors]]
 
