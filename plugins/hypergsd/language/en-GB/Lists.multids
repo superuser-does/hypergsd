@@ -12,7 +12,7 @@ ActiveProjects: Active projects
 FutureProjects: Future projects
 Subprojects: Sub-projects
 NoNextActions: Projects without next actions
-OpenActionsUnderCompletedProjects: Open actions under completed projects
+IncompleteActionsUnderCompletedProjects: Incomplete actions under completed projects
 NoGroup: No group
 ShowCompletedLists: show completed items…
 HideCompletedLists: hide completed items

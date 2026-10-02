@@ -84,7 +84,7 @@ Fragments/RowAfter/Label: List row items, after the tiddler title
 Fragments/Complete/Caption: Completion checkbox
 Fragments/Complete/Hint: Tick to complete the item; stamps the completion date and promotes dependants
 Fragments/Status/Caption: Status selector
-Fragments/Status/Hint: The per-type status pills beside the title
+Fragments/Status/Hint: The status pills beside the title
 Fragments/CompletionDate/Caption: Completion date
 Fragments/CompletionDate/Hint: The stamped date shown on completed items
 Fragments/BodyText/Caption: Body text indicator
@@ -141,7 +141,6 @@ Lists/CleanupProjects/Caption: Completed project list
 Lists/CleanupProjects/Hint: Completed projects older than the cleanup timeout
 Lists/NoNextAction/Caption: No next action list
 Lists/NoNextAction/Hint: Active projects that have no next action
-Lists/OpenActionsUnderCompletedProjects/Caption: Open actions under completed projects
-Lists/OpenActionsUnderCompletedProjects/Hint: Incomplete actions whose project is complete
+Lists/IncompleteActionsUnderCompletedProjects/Caption: Incomplete actions under completed projects
 TagBasis/Prompt: Tiddlers tagged with
 TagBasis/Portions: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag
