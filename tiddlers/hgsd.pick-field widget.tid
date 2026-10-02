@@ -1,0 +1,43 @@
+caption: <$hgsd.pick-field>
+title: hgsd.pick-field widget
+tags: Documentation [[HyperGSD API]]
+
+! Introduction
+A three-state field editor wrapping `<$hgsd.pick>` for one field of the current tiddler:
+
+* field ''empty'' → picker row; the "new" button sits alongside while the box is blank; the Save button appears only once something is typed (creating the tiddler first when the typed name does not exist)
+* field ''set'' → link to the current value plus an icon-only ''clear'' button (tooltip from core's `Buttons/Clear/Caption`, blanking the field directly — clearing no longer requires the editor) and a ''change'' button
+* ''editing'' → a fieldset with the value as legend, picker with keyboard-save (Enter by default) / Escape-cancel (the shortcut creates when the typed name does not exist, then closes the editor); one row in the order picker, save-or-create, cancel, new — Save appears only for a typed pick, new always last
+
+One commit affordance per pick state: blank shows the new cluster alone, a typed pick shows the commit step, a typed non-existent pick swaps it for create-and-add (the commit button stands aside rather than offering a phantom append). The keyboard's blank commit still clears the field (see [[$hgsd.pick|hgsd.pick widget]]).
+
+! Content and Attributes
+
+|!Attribute |!Default |!Description |
+|field |— |''Required.'' The `gsd_*` field to edit |
+|tiddler |(blank) |Write target; blank = the current tiddler. The modal passes its data temp, making the control a drafting editor |
+|list-filter |— |''Required.'' Candidate filter for the inner picker |
+|id |— |''Required.'' Unique per field within the tiddler (popup/temp state keys derive from it) |
+|label |(blank) |Label rendered above the row |
+|group-by, none-title, none-group-title, search-mode, placeholder |— |Passed through to the inner picker |
+|edit-placeholder |`type to change / leave blank to clear` |Placeholder shown in the editing (change) picker, where saving a blank clears the field |
+|new-type |(blank) |Enables the "new" button: type preselected in the modal; blank omits the button |
+|new-status |`next` |Status preselected by the "new" button |
+|new-update-status |`no` |Whether the new-item flow may update this tiddler's status |
+|new-button |`show` |`hide` suppresses the plain new-button fallback (hosts that cannot stack modals); shown only while the box is blank — typed non-existent picks still get create-and-add |
+|clear-button |`show` |`hide` suppresses the set state's icon-only clear button (tooltip from core's `Buttons/Clear/Caption`; the direct field-blanking control added 2026-09-27, replacing the "open the editor, leave it empty, save" path) |
+|realm-scope |`[subfilter<hgsd-realm-selection>]` |Passed through to the inner picker — an evaluated filter expression; see [[$hgsd.pick|hgsd.pick widget]] for the contract (`""` = everything, composable) |
+|link-items |`show` |`hide` suppresses the [[LinkItem|LinkItem]] adornments between the value link and the change button |
+
+! Example
+```
+<$hgsd.pick-field field="gsd_contact" id="contact"
+    list-filter="[tag[$:/GSD/Contact]sort[title]]"
+    label="Contact" new-type="contact" new-status="waiting" new-update-status="yes"/>
+```
+
+! On-the-fly creation
+
+When the picker's typed value is non-blank and no tiddler of that name exists, the row's only commit affordance is a `create "«typed»" and add` button (Save/Add stand aside) (from the shared [[$hgsd-create-and-add|hgsd-create-and-add]] module) instead of Save/Add: it creates the tiddler immediately — type tag via the tag list, realm tags inherited from the host, `gsd_status`/`gsd_complete` only for action/project — links it into the field, and closes the editor. While the box is blank the plain "new" button shows instead (the modal keeps it suppressed). Since 2026-09-27 the keyboard shortcut takes the same create fork: committing a typed non-existent name creates the tiddler and links it (the existence check evaluates only when the bound key is pressed — Enter by default — inside the keyboard's actions string, via the shared `hgsd-pick-keyboard-commit` dispatcher). The Save button writes the plain link for any typed name, and Cancel/Escape discards as usual. The same button appears in the new-item modal's project, contact and context pickers.
+
+The same shared creation core also serves [[$hgsd.pick-append|hgsd.pick-append widget]]'s add-rows: `hgsd-new-options` (hosted in this tiddler) routes the create by `kind` — `field` sets the target's field as here, `own` appends the created title to the target's `gsd_prerequisites` (the Depends-on panel), and `item` seeds the created action's own `gsd_prerequisites` with the target instead of writing any field (the Prerequisite-of mirror).

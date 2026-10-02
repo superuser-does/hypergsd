@@ -1,0 +1,37 @@
+title: Panel chrome
+tags: Documentation [[HyperGSD API]]
+
+! Panel chrome decision + revert option
+
+The view panel chassis (`$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body`) is a styled
+`<fieldset class="tc-tiddler-info gsd-info-mod hgsd-panel-fieldset">` with no legend.
+
+!! Why
+
+* The panel genuinely groups a set of related form controls — a fieldset is the honest element.
+* `.tc-tiddler-info` (vanilla theme) supplies padding, background and top/bottom hairlines; the plugin rule completes a full 1px border box in the `tiddler-info-border` colour, turning the panel into a deliberate card.
+* The descendant rule `.hgsd-panel-fieldset fieldset { … }` structurally resets nested fieldsets (the status radios, and any future or third-party semantic groups) so they inherit clean styling with zero per-section classes.
+
+!! Reverting to the pre-chrome hairline strip
+
+If you prefer the old look (top/bottom hairlines only, no side borders), change the
+`.hgsd-panel-fieldset` rule in `ui/stylesheet/sections.tid` to:
+
+```
+.hgsd-panel-fieldset {
+    border: 0;
+    border-top: 1px solid <<colour tiddler-info-border>>;
+    border-bottom: 1px solid <<colour tiddler-info-border>>;
+    min-width: 0;
+}
+```
+
+`.tc-tiddler-info` already paints exactly those two hairlines, so this restores the
+original appearance while keeping the fieldset semantics and the nested-fieldset reset.
+
+!! Related flip: modal Attributes chrome
+
+The modal's Attributes container is `<fieldset class="hgsd-modal-attributes">` with a
+visible `<legend>` and no border. To chrome it like the panel instead, change its
+`border: 0` reset in `ui/stylesheet/sections.tid` to the same bordered rule as
+`.hgsd-panel-fieldset`.

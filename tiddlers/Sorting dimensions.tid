@@ -1,0 +1,22 @@
+caption: Sorting dimensions
+tags: Documentation [[HyperGSD API]]
+title: Sorting dimensions
+
+The `$:/tags/hypergsd/SortBy` tag list drives `$hgsd.list`'s "Sort by" select (`sort-select="yes"`, see [[Dashboard lists|Dashboard tag lists]]). A member is pure data plus a `caption` field (a lingo transclusion — the display name in both the strip's select and the Settings → Dashboards drag list, whose drag order is the option order):
+
+```
+title: $:/plugins/MyStuff/ui/sort-by/stakeholder
+tags: $:/tags/hypergsd/SortBy
+hgsd-sort-key: stakeholder
+hgsd-sort-filter: +[nsort[gsd_stakeholder]] +[sort[title]]
+hgsd-sort-category: Custom
+```
+
+* `hgsd-sort-filter` — a COMPLETE sort expression in standard suffix-run form, appended to the list's rows. Any operator combination is valid; the example above sorts by stakeholder, then title.
+* `hgsd-sort-key` — label id, resolved at `$:/language/hypergsd/Lists/SortBy/<key>` with fallback to the key.
+* `hgsd-sort-category` (optional) — groups the option under an `<optgroup>` (label via `SortBy/Category/<value>` fallback to the value; absent = bare option).
+* `hgsd-types` (optional) — the [[GroupBy|Grouping dimensions]] relevance contract verbatim; absent = universal.
+
+The choice lives as a `sort` field on the list's view-state tiddler (`$:/config/hypergsd/list-view/<host>/<heading>` — persistent), shared with the grouping fields. Scope: rows within groups and flat order; group headings stay title-ordered. `$hgsd.list`'s `sort-default` parameter (a sort expression, default `+[!sort[modified]]`) applies while no choice exists — the tag's first member should match it so the select's display agrees.
+
+Shipped: Modified, Title and Created (each both directions, universal) and Recently/Oldest completed (`hgsd-types: action project`). `$hgsd.list`'s `sort-default` is one of these TITLES (default: the modified-desc member) — the select displays and applies the same default; a missing `hgsd-sort-filter` on that tiddler sorts nothing. Each list's default is also selectable from its Settings page row (see [[dashboard lists|Dashboard tag lists]] for the `heading` field and the precedence). Unticking a member on Settings → Dashboards withdraws it from every strip and picker (`hide` under `$:/config/hypergsd/SortBy/hidden/<member>`); view states and defaults naming a withdrawn member fall back, else the list filter's own order.

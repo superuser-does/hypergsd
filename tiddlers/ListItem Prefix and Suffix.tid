@@ -1,0 +1,31 @@
+caption: $:/tags/hypergsd/ListItem/Prefix and /Suffix
+title: ListItem Prefix and Suffix
+
+! Summary
+Add a fragment to ''every'' list row — before the title (Prefix) or after it (Suffix).
+
+! Detail
+Tag any tiddler with `$:/tags/hypergsd/ListItem/Prefix` or `$:/tags/hypergsd/ListItem/Suffix`. Its body renders in every row of every `$hgsd.list`, project view and contact view:
+
+```
+title: My due-date chip
+tags: Documentation [[HyperGSD API]]
+
+<%if [is[current]tag[$:/GSD/Action]!field:due[]] %>
+<span class="gsd-muted">due {{!!due}}</span>
+<%endif%>
+```
+
+* `currentTiddler` inside a fragment is the row's item.
+* ''Suppression signals'': `storyTiddler` holds the tiddler whose view the row renders inside (snapshotted by the core ViewTemplate before any list loop redefines `currentTiddler`; unset outside the story river) — a match with a row-item field means "this row already lives on that tiddler's page". `current-group` holds the grouped list's heading value (ambient only in the grouped branch; every shipped grouping is by `gsd_project` or `gsd_contact`) — a match means the heading already links there. The built-in jump links (`project-link`, and the contacts sub-plugin's `contact-link`) use both to hide exactly where the target is already on screen; their tooltip is the target tiddler's title.
+* Fragments must ''self-gate'' — render nothing when they do not apply, like the seven built-in fragments in `$:/plugins/yan/hypergsd/ui/list-items/` (complete, status, comp-date, body-text, realm, project-link, delete).
+* ''Ordering'': fragments appear alphabetically, unless the tag tiddler carries a `list` field — listed fragments render first in `list` order, unlisted ones append alphabetically. The plugin ships a `list` on the Suffix tag tiddler pinning `comp-date → body-text → realm → project-link → delete`; Prefix ships no tag tiddler (alphabetical is already correct).
+* Adding or editing a fragment updates open views immediately; ''removing'' one takes effect on the next view refresh (frozen views cannot match a tiddler that no longer exists).
+* ''Interactive fragments'' (a `<$reveal>`, a picker) declare their state and temp tiddlers in a `hgsd-refresh-whitelist` field on the fragment tiddler — single bracketed runs, space-separated — and the engine composes them into the row's freeze gate per list (see [[Refresh gates|Refresh gates]]). Alternatively, keep state under prefixes the chassis gates already admit (`$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`). Prefix runs only, never a literal `[[title]]` run (it emits unconditionally and defeats the gate). The worked example is the contexts sub-plugin's contextualise fragment (`$:/plugins/yan/hypergsd-contexts/ui/list-items/context`).
+
+! Best Practice
+Keep fragments cheap: they render once per row per list, so avoid filters over the whole wiki inside them.
+
+!! Fragment layout contract
+
+The row (`.gsd-list-item`) is a centred flex container: a fragment's content is vertically centred automatically — no wrapper class is needed. Root your fragment in a ''div'' or ''span'' so it receives the row's shrink protection (the title link is the only row child that flexes). Use `align-self` on your root element if you need a different alignment.

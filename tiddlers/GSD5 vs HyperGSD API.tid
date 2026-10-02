@@ -1,0 +1,72 @@
+caption: GSD5 vs HyperGSD API
+tags: Documentation [[HyperGSD API]]
+title: GSD5 vs HyperGSD API
+
+A side-by-side of the two plugins' extension surfaces, for content migrating from GSD5 or targeting both.
+
+! Identity model
+
+| !Dimension | !GSD5 | !HyperGSD |
+|Item type |`gsd_type` field with five fixed values |Type ''tags'' (`$:/GSD/Action` etc.) via the extensible `$:/tags/hypergsd/Type` tag list |
+|Realm |`gsd_realm` field + `$:/currentRealm` ("all") |`$:/GSD/Realm/<name>` tags + `$:/config/hypergsd/realm-selection` (multi-select set + `no-realm` sentinel; pristine = all; realm-less inclusion orthogonal) |
+|Context |`gsd_type[context]` tension |`GSD/Contexts` tag (the dashboard is the tag list); multiple context tags per action |
+
+! Lists
+
+| !GSD5 | !HyperGSD |
+|`<<gsd5-list>>` macro — fixed questionnaire (`gsd_type`, `gsd_status`, `gsd_complete`, `realmAware`, `sort`, `order`, `groupBy`, `customFilter`, `dateTemplate`, `ownerField/owner`, `hideFutureProj`) assembled by the `list-composer` JS macro |`<$hgsd.list list-filter="…">` — any filter; `group-by`/`group-state`, `future-items-sweep` (≈`hideFutureProj`, actually enforced); `ownerField/owner` and `dateTemplate` have no equivalent |
+
+! Widgets
+
+| !GSD5 | !HyperGSD |
+|`<$complete>` (JS) |row checkboxes + `hgsd-handle-click` (delegated; stamps `gsd_comp_date`, clears on un-check, promotes dependants) |
+|`<$convert>` |`<$hgsd.convert>` (tag swap; clears `gsd_prerequisites`) |
+|— |`<$hgsd.realm-picker>` (bound realm select for sub-plugins) |
+|`<$gsdtiddler>` new-item button |`<$hgsd.new-button>` (adds `gsd-context`, `gsd-realm`) |
+|`<$prereq>` JS select |`<$hgsd.pick>` / `<$hgsd.pick-field>` popup pickers on the `gsd_prerequisites` list field |
+|— |`<$refresh>` freeze gate (performance architecture absent in GSD5) |
+
+The compat widgets (`<$hgsd.complete>`, `<$hgsd.toggle>`, legacy `$gsd5.*` aliases) were removed 2026-09-01 — completion flows through the delegated checkbox contract.
+
+! Extension tags
+
+| !GSD5 | !HyperGSD |
+|`$:/tags/GSD5ListItemPrefix` / `Suffix` |`$:/tags/hypergsd/ListItem/Prefix` / `/Suffix` (restored; ordering opt-in via tag-tiddler `list`) |
+|`$:/tags/GSD5DashboardLists` + per-dashboard tags |`$:/tags/hypergsd/Lists/Dashboard` + family |
+|`GSD5PanelCore` + hardcoded panel doodads |`$:/tags/hypergsd/PanelTemplate` + `Group/*` (tag-driven, ordered) |
+|— |`$:/tags/hypergsd/ModalTemplate` + `Group/*` |
+|— |`$:/tags/hypergsd/Type` tag list and `$:/tags/hypergsd/AfterCreation` |
+|`$:/config/GSD5*/visibility/*` |`$:/config/hypergsd*/visibility/*` (multids defaults) |
+
+! Fields
+
+| !GSD5 | !HyperGSD |
+|`gsd_type`, `gsd_realm` |removed in favour of tags |
+|`gsd_status`, `gsd_complete`, `gsd_comp_date`, `gsd_project`, `gsd_contact` |unchanged |
+|`gsd_action` (single prerequisite) |`gsd_prerequisites` (titlelist) |
+|— |`gsd_action_status` / `gsd_project_status` (per-type status memory) |
+
+! Not ported
+
+The `_fieldvalue` filter operator is obsolete (core `get[]` covers it).
+
+! Migrating GSD5 tiddlers
+
+Ticklers now live in the [[HyperGSD-Ticklers|$:/plugins/yan/hypergsd-ticklers/readme]] sub-plugin with renamed fields:
+
+| !GSD5 | !HyperGSD |
+|`gsd_tickdate` |`gsd_tickler_date` |
+|`gsd_tickdays` |`gsd_tickler_repeat_days` |
+|`gsd_type: action` |the `$:/GSD/Action` tag |
+
+Repeat semantics: absent, empty, zero or non-numeric `gsd_tickler_repeat_days` means one-shot. To convert a wiki carrying GSD5 tickler fields, add `gsd_tickler_date` / `gsd_tickler_repeat_days` values mirroring the old fields and delete the old ones — for example, per tiddler, or in one pass with a button:
+
+```
+<$button>
+<$list filter="[all[tiddlers]has[gsd_tickdate]]">
+<$action-setfield gsd_tickler_date={{!!gsd_tickdate}} gsd_tickler_repeat_days={{!!gsd_tickdays}}/>
+<$action-deletefield gsd_tickdate gsd_tickdays/>
+</$list>
+migrate tickler fields
+</$button>
+```

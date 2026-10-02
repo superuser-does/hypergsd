@@ -1,0 +1,56 @@
+caption: $:/tags/hypergsd/AfterCreation
+title: AfterCreation
+
+! Summary
+Run a rule after every item creation, from any surface.
+
+! Detail
+Tag any tiddler with `$:/tags/hypergsd/AfterCreation`; its body executes right after a new item is created. Both creation paths run the hook: the new-item modal (`hgsd-new-source` = `modal`) and the pickers' create-and-add surfaces (`picker` — the create-and-add button and the keyboard-shortcut create fork, across the panel's pick-fields, the pick-append add-rows and the modal's pick sections). Four variables are in scope:
+
+| !Variable | !Meaning |
+|hgsd-new-title |Title of the created tiddler |
+|hgsd-new-type |Its type's short name |
+|hgsd-calling-tiddler |The invoking tiddler (modal: the tiddler behind the modal; picker: the tiddler whose field receives the new item; blank when created from a bare button) |
+|hgsd-new-source |`modal` or `picker` |
+
+Ordering: no list-field pinning — navigation is not a member (the creation paths navigate themselves after the hook, honouring the ''Navigate to new actions/projects upon creation'' settings), so no rule invalidates the invoking tree mid-chain and members are order-independent. All rules run for every creation — self-gate with an `<%if%>`, and keep rules independent.
+
+!! The render-time trap
+
+The creation paths render their action trees BEFORE the item exists — the modal renders on open, and `createTiddler-title` is only set when the create fires. So a member's `<%if%>` conditions and `{{{ }}}` attribute filters evaluate against a blank pre-creation world and never re-run. Two safe patterns:
+
+* gate only on things stable from render: the type, the source, the calling tiddler
+* read the created item's data through ACTION attributes (`$tiddler=<<hgsd-new-title>>`, `$value={{{ ... }}}`) — these evaluate at invoke, when the title is live. Macrocall indirection is lazy; filter attributes on non-action widgets are not.
+
+The shipped rules:
+
+| !Rule | !Behaviour |
+|`$:/plugins/yan/hypergsd-contacts/modules/after-create/contact-delegation` |A contact created from an action gets written to that action's `gsd_contact` field |
+|`$:/plugins/yan/hypergsd-priorities/modules/after-create/default-priority` |A new action or project inherits its linked project's priority, else the configured default; writes only valid values, never over an existing one (all reads ride action attributes — the reference implementation of the render-time trap) |
+
+! Best Practice
+Self-gate on type and source. For example, an "inbox" rule that flags actions created //from a project's panel// so you can review them later:
+
+```
+title: my-inbox-rule
+tags: Documentation [[HyperGSD API]]
+
+\whitespace trim
+<%if [<hgsd-new-type>match[action]] %>
+<%if [<hgsd-new-source>match[picker]] %>
+<$action-listops $tiddler="Inbox" $field="list" $subfilter="[<hgsd-new-title>]"/>
+<%endif%>
+<%endif%>
+```
+
+If you want the same behaviour from your own button or workflow, call the shared runner directly — this is exactly what both creation paths do:
+
+```
+<$transclude $variable="hgsd-run-after-create"
+    new-title=<<created-title>>
+    new-type="action"
+    calling-tiddler=<<currentTiddler>>
+    new-source="modal" />
+```
+
+(Macrocall parameters do not evaluate `<var>` indirection — always invoke the runner through `<$transclude $variable>` as shown.)

@@ -1,0 +1,33 @@
+caption: Grouping dimensions
+tags: Documentation [[HyperGSD API]]
+title: Grouping dimensions
+
+The `$:/tags/hypergsd/GroupBy` tag list drives `$hgsd.list`'s grouping strip (`group-select="yes"`, see [[Dashboard lists|Dashboard tag lists]]). A member is pure data plus a `caption` field — the core PageControls convention; its value is a lingo transclusion and it names the dimension in BOTH the strip and the Settings → Dashboards drag list (where dragging reorders the tag's `list` field, i.e. the strip order):
+
+```
+title: $:/plugins/MyStuff/ui/group-by/stakeholder
+tags: $:/tags/hypergsd/GroupBy
+hgsd-group-key: stakeholder
+hgsd-group-filter: [all[current]get[gsd_stakeholder]]
+```
+
+* `hgsd-types` (optional) — space-separated item types (type-tag-list short names) the dimension suits; absent means universal.
+* `caption` — display name; a lingo transclusion. Third parties may instead rely on the engine's fallback (lingo at `Lists/GroupBy/<hgsd-group-key>`, then the raw key) by omitting it. The strip derives a list's item types from its own items and offers only matching dimensions. Declare one type per member: a member matching several of the list's types renders its radio per match.
+* `hgsd-group-key` — the dimension's short name. The strip resolves its label via `$:/language/hypergsd/Lists/GroupBy/<hgsd-group-key>`, falling back to the raw key, so third-party members work without language tiddlers while shipped ones are localised.
+* `hgsd-group-filter` — a per-item filter emitting the item's group key(s) as tiddler titles, evaluated with `currentTiddler` = each item. Tag-based members emit several keys; such items render under every group.
+* `hgsd-label-filter` (optional) — heading display text, evaluated with `currentTiddler` = the group title; defaults to the title. (The shipped realm member strips its `$:/GSD/Realm/` tag prefix.)
+
+Ordering: the tag tiddler's `list` field, then alphabetical. The strip is a radio group — one dimension at a time, with a leading None (the flat default, also selected while no choice exists) — plus an "include ungrouped" checkbox (default on) that hides keyless items entirely when off. When no dimension is offered — everything unticked, or nothing type-relevant — the entire Group by block withdraws (a None-only strip carries no choice); the row survives only for a Sort by select. Each list's default dimension is also selectable from its Settings page row (see [[dashboard lists|Dashboard tag lists]] for the `heading` field and the precedence). Unticking a member on Settings → Dashboards withdraws it from every strip and picker (a `hide` value under `$:/config/hypergsd/GroupBy/hidden/<member>`); view states and defaults naming a withdrawn member fall back to the next candidate, and a list's explicit `group-members` set is exempt.
+
+A list may take full control of its offered set with `$hgsd.list`'s `group-members` parameter — a filter whose output is the offered set, evaluated where the strip renders. Type relevance is deliberately skipped when it is set, so an explicit list can add a dimension the rules would hide. The full tag list (the tag tiddler's `list` field, space-joined) is bound as `hgsd-group-default` for composition:
+
+```
+<!-- overwrite: exactly these two -->
+group-members="[[…ui/group-by/project]] [[…ui/group-by/realm]]"
+<!-- add: the default plus a third-party dimension -->
+group-members="[subfilter<hgsd-group-default>] [[…MyStuff/group-by/stakeholder]] +[unique[]]"
+<!-- subtract: the default minus one -->
+group-members="[subfilter<hgsd-group-default>] -[[…ui/group-by/realm]]"
+``` State lives per list instance at `$:/config/hypergsd/list-view/<host tiddler>/<list heading>` (persistent), shared with the `sort` field of [[the SortBy tag list|Sorting dimensions]].
+
+Shipped members: Projects (`hgsd-types: action project reference`) and Realms (core, universal), Contacts (HyperGSD-Contacts, actions), Contexts (HyperGSD-Contexts, actions).

@@ -1,0 +1,37 @@
+caption: ticklers
+title: Ticklers
+tags: Documentation [[HyperGSD API]]
+
+! Ticklers
+
+A tickler is an action carrying extra fields. On the due day the plugin raises an alert banner with a link back to the action; the date field is ''never'' consumed by firing — an overdue tickler stays visible in the dashboard (and recoverable) until handled, so no unseen login on another device can silently eat the date.
+
+|! Field |! Meaning |
+| `gsd_tickler_date` | Due date, as a TiddlyWiki UTC date string at midnight (the date input and the alert shift arithmetic write no time of day). |
+| `gsd_tickler_date_history` | Chronological list of every date the tickler has carried — each pick, shift-button press and automatic roll appends the new date; the last entry is always the current date. Not displayed anywhere yet. |
+| `gsd_tickler_repeat_days` | Repeat interval in days. Absent, empty, zero or non-numeric means one-shot: the alert fires on the due day and the date is kept. A repeating tickler advances by whole intervals from the fired date (phase preserved). |
+
+A repeating tickler marked complete stays complete — on each due date it raises its banner once regardless of completion, and the same run's rollover books the next date, so the banner is once per cycle; completing a one-shot deletes its alert and it never raises again. A tickler missed while the wiki was closed raises a //Tickler overdue// banner at the first check after — repeating ticklers get one per missed occurrence (the same run books the next date), while an overdue one-shot keeps re-raising at the top of each hour until handled; the dashboard's date sort remains the catch-up view. Snoozing deletes the alert; a banner closed with the toolbar close button is re-raised at the top of the next hour while the tickler still qualifies.
+
+!! Surfaces
+
+* Modal section (`$:/tags/hypergsd/ModalTemplate` + `Column/2`) — writes both fields to the data temp at creation
+* Panel section (`$:/tags/hypergsd/PanelTemplate` + `Column/2`) — edits both fields on actions; the tickler date carries the shared shift buttons (tag-list members below; each shift recorded on the date history; shown while a date exists, panel-only — the modal keeps deliberate date picking)
+* Row suffix (`$:/tags/hypergsd/ListItem/Suffix`) — an always-visible date input in place in the row (centring comes from the row itself)
+* `GSD/Ticklers` dashboard page — three sections split on today: ''Ticklers requiring action'' (due today or overdue), ''Upcoming ticklers'' (dated in the future) and ''Old ticklers'' (completed actions with past ticklers, behind a show/hide toggle)
+
+!! The alert body
+
+The check writes `<$transclude $variable="hgsd-tickler-alert"/>` into each alert's text; the procedure (Global-tagged, `modules/alert-body`) renders the action title as a link, the core ''Complete'' checkbox and the members of the Alert tag list (by default `+d` `+w`). The checkbox is the core HyperGSD control contract verbatim — a raw input with `data-tiddler`/`data-hgsd-action` attributes inside `.hgsd-interactive`, dispatched through the shared eventcatcher to `hgsd-handle-click` — so completing from the alert keeps the completion-warning gate, the `gsd_comp_date` stamp and dependant promotion; the alert's own click handler deletes the alert when the click completes the target. Alert members shift from now (a repeating tickler's stored date has already rolled forward) and dismiss through the widget's `after-shift-actions` parameter (the `$button` widget stops click propagation, so a catcher cannot see shift clicks — the binding rides the button's own `actions` attribute); the title link only navigates, because the link widget stops click propagation and so cannot carry dismissal actions.
+
+!! Extending
+
+Shift buttons: members are data-only tiddlers tagged `$:/tags/hypergsd/Ticklers/Shift` (the panel set) — fields `days` (whole days, negative brings the date forward), `label` and `tooltip` (plain text or `<<lingo>>` keys), optional `class`. The shared `$hgsd.tickler-shift` widget (`modules/widgets/hgsd-tickler-shift`, Global) renders any member: parameters `target-tiddler`, `base-date` (the panel binds the stored date, the alert binds now), `days`, `label`, `tooltip`, `class`, `after-shift-actions`, `lingo-base`. Members tagged `$:/tags/hypergsd/Ticklers/Alert` (its own list field orders them) also appear on the alert banner with the browser-default button look; the panel set renders as invisible buttons. The year member ships withdrawn (its `$:/config/hypergsd/Ticklers/Shift/visibility/` entry reads hide — the GroupBy/status mechanism under the visibility vocabulary, matching core's own `$:/config/…/Visibility/<title>` show/hide convention); ticking its row in settings writes show and offers +y. The widget is equally invocable directly with explicit parameters, no tag-list tiddler needed. Each render site drops members whose own visibility-base entry reads hide — the panel section `ui/attributes/tickler` gates on `$:/config/hypergsd/Ticklers/Shift/visibility/`, the alert body on `$:/config/hypergsd/Ticklers/Alert/visibility/`; the Settings → HyperGSD → Ticklers tab (`ui/control-panel/ticklers`) is a visibility list over each tag.
+
+!! Architecture
+
+* `modules/tickler-check.tid` — ''all'' check policy as a Global-tagged wikitext procedure (due-day and overdue alert — complete repeating ticklers included, one banner per cycle or missed occurrence; phase-preserving rollover; no field deletion anywhere)
+* `modules/startup/tickler.js` — a ~15-line browser-side trigger running the procedure at startup and at the top of the hour (trees built by `invokeActionString` do not execute actions inside a `$variable` transclude, so the trigger renders a detached Global-import tree and invokes it)
+* `modules/alert-body.tid` — the alert banner body (title link; core-contract Complete checkbox whose click handler adds dismissal; Alert-tag list shift members through the shared widget with base = now)
+* `ui/components/date-input.tid` — the `hgsd-date-input` procedure: a native date box on a temp tiddler, seeded from the canonical field through `default`, canonicalising picks in `inputActions` (hyphens out, midnight zeroes appended) and appending them to the date history list; an empty event is a total no-op on both writes (browsers emit empty change events without interaction, so nothing destructive hangs off them) — the panel's delete button beside the date (shown only while a date exists to clear) removes the field outright (browsers offer no unconfirmed clear on a native date box)
+* date arithmetic — core filter operators throughout: `format:date[TIMESTAMP]` reads a date string as epoch milliseconds, `add` shifts them, `format:timestamp` canonicalises back to the midnight store form; the shift widget reuses the same chain

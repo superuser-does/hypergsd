@@ -1,0 +1,80 @@
+title: Introducing a new item type
+tags: Documentation [[HyperGSD API]]
+
+! Introducing a new item type
+
+A checklist for sub-plugin authors (and future core) adding a new GSD item
+type — say, an "event" type shipped by a hypothetical `HyperGSD-Events`.
+Each join point is a tag list; membership is what makes the engine notice your
+type anywhere. Nothing below assumes any other sub-plugin is present.
+
+!! The data model, first
+
+Before joining anything, decide:
+
+* The **type tag** — `$:/GSD/Event`. It goes on every user tiddler of the type
+  and is the value other tag lists point at (`hgsd-type-tag` fields).
+* The **fields** your type owns — user-item fields take the `gsd_` prefix
+  (`gsd_venue`). Never an unprefixed field; plugin-owned tiddlers use
+  `hgsd-` instead.
+* The **tags your type carries beyond its type tag** — a caller's other
+  tags (`chess`, `work`) flow onto new items created from its panel
+  automatically (see
+  [[Inheritance|Inheritance]]); anything
+  structural you add yourself (a realm tag, a context tag) must come through
+  its own mechanism, never by asking users to tag by hand.
+* Whether the type **takes a status** — only action and project do today.
+  Status machinery (status sets, the per-type memory field) is join-point one
+  below; skip it all if not.
+
+!! Join points, in build order
+
+# ''The Type tag list'' — a member tiddler tagged `$:/tags/hypergsd/Type`
+  with `hgsd-type: event`. This single join makes creation, conversion and
+  every type-gated surface recognise the type. If the type takes a status,
+  also join the relevant status-set tag lists and set a default status.
+# ''ViewPlacement'' — a member of `$:/tags/hypergsd/ViewPlacement` with
+  `hgsd-type-tag: $:/GSD/Event` and a config/default side, so the type's
+  view panels render above and below the body. Without it the type renders
+  bare.
+# ''Panel sections'' — members of `$:/tags/hypergsd/PanelTemplate` (with a
+  Portion/''n'' claim) render in the view panel; the same tiddlers tagged
+  `$:/tags/hypergsd/ModalTemplate` (with its own Portion claim) render as the
+  new-item modal's attribute rows. Dual-context sections read
+  `section-target`/`section-type`/`section-mode` instead of hard-coding
+  `currentTiddler`.
+# ''List blocks'' — for each dashboard you want the type listed on, ship a
+  member of that dashboard's tag list with `hgsd-heading` and a Portion
+  claim. Visibility rides the dashboard's visibility base; order rides the
+  tag's `list` field (users reorder via Settings).
+# ''Capture'' — a member of a `$:/tags/hypergsd/Capture/Block/''n''` list so
+  the type's capture controls appear in the capture sidebar, plus a toolbar
+  button (`$hgsd.new-button`) for creating it from anywhere.
+# ''Inheritance'' — only if the type needs a rule at creation time (see the
+  [[Inheritance docs|Inheritance]]).
+  Tag inheritance is core and free (Settings → Behaviour carries the
+  user's kill switch); your rule exists only for a deliberate system-tag or
+  creation-time relationship.
+# ''AfterCreation'' — only for post-creation side effects
+  (`$:/tags/hypergsd/AfterCreation`; navigation is core's).
+
+!! Things that need no join
+
+* The type tag itself arrives on created items from the Type tag list —
+  `create-gsd-tiddler` resolves it from `hgsd-type`.
+* The modal, conversion and the list widget are type-agnostic; they read the
+  joins above.
+* Every Settings drag list names its own tag basis automatically: the note
+  "Tiddlers tagged with ⟪pill⟫" (plus the portions sentence where the rows
+  carry a Portion picker) comes from `hgsd-visibility-list` — nothing to
+  register, and third-party lists get it too.
+* Docs are plain tiddlers; nothing registers them.
+
+!! Removal semantics for everything you ship
+
+Every tag list here is a plain tag scan — users disable a shipped member by
+editing it and removing its tag (the edit supersedes the shadow; deleting
+their tiddler restores it). Tag lists with a `list` field pin order only:
+an untagged member drops out even though its title lingers in the list. Do
+not build a join point that requires deleting a plugin tiddler — shadows
+cannot be deleted.

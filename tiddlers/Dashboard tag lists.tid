@@ -1,0 +1,43 @@
+caption: Dashboard tag lists
+title: Dashboard tag lists
+
+! Summary
+Add a list block to a dashboard.
+
+! Detail
+Tag a tiddler with one of the list-family tags; the block then appears in that dashboard's control-panel tab, where the user toggles its visibility (stored under `$:/config/hypergsd*/visibility/<list-heading>`) and drag-reorders it (the order is written to the tag tiddler's `list` field, which the dashboard loop honours — extensions not named there append alphabetically).
+
+| !Tag | !Surface |
+|$:/tags/hypergsd/Lists/Dashboard |Main Dashboard |
+|$:/tags/hypergsd/Lists/Action |Action Dashboard |
+|$:/tags/hypergsd/Lists/Project |Project Dashboard |
+|$:/tags/hypergsd/Lists/CompletedAction |Completed Actions page |
+|$:/tags/hypergsd/Lists/CompletedProject |Completed Projects page |
+|$:/tags/hypergsd/Lists/Waiting |Actions waiting page |
+|$:/tags/hypergsd/Lists/NoNextAction |No Next Action page |
+|$:/tags/hypergsd/Lists/Contact |Contacts page |
+|$:/tags/hypergsd/Lists/Reference |References page |
+|$:/tags/hypergsd/Lists/Cleanup |Cleanup: completed items page |
+|$:/tags/hypergsd/Lists/CompletedProjectAction |Cleanup: open actions under completed projects page |
+|$:/tags/hypergsd/Lists/ContactAction |Ships from the Contacts sub-plugin — the contact page's own next/waiting/future/completed lists for that contact (live since 2026-09-01) |
+|$:/tags/hypergsd/Lists/ContextAction |Ships from the Contexts sub-plugin — the per-context view's next/waiting/future/completed lists |
+
+On the Main Dashboard the two completed lists are Portion/Full members carrying their own //show completed items…// disclosure (one per-page state opens both); the waiting list is the sole Portion/2 member, so it renders after Portion/1's members regardless of its list-field position. Their visibility checkboxes gate the same lists everywhere they render.
+
+The tagged tiddler's body is usually a single `$hgsd.list` invocation:
+
+```
+title: $:/plugins/MyPlugin/ui/lists/stale-list
+caption: Stale Items
+tags: Documentation [[HyperGSD API]]
+
+<$hgsd.list list-heading="Stale Items"
+    list-filter="[tag[$:/GSD/Stakeholder]!modified[Recent]]"/>
+```
+
+A `caption` field provides the label shown in the control panel.
+
+Grouping: two ways. Fixed: pass `group-by="gsd_project"` (plus the host's `group-state`) to render under field-value headings. User-chosen: pass `group-select="yes"` to render a radio strip under the heading (a leading None for flat, then every `$:/tags/hypergsd/GroupBy` dimension) and `sort-select="yes"` to add a Sort by select ([[the SortBy tag list|Sorting dimensions]]) ahead of it (see [[the GroupBy tag list|Grouping dimensions]]) plus an "include ungrouped" toggle; dimensions declare applicable item types (`hgsd-types`, absent = universal) and a `group-members` filter parameter overwrites the offered set per list ([[the GroupBy tag list|Grouping dimensions]]); every choice (grouping and sorting alike) persists per list instance in `$:/config/hypergsd/list-view/<host>/<heading>`. Each list's ''default'' grouping and sorting is selectable beside its row on the list's Settings page: give the list tiddler a `heading` field naming its heading's lingo tiddler (e.g. `heading: $:/language/hypergsd/Lists/NextActions` — the text the widget receives as `list-heading`), and its Settings row gains Group by and Sort by pickers writing `$:/config/hypergsd/list-default/<heading>`; the view state above still wins per instance. Lists sharing a heading (the completed and cleanup pairs ship that way) share one default. `group-default` (a GroupBy tiddler title) and `sort-default` (a SortBy tiddler title) apply while no choice exists — the same tokens the controls use, so the displayed default is the applied one. The offered dimensions and options are ordered in Settings → Dashboards (drag rows write the tag lists' `list` fields). Group headings link to the group tiddler; items without a group key fall into a trailing, unlinked "No group" group (hidden entirely when the toggle is off; the whole group renders only when such items exist). Tag-based dimensions give an item several keys and it rightly renders under every group. The engine sets `hgsd-grouped` (`true`/`false`) around its rows so ListItem fragments can adapt to flat vs grouped context (no shipped fragment currently reads it; the project-link icon self-suppresses under its own group heading instead).
+
+! Best Practice
+Pass `future-items-sweep="yes"` on project-parented lists so future projects park consistently across dashboards.

@@ -1,0 +1,58 @@
+caption: Fields and State
+tags: Documentation [[HyperGSD API]]
+title: Fields and State
+
+HyperGSD keeps behaviour in ''tags'' (types, realms, contexts) and ''fields'' (status, relations, metadata). State that only exists between page loads lives under `$:/state/hypergsd/` and `$:/temp/`.
+
+! Item fields
+
+| !Field | !Values | !Note |
+|gsd_status |next |Actions only |
+|~|waiting |Actions only |
+|~|future |Actions and Projects |
+|~|active |Projects only |
+|~|''replacement-defined'' |The shipped set is hardcoded in [[$:/plugins/yan/hypergsd/modules/status-sets]]; replace that tiddler wholesale (same title, Global tag, both function names) to swap the vocabulary — pills, rows, colours and modal validation follow automatically |
+|gsd_complete |false | |
+|~|true | |
+|gsd_comp_date |''TW date string'' |Stamped on completion, cleared on un-check |
+|gsd_project |''user-defined'' |Value is an existing project title |
+|gsd_contact |''user-defined'' |Value is an existing contact title |
+|gsd_prerequisites |''titlelist'' |Multiple prerequisite action titles |
+|gsd_action_status |next\|waiting\|future |Per-type status memory — ''temp tiddler only'' ($:/temp/gsd-new-state): remembers each type's pick while flipping action/project in the new-item modal. Copies on real tiddlers are pre-2026-08-30 write residue (never read) |
+|gsd_project_status |active\|future |~ |
+
+Type identity is carried by ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD/Contact`, `$:/GSD/Reference`, or an extension type's own tag. Realms are `$:/GSD/Realm/<name>` tags. Contexts are tags whose tiddlers carry the `GSD/Contexts` tag.
+
+! State tiddlers
+
+| !Tiddler | !Effect |
+|`$:/config/hypergsd/realm-selection` |The whole realm view selection: `list` field holds full realm tag titles plus a literal `no-realm` sentinel when realm-less items are included. Missing = all realms + sentinel (pristine); empty = nothing. Written by the review sidebar's checkboxes and Select all/none buttons; read by `$hgsd.list` and the [[realm-scoping boilerplate|Boilerplate: realm scoping]] |
+|`$:/state/hypergsd/effective-realm` / `-context` |Inherited realm/context for the capture sidebar and modal (creation side — separate vocabulary from realm-selection) |
+|`$:/state/hypergsd/show-completed/<tiddler>` |Per-view lazy toggle for completed sections — and per dashboard page: `$hgsd.toggle` members default to this prefix plus the hosting page's title (override with the widget's `state`/`state-prefix`) |
+|`$:/state/hypergsd/edit-<field>-<tiddler>` |Pick-field editor open state |
+|`$:/state/popup/pick-<id>-<tiddler>` |Picker popup state (whitelisted in view refresh gates) |
+|`$:/temp/gsd-new-temp` |Modal working tiddler (`hgsd-type`, `gsd-*` values) |
+|`$:/temp/gsd-new-title` |Modal title input, kept outside refresh gates |
+|`$:/temp/gsd-new-realm-name` |Modal "new realm" typed name, kept outside refresh gates |
+|`$:/temp/gsd-list/<host>…` |Per-list collapse states |
+|`$:/temp/hypergsd/add-<id>-<tiddler>` |Pick-field "new" flow temp |
+
+! Configuration
+
+| !Tiddler | !Default | !Effect |
+|`$:/config/hypergsd/dashboard-future-project-items` |hide |Show (`show`) or hide (`hide`) items under future projects on dashboards; parentless items always show |
+|`$:/config/hypergsd/cleanup-uncompleted-project-actions` |hide |Show (`show`) or hide (`hide`) completed actions of uncompleted projects on the Cleanup dashboard |
+|`$:/config/hypergsd/Placement/Action` / `/Project` |bottom |View placement for action / project tiddlers |
+|`$:/config/hypergsd/Placement/Contact` / `/Reference` |top |~ (all four render from the [[ViewPlacement|ViewPlacement]] tag list) |
+|`$:/config/hypergsd/picker-instant-commit/fine` |true |Pickers commit selections instantly on fine pointers (mouse) |
+|`$:/config/hypergsd/picker-instant-commit/coarse` |false |Pickers commit selections instantly on coarse pointers (touch); off keeps the Add step |
+|`$:/config/hypergsd/cleanup-age-in-days` |14 |Minimum age in days before completed items appear on the Cleanup dashboard (the `!days:gsd_comp_date` threshold); edited on the Cleanup dashboard |
+|`$:/config/hypergsd/realm-warning` |show |The cross-realm globe beside links and rows (Settings → General) |
+|`$:/config/hypergsd/panel-layout` |vertical |`horizontal` flattens panel/modal section groups into one wrapping flow |
+|`$:/config/hypergsd/list-default/<heading>` |— |Per-list default Group by / Sort by (the list's Settings page pickers; one default serves every host sharing the heading) |
+|`$:/config/hypergsd/list-view/<host>/<heading>` |— |Per-instance view state (group / ungrouped / sort fields) — the strip's writes |
+|`$:/config/hypergsd/<Tag list>/hidden/<member>` |— |Withdraws a GroupBy/SortBy member from every strip and picker (Settings → Dashboards) |
+|`$:/config/hypergsdPanel/visibility/<section>` / `$:/config/hypergsdModal/visibility/<section>` |show |Per-section show/hide (Settings → Panel and modal) |
+|`$:/config/hypergsd/new-action-navigate` / `new-project-navigate` |yes |Navigate to the tiddler after creating it from the modal (the modal's own post-hook step, not an AfterCreation member) |
+
+''Authoring note'': config-shadow `.tid` bodies ship ''without'' trailing newlines (shadow-newline-test enforces this) and `match[]` compares exactly — append `trim[]` or use a `get[else]` operand when comparing config text values in filters.

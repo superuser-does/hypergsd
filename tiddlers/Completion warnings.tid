@@ -1,0 +1,38 @@
+caption: Completion warnings
+tags: Documentation [[HyperGSD API]]
+title: Completion warnings
+
+! Summary
+Add a confirmation warning that fires when an item is marked complete.
+
+! Detail
+Completing an item with an active warning pops a confirmation modal instead of completing silently. A warning is a tiddler with two fields:
+
+| !Field | !Required | !Description |
+|`conditions` |yes |A filter expression; the warning fires when it outputs at least one title. The output titles pool into the modal's shared //Relevant tiddlers// list as links — return the items that are causing concern, not just any non-empty value. Absent `conditions` means the member never fires |
+|`warning` |no |The key of the message string: the sentence lives in the language tiddler `$:/language/hypergsd/Sections/Complete/Warnings/<key>` and renders as its own bullet in the modal. Unset falls back to the raw key |
+
+The `conditions` filter runs with the variable `host-title` set to the item being completed. The engine is type-agnostic — the shipped built-in only warns for projects (its conditions return nothing for other hosts), but your warning can apply to any item. Conditions are evaluated through `subfilter`, which passes its incoming source through — the tag-list member itself — so a `conditions` filter must start with a selection operator (`all[tiddlers]` or similar) to select from the wiki; starting with `tag[]` or another filtering operator would filter the member and return nothing.
+
+Unlike other HyperGSD tag lists, membership is ''not'' tag-driven: the engine enumerates the `list` field of `$:/tags/hypergsd/Complete/Warning` itself, so that list field is the active set. Append a member's title to activate it; delete a title to retire it (the shipped built-in included). Tag your member with `$:/tags/hypergsd/Complete/Warning` anyway for discovery — but an unlisted member never fires, so a plugin shipping a warning should document the list-field edit rather than rely on the tag alone.
+
+! Example
+A warning that fires when a project still has waiting actions, with the label shipped in your plugin's language files:
+
+```
+title: $:/plugins/MyPlugin/complete-warnings/waiting
+tags: $:/tags/hypergsd/Complete/Warning
+hgsd-conditions: [all[tiddlers]gsd_project<host-title>!is[draft]tag[$:/GSD/Action]gsd_status[waiting]]
+hgsd-warning: WaitingActions
+```
+
+```
+title: $:/language/hypergsd/Sections/Complete/Warnings/
+...
+Warnings/WaitingActions: Waiting actions remain
+```
+
+Then append `$:/plugins/MyPlugin/complete-warnings/waiting` to the `list` field of `$:/tags/hypergsd/Complete/Warning` to activate it.
+
+! Best practice
+Narrow to the host's children first: start the conditions with `all[tiddlers]gsd_project<host-title>` and apply type and state checks after it. The subfilter context carries no tag index, so the first operator is a full-wiki pass — everything after it should run on the handful of children, not the other way round. Test both the applicable and inapplicable paths: a `conditions` filter must output nothing for the warning to stay hidden. Keep messages to one line — several warnings may apply at once, each rendering as its own bullet above the pooled //Relevant tiddlers// list. Removing the title from the list field is the supported way to retire a warning, including the shipped ones.

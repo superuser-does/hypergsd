@@ -1,0 +1,18 @@
+caption: Reference
+title: Reference
+tags: Documentation [[HyperGSD API]]
+
+! Summary
+A reference is supporting material attached to a project: any tiddler tagged `$:/GSD/Reference`.
+
+! Detail
+
+!! Field Variables
+
+| !Field | !Values | !Note |
+|gsd_project |''user-defined'' |Project the reference belongs to |
+
+References appear in the project view's References section and on the References dashboard (groupable by any [[GroupBy|Grouping dimensions]] dimension and sortable by any [[SortBy|Sorting dimensions]] expression via the list's strip). Grouped headings link to the project; ungrouped rows carry the jump-to-project icon instead (tooltip = project title). Both surfaces create references via the shared `<<new-reference-button>>` component (`ui/components/new-reference-button.tid` — the project page pre-fills project and realm, the dashboard passes neither).
+
+! Best Practice
+Create references from a project's page (`<<new-reference-button>>`) so `gsd_project` is pre-filled.

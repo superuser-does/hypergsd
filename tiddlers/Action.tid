@@ -1,0 +1,32 @@
+caption: Action
+title: Action
+tags: Documentation [[HyperGSD API]]
+
+! Summary
+Actions are the basic unit of work. An action is any tiddler tagged `$:/GSD/Action`.
+
+! Detail
+
+!! Field Variables
+
+| !Field | !Values | !Note |
+|gsd_status |next |Shipped set: hardcoded in [[$:/plugins/yan/hypergsd/modules/status-sets]] |
+|~|waiting |~ |
+|~|future |~ |
+|gsd_complete |false | |
+|~|true | |
+|gsd_comp_date |''TW date string'' |Stamped when complete |
+|gsd_project |''user-defined'' |Parent project title |
+|gsd_contact |''user-defined'' |Delegated-to contact title |
+|gsd_prerequisites |''titlelist'' |Actions that must complete first |
+
+!! Custom statuses
+Replace [[$:/plugins/yan/hypergsd/modules/status-sets]] wholesale — same title, keep the Global tag and both `hgsd-status-set`/`hgsd-status-default` function names, add your per-type runs (single-word statuses), and re-ship the label/glyph `hgsd-status-label`/`hgsd-row-glyph` procedures that live in the same file. The pills on panels and rows, the generated colour rules, modal validation and the per-type memory field follow automatically (open views re-render live via the type gate). Optional: a `$:/language/hypergsd/Sections/Status/<word>` key for the label, a `Lists/Row/<word>` key for the row glyph (falls back to the word itself / its first letter), and `action-<word>`/`-border` keys in the Colours tab. Dashboard lists for a new status are opt-in: ship a list tiddler filtered on `gsd_status[<word>]` via the existing list tag lists.
+
+Actions may also carry any number of context tags (see [[Context|Context]]) and one realm tag.
+
+!! UI Controls
+The attributes panel for actions is assembled from [[PanelTemplate|PanelTemplate]] sections; its placement defaults to ''bottom'' (`$:/config/hypergsd/Placement/Action`).
+
+! Best Practice
+Create actions with `<$hgsd.new-button>` so realm, project and context are inherited from the calling tiddler.
