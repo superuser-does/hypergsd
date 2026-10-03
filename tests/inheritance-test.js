@@ -8,7 +8,7 @@ $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw
 global.$tw = $tw;
 const fd = require("/home/yan/tiddlywiki/tw5source/core/modules/utils/fakedom.js");
 const wiki = $tw.wiki, doc = fd.fakeDocument;
-const G = '<$importvariables filter="[[\\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\\$:/tags/Global/View]!is[draft]]">';
+const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
 let fails = 0;
 const t = (name, ok, extra) => { if (Array.isArray(ok)) ok = JSON.stringify(ok) === JSON.stringify(extra); if (!ok) fails++; console.log((ok ? "PASS " : "FAIL ") + name + (ok || !extra ? "" : " " + extra)); };
 
