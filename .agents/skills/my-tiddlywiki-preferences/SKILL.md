@@ -40,6 +40,7 @@ description: How I want TiddlyWiki work done — British English, names spelled 
 - **Filename matching**: filenames for `.tid` files match their `title:` field exactly. Standard tiddlers use the title (`My Tiddler.tid`); system/override tiddlers in `tiddlers/` replace `/` and `:` with `_` (`$__plugins_Foo_ui_bar.tid`); plugin source files' relative path matches the title suffix (`plugins/Foo/ui/bar.tid`).
 - **Header separation**: exactly one blank line between the tiddler headers (title, tags) and the first pragma.
 - **Pragma blocks**: all pragmas (`\whitespace trim`, `\procedure`, `\widget`) on consecutive lines — NEVER a blank line within the block (it terminates global registration).
+- **Trailing newlines**: files without a final newline are stripped deliberately — never restore, flag or "clean up" one.
 
 # Stylesheets
 
