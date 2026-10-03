@@ -4,17 +4,23 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
 \whitespace trim
 
 <!-- Shared "create «typed» and add" cluster, split 2026-09-27 into a creation core plus the button shell so the pick family's keyboard-commit dispatcher (hgsd-pick-keyboard-commit, in hgsd-pick.tid) can run the SAME creation from a keyboard actions string. hgsd-create-and-add-actions is the core: creates the tiddler immediately (type tag via the tag-list mapping, realm tags inherited from currentTiddler so scoped pickers list it), writes the created title to target-tiddler/target-field, clears pick-tiddler/close-state when passed. The dependants shape passes target-field blank with new-prereq instead: nothing is written to a target; the created action's gsd_prerequisites gains new-prereq, and target-tiddler still names the caller for the AfterCreation rules. Every dynamic attribute in the core is a filtered transclusion: through the actions-string hop (the keyboard caller) a macro-style <<param>> attribute never fires the action widget, while filter expressions resolve the parameters reliably — the hgsd-pick-commit discovery; the button path is indifferent to the form. The shell keeps the label as a SLOT (default English) so fills render in the caller's scope where typed-pick is already computed. Callers gate on [<typed-pick>!match[]] :and[!is[tiddler]] — the variable run keeps multi-word titles whole (enlist<> splits them on spaces and would wrongly offer create for existing multi-word titles). -->
+<!-- The two derivations every creation path shares live here (the modal's create-gsd-tiddler calls both): the type-tag lookup and the core-field seeding gate — only action and project types carry gsd_status/gsd_complete at creation. -->
+\function hgsd-type-tag(type) [all[shadows+tiddlers]tag[$:/tags/hypergsd/Type]] :filter[get[hgsd-type]match<type>] +[first[]]
+
+\procedure hgsd-seed-core-fields(create-title, seed-type, seed-status, seed-complete)
+<%if [<seed-type>match[action]] [<seed-type>match[project]] %>
+    <$action-setfield $tiddler={{{ [<create-title>] }}} gsd_status={{{ [<seed-status>] }}} gsd_complete={{{ [<seed-complete>] }}} />
+<%endif%>
+\end
+
 \procedure hgsd-create-and-add-actions(typed-pick, new-type, new-status, target-tiddler, target-field:"", pick-tiddler:"", pick-field:"pick", close-state:"", new-project:"", target-mode:"set", new-prereq:"")
-<$let type-tag={{{ [all[shadows+tiddlers]tag[$:/tags/hypergsd/Type]]
-    :filter[get[hgsd-type]match<new-type>] +[first[]] }}}>
+<$let type-tag={{{ [function[hgsd-type-tag],<new-type>] }}} >
 <$let new-tags={{{ [<currentTiddler>tags[]prefix[$:/GSD/Realm/]] [<type-tag>]
     +[format:titlelist[]join[ ]] }}}>
 <!-- The tag-list filter runs BEFORE the concatenation: applied to the joined list it would drop the realm tags (they carry no hgsd-type field). -->
 <$action-createtiddler $basetitle={{{ [<typed-pick>] }}} tags={{{ [<new-tags>] }}} >
     <!-- Follow-up actions nest inside $action-createtiddler: it publishes createTiddler-title only on its own subtree at invoke time (the invokeActions propagation walk refreshes each child action before firing it, so the filter forms below resolve the variable then). -->
-    <%if [<new-type>match[action]] [<new-type>match[project]] %>
-        <$action-setfield $tiddler={{{ [<createTiddler-title>] }}} gsd_status={{{ [<new-status>] }}} gsd_complete="false"/>
-    <%endif%>
+    <$transclude $variable="hgsd-seed-core-fields" create-title={{{ [<createTiddler-title>] }}} seed-type={{{ [<new-type>] }}} seed-status={{{ [<new-status>] }}} seed-complete="false"/>
     <%if [<new-project>!match[]] %>
         <$action-setfield $tiddler={{{ [<createTiddler-title>] }}} gsd_project={{{ [<new-project>] }}}/>
     <%endif%>

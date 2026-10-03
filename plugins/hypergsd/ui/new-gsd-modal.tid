@@ -16,10 +16,8 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
         $basetitle=<<new-title>>
         tags="">
         <$fieldmangler tiddler=<<createTiddler-title>>>
-        <$action-sendmessage $message="tm-add-tag" $param={{{ [all[shadows+tiddlers]tag[$:/tags/hypergsd/Type]] :filter[get[hgsd-type]match<gsd-type>] +[first[]] }}} />
-        <%if [<gsd-type>match[action]] [<gsd-type>match[project]] %>
-            <$action-setfield $tiddler=<<createTiddler-title>> gsd_status=<<gsd-status>> gsd_complete=<<gsd-complete>> />
-        <%endif%>
+        <$action-sendmessage $message="tm-add-tag" $param={{{ [function[hgsd-type-tag],<gsd-type>] }}} />
+        <$transclude $variable="hgsd-seed-core-fields" create-title={{{ [<createTiddler-title>] }}} seed-type={{{ [<gsd-type>] }}} seed-status={{{ [<gsd-status>] }}} seed-complete={{{ [<gsd-complete>] }}} />
         <!-- Inheritance rules: $:/tags/hypergsd/Inheritance members run only here, at the point of creation (the submit action — never a render path). Contract: create-title, new-type, calling-tiddler (blank = invoked outside a tiddler panel, e.g. the toolbar), new-temp, new-state. Tag rules send tm-add-tag within the fieldmangler. Field-writing rules are point-less: the pass-through below copies the temp's RENDER-TIME fields (a rendered list's children cache — mid-submit temp mutation, deletion included, never reaches it), so field values are the attribute sections' responsibility at pick time. Plain tag scan, deliberately no list-field pinning: members are removable by untagging (Inheritance). -->
                 <$list filter="[all[shadows+tiddlers]tag[$:/tags/hypergsd/Inheritance]!is[draft]]" variable="inheritance-rule">
             <$let create-title=<<createTiddler-title>> new-type=<<gsd-type>> calling-tiddler=<<gsd-calling-tiddler>> new-temp="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state">
