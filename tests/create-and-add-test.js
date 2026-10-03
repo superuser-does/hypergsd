@@ -227,8 +227,8 @@ const r10 = render(depSrc, "Host action");
 t("dependants: create button shown for typed new pick", !!r10.createBtnWidget, JSON.stringify(r10.buttons));
 if (r10.createBtnWidget) fireActions(r10.createBtnWidget);
 const fresh2 = wiki.getTiddler("Fresh Dependant");
-t("dependants: created with action tag + next status",
-  !!fresh2 && fresh2.fields.tags.indexOf("$:/GSD/Action") !== -1 && fresh2.fields.gsd_status === "next",
+t("dependants: created with action tag + future status",
+  !!fresh2 && fresh2.fields.tags.indexOf("$:/GSD/Action") !== -1 && fresh2.fields.gsd_status === "future",
   JSON.stringify(fresh2 && fresh2.fields));
 t("dependants: created action's prereqs gain the viewing title",
   JSON.stringify($tw.wiki.getTiddlerList("Fresh Dependant", "gsd_prerequisites")) === JSON.stringify(["Host action"]),
