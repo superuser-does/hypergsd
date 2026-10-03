@@ -3,27 +3,27 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 
 \whitespace trim
 
-<!-- Shared section chassis for panels AND the new-item modal (the twin loops it replaces lived in view-body/new-gsd-modal). Portions are layout slots within the chassis: Portion/1..N render as .hgsd-capture side-by-side boxes (flattened to one flow by the panel-layout setting), while the two band slots bracket the row — Portion/Top spans the full width before it, Portion/Full after it. A portion exists the moment a member claims it; untagged members land in Portion/1 (the member loop's else<default-portion> indirection resolves their effective portion, so explicit and implicit claims share one loop and tag-list order rules within a portion); membership/order come from the tag's list field; visibility per member from <visibility-base><title>. Scope: Global, not Global/View — the modal renders outside ViewTemplate imports. Members read their section context (section-target/type/mode or new-temp/current-type) from the CALLER's ambient scope. -->
-\procedure hgsd-section-portions(tag-list, visibility-base)
+<!-- The ONE portion chassis core behind both named wrappers (panels/modal and dashboards): Portion/1..N render as side-by-side boxes (flattened to one flow by the panel-layout setting), while the two band slots bracket the row — Portion/Top spans the full width before it, Portion/Full after it. A portion exists the moment a member claims it; untagged members land in Portion/1 (the else<default-portion> indirection resolves their effective portion, so explicit and implicit claims share one loop and tag-list order rules within a portion); membership/order come from the tag's list field; visibility per member from <visibility-base><title>. Members are list tiddlers transcluded in block mode and read their section context (section-target/type/mode or new-temp/current-type) from the CALLER's ambient scope. Scope: Global, not Global/View — the modal renders outside ViewTemplate imports. -->
+\procedure hgsd-portions-core(tag-list, visibility-base, columns-class)
 <$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
     portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
     top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
-    full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}}>
+    full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}} >
 <%if [<tag-list>] :and[tagging[]] :and[tag<top-portion>limit[1]] %>
 <div class="hgsd-portion-top">
     <$list filter="[<tag-list>] :and[tagging[]] :and[tag<top-portion>] :and[!is[draft]]" variable="portion-member">
         <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<portion-member>>/>
+            <$transclude $tiddler=<<portion-member>> $mode="block"/>
         <%endif%>
     </$list>
 </div>
 <%endif%>
-<div class="hgsd-capture">
+<div class=<<columns-class>>>
     <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]] +[sort[]]" variable="capture-portion-tag">
         <div>
             <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="portion-member">
                 <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-                    <$transclude $tiddler=<<portion-member>>/>
+                    <$transclude $tiddler=<<portion-member>> $mode="block"/>
                 <%endif%>
             </$list>
         </div>
@@ -33,7 +33,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 <div class="hgsd-portion-full">
     <$list filter="[<tag-list>] :and[tagging[]] :and[tag<full-portion>] :and[!is[draft]]" variable="portion-member">
         <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<portion-member>>/>
+            <$transclude $tiddler=<<portion-member>> $mode="block"/>
         <%endif%>
     </$list>
 </div>
@@ -41,43 +41,13 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 </$let>
 \end
 
-<!-- Dashboard pages' portion chassis: same slot vocabulary, full-width row (dashboards fill the page; panels hug content in .hgsd-capture). Same parameter contract as hgsd-section-portions (tag + visibility base, passed by each page); the Top and Full bands always render — completed lists are Portion/Full members that self-toggle via $hgsd.toggle inside the chassis-rendered band (the old top="no"/full="no" skip knobs were removed 2026-09-12: no caller ever used them). Members are list tiddlers transcluded in block mode; drag-reorder order (the tag's list field) is preserved within each portion. -->
+\procedure hgsd-section-portions(tag-list, visibility-base)
+<$transclude $variable="hgsd-portions-core" tag-list=<<tag-list>> visibility-base=<<visibility-base>> columns-class="hgsd-capture"/>
+\end
+
+<!-- Dashboard pages' wrapper: same slot vocabulary, full-width row (dashboards fill the page; panels hug content in .hgsd-capture). Refresh gate: dashboard pages sit in the story with no chassis gate of their own, so portion/membership edits (Settings picker, tag-list `list` writes) and per-list visibility config must wake this row. Item edits and deletions open the chassis via the type-gate and !is[tiddler] runs so the inner $hgsd.list gates can decide for themselves (their rows freeze further down); drafts never match the type-gate, so editor keystrokes stay out. The [match<tag-list>] run is input-driven, not a bare [<tag-list>] variable run — a variable run emits the tag's title unconditionally, which kept this gate permanently open (every keystroke in any open editor descended the whole dashboard; fixed 2026-09-12). Two runs admit content that lives INSIDE this gate: the config prefix (a member list's view strip — grouping/sorting — reads its per-list config tiddler inside the list's own freeze below this gate; the view-body gates have always carried this run — and this run also fixed a latent freeze: config-driven list options (future-items-sweep) previously never woke the chassis, so settings toggles did not live-update dashboards) and the scoped show-completed pair ($hgsd.toggle state inside a member's own content; subtraction scopes it to this page — a suffix-of-another-title page over-refreshes, never under-refreshes). The three contextualise runs (the contexts row fragment's reveal/picker state and pick temp — the fragment's documented invariant) ride here for the same reason: without them every chassis-hosted page froze the fragment's button dead; the inner list gates and row whitelists scope these writes per row. So does the pick-contact-filter pair: the Contacts page's filter picker is a Strip tag-list member rendered INSIDE a list member, so its popup/temp state must pass this chassis gate to reach the row gate that hosts it. -->
 \procedure hgsd-dashboard-portions(tag-list, visibility-base)
-<!-- Refresh gate: dashboard pages sit in the story with no chassis gate of their own, so portion/membership edits (Settings picker, tag-list `list` writes) and per-list visibility config must wake this row. Item edits and deletions open the chassis via the type-gate and !is[tiddler] runs so the inner $hgsd.list gates can decide for themselves (their rows freeze further down); drafts never match the type-gate, so editor keystrokes stay out. The [match<tag-list>] run is input-driven, not a bare [<tag-list>] variable run — a variable run emits the tag's title unconditionally, which kept this gate permanently open (every keystroke in any open editor descended the whole dashboard; fixed 2026-09-12). Two runs admit content that lives INSIDE this gate: the config prefix (a member list's view strip — grouping/sorting — reads its per-list config tiddler inside the list's own freeze below this gate; the view-body gates have always carried this run — and this run also fixed a latent freeze: config-driven list options (future-items-sweep) previously never woke the chassis, so settings toggles did not live-update dashboards) and the scoped show-completed pair ($hgsd.toggle state inside a member's own content; subtraction scopes it to this page — a suffix-of-another-title page over-refreshes, never under-refreshes). The three contextualise runs (the contexts row fragment's reveal/picker state and pick temp — the fragment's documented invariant) ride here for the same reason: without them every chassis-hosted page froze the fragment's button dead; the inner list gates and row whitelists scope these writes per row. So does the pick-contact-filter pair: the Contacts page's filter picker is a Strip tag-list member rendered INSIDE a list member, so its popup/temp state must pass this chassis gate to reach the row gate that hosts it. -->
 <$refresh subfilter="[subfilter<hgsd-type-gate>] [!is[tiddler]] [match<tag-list>] [tag<tag-list>] [prefix<visibility-base>] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd/show-completed/]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/temp/hypergsd/contact-filter/]] -[prefix[$:/state/hypergsd/show-completed/]!suffix<currentTiddler>]">
-<$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
-    portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
-    top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
-    full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}}>
-<%if [<tag-list>] :and[tagging[]] :and[tag<top-portion>limit[1]] %>
-<div class="hgsd-portion-top">
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tag<top-portion>] :and[!is[draft]]" variable="dashboard-list">
-        <%if [<visibility-base>addsuffix<dashboard-list>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<dashboard-list>> $mode="block"/>
-        <%endif%>
-    </$list>
-</div>
-<%endif%>
-<div class="hgsd-portion-columns">
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]] +[sort[]]" variable="capture-portion-tag">
-        <div>
-                <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="dashboard-list">
-                    <%if [<visibility-base>addsuffix<dashboard-list>get[text]else[show]match[show]] %>
-                        <$transclude $tiddler=<<dashboard-list>> $mode="block"/>
-                    <%endif%>
-                </$list>
-        </div>
-    </$list>
-</div>
-<%if [<tag-list>] :and[tagging[]] :and[tag<full-portion>limit[1]] %>
-<div class="hgsd-portion-full">
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tag<full-portion>] :and[!is[draft]]" variable="dashboard-list">
-        <%if [<visibility-base>addsuffix<dashboard-list>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<dashboard-list>> $mode="block"/>
-        <%endif%>
-    </$list>
-</div>
-<%endif%>
-</$let>
+<$transclude $variable="hgsd-portions-core" tag-list=<<tag-list>> visibility-base=<<visibility-base>> columns-class="hgsd-portion-columns"/>
 </$refresh>
 \end
