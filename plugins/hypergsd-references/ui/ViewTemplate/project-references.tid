@@ -3,7 +3,6 @@ list-before: $:/plugins/yan/hypergsd/ui/project-view/subprojects
 tags: $:/tags/hypergsd/ProjectView $:/tags/hypergsd/ProjectView/Portion/Full
 title: $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
 
-
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Lists/
 
