@@ -1,7 +1,7 @@
 caption: {{$:/language/hypergsd/Settings/Lists/ContactList/Caption}}
 description: {{$:/language/hypergsd/Settings/Lists/ContactList/Hint}}
 hgsd-heading: $:/language/hypergsd/Lists/Contacts
-tags: $:/tags/hypergsd/Lists/Dashboard $:/tags/hypergsd/Lists/Contact $:/tags/hypergsd/Lists/Contact/Portion/Full
+tags: $:/tags/hypergsd/Lists/Contact $:/tags/hypergsd/Lists/Contact/Portion/Full
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-list
 
 <$hgsd.list
