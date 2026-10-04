@@ -1,5 +1,6 @@
 title: GSD/Projects without next actions
 
+\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Dashboards/
 <div class="tc-message-box">
   <p>

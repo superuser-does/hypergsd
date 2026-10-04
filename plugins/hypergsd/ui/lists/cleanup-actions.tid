@@ -4,6 +4,8 @@ hgsd-heading: $:/language/hypergsd/Lists/CompletedActions
 tags: $:/tags/hypergsd/Lists/Cleanup
 title: $:/plugins/yan/hypergsd/ui/lists/cleanup-actions
 
+\whitespace trim
+
 <!-- The :filter run keeps completed actions whose project is complete or missing, and its else tail readmits every dropped item while the config ($:/config/hypergsd/cleanup-uncompleted-project-actions, show/hide) says show (single-run chains only: multi-run subfilters do not parse inside suffix operands). -->
 <$let show-uncompleted-parent-items={{{ [[$:/config/hypergsd/cleanup-uncompleted-project-actions]get[text]else[hide]match[show]then[true]else[false]] }}} >
 <$hgsd.list

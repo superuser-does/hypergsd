@@ -1,5 +1,6 @@
 title: GSD/Cleanup: open actions under completed projects
 
+\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Dashboards/
 <div class="tc-message-box">
 

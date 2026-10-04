@@ -4,6 +4,8 @@ hgsd-heading: $:/language/hypergsd/Lists/CompletedActions
 tags: $:/tags/hypergsd/Lists/Dashboard $:/tags/hypergsd/Lists/Dashboard/Portion/Full $:/tags/hypergsd/Lists/Action $:/tags/hypergsd/Lists/Action/Portion/Full $:/tags/hypergsd/Lists/CompletedAction
 title: $:/plugins/yan/hypergsd/ui/lists/completed-action-list
 
+\whitespace trim
+
 <!-- The list carries its own disclosure: on the dashboard tag lists it renders collapsed behind the toggle; the dedicated Completed Actions page (whose entire content this member is) renders it bare. -->
 <$hgsd.toggle
   text={{$:/language/hypergsd/Lists/ShowCompletedActions}}

@@ -3,6 +3,7 @@ icon: $:/plugins/yan/hypergsd-contexts/images/context
 tags: $:/tags/hypergsd/Type
 title: GSD/Contexts
 
+\whitespace trim
 \procedure add-context-actions()
 <$let newContextState="$:/temp/hypergsd/NewContextName"
   newContextName={{{ [<newContextState>get[text]trim[]] }}}>

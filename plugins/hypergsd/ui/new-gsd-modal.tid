@@ -2,6 +2,7 @@ mask-closable: yes
 subtitle: {{$:/language/hypergsd/NewItem/Subtitle}}
 title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
 
+\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/NewItem/
 
 <!-- Optional-field writer: sets the field ONLY for a non-blank value — a blank parameter means "absent", never a blank field on the tiddler. -->

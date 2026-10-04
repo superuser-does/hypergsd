@@ -1,5 +1,7 @@
 title: GSD/Ticklers
 
+\whitespace trim
+
 <!-- Three sections split on today (the tickler-check procedure's idiom: the 17-digit UTC strings compare correctly as strings), realm scoping from $hgsd.list's default scope. Completed repeating ticklers roll to a future date and rest here between cycles — the due-day and overdue raise includes them regardless of completion, so no revival pass is needed. The check itself runs automatically at startup, at the top of every hour and at local midnight. -->
 <$let today=<<now "[UTC]YYYY0MM0DD000000000">>>
 <$hgsd.list

@@ -3,6 +3,8 @@ description: {{$:/language/hypergsd/Settings/Lists/CompletedActions/Hint}}
 tags: $:/tags/hypergsd/Lists/ContactAction $:/tags/hypergsd/Lists/ContactAction/Portion/Full
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-completed-action-list
 
+\whitespace trim
+
 <!-- Portion/Full member: renders in the contact view's trailing band behind its own disclosure ($hgsd.toggle; the state namespace is the one the view's refresh gate admits). -->
 <$hgsd.toggle
   text={{$:/language/hypergsd/Lists/ShowCompletedActions}}

@@ -2,6 +2,7 @@ caption: {{$:/language/hypergsd/Settings/Behaviour/Caption}}
 tags: $:/tags/hypergsd/Settings
 title: $:/plugins/yan/hypergsd/ui/control-panel/behaviour
 
+\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Settings/
 
 <<lingo Behaviour/PickerInstantCommit>><br/>
