@@ -2,7 +2,7 @@
 
 This repository is the HyperGSD wiki: a TiddlyWiki wiki folder that exists to
 develop and host the HyperGSD plugin family. `plugins/` carries the family
-source (loaded by any wiki the folders are deployed into), `tiddlers/` carries
+source (any wiki holding these folders loads them automatically), `tiddlers/` carries
 the plugin's documentation as wiki content, and serving the repository itself
 (`tiddlywiki . --listen`) publishes both. The family is a hard fork of GSD5
 (MIT; GSD5 lineage credited in `contributors.tid`). Requires core >= 5.4.0
