@@ -15,10 +15,10 @@
             "index.html",
             "text/plain"
         ],
-        "empty": [
+        "single-file": [
             "--render",
-            "$:/core/save/all",
-            "empty.html",
+            "$:/plugins/tiddlywiki/tiddlyweb/save/offline",
+            "single-file.html",
             "text/plain"
         ],
         "emptyexternalcore": [
