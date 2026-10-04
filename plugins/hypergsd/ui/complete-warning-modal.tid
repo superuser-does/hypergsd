@@ -11,21 +11,21 @@ title: $:/plugins/yan/hypergsd/ui/complete-warning-modal
 <$let host-title=<<hgsd-host>>>
 <p><<lingo Complete/Warning/Question>></p>
 <ul>
-    <$list filter="[list[$:/tags/hypergsd/Complete/Warning]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}]" variable="warn-member">
-        <li>
-            <$let warn-key={{{ [<warn-member>get[hgsd-warning]else<warn-member>] }}} >
-            <$text text={{{ [[$:/language/hypergsd/Sections/Complete/Warnings/]addsuffix<warn-key>get[text]else<warn-key>] }}} />
-            </$let>
-        </li>
-    </$list>
+  <$list filter="[list[$:/tags/hypergsd/Complete/Warning]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}]" variable="warn-member">
+    <li>
+      <$let warn-key={{{ [<warn-member>get[hgsd-warning]else<warn-member>] }}} >
+      <$text text={{{ [[$:/language/hypergsd/Sections/Complete/Warnings/]addsuffix<warn-key>get[text]else<warn-key>] }}} />
+      </$let>
+    </li>
+  </$list>
 </ul>
 <p><<lingo Complete/Warning/Relevant>></p>
 <$list filter="[list[$:/tags/hypergsd/Complete/Warning]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map:flat[subfilter{!!hgsd-conditions}] +[unique[]]" variable="warn-item" counter="warn-idx">
-    <$list filter="[<warn-idx>!match[1]]"><br/></$list>
-    <$link to=<<warn-item>>><$text text=<<warn-item>>/></$link>
+  <$list filter="[<warn-idx>!match[1]]"><br/></$list>
+  <$link to=<<warn-item>>><$text text=<<warn-item>>/></$link>
 </$list>
 <div class="hgsd-interactive">
-    <button class="tc-button" data-tiddler=<<hgsd-host>> data-hgsd-action="complete-confirmed"><<lingo Complete/Warning/CompleteAnyway>></button>
+  <button class="tc-button" data-tiddler=<<hgsd-host>> data-hgsd-action="complete-confirmed"><<lingo Complete/Warning/CompleteAnyway>></button>
 </div>
 </$let>
 </$eventcatcher>

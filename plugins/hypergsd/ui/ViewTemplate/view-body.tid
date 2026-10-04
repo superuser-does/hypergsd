@@ -5,17 +5,17 @@ title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body
 <$refresh subfilter="[prefix[$:/temp/hypergsd/add-]] :and[suffix<currentTiddler>] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/PanelTemplate]] [prefix[$:/tags/hypergsd/PanelTemplate]] [tag[$:/tags/hypergsd/Type]] [prefix[$:/state/hypergsd]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] -[is[draft]]">
 <!-- The panel is a styled fieldset: it genuinely groups a set of related form controls. Section membership/order come from $:/tags/hypergsd/PanelTemplate (list field single-sources order); Group/1, Group/2, ... tags decide placement (untagged sections land in Group/1). Groups are bare divs — orientation (stacked or flowing) is the transcluded panel-layout setting, not markup. Visibility per section: $:/config/hypergsdPanel/visibility/<section-title>, default show. -->
 <fieldset class="tc-tiddler-info gsd-info-mod hgsd-panel-fieldset">
-    <!-- Centralised O(1) event listener for all UI controls in this panel. -->
-    <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
-    <div class="gsd-list-item gsd-panel">
-        <!-- SECTION CONTEXT: dual-context sections (ui/attributes) read these instead of hard-coding currentTiddler — the modal chassis sets the same names around its loop. -->
-        <$let section-target=<<currentTiddler>>
-            section-mode="panel"
-            section-status-target=<<currentTiddler>>
-            section-type={{{ [all[current]tags[]tag[$:/tags/hypergsd/Type]get[hgsd-type]] }}}>
-        <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/>
-        </$let>
-    </div>
-    </$eventcatcher>
+  <!-- Centralised O(1) event listener for all UI controls in this panel. -->
+  <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+  <div class="gsd-list-item gsd-panel">
+    <!-- SECTION CONTEXT: dual-context sections (ui/attributes) read these instead of hard-coding currentTiddler — the modal chassis sets the same names around its loop. -->
+    <$let section-target=<<currentTiddler>>
+      section-mode="panel"
+      section-status-target=<<currentTiddler>>
+      section-type={{{ [all[current]tags[]tag[$:/tags/hypergsd/Type]get[hgsd-type]] }}}>
+    <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/>
+    </$let>
+  </div>
+  </$eventcatcher>
 </fieldset>
 </$refresh>

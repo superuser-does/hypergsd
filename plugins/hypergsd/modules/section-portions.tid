@@ -6,36 +6,36 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 <!-- The ONE portion chassis core behind both named wrappers (panels/modal and dashboards): Portion/1..N render as side-by-side boxes (flattened to one flow by the panel-layout setting), while the two band slots bracket the row — Portion/Top spans the full width before it, Portion/Full after it. A portion exists the moment a member claims it; untagged members land in Portion/1 (the else<default-portion> indirection resolves their effective portion, so explicit and implicit claims share one loop and tag-list order rules within a portion); membership/order come from the tag's list field; visibility per member from <visibility-base><title>. Members are list tiddlers transcluded in block mode and read their section context (section-target/type/mode or new-temp/current-type) from the CALLER's ambient scope. Scope: Global, not Global/View — the modal renders outside ViewTemplate imports. -->
 \procedure hgsd-portions-core(tag-list, visibility-base, columns-class)
 <$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
-    portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
-    top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
-    full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}} >
+  portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
+  top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
+  full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}} >
 <%if [<tag-list>] :and[tagging[]] :and[tag<top-portion>limit[1]] %>
 <div class="hgsd-portion-top">
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tag<top-portion>] :and[!is[draft]]" variable="portion-member">
-        <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<portion-member>> $mode="block"/>
-        <%endif%>
-    </$list>
+  <$list filter="[<tag-list>] :and[tagging[]] :and[tag<top-portion>] :and[!is[draft]]" variable="portion-member">
+    <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
+      <$transclude $tiddler=<<portion-member>> $mode="block"/>
+    <%endif%>
+  </$list>
 </div>
 <%endif%>
 <div class=<<columns-class>>>
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]] +[sort[]]" variable="capture-portion-tag">
-        <div>
-            <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="portion-member">
-                <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-                    <$transclude $tiddler=<<portion-member>> $mode="block"/>
-                <%endif%>
-            </$list>
-        </div>
-    </$list>
+  <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]] +[sort[]]" variable="capture-portion-tag">
+    <div>
+      <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="portion-member">
+        <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
+          <$transclude $tiddler=<<portion-member>> $mode="block"/>
+        <%endif%>
+      </$list>
+    </div>
+  </$list>
 </div>
 <%if [<tag-list>] :and[tagging[]] :and[tag<full-portion>limit[1]] %>
 <div class="hgsd-portion-full">
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tag<full-portion>] :and[!is[draft]]" variable="portion-member">
-        <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<portion-member>> $mode="block"/>
-        <%endif%>
-    </$list>
+  <$list filter="[<tag-list>] :and[tagging[]] :and[tag<full-portion>] :and[!is[draft]]" variable="portion-member">
+    <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
+      <$transclude $tiddler=<<portion-member>> $mode="block"/>
+    <%endif%>
+  </$list>
 </div>
 <%endif%>
 </$let>

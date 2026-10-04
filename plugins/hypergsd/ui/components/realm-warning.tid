@@ -8,7 +8,7 @@ title: $:/plugins/yan/hypergsd/ui/components/realm-warning
 <%if [[$:/config/hypergsd/realm-warning]get[text]else[show]!match[hide]] %>
 <%if [<linked-tiddler>!match[]] %>
 <$let scope-list={{{ [subfilter<hgsd-realm-selection>] +[format:titlelist[]join[ ]] }}}
-    scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}} >
+  scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}} >
 <%if [enlist<scope-tags>tagging[]match<linked-tiddler>] %>
 <!-- in the selection: visible — a branch body must never be empty (an empty conditional branch transcludes the condition's output items) -->
 <%else%>

@@ -6,37 +6,37 @@ title: $:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact-button
 <!-- Scope: $:/tags/Global/View — only consumer is view-body-contact.tid. -->
 \procedure new-contact-next-button()
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="next"
-    gsd-complete="false"
-    gsd-contact={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Next}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="action"
+  gsd-status="next"
+  gsd-complete="false"
+  gsd-contact={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Next}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end
 \procedure new-contact-waiting-button()
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="waiting"
-    gsd-complete="false"
-    gsd-contact={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Waiting}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="action"
+  gsd-status="waiting"
+  gsd-complete="false"
+  gsd-contact={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Waiting}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end
 \procedure new-contact-future-button()
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="future"
-    gsd-complete="false"
-    gsd-contact={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Future}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="action"
+  gsd-status="future"
+  gsd-complete="false"
+  gsd-contact={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Future}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end

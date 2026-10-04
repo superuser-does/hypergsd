@@ -8,12 +8,12 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
    rides on container rules so third-party sections inherit without
    classes. */
 .hgsd-capture {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[center]else[flex-start]] }}};
-    gap: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[0.6rem 2em]else[2em]] }}};
-    width: fit-content;
-    max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[center]else[flex-start]] }}};
+  gap: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[0.6rem 2em]else[2em]] }}};
+  width: fit-content;
+  max-width: 100%;
 }
 
 /* Labels flow natively (caption then control, one line, wrapping). A
@@ -29,15 +29,15 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
    the right edge. Panel and modal share the chassis, so both follow the
    setting. */
 .hgsd-capture > div {
-    display: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[contents]else[flex]] }}};
-    flex-direction: column;
-    row-gap: 0.6rem;
-    &:empty {
-        display: none;
-    }
-    & input[type=checkbox] {
-        vertical-align: inherit;
-    }
+  display: {{{ [[$:/config/hypergsd/panel-layout]get[text]else[vertical]match[horizontal]then[contents]else[flex]] }}};
+  flex-direction: column;
+  row-gap: 0.6rem;
+  &:empty {
+    display: none;
+  }
+  & input[type=checkbox] {
+    vertical-align: inherit;
+  }
 }
 
 /* Portion regions (modules/section-portions): the dashboard columns row —
@@ -48,87 +48,87 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
    the row's gap), Portion/Full below (margin-top likewise).
    Members carry no layout CSS — only these chassis wrappers do. */
 .hgsd-portion-columns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 2em;
-    align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 2em;
+  align-items: flex-start;
 }
 .hgsd-portion-columns > div {
-    flex: 1 1 0;
-    min-width: 0;
+  flex: 1 1 0;
+  min-width: 0;
 }
 .hgsd-portion-top {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .hgsd-portion-full {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 /* The panel chassis is a styled fieldset: tc-tiddler-info supplies padding,
    background and top/bottom hairlines; this rule completes the border box on
    all four sides (revert option: see Panel chrome). */
 .hgsd-panel-fieldset {
-    border: 1px solid <<colour tiddler-info-border>>;
-    min-width: 0;
-    & .hgsd-capture {
-        padding-inline: 0.75em;
-    }
-    & fieldset {
-        border: 0;
-        padding: 0;
-        margin: 0;
-        min-width: 0;
-    }
-}
-
-.hgsd-modal-attributes {
+  border: 1px solid <<colour tiddler-info-border>>;
+  min-width: 0;
+  & .hgsd-capture {
+    padding-inline: 0.75em;
+  }
+  & fieldset {
     border: 0;
     padding: 0;
     margin: 0;
     min-width: 0;
-    & fieldset {
-        border: 0;
-        padding: 0;
-        margin: 0;
-        min-width: 0;
-    }
+  }
+}
+
+.hgsd-modal-attributes {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  & fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
 }
 
 .hgsd-panel-fieldset legend,
 .hgsd-modal-attributes legend {
-    padding: 0;
+  padding: 0;
 }
 
 /* The Attributes legend uses a real h3 for theme-native heading typography */
 .hgsd-modal-attributes legend h3 {
-    margin-block: 0 0.25em;
+  margin-block: 0 0.25em;
 }
 
 .gsd-panel {
-    display: flex;
-    justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .gsd-info-mod {
-    padding-block: 1em;
-    margin-bottom: 1.5em;
+  padding-block: 1em;
+  margin-bottom: 1.5em;
 }
 
 @media (max-width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}) {
-    /* Narrow screens always stack, overriding the horizontal setting */
-    .gsd-panel,
-    .hgsd-capture,
-    .hgsd-portion-columns {
-        flex-direction: column;
-    }
+  /* Narrow screens always stack, overriding the horizontal setting */
+  .gsd-panel,
+  .hgsd-capture,
+  .hgsd-portion-columns {
+    flex-direction: column;
+  }
 }
 
 /* Edit-state fieldset in the project/contact field editors: strip the
    browser's default border box and let it fill the flex row. */
 .hgsd-edit-fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-    flex: 1 1 0;
-    min-width: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+  flex: 1 1 0;
+  min-width: 0;
 }

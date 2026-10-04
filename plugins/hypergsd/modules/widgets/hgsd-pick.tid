@@ -5,28 +5,28 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 
 \procedure hgsd-pick-list()
 <%if [<group-by>!match[]] %>
-    <$let current-group-value={{{ [all[current]get<group-by>] }}}>
-    <$list filter="[enlist<candidates>has<group-by>get<group-by>unique[]sort[title]] :sort:number[<current-group-value>match<currentTiddler>then[0]else[1]]" variable="group-item">
-        <optgroup label=<<group-item>>>
-            <$let current-group=<<group-item>>>
-            <$list filter="[enlist<candidates>] :filter[get<group-by>match<current-group>] +[sort[title]]" variable="list-item">
-                <option value=<<list-item>>><$view tiddler=<<list-item>> field="title"/></option>
-            </$list>
-            </$let>
-        </optgroup>
-    </$list>
-    <%if [enlist<candidates>!has<group-by>limit[1]] %>
-        <optgroup label=<<none-group-label>>>
-            <$list filter="[enlist<candidates>!has<group-by>sort[title]]" variable="list-item">
-                <option value=<<list-item>>><$view tiddler=<<list-item>> field="title"/></option>
-            </$list>
-        </optgroup>
-    <%endif%>
-    </$let>
-<%else%>
-    <$list filter="[enlist<candidates>sort[title]]" variable="list-item">
+  <$let current-group-value={{{ [all[current]get<group-by>] }}}>
+  <$list filter="[enlist<candidates>has<group-by>get<group-by>unique[]sort[title]] :sort:number[<current-group-value>match<currentTiddler>then[0]else[1]]" variable="group-item">
+    <optgroup label=<<group-item>>>
+      <$let current-group=<<group-item>>>
+      <$list filter="[enlist<candidates>] :filter[get<group-by>match<current-group>] +[sort[title]]" variable="list-item">
         <option value=<<list-item>>><$view tiddler=<<list-item>> field="title"/></option>
-    </$list>
+      </$list>
+      </$let>
+    </optgroup>
+  </$list>
+  <%if [enlist<candidates>!has<group-by>limit[1]] %>
+    <optgroup label=<<none-group-label>>>
+      <$list filter="[enlist<candidates>!has<group-by>sort[title]]" variable="list-item">
+        <option value=<<list-item>>><$view tiddler=<<list-item>> field="title"/></option>
+      </$list>
+    </optgroup>
+  <%endif%>
+  </$let>
+<%else%>
+  <$list filter="[enlist<candidates>sort[title]]" variable="list-item">
+    <option value=<<list-item>>><$view tiddler=<<list-item>> field="title"/></option>
+  </$list>
 <%endif%>
 \end
 
@@ -34,7 +34,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 <!-- Instant-commit dispatcher, run from the select's actions AFTER the pick is written, so the value rides the pick temp exactly as it does for the call site's own Add/Save buttons. Gates evaluate at pick time only (never at render): the call site must pass a commit-kind, and the picker-instant-commit setting for the active pointer class must be on — fine (mouse) defaults on, coarse (touch) defaults off, each ticked independently in Settings; the let pair derives the applicable title and default from the media-query state (the get[else] operands materialise a value because a negated match over an absent tiddler's empty output stays empty). Every dynamic attribute is a filtered transclusion over the parameters: inside this procedure a macro-style <<param>> attribute never fires the action widget, while filter expressions resolve the parameters reliably. A blank pick commits through for the field kind (pick-field deliberately clears the field on blank) but is a no-op for the list kinds, matching their buttons. -->
 <%if [<commit-kind>!match[]] %>
 <$let commit-setting-title={{{ [[$:/info/browser/pointer-coarse]get[text]else[no]match[yes]then[$:/config/hypergsd/picker-instant-commit/coarse]else[$:/config/hypergsd/picker-instant-commit/fine]] }}}
-    commit-setting-default={{{ [[$:/info/browser/pointer-coarse]get[text]else[no]match[yes]then[false]else[true]] }}}>
+  commit-setting-default={{{ [[$:/info/browser/pointer-coarse]get[text]else[no]match[yes]then[false]else[true]] }}}>
 <%if [<commit-setting-title>get[text]else<commit-setting-default>match[true]] %>
 <%if [<commit-kind>match[field]] %>
 <$action-setfield $tiddler={{{ [<commit-tiddler>] }}} $field={{{ [<commit-field>] }}} $value={{{ [<tiddler>get<field>] }}}/>
@@ -63,32 +63,32 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 <!-- Keyboard-commit dispatcher for the pick family's shortcut rows ($hgsd.pick-append's add-row and both $hgsd.pick-field commit sites — the key itself is the caller's $keyboard binding, Enter by default; 2026-09-27): a non-blank pick naming NO existing tiddler routes through hgsd-create-and-add-actions — the same create fork the create-and-add button offers, with the ambient direction playing hgsd-new-options' kind bit ("own" appends the created title to the target's list, "item" back-links the created tiddler via new-prereq, blank = pick-field's plain set). Everything else commits exactly as the row's own Add/Save button (blank pick still clears a field-kind target, still a list-kind no-op). The create gate chains :filter then :and by the book — :and[<new-type>…] would pushTop an input-ignoring operand and fire on an empty pick; the else gate is the OR of the complement (space-separated runs are alternatives in <%if%>). Parameterless beyond close-state (pick-field's editing state passes its reveal; blank self-gates): everything else rides the caller's ambient scope (add-temp/target/field/direction/new-*), the hgsd-pick-commit pattern; every dynamic attribute is a filtered transclusion because macro-style <<param>> attributes never fire through the actions-string hop. The whole dispatcher lives inside the keyboard's actions string, so the existence check runs ONLY when the bound key is pressed — panel renders pay nothing. -->
 <$let picked-title={{{ [<add-temp>get[hgsd-pick]] }}}>
 <%if [<picked-title>!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
-    <$transclude $variable="hgsd-create-and-add-actions"
-        typed-pick={{{ [<picked-title>] }}}
-        new-type={{{ [<new-type>] }}}
-        new-status={{{ [<new-status>] }}}
-        new-project={{{ [<new-project>] }}}
-        target-tiddler={{{ [<target>] }}}
-        target-field={{{ [<direction>match[item]then[]else<field>] }}}
-        target-mode={{{ [<direction>match[own]then[append]else[set]] }}}
-        new-prereq={{{ [<direction>match[item]then<target>] }}}
-        pick-tiddler={{{ [<add-temp>] }}}
-        pick-field="hgsd-pick"
-        close-state={{{ [<close-state>] }}}/>
+  <$transclude $variable="hgsd-create-and-add-actions"
+    typed-pick={{{ [<picked-title>] }}}
+    new-type={{{ [<new-type>] }}}
+    new-status={{{ [<new-status>] }}}
+    new-project={{{ [<new-project>] }}}
+    target-tiddler={{{ [<target>] }}}
+    target-field={{{ [<direction>match[item]then[]else<field>] }}}
+    target-mode={{{ [<direction>match[own]then[append]else[set]] }}}
+    new-prereq={{{ [<direction>match[item]then<target>] }}}
+    pick-tiddler={{{ [<add-temp>] }}}
+    pick-field="hgsd-pick"
+    close-state={{{ [<close-state>] }}}/>
 <%endif%>
 <%if [<picked-title>match[]] [<picked-title>is[tiddler]] [<new-type>match[]] %>
-    <%if [<direction>match[item]] %>
-        <$action-listops $tiddler={{{ [<picked-title>] }}} $field={{{ [<field>] }}} $subfilter="[<currentTiddler>]"/>
-        <$action-setfield $tiddler={{{ [<add-temp>] }}} $field="hgsd-pick" $value=""/>
-    <%elseif [<direction>match[own]] %>
-        <$action-listops $tiddler={{{ [<target>] }}} $field={{{ [<field>] }}} $subfilter="[<picked-title>]"/>
-        <$action-setfield $tiddler={{{ [<add-temp>] }}} $field="hgsd-pick" $value=""/>
-    <%else%>
-        <$action-setfield $tiddler={{{ [<target>] }}} $field={{{ [<field>] }}} $value={{{ [<picked-title>] }}}/>
-    <%endif%>
-    <%if [<close-state>!match[]] %>
-        <$action-setfield $tiddler={{{ [<close-state>] }}} $field="text" $value=""/>
-    <%endif%>
+  <%if [<direction>match[item]] %>
+    <$action-listops $tiddler={{{ [<picked-title>] }}} $field={{{ [<field>] }}} $subfilter="[<currentTiddler>]"/>
+    <$action-setfield $tiddler={{{ [<add-temp>] }}} $field="hgsd-pick" $value=""/>
+  <%elseif [<direction>match[own]] %>
+    <$action-listops $tiddler={{{ [<target>] }}} $field={{{ [<field>] }}} $subfilter="[<picked-title>]"/>
+    <$action-setfield $tiddler={{{ [<add-temp>] }}} $field="hgsd-pick" $value=""/>
+  <%else%>
+    <$action-setfield $tiddler={{{ [<target>] }}} $field={{{ [<field>] }}} $value={{{ [<picked-title>] }}}/>
+  <%endif%>
+  <%if [<close-state>!match[]] %>
+    <$action-setfield $tiddler={{{ [<close-state>] }}} $field="text" $value=""/>
+  <%endif%>
 <%endif%>
 </$let>
 \end
@@ -97,20 +97,20 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 <!-- The search runs INPUT-SCOPED: enlist the candidates first, then :and[search:...] so the operator iterates only the scoped list — a fresh search: run would scan every tiddler in the wiki on every keystroke. SELECT CONTENT MODEL: nothing that renders a DOM element may sit between <$select> and its options — <$reveal> wraps its content in a span, and modern engines render only option/optgroup DIRECT children (span-wrapped options exist in the DOM but never display). Branch selection uses the <%if%> shortcut (compiles to $list, no element). The actions string runs hgsd-pick-commit (a no-op for raw pickers: it needs a commit-kind plus the setting/pointer gates) before closing the popup. -->
 <$let typed={{{ [<tiddler>get<field>] }}}>
 <$select tiddler=<<tiddler>> field=<<field>> default=<<none-value>> size="8" actions="""<$transclude $variable="hgsd-pick-commit"/><$action-setfield $tiddler=<<pop>> text=""/>""">
-    <option value=<<none-value>>><<none-title>></option>
-    <%if [<typed>match<none-value>] %>
-        <$let candidates=<<scoped-titles>>>
-            <<hgsd-pick-list>>
-        </$let>
-    <%elseif [<search-mode>match[extended]] %>
-        <$let candidates={{{ [enlist<scoped-titles>] :and[search:title,text,gsd_project<typed>] +[format:titlelist[]join[ ]] }}}>
-            <<hgsd-pick-list>>
-        </$let>
-    <%else%>
-        <$let candidates={{{ [enlist<scoped-titles>] :and[search:title<typed>] +[format:titlelist[]join[ ]] }}}>
-            <<hgsd-pick-list>>
-        </$let>
-    <%endif%>
+  <option value=<<none-value>>><<none-title>></option>
+  <%if [<typed>match<none-value>] %>
+    <$let candidates=<<scoped-titles>>>
+      <<hgsd-pick-list>>
+    </$let>
+  <%elseif [<search-mode>match[extended]] %>
+    <$let candidates={{{ [enlist<scoped-titles>] :and[search:title,text,gsd_project<typed>] +[format:titlelist[]join[ ]] }}}>
+      <<hgsd-pick-list>>
+    </$let>
+  <%else%>
+    <$let candidates={{{ [enlist<scoped-titles>] :and[search:title<typed>] +[format:titlelist[]join[ ]] }}}>
+      <<hgsd-pick-list>>
+    </$let>
+  <%endif%>
 </$select>
 </$let>
 \end
@@ -118,13 +118,13 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 \procedure hgsd-pick-scoped()
 <!-- The ambient <scope-list> (realm tags + optional no-realm sentinel) is split into <scope-tags>/<scope-base> by the caller; the sentinel chooses the arithmetic from modules/realm-scopes.tid. -->
 <%if [enlist<scope-list>match[no-realm]limit[1]] %>
-    <$let scoped-titles={{{ [subfilter<hgsd-scope-include>] +[format:titlelist[]join[ ]] }}}>
-        <<hgsd-pick-select>>
-    </$let>
+  <$let scoped-titles={{{ [subfilter<hgsd-scope-include>] +[format:titlelist[]join[ ]] }}}>
+    <<hgsd-pick-select>>
+  </$let>
 <%else%>
-    <$let scoped-titles={{{ [subfilter<hgsd-scope-exclude>] +[format:titlelist[]join[ ]] }}}>
-        <<hgsd-pick-select>>
-    </$let>
+  <$let scoped-titles={{{ [subfilter<hgsd-scope-exclude>] +[format:titlelist[]join[ ]] }}}>
+    <<hgsd-pick-select>>
+  </$let>
 <%endif%>
 \end
 
@@ -132,18 +132,18 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 <!-- The reveal constructs children only while open, so a closed picker evaluates no candidate filters at all. No root wrapper: flex hosts (.hgsd-sizer-droplist rows) make the input itself the flex item via hgsd-sizer-select so it stretches to fill the row. -->
 <$edit-text class="tc-popup-handle hgsd-sizer-select" tiddler=<<tiddler>> field=<<field>> default=<<initial>> focus=<<focus>> focusPopup=<<pop>> cancelPopups="yes" placeholder=<<placeholder>>/>
 <$reveal state=<<pop>> type="popup" class="tc-popup-keep">
-    <div class="hgsd-sizer-select">
-    <!-- base-list-titles is the picker's draft gate, matching $hgsd.list's all-titles: drafts inherit the base tiddler's fields and tags, so candidates would show mid-edit duplicates otherwise. Inline on the candidates only — never a -[is[draft]] run over the whole wiki. -->
-    <$let base-list-titles={{{ [subfilter<list-filter>!is[draft]] +[format:titlelist[]join[ ]] }}}>
-    <$set name=realm-scope-filter value=<<realm-scope>> emptyValue="[subfilter<hgsd-realm-all>]">
-    <$let scope-list={{{ [subfilter<realm-scope-filter>] +[format:titlelist[]join[ ]] }}}
-        scope-base=<<base-list-titles>>
-        scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}}>
-        <<hgsd-pick-scoped>>
-    </$let>
-    </$set>
-    </$let>
-    </div>
+  <div class="hgsd-sizer-select">
+  <!-- base-list-titles is the picker's draft gate, matching $hgsd.list's all-titles: drafts inherit the base tiddler's fields and tags, so candidates would show mid-edit duplicates otherwise. Inline on the candidates only — never a -[is[draft]] run over the whole wiki. -->
+  <$let base-list-titles={{{ [subfilter<list-filter>!is[draft]] +[format:titlelist[]join[ ]] }}}>
+  <$set name=realm-scope-filter value=<<realm-scope>> emptyValue="[subfilter<hgsd-realm-all>]">
+  <$let scope-list={{{ [subfilter<realm-scope-filter>] +[format:titlelist[]join[ ]] }}}
+    scope-base=<<base-list-titles>>
+    scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}}>
+    <<hgsd-pick-scoped>>
+  </$let>
+  </$set>
+  </$let>
+  </div>
 </$reveal>
 \end
 

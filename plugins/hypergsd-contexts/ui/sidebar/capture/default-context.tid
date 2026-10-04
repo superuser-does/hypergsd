@@ -7,9 +7,9 @@ title: $:/plugins/yan/hypergsd-contexts/ui/sidebar/capture/default-context
 
 <label>
 <<lingo Capture/DefaultContext/Label>><$select tiddler="$:/state/hypergsd/effective-context" default="">
-    <option value=""><<lingo Capture/NoContext>></option>
-    <$list filter="[tag[GSD/Contexts]!is[draft]sort[title]]">
-        <option value=<<currentTiddler>>><$view field="title"/></option>
-    </$list>
+  <option value=""><<lingo Capture/NoContext>></option>
+  <$list filter="[tag[GSD/Contexts]!is[draft]sort[title]]">
+    <option value=<<currentTiddler>>><$view field="title"/></option>
+  </$list>
 </$select>
 </label>

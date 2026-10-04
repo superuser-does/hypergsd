@@ -7,17 +7,17 @@ title: $:/plugins/yan/hypergsd/ui/components/visibility-list
 \procedure hgsd-visibility-list(tag-list, visibility-base, item-template:"$:/plugins/yan/hypergsd/ui/components/portion-item-template", portions:"yes")
 <$set name="config-base" value=<<visibility-base>>>
 <$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
-    portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
-    top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
-    full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}}>
+  portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
+  top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
+  full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}}>
 <!-- nested: a later attribute of the SAME let cannot read its siblings -->
 <$let next-free-n={{{ [<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<tag-list>addsuffix[/Portion/1]] +[unique[]removeprefix<portion-prefix>nsort[]last[1]add[1]] }}}
-    next-free-tag={{{ [<tag-list>addsuffix[/Portion/]addsuffix<next-free-n>] }}}>
+  next-free-tag={{{ [<tag-list>addsuffix[/Portion/]addsuffix<next-free-n>] }}}>
 <p>//{{$:/language/hypergsd/Settings/TagBasis/Prompt}}&#32;<$macrocall $name="tag" tag=<<tag-list>>/><%if [<portions>!match[no]] %><br>{{$:/language/hypergsd/Settings/TagBasis/Portions}}.<%endif%>//</p>
 <$transclude
-    $variable="list-tagged-draggable"
-    tag=<<tag-list>>
-    itemTemplate=<<item-template>> />
+  $variable="list-tagged-draggable"
+  tag=<<tag-list>>
+  itemTemplate=<<item-template>> />
 </$let>
 </$let>
 </$set>

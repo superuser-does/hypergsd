@@ -6,49 +6,49 @@ title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project-buttons
 <!-- Scope: $:/tags/Global/View — consumers are the project-view list members, which pass these through $hgsd.list's add-button slot (attribute-position procedure calls render as working buttons — probed 2026-09-13). -->
 \procedure new-next-action-button()
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="next"
-    gsd-complete="false"
-    gsd-project={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Next}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="action"
+  gsd-status="next"
+  gsd-complete="false"
+  gsd-project={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Next}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end
 \procedure new-waiting-action-button()
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="waiting"
-    gsd-complete="false"
-    gsd-project={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Waiting}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="action"
+  gsd-status="waiting"
+  gsd-complete="false"
+  gsd-project={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Waiting}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end
 \procedure new-future-action-button()
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="future"
-    gsd-complete="false"
-    gsd-project={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Future}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="action"
+  gsd-status="future"
+  gsd-complete="false"
+  gsd-project={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Future}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end
 \procedure new-subproject-button()
 <$hgsd.new-button
-    gsd-type="project"
-    gsd-status="active"
-    gsd-complete="false"
-    gsd-project={{!!title}}
-    gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
-    tooltip={{$:/language/hypergsd/Lists/Add/Subproject}}
-    class="gsd-list-new-button tc-btn-invisible" >
-    {{$:/core/images/new-button}}
+  gsd-type="project"
+  gsd-status="active"
+  gsd-complete="false"
+  gsd-project={{!!title}}
+  gsd-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}}
+  tooltip={{$:/language/hypergsd/Lists/Add/Subproject}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
 </$hgsd.new-button>
 \end

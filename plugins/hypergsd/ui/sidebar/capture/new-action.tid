@@ -6,9 +6,9 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/capture/new-action
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$hgsd.new-button
-    gsd-type="action"
-    gsd-status="next"
-    gsd-complete="false"
-    tooltip={{$:/language/hypergsd/Sidebar/Capture/NewAction/Hint}}>
-    {{$:/plugins/yan/hypergsd/images/action}} <<lingo Capture/NewAction/Label>>
+  gsd-type="action"
+  gsd-status="next"
+  gsd-complete="false"
+  tooltip={{$:/language/hypergsd/Sidebar/Capture/NewAction/Hint}}>
+  {{$:/plugins/yan/hypergsd/images/action}} <<lingo Capture/NewAction/Label>>
 </$hgsd.new-button>

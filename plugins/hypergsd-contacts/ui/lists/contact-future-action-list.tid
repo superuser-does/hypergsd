@@ -4,6 +4,6 @@ tags: $:/tags/hypergsd/Lists/ContactAction
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-future-action-list
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/FutureActions}}
-    list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_status[future]gsd_complete[false]] +[sort[title]]"
-    add-button=<<new-contact-future-button>>/>
+  list-heading={{$:/language/hypergsd/Lists/FutureActions}}
+  list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_status[future]gsd_complete[false]] +[sort[title]]"
+  add-button=<<new-contact-future-button>>/>

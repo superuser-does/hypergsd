@@ -10,17 +10,17 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-toggle
 <%else%>
 <$let derived-state={{{ [<state-prefix>addsuffix<currentTiddler>] }}} >
 <$let toggle-state={{{ [<state>!match[]then<state>else<derived-state>] }}}
-    open-label={{{ [<hide-text>!match[]then<hide-text>else<text>] }}} >
+  open-label={{{ [<hide-text>!match[]then<hide-text>else<text>] }}} >
 <$reveal state=<<toggle-state>> type="nomatch" text="show">
-    <$button set=<<toggle-state>> setTo="show" class={{{ [<class>addsuffix[ hgsd-toggle hgsd-toggle-closed]trim[]] }}}>
-        <<text>>
-    </$button>
+  <$button set=<<toggle-state>> setTo="show" class={{{ [<class>addsuffix[ hgsd-toggle hgsd-toggle-closed]trim[]] }}}>
+    <<text>>
+  </$button>
 </$reveal>
 <$reveal state=<<toggle-state>> type="match" text="show">
-    <$button set=<<toggle-state>> setTo="hide" class={{{ [<class>addsuffix[ hgsd-toggle hgsd-toggle-open]trim[]] }}}>
-        <<open-label>>
-    </$button>
-    <$slot $name="ts-raw"/>
+  <$button set=<<toggle-state>> setTo="hide" class={{{ [<class>addsuffix[ hgsd-toggle hgsd-toggle-open]trim[]] }}}>
+    <<open-label>>
+  </$button>
+  <$slot $name="ts-raw"/>
 </$reveal>
 </$let>
 </$let>

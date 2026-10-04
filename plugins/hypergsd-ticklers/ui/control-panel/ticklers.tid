@@ -13,17 +13,17 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers
 
 <!-- The visibility bases sit under $:/config/hypergsd/ so they ride the view-body refresh gates — ticking a box live-updates the panel and banner buttons with zero gate edits. Two independent lists: the Shift tag drives the panel set, the Alert tag the banner set; a member tagged both answers to both knobs -->
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/Ticklers/Shift"
-    visibility-base="$:/config/hypergsd/Ticklers/Shift/visibility/"
-    item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
-    portions="no"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/Ticklers/Shift"
+  visibility-base="$:/config/hypergsd/Ticklers/Shift/visibility/"
+  item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
+  portions="no"/>
 
 !! <<lingo Ticklers/Alert/Heading>>
 
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/Ticklers/Alert"
-    visibility-base="$:/config/hypergsd/Ticklers/Alert/visibility/"
-    item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
-    portions="no"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/Ticklers/Alert"
+  visibility-base="$:/config/hypergsd/Ticklers/Alert/visibility/"
+  item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
+  portions="no"/>

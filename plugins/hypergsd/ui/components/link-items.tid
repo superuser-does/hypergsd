@@ -8,9 +8,9 @@ title: $:/plugins/yan/hypergsd/ui/components/link-items
 <%if [<linked-tiddler>!match[]] %>
 <span class="hgsd-link-items">
 <$list filter="[[$:/tags/hypergsd/LinkItem]] :and[tagging[]]" variable="link-item">
-    <%if [[$:/config/hypergsd/LinkItem/visibility/]addsuffix<link-item>get[text]else[show]match[show]] %>
-        <$transclude $tiddler=<<link-item>> $mode="inline"/>
-    <%endif%>
+  <%if [[$:/config/hypergsd/LinkItem/visibility/]addsuffix<link-item>get[text]else[show]match[show]] %>
+    <$transclude $tiddler=<<link-item>> $mode="inline"/>
+  <%endif%>
 </$list>
 </span>
 <%endif%>

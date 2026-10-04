@@ -56,6 +56,6 @@ An unknown variable or broken filter yields an empty scope list — an empty pic
 ! Example
 ```
 <$hgsd.pick tiddler=<<currentTiddler>> field="gsd_project" id="proj"
-    list-filter="[tag[$:/GSD/Project]gsd_complete[false]sort[title]]"
-    group-by="gsd_project" none-group-title="No group"/>
+  list-filter="[tag[$:/GSD/Project]gsd_complete[false]sort[title]]"
+  group-by="gsd_project" none-group-title="No group"/>
 ```

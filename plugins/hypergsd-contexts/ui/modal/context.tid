@@ -10,20 +10,20 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
 <<lingo Context/Label>>
 <br/>
 <$hgsd.pick
-    tiddler=<<new-state>>
-    field="gsd_context"
-    list-filter="[tag[GSD/Contexts]]"
-    initial={{{ [[$:/state/hypergsd/effective-context]get[text]] }}}
-    none-title={{$:/language/hypergsd/Sections/Context/None}}
-    id="context"
-    realm-scope=""/>
+  tiddler=<<new-state>>
+  field="gsd_context"
+  list-filter="[tag[GSD/Contexts]]"
+  initial={{{ [[$:/state/hypergsd/effective-context]get[text]] }}}
+  none-title={{$:/language/hypergsd/Sections/Context/None}}
+  id="context"
+  realm-scope=""/>
 <%if [<new-state>get[gsd_context]!match[]] :and[!is[tiddler]] %>
-    <$transclude $variable="hgsd-create-and-add"
-        typed-pick={{{ [<new-state>get[gsd_context]] }}}
-        new-type="context"
-        new-status="next"
-        target-tiddler=<<new-state>>
-        target-field="gsd_context"/>
+  <$transclude $variable="hgsd-create-and-add"
+    typed-pick={{{ [<new-state>get[gsd_context]] }}}
+    new-type="context"
+    new-status="next"
+    target-tiddler=<<new-state>>
+    target-field="gsd_context"/>
 <%endif%>
 </label>
 <%endif%>

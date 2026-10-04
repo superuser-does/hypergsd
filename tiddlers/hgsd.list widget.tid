@@ -44,10 +44,10 @@ Next Actions for a dashboard, grouped by project, hiding items parked under futu
 
 ```
 <$hgsd.list
-    list-heading="Next Actions"
-    list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title]]"
-    group-by="gsd_project"
-    future-items-sweep="yes"/>
+  list-heading="Next Actions"
+  list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title]]"
+  group-by="gsd_project"
+  future-items-sweep="yes"/>
 ```
 
 A flat list of everything tagged with a custom extension type `$:/GSD/Stakeholder` (see [[Type tag list|Type tag list]]):

@@ -17,12 +17,12 @@ Missing tiddler = pristine = all realms + sentinel (everything). An ''empty'' li
 
 ```
 <$let base={{{ [tag[$:/GSD/MyType]format:titlelist[]join[ ]] }}}
-    all-realms={{{ [all[tags]prefix[$:/GSD/Realm/]format:titlelist[]join[ ]] }}}
-    selection={{{ [[$:/config/hypergsd/realm-selection]get[list]enlist-input[]!match[no-realm]format:titlelist[]join[ ]] }}}
-    shown={{{ [title[$:/config/hypergsd/realm-selection]!is[tiddler]limit[1]] :then[enlist<all-realms>] [enlist<selection>] +[unique[]format:titlelist[]join[ ]] }}}
-    show-realmless={{{ [title[$:/config/hypergsd/realm-selection]!is[tiddler]] [title[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match[no-realm]] +[unique[]format:titlelist[]join[ ]] }}}>
+  all-realms={{{ [all[tags]prefix[$:/GSD/Realm/]format:titlelist[]join[ ]] }}}
+  selection={{{ [[$:/config/hypergsd/realm-selection]get[list]enlist-input[]!match[no-realm]format:titlelist[]join[ ]] }}}
+  shown={{{ [title[$:/config/hypergsd/realm-selection]!is[tiddler]limit[1]] :then[enlist<all-realms>] [enlist<selection>] +[unique[]format:titlelist[]join[ ]] }}}
+  show-realmless={{{ [title[$:/config/hypergsd/realm-selection]!is[tiddler]] [title[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match[no-realm]] +[unique[]format:titlelist[]join[ ]] }}}>
 <$list filter="[enlist<base>] -[all[tags]prefix[$:/GSD/Realm/]tagging[]] [enlist<shown>tagging[]] :filter[enlist<base>match<currentTiddler>]">
-    …your rows…
+  …your rows…
 </$list>
 </$let>
 ```

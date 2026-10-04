@@ -9,10 +9,10 @@ title: $:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact
 <$refresh subfilter="[subfilter<hgsd-type-gate>] [prefix[$:/config/hypergsd]] [prefix[$:/temp/gsd-list/]] [prefix[$:/state/hypergsd/show-completed/]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] -[prefix[$:/temp/gsd-list/]!prefix<this-liststate-prefix>] -[prefix[$:/state/hypergsd/show-completed/]!suffix<currentTiddler>] -[is[draft]]">
 <!-- Centralised O(1) event listener for all checkboxes and buttons in this view. -->
 <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
-    <!-- Every block is a $hgsd.list invocation, so realm scoping, grouping, frozen refresh and the shared row composer all apply. Member visibility and drag-reorder are admitted by the hgsd-dashboard-portions gate this row now transcludes (the chassis carries its own refresh); the completed list is a Portion/Full member that self-toggles via $hgsd.toggle. section-target carries the contact past the chassis's block-mode transclusion, mirroring view-body-project. -->
-    <$set name="section-target" value=<<currentTiddler>>>
-        <$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/ContactAction" visibility-base="$:/config/hypergsd/Lists/ContactAction/visibility/"/>
-    </$set>
+  <!-- Every block is a $hgsd.list invocation, so realm scoping, grouping, frozen refresh and the shared row composer all apply. Member visibility and drag-reorder are admitted by the hgsd-dashboard-portions gate this row now transcludes (the chassis carries its own refresh); the completed list is a Portion/Full member that self-toggles via $hgsd.toggle. section-target carries the contact past the chassis's block-mode transclusion, mirroring view-body-project. -->
+  <$set name="section-target" value=<<currentTiddler>>>
+    <$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/ContactAction" visibility-base="$:/config/hypergsd/Lists/ContactAction/visibility/"/>
+  </$set>
 </$eventcatcher>
 </$refresh>
 </$let>

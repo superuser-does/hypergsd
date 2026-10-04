@@ -5,9 +5,9 @@ tags: $:/tags/hypergsd/Lists/Dashboard $:/tags/hypergsd/Lists/Action
 title: $:/plugins/yan/hypergsd/ui/lists/future-action-list
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/FutureActions}}
-    list-filter="[tag[$:/GSD/Action]gsd_status[future]gsd_complete[false]] +[sort[title]]"
-    group-select="yes"
-    group-default="$:/plugins/yan/hypergsd/ui/group-by/project"
-    sort-select="yes"
-    future-items-sweep="yes"/>
+  list-heading={{$:/language/hypergsd/Lists/FutureActions}}
+  list-filter="[tag[$:/GSD/Action]gsd_status[future]gsd_complete[false]] +[sort[title]]"
+  group-select="yes"
+  group-default="$:/plugins/yan/hypergsd/ui/group-by/project"
+  sort-select="yes"
+  future-items-sweep="yes"/>

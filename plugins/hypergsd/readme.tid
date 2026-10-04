@@ -88,7 +88,7 @@ Any list tiddler can carry its own disclosure — wrap its content in `$hgsd.tog
 
 ```
 <$hgsd.toggle text="show archived items..." hide-text="hide archived items">
-    <$hgsd.list list-heading="Archive" list-filter="…"/>
+  <$hgsd.list list-heading="Archive" list-filter="…"/>
 </$hgsd.toggle>
 ```
 

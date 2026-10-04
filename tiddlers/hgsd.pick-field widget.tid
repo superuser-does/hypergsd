@@ -32,8 +32,8 @@ One commit affordance per pick state: blank shows the new cluster alone, a typed
 ! Example
 ```
 <$hgsd.pick-field field="gsd_contact" id="contact"
-    list-filter="[tag[$:/GSD/Contact]sort[title]]"
-    label="Contact" new-type="contact" new-status="waiting" new-update-status="yes"/>
+  list-filter="[tag[$:/GSD/Contact]sort[title]]"
+  label="Contact" new-type="contact" new-status="waiting" new-update-status="yes"/>
 ```
 
 ! On-the-fly creation

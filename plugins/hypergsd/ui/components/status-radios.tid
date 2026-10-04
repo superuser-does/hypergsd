@@ -6,19 +6,19 @@ title: $:/plugins/yan/hypergsd/ui/components/status-radios
 <!-- A radio list: ul/li with one label-wrapped <input type="radio"> per status — the wrapping label associates text and input natively, so no for/id pair is needed. Plain inputs, not <$radio>: it emits its own <label>, and a label inside this pill label would be invalid HTML. The label itself is the pill — stylesheet.tid fills it via :has(input:checked) from the --pill-* custom properties the generated rules hang on the view-status <type>-<status> hook classes this label keeps carrying. Each radio carries data-hgsd-status-field (the per-type memory field) so the event handler persists the selection across modal type switches. The pill set comes from the type tag list (modules/status-sets) — one template, any status; an empty set renders an empty list, which collapses via :empty. -->
 \procedure hgsd-status-radios(target-tiddler, current-type, current-status)
 <$let radio-name={{{ [<target-tiddler>addsuffix[-status]] }}}
-    mem-field={{{ [<current-type>addsuffix[_status]addprefix[gsd_]] }}}>
+  mem-field={{{ [<current-type>addsuffix[_status]addprefix[gsd_]] }}}>
 <ul class="hgsd-radio-group">
 <$list filter="[function[hgsd-status-set],<current-type>]" variable="pill-status">
-    <li>
-        <label class={{{ [<current-type>addsuffix[-]addsuffix<pill-status>addprefix[view-status ]] }}}>
-            <%if [<current-status>match<pill-status>] %>
-            <input type="radio" name=<<radio-name>> data-tiddler=<<target-tiddler>> data-status=<<pill-status>> data-hgsd-action="status" data-hgsd-status-field=<<mem-field>> checked>
-            <%else%>
-            <input type="radio" name=<<radio-name>> data-tiddler=<<target-tiddler>> data-status=<<pill-status>> data-hgsd-action="status" data-hgsd-status-field=<<mem-field>>>
-            <%endif%>
-            <$transclude $variable="hgsd-status-label" status=<<pill-status>>/>
-        </label>
-    </li>
+  <li>
+    <label class={{{ [<current-type>addsuffix[-]addsuffix<pill-status>addprefix[view-status ]] }}}>
+      <%if [<current-status>match<pill-status>] %>
+      <input type="radio" name=<<radio-name>> data-tiddler=<<target-tiddler>> data-status=<<pill-status>> data-hgsd-action="status" data-hgsd-status-field=<<mem-field>> checked>
+      <%else%>
+      <input type="radio" name=<<radio-name>> data-tiddler=<<target-tiddler>> data-status=<<pill-status>> data-hgsd-action="status" data-hgsd-status-field=<<mem-field>>>
+      <%endif%>
+      <$transclude $variable="hgsd-status-label" status=<<pill-status>>/>
+    </label>
+  </li>
 </$list>
 </ul>
 </$let>

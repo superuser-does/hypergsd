@@ -22,6 +22,6 @@ The subfilter is evaluated with the widget as filter context, so whitelists can 
 ! Example
 ```
 <$refresh subfilter="[subfilter<hgsd-type-gate>] [prefix[$:/config/hypergsd]] -[is[draft]]" hgsd-filter-buster=<<item-titles>>>
-    …frozen content…
+  …frozen content…
 </$refresh>
 ```

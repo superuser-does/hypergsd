@@ -5,10 +5,10 @@ tags: $:/tags/hypergsd/Lists/Dashboard $:/tags/hypergsd/Lists/Action
 title: $:/plugins/yan/hypergsd/ui/lists/next-action-list
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/NextActions}}
-    list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title]]"
-    group-select="yes"
-    group-default="$:/plugins/yan/hypergsd/ui/group-by/project"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"
-    future-items-sweep="yes"/>
+  list-heading={{$:/language/hypergsd/Lists/NextActions}}
+  list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title]]"
+  group-select="yes"
+  group-default="$:/plugins/yan/hypergsd/ui/group-by/project"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"
+  future-items-sweep="yes"/>

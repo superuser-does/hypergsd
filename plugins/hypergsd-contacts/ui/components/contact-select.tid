@@ -15,29 +15,29 @@ hgsd-strip-host: Actions by contact
 \end
 <$let selection-title="$:/config/hypergsd/contact-filter/selection">
 <$let pick-tiddler="$:/temp/hypergsd/contact-filter/pick">
-    <span class="hgsd-contact-select">
-        <span class="gsd-muted">{{$:/language/hypergsd/Lists/ContactFilter/Filter}}</span>
-        <$list filter="[<selection-title>get[list]enlist-input[]] +[unique[]sort[title]]" variable="contact-item">
-            <span class="hgsd-contact-chip">
-                <$link to=<<contact-item>>><$view tiddler=<<contact-item>> field="title"/></$link>
-                <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{{ [[$:/language/hypergsd/Lists/ContactFilter/Remove/HintA]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<contact-item>] +[addsuffix[ ]] +[addsuffix{$:/language/hypergsd/Lists/ContactFilter/Remove/HintB}] }}}>
-                    <$action-listops $tiddler=<<selection-title>> $field="list" $subfilter="-[<contact-item>]"/>
-                    {{$:/core/images/close-button}}
-                </$button>
-            </span>
-        </$list>
-        <$keyboard key="((input-accept))" actions="""<$transclude $variable="hgsd-contact-add"/>""">
-            <$hgsd.pick
-                tiddler=<<pick-tiddler>>
-                field="hgsd-pick"
-                id="contact-filter"
-                list-filter="[tag[$:/GSD/Contact]]"
-                none-title={{$:/language/hypergsd/Lists/ContactFilter/Choose}}
-                search-mode="extended"/>
-        </$keyboard>
-        <$button actions="""<$transclude $variable="hgsd-contact-add"/>""">
-            {{$:/language/EditTemplate/Fields/Add/Button}}
+  <span class="hgsd-contact-select">
+    <span class="gsd-muted">{{$:/language/hypergsd/Lists/ContactFilter/Filter}}</span>
+    <$list filter="[<selection-title>get[list]enlist-input[]] +[unique[]sort[title]]" variable="contact-item">
+      <span class="hgsd-contact-chip">
+        <$link to=<<contact-item>>><$view tiddler=<<contact-item>> field="title"/></$link>
+        <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{{ [[$:/language/hypergsd/Lists/ContactFilter/Remove/HintA]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<contact-item>] +[addsuffix[ ]] +[addsuffix{$:/language/hypergsd/Lists/ContactFilter/Remove/HintB}] }}}>
+          <$action-listops $tiddler=<<selection-title>> $field="list" $subfilter="-[<contact-item>]"/>
+          {{$:/core/images/close-button}}
         </$button>
-    </span>
+      </span>
+    </$list>
+    <$keyboard key="((input-accept))" actions="""<$transclude $variable="hgsd-contact-add"/>""">
+      <$hgsd.pick
+        tiddler=<<pick-tiddler>>
+        field="hgsd-pick"
+        id="contact-filter"
+        list-filter="[tag[$:/GSD/Contact]]"
+        none-title={{$:/language/hypergsd/Lists/ContactFilter/Choose}}
+        search-mode="extended"/>
+    </$keyboard>
+    <$button actions="""<$transclude $variable="hgsd-contact-add"/>""">
+      {{$:/language/EditTemplate/Fields/Add/Button}}
+    </$button>
+  </span>
 </$let>
 </$let>

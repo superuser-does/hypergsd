@@ -9,12 +9,12 @@ title: $:/plugins/yan/hypergsd-trashbin/ui/list-items/trash
 <%if [[$:/plugins/kookma/trashbin/macros/move-to-trashbin]has[title]] %>
 <%if [is[current]tag[$:/GSD/Action]gsd_complete[true]] [is[current]tag[$:/GSD/Project]gsd_complete[true]] %>
 <div>
-    <$button
-        class="tc-btn-invisible gsd-muted gsd-button"
-        tooltip={{$:/language/Buttons/Trashbin/Hint/Move}}>
-        <$transclude $variable="move-to-trashbin" tiddler=<<currentTiddler>> />
-        {{$:/plugins/kookma/trashbin/images/trash-alt}}
-    </$button>
+  <$button
+    class="tc-btn-invisible gsd-muted gsd-button"
+    tooltip={{$:/language/Buttons/Trashbin/Hint/Move}}>
+    <$transclude $variable="move-to-trashbin" tiddler=<<currentTiddler>> />
+    {{$:/plugins/kookma/trashbin/images/trash-alt}}
+  </$button>
 </div>
 <%endif%>
 <%endif%>

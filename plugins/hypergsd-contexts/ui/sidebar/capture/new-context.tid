@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/sidebar/capture/new-context
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$hgsd.new-button
-    gsd-type="context"
-    tooltip={{$:/language/hypergsd/Sidebar/Capture/NewContext/Hint}}>
-    {{$:/plugins/yan/hypergsd-contexts/images/context}} <<lingo Capture/NewContext/Label>>
+  gsd-type="context"
+  tooltip={{$:/language/hypergsd/Sidebar/Capture/NewContext/Hint}}>
+  {{$:/plugins/yan/hypergsd-contexts/images/context}} <<lingo Capture/NewContext/Label>>
 </$hgsd.new-button>

@@ -8,4 +8,4 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/colours
 <<lingo Colours/Prompt>>
 
 <$transclude
-    $tiddler="$:/plugins/yan/hypergsd/ui/stylesheet/colour-manager" />
+  $tiddler="$:/plugins/yan/hypergsd/ui/stylesheet/colour-manager" />

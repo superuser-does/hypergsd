@@ -4,8 +4,8 @@ title: $:/plugins/yan/hypergsd/ui/control-panel
 
 <div class="tc-control-panel">
 <<tabs
-    "[all[shadows+tiddlers]tag[$:/tags/hypergsd/Settings]!is[draft]]"
-    "$:/plugins/yan/hypergsd/ui/control-panel/behaviour"
-    "$:/state/tab/hypergsdpanel"
-    "tc-vertical">>
+  "[all[shadows+tiddlers]tag[$:/tags/hypergsd/Settings]!is[draft]]"
+  "$:/plugins/yan/hypergsd/ui/control-panel/behaviour"
+  "$:/state/tab/hypergsdpanel"
+  "tc-vertical">>
 </div>

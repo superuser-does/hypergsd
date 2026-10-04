@@ -6,14 +6,14 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-project-list
 
 <!-- The list carries its own disclosure: on the Dashboard tag list it renders collapsed behind the toggle (sharing the page's state with the completed-action list, so both open together); the dedicated Completed Projects page renders it bare. -->
 <$hgsd.toggle
-    text={{$:/language/hypergsd/Lists/ShowCompletedLists}}
-    hide-text={{$:/language/hypergsd/Lists/HideCompletedLists}}
-    class="hgsd-completed-toggle"
-    unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedProject">
+  text={{$:/language/hypergsd/Lists/ShowCompletedLists}}
+  hide-text={{$:/language/hypergsd/Lists/HideCompletedLists}}
+  class="hgsd-completed-toggle"
+  unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedProject">
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
-    list-filter="[tag[$:/GSD/Project]gsd_complete[true]] +[!nsort[gsd_comp_date]]"
-    group-select="yes"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />
+  list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
+  list-filter="[tag[$:/GSD/Project]gsd_complete[true]] +[!nsort[gsd_comp_date]]"
+  group-select="yes"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />
 </$hgsd.toggle>

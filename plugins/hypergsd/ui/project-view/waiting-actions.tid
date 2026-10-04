@@ -7,8 +7,8 @@ title: $:/plugins/yan/hypergsd/ui/project-view/waiting-actions
 <!-- Project-view list member rendered by the shared $hgsd.list widget (its view controls are opt-in, so this page shows no group-by/sort-by strip; realm-scope blank keeps the project's own page unscoped where dashboards honour the realm filter; Portion/2 keeps it beside the action columns). The chassis transcludes this in block mode, rebinding currentTiddler to this member tiddler; section-target (set by view-body-project around the chassis) carries the project, so the $set restores it for the filter and the quick-add button. -->
 <$set name="currentTiddler" value=<<section-target>>>
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/WaitingActions}}
-    list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_status[waiting]gsd_complete[false]sort[title]]"
-    realm-scope=""
-    add-button=<<new-waiting-action-button>>/>
+  list-heading={{$:/language/hypergsd/Lists/WaitingActions}}
+  list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_status[waiting]gsd_complete[false]sort[title]]"
+  realm-scope=""
+  add-button=<<new-waiting-action-button>>/>
 </$set>

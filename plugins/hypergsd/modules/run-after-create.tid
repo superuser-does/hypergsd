@@ -6,11 +6,11 @@ title: $:/plugins/yan/hypergsd/modules/run-after-create
 <!-- Shared AfterCreation hook runner: BOTH creation paths call this — the modal (new-source="modal") and hgsd-create-and-add (new-source="picker", calling-tiddler = the tiddler whose field receives the item). Contract variables for members: hgsd-new-title / hgsd-new-type / hgsd-calling-tiddler / hgsd-new-source (AfterCreation). Navigation is NOT a member — the creation paths navigate themselves after the hook honouring the new-action-navigate / new-project-navigate toggles, so no rule tears down the invoking tree mid-chain and members are order-independent. Members must read created-item data through ACTION attributes (invoke-time) — the calling tree renders before the item exists (see the priorities default-priority rule for the trap). -->
 \procedure hgsd-run-after-create(new-title, new-type, calling-tiddler, new-source)
 <$let hgsd-new-title=<<new-title>>
-    hgsd-new-type=<<new-type>>
-    hgsd-calling-tiddler=<<calling-tiddler>>
-    hgsd-new-source=<<new-source>>>
+  hgsd-new-type=<<new-type>>
+  hgsd-calling-tiddler=<<calling-tiddler>>
+  hgsd-new-source=<<new-source>>>
 <$list filter="[[$:/tags/hypergsd/AfterCreation]] :and[tagging[]]" variable="after-create">
-    <$transclude $tiddler=<<after-create>>/>
+  <$transclude $tiddler=<<after-create>>/>
 </$list>
 </$let>
 \end

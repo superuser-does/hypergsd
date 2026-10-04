@@ -10,9 +10,9 @@ title: $:/plugins/yan/hypergsd-priorities/modules/priority-sets
 
 \procedure hgsd-priority-set(item-title, priority-value)
 <%if [<priority-value>minlength[1]] %>
-    <$action-setfield $tiddler={{{ [<item-title>] }}} $field="gsd_priority" $value={{{ [<priority-value>] }}}/>
+  <$action-setfield $tiddler={{{ [<item-title>] }}} $field="gsd_priority" $value={{{ [<priority-value>] }}}/>
 <%else%>
-    <$action-deletefield $tiddler={{{ [<item-title>] }}} $field="gsd_priority"/>
+  <$action-deletefield $tiddler={{{ [<item-title>] }}} $field="gsd_priority"/>
 <%endif%>
 \end
 

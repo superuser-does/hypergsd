@@ -5,9 +5,9 @@ tags: $:/tags/hypergsd/Lists/Dashboard
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/future-action-list-by-contact
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/FutureByContact}}
-    list-filter="[tag[$:/GSD/Action]gsd_status[future]gsd_complete[false]has[gsd_contact]] +[sort[title]]"
-    group-select="yes"
-    group-default="$:/plugins/yan/hypergsd-contacts/ui/group-by/contact"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>
+  list-heading={{$:/language/hypergsd/Lists/FutureByContact}}
+  list-filter="[tag[$:/GSD/Action]gsd_status[future]gsd_complete[false]has[gsd_contact]] +[sort[title]]"
+  group-select="yes"
+  group-default="$:/plugins/yan/hypergsd-contacts/ui/group-by/contact"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>

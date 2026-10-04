@@ -9,32 +9,32 @@ title: $:/plugins/yan/hypergsd-priorities/ui/list-items/priority
 
 <!-- The row select: pinned after the status pills (the Prefix tag tiddler's list field — a dangling entry when this sub-plugin is absent, which tagging[] drops harmlessly). Native <select> appearance kept — the closed box fills with the item's priority colour when set; the dropdown options are coloured by the stylesheet through CSS custom properties composed here from the colours dictionary and set on the wrapper span (the $select widget rebuilds <option> nodes itself and drops foreign attributes, so per-option inline styles cannot ride through, and even the select's own style attribute is dropped — variables inherit down from the span instead, and the dictionary stays the single source). The select paints transparent over the span's fill. The select binds the field natively (that write keeps the DOM honest), then its actions normalise through the shared hgsd-priority-set — every surface commits through the one write path, and clearing deletes the field instead of leaving an empty string. Self-gated: actions and projects, incomplete rows only (done rows drop their pills too). The wrapper span joins the row's flex-shrink:0 set (a bare select would squeeze under title pressure). -->
 <$let item-title=<<currentTiddler>>
-    item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
+  item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
 <%if [<item-type>match[action]] [<item-type>match[project]] %>
 <%if [is[current]gsd_complete[false]] %>
 <$let priority-letter={{{ [<item-title>get[gsd_priority]else[]trim[]] }}}
-    a-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[A]else[]] }}}
-    a-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[A-border]else[]] }}}
-    b-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[B]else[]] }}}
-    b-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[B-border]else[]] }}}
-    c-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[C]else[]] }}}
-    c-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[C-border]else[]] }}}
-    vars-style={{{ [[--hgsd-prio-A:]addsuffix<a-fill>addsuffix[;--hgsd-prio-A-ink:]addsuffix<a-ink>addsuffix[;--hgsd-prio-B:]addsuffix<b-fill>addsuffix[;--hgsd-prio-B-ink:]addsuffix<b-ink>addsuffix[;--hgsd-prio-C:]addsuffix<c-fill>addsuffix[;--hgsd-prio-C-ink:]addsuffix<c-ink>] }}}
-    fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-letter>else[]] }}}
-    ink-key={{{ [<priority-letter>addsuffix[-border]] }}}
-    ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<ink-key>else[]] }}}
-    filled-style={{{ [<priority-letter>minlength[1]then[background-color:]addsuffix<fill>addsuffix[;color:]addsuffix<ink>] }}}
-    row-style={{{ [<vars-style>] [<filled-style>minlength[1]] +[join[;]] }}}>
+  a-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[A]else[]] }}}
+  a-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[A-border]else[]] }}}
+  b-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[B]else[]] }}}
+  b-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[B-border]else[]] }}}
+  c-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[C]else[]] }}}
+  c-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex[C-border]else[]] }}}
+  vars-style={{{ [[--hgsd-prio-A:]addsuffix<a-fill>addsuffix[;--hgsd-prio-A-ink:]addsuffix<a-ink>addsuffix[;--hgsd-prio-B:]addsuffix<b-fill>addsuffix[;--hgsd-prio-B-ink:]addsuffix<b-ink>addsuffix[;--hgsd-prio-C:]addsuffix<c-fill>addsuffix[;--hgsd-prio-C-ink:]addsuffix<c-ink>] }}}
+  fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-letter>else[]] }}}
+  ink-key={{{ [<priority-letter>addsuffix[-border]] }}}
+  ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<ink-key>else[]] }}}
+  filled-style={{{ [<priority-letter>minlength[1]then[background-color:]addsuffix<fill>addsuffix[;color:]addsuffix<ink>] }}}
+  row-style={{{ [<vars-style>] [<filled-style>minlength[1]] +[join[;]] }}}>
 <span class="hgsd-row-priority" style=<<row-style>> >
 <$select class="hgsd-priority-select" tooltip={{$:/language/hypergsd/Lists/Priorities/Row/Hint}}
-    tiddler=<<item-title>> field="gsd_priority" default=""
-    actions="""<$transclude $variable="hgsd-priority-set" item-title=<<item-title>> priority-value={{{ [<item-title>get[gsd_priority]else[]trim[]] }}} />""">
-    <option value=""><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Unset]get[text]else[–]] }}} /></option>
-    <$list filter="[enlist[A B C]]" variable="priority-stop">
-        <$let stop-label={{{ [[$:/language/hypergsd/Lists/Priorities/Short/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}}>
-        <option value=<<priority-stop>> ><$text text=<<stop-label>>/></option>
-        </$let>
-    </$list>
+  tiddler=<<item-title>> field="gsd_priority" default=""
+  actions="""<$transclude $variable="hgsd-priority-set" item-title=<<item-title>> priority-value={{{ [<item-title>get[gsd_priority]else[]trim[]] }}} />""">
+  <option value=""><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Unset]get[text]else[–]] }}} /></option>
+  <$list filter="[enlist[A B C]]" variable="priority-stop">
+    <$let stop-label={{{ [[$:/language/hypergsd/Lists/Priorities/Short/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}}>
+    <option value=<<priority-stop>> ><$text text=<<stop-label>>/></option>
+    </$let>
+  </$list>
 </$select>
 </span>
 </$let>

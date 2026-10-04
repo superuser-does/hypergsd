@@ -2,5 +2,5 @@ tags: $:/tags/Stylesheet
 title: $:/plugins/yan/hypergsd-ticklers/stylesheet/ticklers
 
 .hgsd-tickler-repeat-input {
-    width: 4.5em;
+  width: 4.5em;
 }

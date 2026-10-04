@@ -10,34 +10,34 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/dashboards
 ! <<lingo Dashboards/General>>
 
 <$checkbox tiddler="$:/config/hypergsd/dashboard-future-project-items"
-    field="text" checked="show" unchecked="hide" default="hide"
-    class="tc-control-panel-item"
+  field="text" checked="show" unchecked="hide" default="hide"
+  class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/dashboard-future-project-items" class="tc-tiny-gap-left"><<lingo Dashboards/FutureProjectItems>></$link></$checkbox>
 
 ! <<lingo Dashboards/Grouping/Heading>>
 
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/GroupBy"
-    visibility-base="$:/config/hypergsd/GroupBy/hidden/"
-    item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
-    portions="no"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/GroupBy"
+  visibility-base="$:/config/hypergsd/GroupBy/hidden/"
+  item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
+  portions="no"/>
 
 ! <<lingo Dashboards/Sorting/Heading>>
 
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/SortBy"
-    visibility-base="$:/config/hypergsd/SortBy/hidden/"
-    item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
-    portions="no"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/SortBy"
+  visibility-base="$:/config/hypergsd/SortBy/hidden/"
+  item-template="$:/plugins/yan/hypergsd/ui/components/view-option-item-template"
+  portions="no"/>
 
 ! <<lingo Dashboards/Lists>>
 
 //<<lingo Dashboards/Lists/Prompt>>//
 
 <<tabs
-    "[all[shadows+tiddlers]tag[$:/tags/hypergsd/Settings/Lists/Dashboard]!is[draft]]"
-    "$:/plugins/yan/hypergsd/ui/control-panel/dashboards/main-dashboard-list"
-    "$:/state/tab/hypergsdlistpanel"
-    "tc-vertical">>
+  "[all[shadows+tiddlers]tag[$:/tags/hypergsd/Settings/Lists/Dashboard]!is[draft]]"
+  "$:/plugins/yan/hypergsd/ui/control-panel/dashboards/main-dashboard-list"
+  "$:/state/tab/hypergsdlistpanel"
+  "tc-vertical">>

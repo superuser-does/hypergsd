@@ -3,8 +3,8 @@ title: $:/plugins/yan/hypergsd-contexts/ui/stylesheet/context
 
 /* Context view header */
 .context-view-template {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 .hgsd-context-controls {
-    margin-block-end: 1em;
+  margin-block-end: 1em;
 }

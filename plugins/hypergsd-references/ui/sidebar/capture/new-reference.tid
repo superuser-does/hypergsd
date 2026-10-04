@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd-references/ui/sidebar/capture/new-reference
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$hgsd.new-button
-    gsd-type="reference"
-    tooltip={{$:/language/hypergsd/Sidebar/Capture/NewReference/Hint}}>
-    {{$:/plugins/yan/hypergsd-references/images/reference}} <<lingo Capture/NewReference/Label>>
+  gsd-type="reference"
+  tooltip={{$:/language/hypergsd/Sidebar/Capture/NewReference/Hint}}>
+  {{$:/plugins/yan/hypergsd-references/images/reference}} <<lingo Capture/NewReference/Label>>
 </$hgsd.new-button>

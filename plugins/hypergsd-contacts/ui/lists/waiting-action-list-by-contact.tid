@@ -5,9 +5,9 @@ tags: $:/tags/hypergsd/Lists/Dashboard $:/tags/hypergsd/Lists/Waiting
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/WaitingByContact}}
-    list-filter="[tag[$:/GSD/Action]gsd_status[waiting]gsd_complete[false]has[gsd_contact]] +[sort[title]]"
-    group-select="yes"
-    group-default="$:/plugins/yan/hypergsd-contacts/ui/group-by/contact"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>
+  list-heading={{$:/language/hypergsd/Lists/WaitingByContact}}
+  list-filter="[tag[$:/GSD/Action]gsd_status[waiting]gsd_complete[false]has[gsd_contact]] +[sort[title]]"
+  group-select="yes"
+  group-default="$:/plugins/yan/hypergsd-contacts/ui/group-by/contact"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>

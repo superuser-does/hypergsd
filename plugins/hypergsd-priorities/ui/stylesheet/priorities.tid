@@ -3,34 +3,34 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
 
 /* Each row: the block plus (on the selected row) the clear ✕ inside the block's reserved slot. Logical properties throughout, so RTL mirrors for free — no floats. */
 .hgsd-priority-row {
-    position: relative;
+  position: relative;
 }
 
 /* Option blocks: hairline boxes, the selected one filled solid with its colour (inline, dictionary-driven). Every block carries the wide end padding — the ✕ slot exists before a value is set, so widths never change and labels of any length cannot run under the ✕. The radio itself is hidden — the section's eventcatcher receives the label-forwarded click and does the write (the status-pill pattern). */
 .hgsd-priority-option {
-    display: block;
-    padding-block: 0.15em;
-    padding-inline: 0.6em 1.9em;
-    border: 1px solid <<colour tiddler-info-border>>;
-    font-weight: 600;
-    cursor: pointer;
+  display: block;
+  padding-block: 0.15em;
+  padding-inline: 0.6em 1.9em;
+  border: 1px solid <<colour tiddler-info-border>>;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .hgsd-priority-option input {
-    display: none;
+  display: none;
 }
 
 /* The clear ✕ drops into the selected block's reserved slot, vertically centred and ink-matched (core pins button icons to the page foreground) */
 .hgsd-priority-clear {
-    position: absolute;
-    inset-inline-end: 0.45em;
-    top: 50%;
-    translate: 0 -50%;
-    padding: 0;
+  position: absolute;
+  inset-inline-end: 0.45em;
+  top: 50%;
+  translate: 0 -50%;
+  padding: 0;
 }
 
 .hgsd-priority-clear svg {
-    fill: currentColor;
+  fill: currentColor;
 }
 
 /* The row select: native box, untouched shape — only its size (to sit on the
@@ -39,14 +39,14 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
    and carries the fill; the select paints transparent over it and inherits
    its ink. */
 .hgsd-row-priority {
-    flex-shrink: 0;
-    margin-inline-start: 0.35em;
-    display: inline-flex;
+  flex-shrink: 0;
+  margin-inline-start: 0.35em;
+  display: inline-flex;
 }
 
 .hgsd-priority-select {
-    font-size: 0.8em;
-    background-color: transparent;
+  font-size: 0.8em;
+  background-color: transparent;
 }
 
 /* Dropdown colours: the member composes --hgsd-prio-* custom properties from
@@ -54,23 +54,23 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
    $select widget drops foreign attributes on <option>, so the stylesheet owns
    the mapping and the dictionary stays the single source.) */
 .hgsd-priority-select option[value="A"] {
-    background-color: var(--hgsd-prio-A);
-    color: var(--hgsd-prio-A-ink);
+  background-color: var(--hgsd-prio-A);
+  color: var(--hgsd-prio-A-ink);
 }
 
 .hgsd-priority-select option[value="B"] {
-    background-color: var(--hgsd-prio-B);
-    color: var(--hgsd-prio-B-ink);
+  background-color: var(--hgsd-prio-B);
+  color: var(--hgsd-prio-B-ink);
 }
 
 .hgsd-priority-select option[value="C"] {
-    background-color: var(--hgsd-prio-C);
-    color: var(--hgsd-prio-C-ink);
+  background-color: var(--hgsd-prio-C);
+  color: var(--hgsd-prio-C-ink);
 }
 
 /* The configuration table keeps its natural width: theme rules that stretch
    tables to their container would balloon every column in the settings tab.
    The class rides the table's class row. */
 table.hgsd-priority-config {
-    width: auto;
+  width: auto;
 }

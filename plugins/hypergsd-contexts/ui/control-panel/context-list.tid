@@ -7,11 +7,11 @@ title: $:/plugins/yan/hypergsd-contexts/ui/control-panel/context-list
 
 <!-- The checkbox mirrors core's ToolbarButtons entries: yes/no with the default on the widget, the label linking to the config tiddler. -->
 <$checkbox tiddler="$:/config/hypergsd/Contexts/show-contexts"
-    field="text" checked="yes" unchecked="no" default="yes"
-    class="tc-control-panel-item">
-    <$link to="$:/config/hypergsd/Contexts/show-contexts" class="tc-tiny-gap-left">
-        <<lingo Fragments/Contextualise/ShowApplied>>
-    </$link>
+  field="text" checked="yes" unchecked="no" default="yes"
+  class="tc-control-panel-item">
+  <$link to="$:/config/hypergsd/Contexts/show-contexts" class="tc-tiny-gap-left">
+    <<lingo Fragments/Contextualise/ShowApplied>>
+  </$link>
 </$checkbox>
 <br/>
 <$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Lists/ContextAction" visibility-base="$:/config/hypergsd/Lists/ContextAction/visibility/"/>

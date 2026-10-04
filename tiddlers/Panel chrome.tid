@@ -19,10 +19,10 @@ If you prefer the old look (top/bottom hairlines only, no side borders), change 
 
 ```
 .hgsd-panel-fieldset {
-    border: 0;
-    border-top: 1px solid <<colour tiddler-info-border>>;
-    border-bottom: 1px solid <<colour tiddler-info-border>>;
-    min-width: 0;
+  border: 0;
+  border-top: 1px solid <<colour tiddler-info-border>>;
+  border-bottom: 1px solid <<colour tiddler-info-border>>;
+  min-width: 0;
 }
 ```
 

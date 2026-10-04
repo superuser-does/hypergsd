@@ -8,8 +8,8 @@ title: $:/plugins/yan/hypergsd-contacts/ui/list-items/contact-link
 <!-- Jump-to-contact icon for rows whose item carries gsd_contact (set on delegated actions; contact tiddlers never carry it, so contact rows stay bare). The tooltip is the target tiddler's title. storyTiddler is snapshotted by the core ViewTemplate before any list loop redefines currentTiddler, so a match means the row renders inside the contact's own page; current-group is ambient only in grouped lists (the by-contact dashboard's group values are contact titles), so a match means the heading already links there. Both are unset in flat lists, where !match passes. -->
 <%if [all[current]get[gsd_contact]trim[]!is[blank]!match<storyTiddler>!match<current-group>] %>
 <span>
-    <$link to={{{ [all[current]get[gsd_contact]trim[]] }}} tooltip={{{ [all[current]get[gsd_contact]trim[]] }}} class="gsd-muted hgsd-contact-link">
-        <$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/images/contact" size="1em"/>
-    </$link>
+  <$link to={{{ [all[current]get[gsd_contact]trim[]] }}} tooltip={{{ [all[current]get[gsd_contact]trim[]] }}} class="gsd-muted hgsd-contact-link">
+    <$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/images/contact" size="1em"/>
+  </$link>
 </span>
 <%endif%>

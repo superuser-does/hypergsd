@@ -9,33 +9,33 @@ title: $:/plugins/yan/hypergsd-priorities/ui/panel/priority
 <!-- Hairline option blocks over raw radios behind the section's own eventcatcher (the status-pill architecture: the catcher receives the label-forwarded click and hgsd-priority-click writes through the shared hgsd-priority-set). The selected block carries its solid colour inline from the colours dictionary. Every block reserves end space for the clear ✕ (so widths never change and translated labels of any width cannot collide with it); the ✕ renders in that slot on the selected row only, ink-matched to the block. Portion/0 places the column before every other portion; the write re-renders the panel through the type gate, so the section keeps no state of its own. -->
 <%if [is[current]tag[$:/GSD/Action]] [is[current]tag[$:/GSD/Project]] %>
 <$let priority-letter={{{ [all[current]get[gsd_priority]] }}}
-    radio-name={{{ [<currentTiddler>addsuffix[-priority]] }}}>
+  radio-name={{{ [<currentTiddler>addsuffix[-priority]] }}}>
 <span><<lingo Priority/Label>></span>
 <$eventcatcher tag="div" selector=".hgsd-priority-option input" $click=<<hgsd-priority-click>>>
 <$list filter="[enlist[A B C]]" variable="priority-stop">
-    <$let stop-label={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}}
-        stop-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-stop>else[#d9d9d9]] }}}
-        stop-ink-key={{{ [<priority-stop>addsuffix[-border]] }}}
-        stop-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<stop-ink-key>else[#5c5c5c]] }}}
-        selected-style={{{ [[background-color:]addsuffix<stop-fill>addsuffix[;color:]addsuffix<stop-ink>] }}}
-        stop-style={{{ [<priority-stop>match<priority-letter>then<selected-style>] }}}>
-    <div class="hgsd-priority-row">
-        <label class="hgsd-priority-option" style=<<stop-style>> >
-            <%if [<priority-stop>match<priority-letter>] %>
-            <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority=<<priority-stop>> checked>
-            <%else%>
-            <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority=<<priority-stop>>>
-            <%endif%>
-            <span><$text text=<<stop-label>>/></span>
-        </label>
-        <%if [<priority-stop>match<priority-letter>] %>
-            <$button class="tc-btn-invisible hgsd-priority-clear" tooltip={{$:/language/hypergsd/Sections/Priority/Clear/Hint}} style={{{ [[color:]addsuffix<stop-ink>] }}} >
-                <$transclude $variable="hgsd-priority-set" item-title=<<currentTiddler>> priority-value=""/>
-                {{$:/core/images/close-button}}
-            </$button>
-        <%endif%>
-    </div>
-    </$let>
+  <$let stop-label={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}}
+    stop-fill={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-stop>else[#d9d9d9]] }}}
+    stop-ink-key={{{ [<priority-stop>addsuffix[-border]] }}}
+    stop-ink={{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<stop-ink-key>else[#5c5c5c]] }}}
+    selected-style={{{ [[background-color:]addsuffix<stop-fill>addsuffix[;color:]addsuffix<stop-ink>] }}}
+    stop-style={{{ [<priority-stop>match<priority-letter>then<selected-style>] }}}>
+  <div class="hgsd-priority-row">
+    <label class="hgsd-priority-option" style=<<stop-style>> >
+      <%if [<priority-stop>match<priority-letter>] %>
+      <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority=<<priority-stop>> checked>
+      <%else%>
+      <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority=<<priority-stop>>>
+      <%endif%>
+      <span><$text text=<<stop-label>>/></span>
+    </label>
+    <%if [<priority-stop>match<priority-letter>] %>
+      <$button class="tc-btn-invisible hgsd-priority-clear" tooltip={{$:/language/hypergsd/Sections/Priority/Clear/Hint}} style={{{ [[color:]addsuffix<stop-ink>] }}} >
+        <$transclude $variable="hgsd-priority-set" item-title=<<currentTiddler>> priority-value=""/>
+        {{$:/core/images/close-button}}
+      </$button>
+    <%endif%>
+  </div>
+  </$let>
 </$list>
 </$eventcatcher>
 </$let>

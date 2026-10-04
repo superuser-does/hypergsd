@@ -3,7 +3,7 @@ tags: $:/tags/hypergsd/Settings/Lists/Dashboard
 title: $:/plugins/yan/hypergsd/ui/control-panel/dashboards/project-dashboard-list
 
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/Lists/Project"
-    visibility-base="$:/config/hypergsd/Lists/Project/visibility/"
-    item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/Lists/Project"
+  visibility-base="$:/config/hypergsd/Lists/Project/visibility/"
+  item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template"/>

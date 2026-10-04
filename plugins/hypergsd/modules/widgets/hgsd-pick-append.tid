@@ -8,41 +8,41 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-append
 <$let target={{{ [<tiddler>!match[]then<tiddler>else<currentTiddler>] }}}>
 <$let add-temp={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
 <div class="gsd-list-item hgsd-sizer-droplist">
-    <div>
-    <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
-    <$hgsd.pick
-        tiddler=<<add-temp>>
-        list-filter=<<list-filter>>
-        group-by=<<group-by>>
-        none-title=<<none-title>>
-        search-mode=<<search-mode>>
-        id=<<id>>
-        commit-kind={{{ [<direction>match[item]then[append-to-picked]else[append]] }}}
-        commit-tiddler=<<target>>
-        commit-field=<<field>>
-        commit-value=<<target>>/>
-    </$keyboard>
-    </div>
-    <div>
-    <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
-        <$transclude $variable="hgsd-new-options" kind=<<direction>>/>
-    <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
-    <%if [<direction>match[item]] %>
-    <$button>
-        <$action-listops $tiddler={{{ [<add-temp>get[hgsd-pick]] }}} $field=<<field>> $subfilter="[<currentTiddler>]" />
-        <$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>
-        {{$:/language/EditTemplate/Fields/Add/Button}}
-    </$button>
-    <%else%>
-    <$button>
-        <$action-listops $tiddler=<<target>> $field=<<field>> $subfilter="[<add-temp>get[hgsd-pick]]" />
-        <$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>
-        {{$:/language/EditTemplate/Fields/Add/Button}}
-    </$button>
-    <%endif%>
-    <%endif%>
-    <$transclude $variable="hgsd-new-fallback"/>
-    </div>
+  <div>
+  <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
+  <$hgsd.pick
+    tiddler=<<add-temp>>
+    list-filter=<<list-filter>>
+    group-by=<<group-by>>
+    none-title=<<none-title>>
+    search-mode=<<search-mode>>
+    id=<<id>>
+    commit-kind={{{ [<direction>match[item]then[append-to-picked]else[append]] }}}
+    commit-tiddler=<<target>>
+    commit-field=<<field>>
+    commit-value=<<target>>/>
+  </$keyboard>
+  </div>
+  <div>
+  <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
+    <$transclude $variable="hgsd-new-options" kind=<<direction>>/>
+  <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
+  <%if [<direction>match[item]] %>
+  <$button>
+    <$action-listops $tiddler={{{ [<add-temp>get[hgsd-pick]] }}} $field=<<field>> $subfilter="[<currentTiddler>]" />
+    <$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>
+    {{$:/language/EditTemplate/Fields/Add/Button}}
+  </$button>
+  <%else%>
+  <$button>
+    <$action-listops $tiddler=<<target>> $field=<<field>> $subfilter="[<add-temp>get[hgsd-pick]]" />
+    <$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>
+    {{$:/language/EditTemplate/Fields/Add/Button}}
+  </$button>
+  <%endif%>
+  <%endif%>
+  <$transclude $variable="hgsd-new-fallback"/>
+  </div>
 </div>
 </$let>
 </$let>

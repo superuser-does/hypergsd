@@ -25,7 +25,7 @@ caption: Due
 tags: Documentation [[HyperGSD API]]
 
 <%if [is[current]tag[$:/GSD/Action]] %>
-    …section content…
+  …section content…
 <%endif%>
 ```
 

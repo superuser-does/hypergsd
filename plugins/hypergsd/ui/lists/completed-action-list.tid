@@ -6,14 +6,14 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-action-list
 
 <!-- The list carries its own disclosure: on the dashboard tag lists it renders collapsed behind the toggle; the dedicated Completed Actions page (whose entire content this member is) renders it bare. -->
 <$hgsd.toggle
-    text={{$:/language/hypergsd/Lists/ShowCompletedActions}}
-    hide-text={{$:/language/hypergsd/Lists/HideCompletedActions}}
-    class="hgsd-completed-toggle"
-    unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedAction">
+  text={{$:/language/hypergsd/Lists/ShowCompletedActions}}
+  hide-text={{$:/language/hypergsd/Lists/HideCompletedActions}}
+  class="hgsd-completed-toggle"
+  unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedAction">
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
-    list-filter="[tag[$:/GSD/Action]gsd_complete[true]sort[title]!nsort[gsd_comp_date]]"
-    group-select="yes"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" /> <!-- title pre-sort is the tiebreak for equal timestamps; undated legacy items sink -->
+  list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
+  list-filter="[tag[$:/GSD/Action]gsd_complete[true]sort[title]!nsort[gsd_comp_date]]"
+  group-select="yes"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" /> <!-- title pre-sort is the tiebreak for equal timestamps; undated legacy items sink -->
 </$hgsd.toggle>

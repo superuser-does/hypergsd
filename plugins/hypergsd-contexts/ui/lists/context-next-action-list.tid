@@ -4,7 +4,7 @@ tags: $:/tags/hypergsd/Lists/ContextAction
 title: $:/plugins/yan/hypergsd-contexts/ui/lists/context-next-action-list
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/NextActions}}
-    list-filter="[tag[$:/GSD/Action]tag<currentTiddler>gsd_status[next]gsd_complete[false]] +[sort[title]]"
-    group-by="gsd_project"
-    group-state={{{ [{$:/state/hypergsd/context-group}match[false]then[false]else[true]] }}}/>
+  list-heading={{$:/language/hypergsd/Lists/NextActions}}
+  list-filter="[tag[$:/GSD/Action]tag<currentTiddler>gsd_status[next]gsd_complete[false]] +[sort[title]]"
+  group-by="gsd_project"
+  group-state={{{ [{$:/state/hypergsd/context-group}match[false]then[false]else[true]] }}}/>

@@ -32,7 +32,7 @@ caption: Stale Items
 tags: Documentation [[HyperGSD API]]
 
 <$hgsd.list list-heading="Stale Items"
-    list-filter="[tag[$:/GSD/Stakeholder]!modified[Recent]]"/>
+  list-filter="[tag[$:/GSD/Stakeholder]!modified[Recent]]"/>
 ```
 
 A `caption` field provides the label shown in the control panel.

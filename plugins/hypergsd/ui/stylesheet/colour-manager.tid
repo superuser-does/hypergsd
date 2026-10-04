@@ -4,6 +4,6 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/colour-manager
 \import "$:/PaletteManager"
 
 <$set name="currentTiddler" value="$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours">
-    {{$:/language/hypergsd/Settings/Colours/DeleteNote}}
-    <<palette-manager-table>>
+  {{$:/language/hypergsd/Settings/Colours/DeleteNote}}
+  <<palette-manager-table>>
 </$set>

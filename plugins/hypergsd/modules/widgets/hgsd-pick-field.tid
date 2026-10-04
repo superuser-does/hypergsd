@@ -6,36 +6,36 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 <!-- The create-and-add BUTTON with the kind-mapped write shape — the create half of the former create/new fork (the plain new-button fallback is hgsd-new-fallback below, 2026-09-27). UNGATED by design: the caller transcludes it inside its create gate (non-blank pick, new-type set, no tiddler of that name), so the button sits in the row's COMMIT slot instead of Add/Save rather than beside them. kind selects the write shape: "field" (pick-field — set target/field), "own" (append the created title to target's field), "item" (write nothing to a target; the created tiddler's own list gains target — the PrereqOf mirror). close-state is passed only by pick-field's editing state, which must clear its reveal on commit (empty = no clear, hgsd-create-and-add self-gates). new-status/new-project are ambient-guarded passthroughs pick-field always has. -->
 \procedure hgsd-new-options(close-state:"", kind:"field")
 <$transclude $variable="hgsd-create-and-add"
-    typed-pick={{{ [<add-temp>get[hgsd-pick]] }}}
-    new-type=<<new-type>>
-    new-status=<<new-status>>
-    new-project=<<new-project>>
-    target-tiddler=<<target>>
-    target-field={{{ [<kind>match[item]then[]else<field>] }}}
-    target-mode={{{ [<kind>match[own]then[append]else[set]] }}}
-    new-prereq={{{ [<kind>match[item]then<target>] }}}
-    pick-tiddler=<<add-temp>>
-    pick-field="hgsd-pick"
-    close-state=<<close-state>>/>
+  typed-pick={{{ [<add-temp>get[hgsd-pick]] }}}
+  new-type=<<new-type>>
+  new-status=<<new-status>>
+  new-project=<<new-project>>
+  target-tiddler=<<target>>
+  target-field={{{ [<kind>match[item]then[]else<field>] }}}
+  target-mode={{{ [<kind>match[own]then[append]else[set]] }}}
+  new-prereq={{{ [<kind>match[item]then<target>] }}}
+  pick-tiddler=<<add-temp>>
+  pick-field="hgsd-pick"
+  close-state=<<close-state>>/>
 \end
 
 \procedure hgsd-new-fallback()
 <!-- The plain new-button for a blank box — the fallback half of the former create/new fork, self-gated (new-type set; pick blank or the temp absent, via the ELSE of the typed fork because a bare [get…match[]] run stays empty over a missing temp; new-button="hide" suppresses). Parameterless beyond its ambient reads, like hgsd-pick-commit. -->
 <%if [<new-type>!match[]] %>
 <%if [<add-temp>get[hgsd-pick]!match[]] %>
-    <!-- typed: the commit slot owns the row -->
+  <!-- typed: the commit slot owns the row -->
 <%else%><%if [<new-button>!match[hide]] %>
-    <$hgsd.new-button
-        gsd-type=<<new-type>>
-        gsd-status=<<new-status>>
-        gsd-update-status=<<new-update-status>>
-        gsd-complete=<<new-complete>>
-        gsd-project=<<new-project>>
-        tooltip={{{ [<tooltip>!match[]] :else[{$:/language/hypergsd/Widgets/AddNewPrefix}addsuffix[ ]addsuffix<new-type>] }}}
-        class="tc-btn-invisible"
-        gsd-calling-tiddler=<<currentTiddler>> >
-        <span class="hgsd-new-hint"><$text text={{{ [<caption>!match[]] :else[{$:/language/hypergsd/Widgets/New/Hint}] }}} /></span>
-    </$hgsd.new-button>
+  <$hgsd.new-button
+    gsd-type=<<new-type>>
+    gsd-status=<<new-status>>
+    gsd-update-status=<<new-update-status>>
+    gsd-complete=<<new-complete>>
+    gsd-project=<<new-project>>
+    tooltip={{{ [<tooltip>!match[]] :else[{$:/language/hypergsd/Widgets/AddNewPrefix}addsuffix[ ]addsuffix<new-type>] }}}
+    class="tc-btn-invisible"
+    gsd-calling-tiddler=<<currentTiddler>> >
+    <span class="hgsd-new-hint"><$text text={{{ [<caption>!match[]] :else[{$:/language/hypergsd/Widgets/New/Hint}] }}} /></span>
+  </$hgsd.new-button>
 <%endif%><%endif%>
 <%endif%>
 \end
@@ -44,99 +44,99 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 <!-- Three-state field editor for a single-value gsd_* field, wrapping $hgsd.pick: empty -> picker row + new button; set -> link + change button + explicit clear button; editing -> fieldset with the value as legend, keyboard-save (Enter by default) / Escape-cancel. The Save button of either set state renders ONLY while the pick is commitable without creation (2026-09-27, one affordance per pick state: blank shows the new cluster alone, a typed pick shows the commit step, a typed non-existent pick swaps it for create-and-add — one elseif chain on hgsd-pick-keyboard-commit's create gate, with hgsd-new-options (the kind-mapped create button) in the then-branch; a combined one-filter form does not parse and its error literal is truthy). Clearing therefore moved OUT of the commit flow: the set state's clear button — icon-only with core's Buttons/Clear/Caption as its tooltip, placed between the value link and change — blanks the field directly (clear-button="hide" suppresses it), and the keyboard's blank commit still clears — the mouse path no longer relies on "open the editor, leave it empty, save". The keyboard wrappers of both commit sites route through hgsd-pick-keyboard-commit (in hgsd-pick.tid): a typed non-existent pick is created and linked (the create-and-add button's fork, direction blank = plain set), anything else writes the field exactly as the Save button does; the editing state passes its reveal as close-state so a create closes the editor. Opening the editor clears the pick for type-to-search. edit-pop and add-temp are deterministic per field/id plus write target (qualify() would collide two simultaneously open tiddlers) and live under the prefixes the view-body refresh guard whitelists — the pick-gated buttons ride the same per-keystroke refresh the create-and-add gate always used. tiddler names the write target (blank = currentTiddler; the modal passes its data temp, making the control a drafting editor). new-type blank omits the new button; new-button="hide" suppresses only the plain fallbacks — typed non-existent picks still get create-and-add (for hosts that cannot stack modals). -->
 <$let target={{{ [<tiddler>!match[]then<tiddler>else<currentTiddler>] }}}>
 <$let edit-pop={{{ [[$:/state/hypergsd/edit-]addsuffix<field>addsuffix[-]addsuffix<target>] }}}
-    add-temp={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
+  add-temp={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
 <$let cur-val={{{ [<target>get<field>] }}}>
 <$let eff-none-title={{{ [<none-title>!match[]then<none-title>else{$:/language/hypergsd/Widgets/NoneOption}] }}}>
 <%if [<label>!match[]] %><<label>>:<br/><%endif%>
 <div class="gsd-list-item hgsd-sizer-droplist">
 
-    <!-- State 2: field set, not editing: link + change button on one line (separate reveals keep them side-by-side flex items; both hide while editing). The link container is NOT a sizer-select: display rows must not stretch, or the clear/change buttons land at the host's right edge far from the value (the picker input alone owns the stretch). -->
-    <%if [<cur-val>!match[]] %>
-    <$reveal type="nomatch" state=<<edit-pop>> text="yes">
-        <div>
-            <$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link>
-        </div>
-    </$reveal>
-    <%if [<link-items>!match[hide]] %>
-    <$reveal type="nomatch" state=<<edit-pop>> text="yes">
-        <$transclude $variable="hgsd-link-items" linked-tiddler={{{ [<target>get<field>] }}}/>
-    </$reveal>
-    <%endif%>
-    <%if [<clear-button>!match[hide]] %>
-    <$reveal type="nomatch" state=<<edit-pop>> text="yes">
-        <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{$:/language/Buttons/Clear/Caption}} actions="""<$action-setfield $tiddler=<<target>> $field=<<field>> $value=""/>""">{{$:/core/images/close-button}}</$button>
-    </$reveal>
-    <%endif%>
-    <$reveal type="nomatch" state=<<edit-pop>> text="yes">
-        <$button actions="""<$action-setfield $tiddler=<<edit-pop>> $field="text" $value="yes"/><$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>""">{{$:/core/images/edit-button}} {{$:/language/hypergsd/Widgets/Change}}</$button>
-    </$reveal>
-    <!-- State 3: field set, editing -->
-    <$reveal type="match" state=<<edit-pop>> text="yes">
-        <fieldset class="hgsd-edit-fieldset">
-            <legend><$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link></legend>
-            <div class="gsd-list-item">
-            <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit" close-state={{{ [<edit-pop>] }}}/>""">
-            <$keyboard key="escape" actions="""<$action-setfield $tiddler=<<edit-pop>> $field="text" $value=""/>""">
-            <$hgsd.pick
-                tiddler=<<add-temp>>
-                list-filter=<<list-filter>>
-                group-by=<<group-by>>
-                none-title=<<eff-none-title>>
-                none-group-title=<<none-group-title>>
-                search-mode=<<search-mode>>
-                placeholder={{{ [<edit-placeholder>!match[]then<edit-placeholder>else{$:/language/hypergsd/Widgets/EditPlaceholder}] }}}
-                realm-scope=<<realm-scope>>
-                id=<<id>>
-                focus="yes"
-                commit-kind="field"
-                commit-tiddler=<<target>>
-                commit-field=<<field>>
-                commit-clear=<<edit-pop>>/>
-            </$keyboard>
-            </$keyboard>
-            <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
-                <$transclude $variable="hgsd-new-options" close-state=<<edit-pop>>/>
-            <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
-            <$button>
-                <$action-setfield $tiddler=<<target>> $field=<<field>> $value={{{ [<add-temp>get[hgsd-pick]] }}}/>
-                <$action-setfield $tiddler=<<edit-pop>> $field="text" $value=""/>{{$:/core/images/done-button}} {{$:/language/Buttons/Save/Caption}}</$button>
-            <%endif%>
-            <!-- Cancel rides the SAME flex row, after the commit slot (2026-09-27 — it lived on a line below, which read as "no button to press" in the editor); the plain new fallback comes last -->
-            <$button set=<<edit-pop>> setTo="">{{$:/core/images/cancel-button}} {{$:/language/Buttons/Cancel/Caption}}</$button>
-            <$transclude $variable="hgsd-new-fallback"/>
-            </div>
-        </fieldset>
-    </$reveal>
-    <%endif%>
-
-    <!-- State 1: field empty: picker row with keyboard-to-save, new button below -->
-    <%if [<cur-val>match[]] %>
-    <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
-    <$hgsd.pick
+  <!-- State 2: field set, not editing: link + change button on one line (separate reveals keep them side-by-side flex items; both hide while editing). The link container is NOT a sizer-select: display rows must not stretch, or the clear/change buttons land at the host's right edge far from the value (the picker input alone owns the stretch). -->
+  <%if [<cur-val>!match[]] %>
+  <$reveal type="nomatch" state=<<edit-pop>> text="yes">
+    <div>
+      <$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link>
+    </div>
+  </$reveal>
+  <%if [<link-items>!match[hide]] %>
+  <$reveal type="nomatch" state=<<edit-pop>> text="yes">
+    <$transclude $variable="hgsd-link-items" linked-tiddler={{{ [<target>get<field>] }}}/>
+  </$reveal>
+  <%endif%>
+  <%if [<clear-button>!match[hide]] %>
+  <$reveal type="nomatch" state=<<edit-pop>> text="yes">
+    <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{$:/language/Buttons/Clear/Caption}} actions="""<$action-setfield $tiddler=<<target>> $field=<<field>> $value=""/>""">{{$:/core/images/close-button}}</$button>
+  </$reveal>
+  <%endif%>
+  <$reveal type="nomatch" state=<<edit-pop>> text="yes">
+    <$button actions="""<$action-setfield $tiddler=<<edit-pop>> $field="text" $value="yes"/><$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>""">{{$:/core/images/edit-button}} {{$:/language/hypergsd/Widgets/Change}}</$button>
+  </$reveal>
+  <!-- State 3: field set, editing -->
+  <$reveal type="match" state=<<edit-pop>> text="yes">
+    <fieldset class="hgsd-edit-fieldset">
+      <legend><$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link></legend>
+      <div class="gsd-list-item">
+      <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit" close-state={{{ [<edit-pop>] }}}/>""">
+      <$keyboard key="escape" actions="""<$action-setfield $tiddler=<<edit-pop>> $field="text" $value=""/>""">
+      <$hgsd.pick
         tiddler=<<add-temp>>
         list-filter=<<list-filter>>
         group-by=<<group-by>>
         none-title=<<eff-none-title>>
         none-group-title=<<none-group-title>>
         search-mode=<<search-mode>>
-        placeholder=<<placeholder>>
+        placeholder={{{ [<edit-placeholder>!match[]then<edit-placeholder>else{$:/language/hypergsd/Widgets/EditPlaceholder}] }}}
         realm-scope=<<realm-scope>>
         id=<<id>>
+        focus="yes"
         commit-kind="field"
         commit-tiddler=<<target>>
-        commit-field=<<field>>/>
-    </$keyboard>
-    <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
-        <$transclude $variable="hgsd-new-options"/>
-    <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
-    <$button>
+        commit-field=<<field>>
+        commit-clear=<<edit-pop>>/>
+      </$keyboard>
+      </$keyboard>
+      <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
+        <$transclude $variable="hgsd-new-options" close-state=<<edit-pop>>/>
+      <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
+      <$button>
         <$action-setfield $tiddler=<<target>> $field=<<field>> $value={{{ [<add-temp>get[hgsd-pick]] }}}/>
-        {{$:/core/images/done-button}} {{$:/language/Buttons/Save/Caption}}</$button>
-    <%endif%>
-    <div>
-        <$transclude $variable="hgsd-new-fallback"/>
-    </div>
-    <%endif%>
+        <$action-setfield $tiddler=<<edit-pop>> $field="text" $value=""/>{{$:/core/images/done-button}} {{$:/language/Buttons/Save/Caption}}</$button>
+      <%endif%>
+      <!-- Cancel rides the SAME flex row, after the commit slot (2026-09-27 — it lived on a line below, which read as "no button to press" in the editor); the plain new fallback comes last -->
+      <$button set=<<edit-pop>> setTo="">{{$:/core/images/cancel-button}} {{$:/language/Buttons/Cancel/Caption}}</$button>
+      <$transclude $variable="hgsd-new-fallback"/>
+      </div>
+    </fieldset>
+  </$reveal>
+  <%endif%>
+
+  <!-- State 1: field empty: picker row with keyboard-to-save, new button below -->
+  <%if [<cur-val>match[]] %>
+  <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
+  <$hgsd.pick
+    tiddler=<<add-temp>>
+    list-filter=<<list-filter>>
+    group-by=<<group-by>>
+    none-title=<<eff-none-title>>
+    none-group-title=<<none-group-title>>
+    search-mode=<<search-mode>>
+    placeholder=<<placeholder>>
+    realm-scope=<<realm-scope>>
+    id=<<id>>
+    commit-kind="field"
+    commit-tiddler=<<target>>
+    commit-field=<<field>>/>
+  </$keyboard>
+  <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
+    <$transclude $variable="hgsd-new-options"/>
+  <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
+  <$button>
+    <$action-setfield $tiddler=<<target>> $field=<<field>> $value={{{ [<add-temp>get[hgsd-pick]] }}}/>
+    {{$:/core/images/done-button}} {{$:/language/Buttons/Save/Caption}}</$button>
+  <%endif%>
+  <div>
+    <$transclude $variable="hgsd-new-fallback"/>
+  </div>
+  <%endif%>
 
 </div>
 </$let>

@@ -7,13 +7,13 @@ title: $:/plugins/yan/hypergsd/ui/panel/convert
 \procedure lingo-base() $:/language/hypergsd/Sections/
 <%if [is[current]tag[$:/GSD/Action]gsd_complete[false]] %>
 <div>
-    <div>
-        <$hgsd.convert
-            current-status={{!!gsd_status}}
-            class="gsd-gsdpanel-button"
-            tooltip={{$:/language/hypergsd/Sections/Convert/Hint}}>
-            {{$:/plugins/yan/hypergsd/images/convert}} <<lingo Convert/ButtonLabel>>
-        </$hgsd.convert>
-    </div>
+  <div>
+    <$hgsd.convert
+      current-status={{!!gsd_status}}
+      class="gsd-gsdpanel-button"
+      tooltip={{$:/language/hypergsd/Sections/Convert/Hint}}>
+      {{$:/plugins/yan/hypergsd/images/convert}} <<lingo Convert/ButtonLabel>>
+    </$hgsd.convert>
+  </div>
 </div>
 <%endif%>

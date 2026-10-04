@@ -10,17 +10,17 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <!-- ROW FREEZE: one membership check at the row door — the whitelist is composed per list (hgsd-row-whitelist-expr, the file-top function, retrieved by hgsd-render-inner): the engine's base runs plus every ListItem fragment's refresh-whitelist field, so a stateful fragment declares its own dependencies instead of the main plugin hardcoding them (the base's [match<currentTiddler>] is input-driven: a changed title passes only if it IS this row's item). An unrelated item edit stops here instead of descending the row's fragment tree. Membership (row added/removed) stays with the outer list patching. subfilter-tag-inputs caches the derivation (refresh.js): the two tag lists' membership and member fields are its only tiddler inputs, so the subfilter re-derives only when those change — not per row per admitted pass. -->
 <$refresh subfilter={{{ [function[hgsd-row-whitelist-expr]] }}} subfilter-tag-inputs="$:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix">
 <div class="gsd-list-item">
-    <$list filter="[[$:/tags/hypergsd/ListItem/Prefix]] :and[tagging[]]" variable="list-item">
-        <%if [[$:/config/hypergsd/ListItem/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<list-item>> />
-        <%endif%>
-    </$list>
-    <$link class="gsd-list-item-title" to=<<currentTiddler>>><$view field="title"/></$link>
-    <$list filter="[[$:/tags/hypergsd/ListItem/Suffix]] :and[tagging[]]" variable="list-item">
-        <%if [[$:/config/hypergsd/ListItem/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
-            <$transclude $tiddler=<<list-item>> />
-        <%endif%>
-    </$list>
+  <$list filter="[[$:/tags/hypergsd/ListItem/Prefix]] :and[tagging[]]" variable="list-item">
+    <%if [[$:/config/hypergsd/ListItem/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
+      <$transclude $tiddler=<<list-item>> />
+    <%endif%>
+  </$list>
+  <$link class="gsd-list-item-title" to=<<currentTiddler>>><$view field="title"/></$link>
+  <$list filter="[[$:/tags/hypergsd/ListItem/Suffix]] :and[tagging[]]" variable="list-item">
+    <%if [[$:/config/hypergsd/ListItem/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
+      <$transclude $tiddler=<<list-item>> />
+    <%endif%>
+  </$list>
 </div>
 </$refresh>
 \end
@@ -33,7 +33,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <!-- One grouping-strip radio. The label resolves via lingo with the raw key as fallback, so third-party members need no language tiddlers. Reads view-state-title from its invocation scope (render-inner). -->
 \procedure hgsd-strip-radio(strip-member)
 <$radio tiddler=<<view-state-title>> field="hgsd-group" value=<<strip-member>> default=<<effective-group-default>>>
-    <span class="tc-tiny-gap-left"><$transclude $variable="hgsd-view-label" v-member=<<strip-member>> v-key-field="hgsd-group-key" v-base="$:/language/hypergsd/Lists/GroupBy/"/></span>
+  <span class="tc-tiny-gap-left"><$transclude $variable="hgsd-view-label" v-member=<<strip-member>> v-key-field="hgsd-group-key" v-base="$:/language/hypergsd/Lists/GroupBy/"/></span>
 </$radio>
 \end
 
@@ -45,61 +45,61 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <!-- Relevance guard for the Sort by option loops (the grouping strip derives its offered set as one filter instead — see the derivation below). Renders the caller's children only when the member declares no hgsd-types (universal) or one intersects the ambient list-types. A widget (not a procedure) because the children arrive via the slot. The $list-as- conditional shape is the proven one (:and with variable operands misfires; if-conditions cannot carry run prefixes). -->
 \widget $hgsd.view-relevant(v-member)
 <%if [<v-member>get[hgsd-types]else[]match[]] %>
-    <$slot $name="ts-raw"/>
+  <$slot $name="ts-raw"/>
 <%else%>
-    <$let member-types={{{ [<v-member>get[hgsd-types]] }}} >
-    <$list filter="[enlist<list-types>] :filter[enlist<member-types>match<currentTiddler>limit[1]]" variable="v-shared">
-        <$slot $name="ts-raw"/>
-    </$list>
-    </$let>
+  <$let member-types={{{ [<v-member>get[hgsd-types]] }}} >
+  <$list filter="[enlist<list-types>] :filter[enlist<member-types>match<currentTiddler>limit[1]]" variable="v-shared">
+    <$slot $name="ts-raw"/>
+  </$list>
+  </$let>
 <%endif%>
 \end
 
 <!-- The ONE grouped renderer (tag list strip and legacy group-by both feed it; the caller binds group-filter — a per-item filter emitting group key(s) as tiddler titles with currentTiddler = the item, evaluated via subfilter so variable operands like get<group-by> resolve — plus member-label-filter (optional heading display filter, currentTiddler = the group title; empty means the title) and show-ungrouped (yes/no)). Keys: the member filter emits per-item key(s); tag-based members emit several and such items rightly render under every group. Keyless items fall to the trailing No group container, gated as a whole and hidden when show-ungrouped is no. `current-group` stays ambient for the rows so ListItem fragments can suppress themselves under their own group heading. CONSTRAINT: the :map expressions must live in $list filter attributes — a triple-brace $let attribute holding a multi-item :map evaluates to EMPTY (single-item works, which makes it look fine in hand probes). The :and[unique[]sort[]] tail dedupes+orders the mapped keys (intersection with their own deduped set; a +[unique[]] append does NOT dedupe). COST: G groups × N items subfilter evaluations — fine at shipped list sizes, reconsider before pointing the strip at very large lists. -->
 \procedure hgsd-render-grouped()
 <$let hgsd-grouped="true">
-    <$list filter="[enlist<hgsd-titles>] :map:flat[subfilter<group-filter>] :and[unique[]sort[title]!match[]]" variable="current-group">
-        <div class="tc-menu-list-item hgsd-project-list">
-            <div class="hgsd-group-title">
-                <!-- Members with synthetic keys (not tiddler titles) declare hgsd-synthetic-keys — plain headings; everyone else links (missing-title keys are intentional: realm/project links navigate-create) -->
-                <$let plain-heading={{{ [<effective-group>get[hgsd-synthetic-keys]else[no]match[yes]] }}}>
-                <%if [<plain-heading>match[yes]] %>
-                    <$text text={{{ [<current-group>] :map[subfilter<member-label-filter>first[]else<current-group>] }}} />
-                <%else%>
-                    <$link to=<<current-group>>><$text text={{{ [<current-group>] :map[subfilter<member-label-filter>first[]else<current-group>] }}} /></$link>
-                <%endif%>
-                </$let>
-            </div>
-            <$let loop-base="[enlist<hgsd-titles>] :filter[subfilter<group-filter>match<current-group>limit[1]]" rows-filter={{{ [<loop-base>] [<sort-expr>] +[join[ ]] }}} >
-            <$list filter=<<rows-filter>>>
-                <<hgsd-item>>
-            </$list>
-            </$let>
-        </div>
-    </$list>
-    <%if [<show-ungrouped>!match[no]] %>
-        <%if [enlist<hgsd-titles>] :filter[subfilter<group-filter>else[hgsd-keyless]match[hgsd-keyless]limit[1]] %>
-        <div class="tc-menu-list-item hgsd-project-list">
-            <div class="hgsd-group-title">{{$:/language/hypergsd/Lists/NoGroup}}</div>
-            <$let loop-base="[enlist<hgsd-titles>] :filter[subfilter<group-filter>else[hgsd-keyless]match[hgsd-keyless]]" rows-filter={{{ [<loop-base>] [<sort-expr>] +[join[ ]] }}} >
-            <$list filter=<<rows-filter>>>
-                <<hgsd-item>>
-            </$list>
-            </$let>
-        </div>
+  <$list filter="[enlist<hgsd-titles>] :map:flat[subfilter<group-filter>] :and[unique[]sort[title]!match[]]" variable="current-group">
+    <div class="tc-menu-list-item hgsd-project-list">
+      <div class="hgsd-group-title">
+        <!-- Members with synthetic keys (not tiddler titles) declare hgsd-synthetic-keys — plain headings; everyone else links (missing-title keys are intentional: realm/project links navigate-create) -->
+        <$let plain-heading={{{ [<effective-group>get[hgsd-synthetic-keys]else[no]match[yes]] }}}>
+        <%if [<plain-heading>match[yes]] %>
+          <$text text={{{ [<current-group>] :map[subfilter<member-label-filter>first[]else<current-group>] }}} />
+        <%else%>
+          <$link to=<<current-group>>><$text text={{{ [<current-group>] :map[subfilter<member-label-filter>first[]else<current-group>] }}} /></$link>
         <%endif%>
+        </$let>
+      </div>
+      <$let loop-base="[enlist<hgsd-titles>] :filter[subfilter<group-filter>match<current-group>limit[1]]" rows-filter={{{ [<loop-base>] [<sort-expr>] +[join[ ]] }}} >
+      <$list filter=<<rows-filter>>>
+        <<hgsd-item>>
+      </$list>
+      </$let>
+    </div>
+  </$list>
+  <%if [<show-ungrouped>!match[no]] %>
+    <%if [enlist<hgsd-titles>] :filter[subfilter<group-filter>else[hgsd-keyless]match[hgsd-keyless]limit[1]] %>
+    <div class="tc-menu-list-item hgsd-project-list">
+      <div class="hgsd-group-title">{{$:/language/hypergsd/Lists/NoGroup}}</div>
+      <$let loop-base="[enlist<hgsd-titles>] :filter[subfilter<group-filter>else[hgsd-keyless]match[hgsd-keyless]]" rows-filter={{{ [<loop-base>] [<sort-expr>] +[join[ ]] }}} >
+      <$list filter=<<rows-filter>>>
+        <<hgsd-item>>
+      </$list>
+      </$let>
+    </div>
     <%endif%>
+  <%endif%>
 </$let>
 \end
 
 <!-- The ONE flat renderer: hgsd-grouped="false" lets row fragments supply the context the headings carry (the project-link icon, e.g.). -->
 \procedure hgsd-render-flat()
 <$let hgsd-grouped="false">
-    <$let loop-base="[enlist<hgsd-titles>]" rows-filter={{{ [<loop-base>] [<sort-expr>] +[join[ ]] }}} >
-    <$list filter=<<rows-filter>>>
-        <<hgsd-item>>
-    </$list>
-    </$let>
+  <$let loop-base="[enlist<hgsd-titles>]" rows-filter={{{ [<loop-base>] [<sort-expr>] +[join[ ]] }}} >
+  <$list filter=<<rows-filter>>>
+    <<hgsd-item>>
+  </$list>
+  </$let>
 </$let>
 \end
 
@@ -107,119 +107,119 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <$qualify title={{{ [[$:/temp/gsd-list/]addsuffix<currentTiddler>addsuffix[-]addsuffix<list-heading>] }}} name="listState">
 <!-- ONE $let, attributes in dependency order — effective-group reads group-view-choice; LetWidget stages ordered attributes so later ones see earlier ones. -->
 <$let group-view-choice={{{ [<view-state-title>get[hgsd-group]else[]] }}}
-    effective-group={{{ [<group-view-choice>match[none]] [<group-view-choice>!match[none]addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]then<group-view-choice>] [<effective-group-default>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]then<effective-group-default>] +[first[1]] }}}>
+  effective-group={{{ [<group-view-choice>match[none]] [<group-view-choice>!match[none]addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]then<group-view-choice>] [<effective-group-default>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]then<effective-group-default>] +[first[1]] }}}>
 <!-- "none" is the None radio's SENTINEL VALUE: get[] on an existing-but-empty field emits nothing, so "" cannot distinguish an explicit None choice from no choice (a group-default then wrongly resurrected grouping). -->
 <div class="tw-menu-list-item">
-    <span class="gsd-list-heading">
-        <$checkbox tiddler=<<listState>> field="text" checked="hide" unchecked="show" default="show">
-            &nbsp;<<list-heading>>
-            <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes">
-                {{$:/core/images/chevron-down}}
-            </$reveal>
-        </$checkbox>
-        <<add-button>>
-    </span>
-    <hr/>
-    <$reveal state=<<listState>> type="match" text="show" default="show" retain="yes">
-        <!-- Freezes this list against the global refresh cycle. No broad $:/state/hypergsd run: a changed hgsd-titles string busts the gate via hgsd-filter-buster, so a state run would only add cross-list amplification. Narrow exceptions, scoped by subtraction: the contextualise runs (the contexts row fragment's feature-owned reveal/picker state) and the pick-contact-filter pair (the Contacts page's strip-member picker — see the Strip tag list). The view strip below reads its config tiddler inside this gate — the config prefix run already carries those writes. -->
-        <$refresh
-            subfilter="[subfilter<hgsd-type-gate>] [!is[tiddler]] [match<listState>] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/temp/hypergsd/contact-filter/]] -[is[draft]]"
-            hgsd-group-buster=<<group-state>>
-            hgsd-filter-buster=<<hgsd-titles>> >
-        <!-- Performance note: Centralised O(1) event listener for all checkboxes and buttons in this list. -->
-        <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+  <span class="gsd-list-heading">
+    <$checkbox tiddler=<<listState>> field="text" checked="hide" unchecked="show" default="show">
+      &nbsp;<<list-heading>>
+      <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes">
+        {{$:/core/images/chevron-down}}
+      </$reveal>
+    </$checkbox>
+    <<add-button>>
+  </span>
+  <hr/>
+  <$reveal state=<<listState>> type="match" text="show" default="show" retain="yes">
+    <!-- Freezes this list against the global refresh cycle. No broad $:/state/hypergsd run: a changed hgsd-titles string busts the gate via hgsd-filter-buster, so a state run would only add cross-list amplification. Narrow exceptions, scoped by subtraction: the contextualise runs (the contexts row fragment's feature-owned reveal/picker state) and the pick-contact-filter pair (the Contacts page's strip-member picker — see the Strip tag list). The view strip below reads its config tiddler inside this gate — the config prefix run already carries those writes. -->
+    <$refresh
+      subfilter="[subfilter<hgsd-type-gate>] [!is[tiddler]] [match<listState>] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/temp/hypergsd/contact-filter/]] -[is[draft]]"
+      hgsd-group-buster=<<group-state>>
+      hgsd-filter-buster=<<hgsd-titles>> >
+    <!-- Performance note: Centralised O(1) event listener for all checkboxes and buttons in this list. -->
+    <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
 
-        <!-- ROW FREEZE WHITELIST, derived once per list via the file-top hgsd-row-whitelist-expr function (the engine base plus every ListItem member's refresh-whitelist field — each stateful fragment declares its own state deps there; runs must be single tokens / bracketed, no bare spaces inside). Derived inside this gate, so tag-list edits that change it re-render. -->
-        <$let hgsd-row-whitelist={{{ [function[hgsd-row-whitelist-expr]] }}}>
+    <!-- ROW FREEZE WHITELIST, derived once per list via the file-top hgsd-row-whitelist-expr function (the engine base plus every ListItem member's refresh-whitelist field — each stateful fragment declares its own state deps there; runs must be single tokens / bracketed, no bare spaces inside). Derived inside this gate, so tag-list edits that change it re-render. -->
+    <$let hgsd-row-whitelist={{{ [function[hgsd-row-whitelist-expr]] }}}>
 
-        <!-- VIEW STRIP: any Strip members first (feature controls via the Strip tag list), then the Sort by select (sort-select), then the grouping radios (group-select) and the include-ungrouped checkbox. Every control writes a field on the one view-state tiddler natively. GROUPING: the offered set is derived once as offered-group-members (a titlelist string the radios iterate directly): `group-members` (a filter, evaluated here so run prefixes are legal) wins outright — type relevance is deliberately skipped so an explicit list can add a dimension the rules would hide; absent, the tag list minus Settings-hidden members minus type-irrelevant ones (no `hgsd-types` field = universal; declared types must intersect the list's own items' types — short names are word-like by convention, a regex metachar in one would mis-offer). An empty offered set withdraws the whole Group by block — label, leading None (empty value — also selected while the field is absent, i.e. flat), radios, ungrouped checkbox — because a None-only strip carries no choice; the strip row itself goes too unless the Sort by select keeps it. SORTING: an <optgroup> per distinct sort-category of the offered SortBy members (bare options for uncategorised members), option values are member titles; the relevance contract is identical. The type derivations and the offered-set chain sit INSIDE the row gate (above the choice gate): they re-run on view-state clicks via the config-prefix run, never on item edits. hgsd-group-default (the composition base for group-members) is the FULL tag list — relevance applies only on the default path. Members unticked in Settings (config show/hide under $:/config/hypergsd/<Tag list>/hidden/) are excluded from every offered set here and in the Settings pickers; a view state or default naming one falls back — the choice chains take the view value if offered, else the default if offered, else nothing (grouping: empty renders flat, same as none; sorting: the list filter's own order); the hidden/ BASE tiddlers ship reading hide, so an empty candidate is withdrawn by construction. Explicit group-members lists are exempt (an author's explicit set is final). The choice chains test the hidden config only — a stored choice naming a type-irrelevant member still groups (rare; accepted rather than pay type derivations on item edits). Strip spacing: the row's flex gap between controls — the gap guarantees a space after every colon in every locale, so no hug rules, entities or spacer elements sit between strip children. Strip MEMBERS (the $:/tags/hypergsd/Strip tag list) render as the strip's leading children ahead of the Sort by label — see the STRIP MEMBERS comment below. -->
-        <$let strip-members={{{ [[$:/tags/hypergsd/Strip]] :and[tagging[]] :filter[get[hgsd-strip-host]else[]match<list-heading>] +[format:titlelist[]join[ ]] }}}>
-        <$let hgsd-group-default={{{ [[$:/tags/hypergsd/GroupBy]get[list]] }}}>
-        <$let list-types={{{ [enlist<hgsd-titles>tags[]unique[]tag[$:/tags/hypergsd/Type]get[hgsd-type]] }}}>
-        <!-- Offered-set derivation feeding both the strip-withdrawal condition and the radio loop: emptiness must be checkable in one place so a None-only strip withdraws itself. The · alternative inside types-regex is what passes typeless (universal) members; get[]/enlist-input[] keep the relevance test input-driven, never relying on currentTiddler rebinding inside :filter. These derivations sit ABOVE the choice gate but INSIDE the row gate: the row gate's config-prefix run admits exactly the writes the buster did (view-state clicks), while item edits stay blocked — the re-derivation contract is unchanged. -->
-        <$set name="offered-members-filter" value=<<group-members>> emptyValue="[[$:/tags/hypergsd/GroupBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]] :filter[get[hgsd-types]else[·]enlist-input[]regexp<types-regex>]">
-        <$let types-regex={{{ [enlist<list-types>] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
-        <$let offered-group-members={{{ [subfilter<offered-members-filter>] :filter[<group-select>match[yes]] +[format:titlelist[]join[ ]] }}}>
-        <%if [<sort-select>match[yes]] [<offered-group-members>!match[]] [<strip-members>!match[]] :and[limit[1]] %>
-        <div class="hgsd-group-strip">
-        <!-- STRIP MEMBERS (the $:/tags/hypergsd/Strip tag list): feature controls rendered as the strip's leading children, on the one list whose HEADING equals their hgsd-strip-host field — the heading is the engine's per-list identity (view-state and list-default key on it), and no title-based binding exists down here: the chassis transclusion does not rebind currentTiddler (core sets thisTiddler, which the variable-transclusion into this renderer clobbers), so heading text is the one stable token every caller carries (a list rendered on several surfaces collects its strip member on each). The operand-form match<list-heading> inside :filter resolves against the widget's parameter scope. Deliberately OUTSIDE the choice-buster gate below: that gate whitelists nothing (buster-only), so a member-hosted popup or reveal would freeze on its own state writes inside it. Consequently a strip member's state prefixes must ride THIS gate's subfilter and the chassis gates above — the contextualise and pick-contact-filter runs are the shipped precedents. Membership follows plugin-refresh semantics (no gate runs for it). The lookup costs one tag-index probe per list render; ordering is the tag list's list field, then alphabetical. -->
-        <$list filter="[[$:/tags/hypergsd/Strip]] :and[tagging[]] :filter[get[hgsd-strip-host]else[]match<list-heading>]" variable="strip-member">
-            <$transclude $tiddler=<<strip-member>>/>
+    <!-- VIEW STRIP: any Strip members first (feature controls via the Strip tag list), then the Sort by select (sort-select), then the grouping radios (group-select) and the include-ungrouped checkbox. Every control writes a field on the one view-state tiddler natively. GROUPING: the offered set is derived once as offered-group-members (a titlelist string the radios iterate directly): `group-members` (a filter, evaluated here so run prefixes are legal) wins outright — type relevance is deliberately skipped so an explicit list can add a dimension the rules would hide; absent, the tag list minus Settings-hidden members minus type-irrelevant ones (no `hgsd-types` field = universal; declared types must intersect the list's own items' types — short names are word-like by convention, a regex metachar in one would mis-offer). An empty offered set withdraws the whole Group by block — label, leading None (empty value — also selected while the field is absent, i.e. flat), radios, ungrouped checkbox — because a None-only strip carries no choice; the strip row itself goes too unless the Sort by select keeps it. SORTING: an <optgroup> per distinct sort-category of the offered SortBy members (bare options for uncategorised members), option values are member titles; the relevance contract is identical. The type derivations and the offered-set chain sit INSIDE the row gate (above the choice gate): they re-run on view-state clicks via the config-prefix run, never on item edits. hgsd-group-default (the composition base for group-members) is the FULL tag list — relevance applies only on the default path. Members unticked in Settings (config show/hide under $:/config/hypergsd/<Tag list>/hidden/) are excluded from every offered set here and in the Settings pickers; a view state or default naming one falls back — the choice chains take the view value if offered, else the default if offered, else nothing (grouping: empty renders flat, same as none; sorting: the list filter's own order); the hidden/ BASE tiddlers ship reading hide, so an empty candidate is withdrawn by construction. Explicit group-members lists are exempt (an author's explicit set is final). The choice chains test the hidden config only — a stored choice naming a type-irrelevant member still groups (rare; accepted rather than pay type derivations on item edits). Strip spacing: the row's flex gap between controls — the gap guarantees a space after every colon in every locale, so no hug rules, entities or spacer elements sit between strip children. Strip MEMBERS (the $:/tags/hypergsd/Strip tag list) render as the strip's leading children ahead of the Sort by label — see the STRIP MEMBERS comment below. -->
+    <$let strip-members={{{ [[$:/tags/hypergsd/Strip]] :and[tagging[]] :filter[get[hgsd-strip-host]else[]match<list-heading>] +[format:titlelist[]join[ ]] }}}>
+    <$let hgsd-group-default={{{ [[$:/tags/hypergsd/GroupBy]get[list]] }}}>
+    <$let list-types={{{ [enlist<hgsd-titles>tags[]unique[]tag[$:/tags/hypergsd/Type]get[hgsd-type]] }}}>
+    <!-- Offered-set derivation feeding both the strip-withdrawal condition and the radio loop: emptiness must be checkable in one place so a None-only strip withdraws itself. The · alternative inside types-regex is what passes typeless (universal) members; get[]/enlist-input[] keep the relevance test input-driven, never relying on currentTiddler rebinding inside :filter. These derivations sit ABOVE the choice gate but INSIDE the row gate: the row gate's config-prefix run admits exactly the writes the buster did (view-state clicks), while item edits stay blocked — the re-derivation contract is unchanged. -->
+    <$set name="offered-members-filter" value=<<group-members>> emptyValue="[[$:/tags/hypergsd/GroupBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]] :filter[get[hgsd-types]else[·]enlist-input[]regexp<types-regex>]">
+    <$let types-regex={{{ [enlist<list-types>] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
+    <$let offered-group-members={{{ [subfilter<offered-members-filter>] :filter[<group-select>match[yes]] +[format:titlelist[]join[ ]] }}}>
+    <%if [<sort-select>match[yes]] [<offered-group-members>!match[]] [<strip-members>!match[]] :and[limit[1]] %>
+    <div class="hgsd-group-strip">
+    <!-- STRIP MEMBERS (the $:/tags/hypergsd/Strip tag list): feature controls rendered as the strip's leading children, on the one list whose HEADING equals their hgsd-strip-host field — the heading is the engine's per-list identity (view-state and list-default key on it), and no title-based binding exists down here: the chassis transclusion does not rebind currentTiddler (core sets thisTiddler, which the variable-transclusion into this renderer clobbers), so heading text is the one stable token every caller carries (a list rendered on several surfaces collects its strip member on each). The operand-form match<list-heading> inside :filter resolves against the widget's parameter scope. Deliberately OUTSIDE the choice-buster gate below: that gate whitelists nothing (buster-only), so a member-hosted popup or reveal would freeze on its own state writes inside it. Consequently a strip member's state prefixes must ride THIS gate's subfilter and the chassis gates above — the contextualise and pick-contact-filter runs are the shipped precedents. Membership follows plugin-refresh semantics (no gate runs for it). The lookup costs one tag-index probe per list render; ordering is the tag list's list field, then alphabetical. -->
+    <$list filter="[[$:/tags/hypergsd/Strip]] :and[tagging[]] :filter[get[hgsd-strip-host]else[]match<list-heading>]" variable="strip-member">
+      <$transclude $tiddler=<<strip-member>>/>
+    </$list>
+    <$refresh hgsd-choice-buster={{{ [<view-state-title>get[hgsd-group]else[]addsuffix[|]addsuffix[<view-state-title>get[hgsd-ungrouped]else[yes]]addsuffix[|]addsuffix[<view-state-title>get[hgsd-sort]else[]] }}} >
+      <%if [<sort-select>match[yes]] %>
+        <span class="gsd-muted">{{$:/language/hypergsd/Lists/SortBy}}</span>
+        <$select tiddler=<<view-state-title>> field="hgsd-sort" default=<<effective-sort-member>>>
+          <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]] :map:flat[get[hgsd-sort-category]] :and[unique[]sort[title]!match[]]" variable="sort-cat">
+            <optgroup label={{{ [[$:/language/hypergsd/Lists/SortBy/Category/]addsuffix<sort-cat>get[text]else<sort-cat>] }}}>
+              <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[get[hgsd-sort-category]match<sort-cat>] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
+                <$hgsd.view-relevant v-member=<<sort-member>>>
+                  <option value=<<sort-member>>><$transclude $variable="hgsd-view-label" v-member=<<sort-member>> v-key-field="hgsd-sort-key" v-base="$:/language/hypergsd/Lists/SortBy/"/></option>
+                </$hgsd.view-relevant>
+              </$list>
+            </optgroup>
+          </$list>
+          <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[get[hgsd-sort-category]else[·none·]match[·none·]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
+            <$hgsd.view-relevant v-member=<<sort-member>>>
+              <option value=<<sort-member>>><$transclude $variable="hgsd-view-label" v-member=<<sort-member>> v-key-field="hgsd-sort-key" v-base="$:/language/hypergsd/Lists/SortBy/"/></option>
+            </$hgsd.view-relevant>
+          </$list>
+        </$select>
+      <%endif%>
+      <%if [<offered-group-members>!match[]] %>
+        <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
+        <$radio tiddler=<<view-state-title>> field="hgsd-group" value="none" default={{{ [<effective-group-default>match[]then[none]else<effective-group-default>] }}}>
+          <span class="tc-tiny-gap-left">{{$:/language/hypergsd/Lists/GroupBy/None}}</span>
+        </$radio>
+        <$list filter="[enlist<offered-group-members>]" variable="group-member">
+          <$transclude $variable="hgsd-strip-radio" strip-member=<<group-member>>/>
         </$list>
-        <$refresh hgsd-choice-buster={{{ [<view-state-title>get[hgsd-group]else[]addsuffix[|]addsuffix[<view-state-title>get[hgsd-ungrouped]else[yes]]addsuffix[|]addsuffix[<view-state-title>get[hgsd-sort]else[]] }}} >
-            <%if [<sort-select>match[yes]] %>
-                <span class="gsd-muted">{{$:/language/hypergsd/Lists/SortBy}}</span>
-                <$select tiddler=<<view-state-title>> field="hgsd-sort" default=<<effective-sort-member>>>
-                    <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]] :map:flat[get[hgsd-sort-category]] :and[unique[]sort[title]!match[]]" variable="sort-cat">
-                        <optgroup label={{{ [[$:/language/hypergsd/Lists/SortBy/Category/]addsuffix<sort-cat>get[text]else<sort-cat>] }}}>
-                            <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[get[hgsd-sort-category]match<sort-cat>] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
-                                <$hgsd.view-relevant v-member=<<sort-member>>>
-                                    <option value=<<sort-member>>><$transclude $variable="hgsd-view-label" v-member=<<sort-member>> v-key-field="hgsd-sort-key" v-base="$:/language/hypergsd/Lists/SortBy/"/></option>
-                                </$hgsd.view-relevant>
-                            </$list>
-                        </optgroup>
-                    </$list>
-                    <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[get[hgsd-sort-category]else[·none·]match[·none·]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
-                        <$hgsd.view-relevant v-member=<<sort-member>>>
-                            <option value=<<sort-member>>><$transclude $variable="hgsd-view-label" v-member=<<sort-member>> v-key-field="hgsd-sort-key" v-base="$:/language/hypergsd/Lists/SortBy/"/></option>
-                        </$hgsd.view-relevant>
-                    </$list>
-                </$select>
-            <%endif%>
-            <%if [<offered-group-members>!match[]] %>
-                <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
-                <$radio tiddler=<<view-state-title>> field="hgsd-group" value="none" default={{{ [<effective-group-default>match[]then[none]else<effective-group-default>] }}}>
-                    <span class="tc-tiny-gap-left">{{$:/language/hypergsd/Lists/GroupBy/None}}</span>
-                </$radio>
-                <$list filter="[enlist<offered-group-members>]" variable="group-member">
-                    <$transclude $variable="hgsd-strip-radio" strip-member=<<group-member>>/>
-                </$list>
-                <%if [<effective-group>!match[none]!match[]] %>
-                <$checkbox
-                    filter="""[<view-state-title>get[hgsd-ungrouped]else[yes]match[yes]]"""
-                    checkactions="""<$action-setfield $tiddler=<<view-state-title>> $field="hgsd-ungrouped" $value="yes"/>"""
-                    uncheckactions="""<$action-setfield $tiddler=<<view-state-title>> $field="hgsd-ungrouped" $value="no"/>""">
-                    &nbsp;//{{$:/language/hypergsd/Lists/GroupBy/Ungrouped}}//
-                </$checkbox>
-                <%endif%>
-            <%endif%>
-        </$refresh>
-        </div>
+        <%if [<effective-group>!match[none]!match[]] %>
+        <$checkbox
+          filter="""[<view-state-title>get[hgsd-ungrouped]else[yes]match[yes]]"""
+          checkactions="""<$action-setfield $tiddler=<<view-state-title>> $field="hgsd-ungrouped" $value="yes"/>"""
+          uncheckactions="""<$action-setfield $tiddler=<<view-state-title>> $field="hgsd-ungrouped" $value="no"/>""">
+          &nbsp;//{{$:/language/hypergsd/Lists/GroupBy/Ungrouped}}//
+        </$checkbox>
         <%endif%>
-        </$let>
-        </$let>
-        </$set>
-        </$let>
-        </$let>
-        </$let>
+      <%endif%>
+    </$refresh>
+    </div>
+    <%endif%>
+    </$let>
+    </$let>
+    </$set>
+    </$let>
+    </$let>
+    </$let>
 
-        <!-- Branch selection: the strip's chosen member (group-filter from the tag list, label-filter, ungrouped from the strip's toggle) or the legacy group-by field (subfilter resolves its variable operand; no label filter; No group always shown). group-select wins when both are passed. -->
-        <%if [<group-select>match[yes]] %>
-            <%if [<effective-group>!match[none]!match[]] %>
-                <$let group-filter={{{ [<effective-group>get[hgsd-group-filter]else[]] }}}
-                    member-label-filter={{{ [<effective-group>get[hgsd-label-filter]else[]] }}}
-                    show-ungrouped={{{ [<view-state-title>get[hgsd-ungrouped]else[yes]] }}} >
-                <<hgsd-render-grouped>>
-                </$let>
-            <%else%>
-                <<hgsd-render-flat>>
-            <%endif%>
-        <%elseif [<group-state>match[false]] %> <!-- match[] is exact -->
-            <<hgsd-render-flat>>
-        <%elseif [<group-by>!match[]] %>
-            <$let group-filter="[all[current]get<group-by>]"
-                member-label-filter=""
-                show-ungrouped="yes" >
-            <<hgsd-render-grouped>>
-            </$let>
-        <%else%>
-            <<hgsd-render-flat>>
-        <%endif%>
-
+    <!-- Branch selection: the strip's chosen member (group-filter from the tag list, label-filter, ungrouped from the strip's toggle) or the legacy group-by field (subfilter resolves its variable operand; no label filter; No group always shown). group-select wins when both are passed. -->
+    <%if [<group-select>match[yes]] %>
+      <%if [<effective-group>!match[none]!match[]] %>
+        <$let group-filter={{{ [<effective-group>get[hgsd-group-filter]else[]] }}}
+          member-label-filter={{{ [<effective-group>get[hgsd-label-filter]else[]] }}}
+          show-ungrouped={{{ [<view-state-title>get[hgsd-ungrouped]else[yes]] }}} >
+        <<hgsd-render-grouped>>
         </$let>
-        </$eventcatcher>
-        </$refresh>
-    </$reveal>
+      <%else%>
+        <<hgsd-render-flat>>
+      <%endif%>
+    <%elseif [<group-state>match[false]] %> <!-- match[] is exact -->
+      <<hgsd-render-flat>>
+    <%elseif [<group-by>!match[]] %>
+      <$let group-filter="[all[current]get<group-by>]"
+        member-label-filter=""
+        show-ungrouped="yes" >
+      <<hgsd-render-grouped>>
+      </$let>
+    <%else%>
+      <<hgsd-render-flat>>
+    <%endif%>
+
+    </$let>
+    </$eventcatcher>
+    </$refresh>
+  </$reveal>
 </div>
 </$let>
 </$qualify>
@@ -230,32 +230,32 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <!-- OUTER DERIVATION GATE: without it the $let tree (list-filter evaluation + realm scope arithmetic) re-executed its filter-valued attributes on every global refresh descent (~0.3ms per item per list, paid on unrelated edits). The gate admits exactly what the derivation reads: item edits (type gate), realm tag-tiddlers, $:/config/hypergsd/*, and deletions — a deleted title has no tags, so only [!is[tiddler]] catches it. No realm-membership run: :and REPLACES the accumulated output (one :and chain per filter), and on GSD items the type gate already catches membership changes. The three contextualise runs are pass-through: this gate sits ABOVE the row freeze, so without them the fragment's state changes never reach it. The view strip's config tiddler rides the config prefix run the same way. -->
 <!-- View state (persistent): one config tiddler per list instance carrying group (GroupBy member title), ungrouped (yes/no) and sort (SortBy member title). Persistent by design — each customised list gains one small tiddler under tiddlers/. The config prefix run below (already present) is all the gating these writes need at every level. group-default and sort-default are tag list TIDDLER TITLES (the same tokens the controls use as values and the state stores) applied while no choice exists — so the strip's displayed default IS the applied one. Precedence everywhere: view state, then the per-list default ($:/config/hypergsd/list-default/<heading> — the Settings pickers' write, keyed by the heading alone so one default serves every host the list renders on), then these parameters. A sort default missing its sort-filter sorts nothing (the list filter's own order). sort-expr empties when sort-select is off (then[] takes the lookup, else[] nothing — the renderers' join with an empty sort-expr is a no-op). The derivation $let below is ONE widget, its attributes in dependency order — LetWidget stages ordered attributes so each reads the earlier ones. -->
 <$let view-state-title={{{ [[$:/config/hypergsd/list-view/]addsuffix<currentTiddler>addsuffix[/]addsuffix<list-heading>] }}}
-    list-default-heading={{{ [[$:/config/hypergsd/list-default/]addsuffix<list-heading>] }}}
-    effective-sort-default={{{ [<list-default-heading>get[hgsd-sort]else<sort-default>] }}}
-    effective-group-default={{{ [<list-default-heading>get[hgsd-group]else<group-default>] }}}
-    sort-view-choice={{{ [<view-state-title>get[hgsd-sort]else[]] }}}
-    effective-sort-member={{{ [<sort-view-choice>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]then<sort-view-choice>] [<effective-sort-default>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]then<effective-sort-default>] +[first[1]] }}}
-    sort-lookup={{{ [<effective-sort-member>get[hgsd-sort-filter]else[]] }}}
-    sort-expr={{{ [<sort-select>match[yes]then<sort-lookup>else[]] }}}>
+  list-default-heading={{{ [[$:/config/hypergsd/list-default/]addsuffix<list-heading>] }}}
+  effective-sort-default={{{ [<list-default-heading>get[hgsd-sort]else<sort-default>] }}}
+  effective-group-default={{{ [<list-default-heading>get[hgsd-group]else<group-default>] }}}
+  sort-view-choice={{{ [<view-state-title>get[hgsd-sort]else[]] }}}
+  effective-sort-member={{{ [<sort-view-choice>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]then<sort-view-choice>] [<effective-sort-default>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]then<effective-sort-default>] +[first[1]] }}}
+  sort-lookup={{{ [<effective-sort-member>get[hgsd-sort-filter]else[]] }}}
+  sort-expr={{{ [<sort-select>match[yes]then<sort-lookup>else[]] }}}>
 <$refresh subfilter="[subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [prefix[$:/GSD/Realm/]] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/temp/hypergsd/contact-filter/]] [!is[tiddler]] -[is[draft]]">
 <!-- all-titles is the single draft gate: drafts inherit the base tiddler's fields and tags, so every list-filter would otherwise match them mid-edit. Inline on the candidates only — a per-list -[is[draft]] run sweeps the whole wiki per evaluation. -->
 <$let future-items-visibility={{{ [[$:/config/hypergsd/dashboard-future-project-items]get[text]else[hide]] }}}
-    all-titles={{{ [subfilter<list-filter>!is[draft]format:titlelist[]join[ ]] }}}>
+  all-titles={{{ [subfilter<list-filter>!is[draft]format:titlelist[]join[ ]] }}}>
 
-    <$set name=realm-scope-filter value=<<realm-scope>> emptyValue="[subfilter<hgsd-realm-all>]">
-    <!-- ONE derivation: the sentinel picks the scope arithmetic, the sweep gate picks the optional active-parent run — both resolved as strings (angle-form then<var> transports filter text wholesale) and joined into the rows filter, the composition the renderers' sort-expr already uses -->
-    <$let scope-list={{{ [subfilter<realm-scope-filter>] +[format:titlelist[]join[ ]] }}}
-        scope-base=<<all-titles>>
-        scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}}
-        sweep-guarded=":filter[get[gsd_project]get[gsd_status]else[active]match[active]]"
-        sweep-run={{{ [<future-items-sweep>match[yes]then<sweep-guarded>] :filter[<future-items-visibility>match[hide]] }}}
-        scope-include-run="[subfilter<hgsd-scope-include>]"
-        scope-exclude-run="[subfilter<hgsd-scope-exclude>]"
-        rows-filter={{{ [enlist<scope-list>match[no-realm]then<scope-include-run>else<scope-exclude-run>] [<sweep-run>] +[join[ ]] }}}
-        hgsd-titles={{{ [subfilter<rows-filter>] +[format:titlelist[]join[ ]] }}} >
-        <$transclude $variable="hgsd-render-inner" hgsd-titles=<<hgsd-titles>> />
-    </$let>
-    </$set>
+  <$set name=realm-scope-filter value=<<realm-scope>> emptyValue="[subfilter<hgsd-realm-all>]">
+  <!-- ONE derivation: the sentinel picks the scope arithmetic, the sweep gate picks the optional active-parent run — both resolved as strings (angle-form then<var> transports filter text wholesale) and joined into the rows filter, the composition the renderers' sort-expr already uses -->
+  <$let scope-list={{{ [subfilter<realm-scope-filter>] +[format:titlelist[]join[ ]] }}}
+    scope-base=<<all-titles>>
+    scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}}
+    sweep-guarded=":filter[get[gsd_project]get[gsd_status]else[active]match[active]]"
+    sweep-run={{{ [<future-items-sweep>match[yes]then<sweep-guarded>] :filter[<future-items-visibility>match[hide]] }}}
+    scope-include-run="[subfilter<hgsd-scope-include>]"
+    scope-exclude-run="[subfilter<hgsd-scope-exclude>]"
+    rows-filter={{{ [enlist<scope-list>match[no-realm]then<scope-include-run>else<scope-exclude-run>] [<sweep-run>] +[join[ ]] }}}
+    hgsd-titles={{{ [subfilter<rows-filter>] +[format:titlelist[]join[ ]] }}} >
+    <$transclude $variable="hgsd-render-inner" hgsd-titles=<<hgsd-titles>> />
+  </$let>
+  </$set>
 
 </$let>
 </$refresh>

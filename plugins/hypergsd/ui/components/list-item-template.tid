@@ -8,22 +8,22 @@ title: $:/plugins/yan/hypergsd/ui/components/list-item-template
 <$let heading-text={{{ [<currentTiddler>get[hgsd-heading]get[text]] }}}>
 <$let list-default-heading={{{ [[$:/config/hypergsd/list-default/]addsuffix<heading-text>] }}}>
 <span class="hgsd-list-pickers">
-    <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/portion-picker"/>
-    <span class="gsd-muted">{{$:/language/hypergsd/Lists/SortBy}}</span>
-    <$select tiddler=<<list-default-heading>> field="hgsd-sort" default={{{ [<list-default-heading>get[hgsd-sort]else[]] }}}>
-        <option value="">{{$:/language/hypergsd/Settings/Dashboards/Lists/DefaultOption}}</option>
-        <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
-            <option value=<<sort-member>>><$tiddler tiddler=<<sort-member>>><$transclude field="caption"><$let member-key={{{ [<sort-member>get[hgsd-sort-key]else<sort-member>] }}}><$text text={{{ [[$:/language/hypergsd/Lists/SortBy/]addsuffix<member-key>get[text]else<member-key>] }}}/></$let></$transclude></$tiddler></option>
-        </$list>
-    </$select>
-    <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
-    <$select tiddler=<<list-default-heading>> field="hgsd-group" default={{{ [<list-default-heading>get[hgsd-group]else[]] }}}>
-        <option value="">{{$:/language/hypergsd/Settings/Dashboards/Lists/DefaultOption}}</option>
-        <option value="none">{{$:/language/hypergsd/Lists/GroupBy/None}}</option>
-        <$list filter="[[$:/tags/hypergsd/GroupBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]]" variable="group-member">
-            <option value=<<group-member>>><$tiddler tiddler=<<group-member>>><$transclude field="caption"><$let member-key={{{ [<group-member>get[hgsd-group-key]else<group-member>] }}}><$text text={{{ [[$:/language/hypergsd/Lists/GroupBy/]addsuffix<member-key>get[text]else<member-key>] }}}/></$let></$transclude></$tiddler></option>
-        </$list>
-    </$select>
+  <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/portion-picker"/>
+  <span class="gsd-muted">{{$:/language/hypergsd/Lists/SortBy}}</span>
+  <$select tiddler=<<list-default-heading>> field="hgsd-sort" default={{{ [<list-default-heading>get[hgsd-sort]else[]] }}}>
+    <option value="">{{$:/language/hypergsd/Settings/Dashboards/Lists/DefaultOption}}</option>
+    <$list filter="[[$:/tags/hypergsd/SortBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]]" variable="sort-member">
+      <option value=<<sort-member>>><$tiddler tiddler=<<sort-member>>><$transclude field="caption"><$let member-key={{{ [<sort-member>get[hgsd-sort-key]else<sort-member>] }}}><$text text={{{ [[$:/language/hypergsd/Lists/SortBy/]addsuffix<member-key>get[text]else<member-key>] }}}/></$let></$transclude></$tiddler></option>
+    </$list>
+  </$select>
+  <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
+  <$select tiddler=<<list-default-heading>> field="hgsd-group" default={{{ [<list-default-heading>get[hgsd-group]else[]] }}}>
+    <option value="">{{$:/language/hypergsd/Settings/Dashboards/Lists/DefaultOption}}</option>
+    <option value="none">{{$:/language/hypergsd/Lists/GroupBy/None}}</option>
+    <$list filter="[[$:/tags/hypergsd/GroupBy]] :and[tagging[]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]]" variable="group-member">
+      <option value=<<group-member>>><$tiddler tiddler=<<group-member>>><$transclude field="caption"><$let member-key={{{ [<group-member>get[hgsd-group-key]else<group-member>] }}}><$text text={{{ [[$:/language/hypergsd/Lists/GroupBy/]addsuffix<member-key>get[text]else<member-key>] }}}/></$let></$transclude></$tiddler></option>
+    </$list>
+  </$select>
 </span>
 </$let>
 </$let>

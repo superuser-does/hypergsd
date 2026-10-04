@@ -9,41 +9,41 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
 
 \procedure hgsd-seed-core-fields(create-title, seed-type, seed-status, seed-complete)
 <%if [<seed-type>match[action]] [<seed-type>match[project]] %>
-    <$action-setfield $tiddler={{{ [<create-title>] }}} gsd_status={{{ [<seed-status>] }}} gsd_complete={{{ [<seed-complete>] }}} />
+  <$action-setfield $tiddler={{{ [<create-title>] }}} gsd_status={{{ [<seed-status>] }}} gsd_complete={{{ [<seed-complete>] }}} />
 <%endif%>
 \end
 
 \procedure hgsd-create-and-add-actions(typed-pick, new-type, new-status, target-tiddler, target-field:"", pick-tiddler:"", pick-field:"pick", close-state:"", new-project:"", target-mode:"set", new-prereq:"")
 <$let type-tag={{{ [function[hgsd-type-tag],<new-type>] }}} >
 <$let new-tags={{{ [<currentTiddler>tags[]prefix[$:/GSD/Realm/]] [<type-tag>]
-    +[format:titlelist[]join[ ]] }}}>
+  +[format:titlelist[]join[ ]] }}}>
 <!-- The tag-list filter runs BEFORE the concatenation: applied to the joined list it would drop the realm tags (they carry no hgsd-type field). -->
 <$action-createtiddler $basetitle={{{ [<typed-pick>] }}} tags={{{ [<new-tags>] }}} >
-    <!-- Follow-up actions nest inside $action-createtiddler: it publishes createTiddler-title only on its own subtree at invoke time (the invokeActions propagation walk refreshes each child action before firing it, so the filter forms below resolve the variable then). -->
-    <$transclude $variable="hgsd-seed-core-fields" create-title={{{ [<createTiddler-title>] }}} seed-type={{{ [<new-type>] }}} seed-status={{{ [<new-status>] }}} seed-complete="false"/>
-    <%if [<new-project>!match[]] %>
-        <$action-setfield $tiddler={{{ [<createTiddler-title>] }}} gsd_project={{{ [<new-project>] }}}/>
-    <%endif%>
-    <%if [<new-prereq>!match[]] %>
-        <!-- Dependants pickers: the created action depends on this title (the mirror of the modal's calling-tiddler back-link) -->
-        <$action-listops $tiddler={{{ [<createTiddler-title>] }}} $field="gsd_prerequisites" $subfilter="[<new-prereq>]"/>
-    <%endif%>
-    <%if [<target-field>!match[]] %>
-    <%if [<target-mode>match[append]] %>
-        <!-- The subfilter stays unevaluated so it runs inside $action-listops at invoke time, where its single output becomes one quoted operand — evaluating it early would splice a bare multi-word title into the filter text. -->
-        <$action-listops $tiddler={{{ [<target-tiddler>] }}} $field={{{ [<target-field>] }}} $subfilter="[<createTiddler-title>]"/>
-    <%else%>
-        <$action-setfield $tiddler={{{ [<target-tiddler>] }}} $field={{{ [<target-field>] }}} $value={{{ [<createTiddler-title>] }}}/>
-    <%endif%>
-    <%endif%>
-    <%if [<pick-tiddler>!match[]] %>
-        <$action-setfield $tiddler={{{ [<pick-tiddler>] }}} $field={{{ [<pick-field>] }}} $value=""/>
-    <%endif%>
-    <%if [<close-state>!match[]] %>
-        <$action-setfield $tiddler={{{ [<close-state>] }}} $field="text" $value=""/>
-    <%endif%>
-    <!-- AfterCreation rules run for picker creations too (new-source="picker"; navigate self-suppresses). Nested so createTiddler-title is in scope. -->
-    <$transclude $variable="hgsd-run-after-create" new-title={{{ [<createTiddler-title>] }}} new-type={{{ [<new-type>] }}} calling-tiddler={{{ [<target-tiddler>] }}} new-source="picker" />
+  <!-- Follow-up actions nest inside $action-createtiddler: it publishes createTiddler-title only on its own subtree at invoke time (the invokeActions propagation walk refreshes each child action before firing it, so the filter forms below resolve the variable then). -->
+  <$transclude $variable="hgsd-seed-core-fields" create-title={{{ [<createTiddler-title>] }}} seed-type={{{ [<new-type>] }}} seed-status={{{ [<new-status>] }}} seed-complete="false"/>
+  <%if [<new-project>!match[]] %>
+    <$action-setfield $tiddler={{{ [<createTiddler-title>] }}} gsd_project={{{ [<new-project>] }}}/>
+  <%endif%>
+  <%if [<new-prereq>!match[]] %>
+    <!-- Dependants pickers: the created action depends on this title (the mirror of the modal's calling-tiddler back-link) -->
+    <$action-listops $tiddler={{{ [<createTiddler-title>] }}} $field="gsd_prerequisites" $subfilter="[<new-prereq>]"/>
+  <%endif%>
+  <%if [<target-field>!match[]] %>
+  <%if [<target-mode>match[append]] %>
+    <!-- The subfilter stays unevaluated so it runs inside $action-listops at invoke time, where its single output becomes one quoted operand — evaluating it early would splice a bare multi-word title into the filter text. -->
+    <$action-listops $tiddler={{{ [<target-tiddler>] }}} $field={{{ [<target-field>] }}} $subfilter="[<createTiddler-title>]"/>
+  <%else%>
+    <$action-setfield $tiddler={{{ [<target-tiddler>] }}} $field={{{ [<target-field>] }}} $value={{{ [<createTiddler-title>] }}}/>
+  <%endif%>
+  <%endif%>
+  <%if [<pick-tiddler>!match[]] %>
+    <$action-setfield $tiddler={{{ [<pick-tiddler>] }}} $field={{{ [<pick-field>] }}} $value=""/>
+  <%endif%>
+  <%if [<close-state>!match[]] %>
+    <$action-setfield $tiddler={{{ [<close-state>] }}} $field="text" $value=""/>
+  <%endif%>
+  <!-- AfterCreation rules run for picker creations too (new-source="picker"; navigate self-suppresses). Nested so createTiddler-title is in scope. -->
+  <$transclude $variable="hgsd-run-after-create" new-title={{{ [<createTiddler-title>] }}} new-type={{{ [<new-type>] }}} calling-tiddler={{{ [<target-tiddler>] }}} new-source="picker" />
 </$action-createtiddler>
 </$let>
 </$let>
@@ -51,10 +51,10 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
 
 \procedure hgsd-create-and-add(typed-pick, new-type, new-status, target-tiddler, target-field:"", pick-tiddler:"", pick-field:"pick", close-state:"", tooltip:"", new-project:"", target-mode:"set", new-prereq:"")
 <$let fallback-tooltip={{{ [[$:/language/hypergsd/Widgets/CreateAdd/HintA]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<typed-pick>] +[addsuffix[ ]] +[addsuffix{$:/language/hypergsd/Widgets/CreateAdd/HintB}] }}}
-    btn-tooltip={{{ [<tooltip>!match[]] :else[enlist<fallback-tooltip>] }}}>
+  btn-tooltip={{{ [<tooltip>!match[]] :else[enlist<fallback-tooltip>] }}}>
 <$button tooltip=<<btn-tooltip>>>
-    <$transclude $variable="hgsd-create-and-add-actions" typed-pick=<<typed-pick>> new-type=<<new-type>> new-status=<<new-status>> target-tiddler=<<target-tiddler>> target-field=<<target-field>> pick-tiddler=<<pick-tiddler>> pick-field=<<pick-field>> close-state=<<close-state>> new-project=<<new-project>> target-mode=<<target-mode>> new-prereq=<<new-prereq>>/>
-    <$slot $name="label">{{$:/language/hypergsd/Widgets/CreateAdd/LabelA}}<q><$text text=<<typed-pick>>/></q>{{$:/language/hypergsd/Widgets/CreateAdd/LabelB}}</$slot>
+  <$transclude $variable="hgsd-create-and-add-actions" typed-pick=<<typed-pick>> new-type=<<new-type>> new-status=<<new-status>> target-tiddler=<<target-tiddler>> target-field=<<target-field>> pick-tiddler=<<pick-tiddler>> pick-field=<<pick-field>> close-state=<<close-state>> new-project=<<new-project>> target-mode=<<target-mode>> new-prereq=<<new-prereq>>/>
+  <$slot $name="label">{{$:/language/hypergsd/Widgets/CreateAdd/LabelA}}<q><$text text=<<typed-pick>>/></q>{{$:/language/hypergsd/Widgets/CreateAdd/LabelB}}</$slot>
 </$button>
 </$let>
 \end

@@ -7,26 +7,26 @@ title: $:/plugins/yan/hypergsd/ui/components/realm-selection
 <!-- The buster attribute fixes stale checkboxes: core's filter-mode <$checkbox> re-renders nothing on tiddler changes (attributes never change), so a membership change alters the buster -> refreshSelf() recreates the checkboxes -> checked states re-evaluate. -->
 <!-- The fieldset carries display:grid inline: each label takes its own row at native line-height, and \whitespace trim eats source-newline runs anyway. The &nbsp; inside each label is load-bearing. -->
 <$refresh subfilter="[prefix[$:/GSD/Realm/]] [tag[GSD/Contexts]] [prefix[$:/state/hypergsd]] [prefix[$:/config/hypergsd]]"
-    hgsd-realm-buster={{{ [[$:/config/hypergsd/realm-selection]get[list]else[pristine]] }}}>
+  hgsd-realm-buster={{{ [[$:/config/hypergsd/realm-selection]get[list]else[pristine]] }}}>
 <!-- The fieldset is semantic grouping: a labelled set of related form controls. -->
 <fieldset class="hgsd-realm-fieldset" style="display:grid">
 <legend><<lingo Review/SelectRealms>>
 <$button class=<<tv-config-toolbar-class>> tooltip={{$:/language/hypergsd/Sidebar/Review/All/Hint}}
-    actions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[all[tags]prefix[$:/GSD/Realm/]] [[no-realm]]"/>""">{{$:/language/hypergsd/Sidebar/Review/All}}</$button>
-    &nbsp;
-    <$button class=<<tv-config-toolbar-class>> tooltip={{$:/language/hypergsd/Sidebar/Review/None/Hint}}
-    actions="""<$action-setfield $tiddler="$:/config/hypergsd/realm-selection" $field="list" $value=""/>""">{{$:/language/hypergsd/Sidebar/Review/None}}</$button></legend>
+  actions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[all[tags]prefix[$:/GSD/Realm/]] [[no-realm]]"/>""">{{$:/language/hypergsd/Sidebar/Review/All}}</$button>
+  &nbsp;
+  <$button class=<<tv-config-toolbar-class>> tooltip={{$:/language/hypergsd/Sidebar/Review/None/Hint}}
+  actions="""<$action-setfield $tiddler="$:/config/hypergsd/realm-selection" $field="list" $value=""/>""">{{$:/language/hypergsd/Sidebar/Review/None}}</$button></legend>
 <$checkbox
-    filter="""[[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match[no-realm]]"""
-    checkactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[[no-realm]]"/>"""
-    uncheckactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="-[[no-realm]]"/>"""
+  filter="""[[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match[no-realm]]"""
+  checkactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[[no-realm]]"/>"""
+  uncheckactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="-[[no-realm]]"/>"""
 >&nbsp;//<<lingo Review/NoRealm>>//</$checkbox>
 <$list filter="[all[tags]prefix[$:/GSD/Realm/]sort[title]]" variable="realm">
-    <$checkbox
-        filter="""[[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match<realm>]"""
-        checkactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[<realm>]"/>"""
-        uncheckactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="-[<realm>]"/>"""
-    >&nbsp;<$text text={{{ [<realm>removeprefix[$:/GSD/Realm/]] }}}/></$checkbox>
+  <$checkbox
+    filter="""[[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match<realm>]"""
+    checkactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[<realm>]"/>"""
+    uncheckactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="-[<realm>]"/>"""
+  >&nbsp;<$text text={{{ [<realm>removeprefix[$:/GSD/Realm/]] }}}/></$checkbox>
 </$list>
 </fieldset>
 </$refresh>

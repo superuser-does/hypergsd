@@ -47,10 +47,10 @@ If you want the same behaviour from your own button or workflow, call the shared
 
 ```
 <$transclude $variable="hgsd-run-after-create"
-    new-title=<<created-title>>
-    new-type="action"
-    calling-tiddler=<<currentTiddler>>
-    new-source="modal" />
+  new-title=<<created-title>>
+  new-type="action"
+  calling-tiddler=<<currentTiddler>>
+  new-source="modal" />
 ```
 
 (Macrocall parameters do not evaluate `<var>` indirection — always invoke the runner through `<$transclude $variable>` as shown.)

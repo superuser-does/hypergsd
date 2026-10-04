@@ -6,29 +6,29 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/behaviour
 
 <<lingo Behaviour/PickerInstantCommit>><br/>
 <$checkbox tiddler="$:/config/hypergsd/picker-instant-commit/fine"
-    field="text" checked="true" unchecked="false"
-    class="tc-control-panel-item"
+  field="text" checked="true" unchecked="false"
+  class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/picker-instant-commit/fine" class="tc-tiny-gap-left"><<lingo Behaviour/PickerInstantCommit/Fine>></$link></$checkbox>
 <br/>
 <$checkbox tiddler="$:/config/hypergsd/picker-instant-commit/coarse"
-    field="text" checked="true" unchecked="false"
-    class="tc-control-panel-item"
+  field="text" checked="true" unchecked="false"
+  class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/picker-instant-commit/coarse" class="tc-tiny-gap-left"><<lingo Behaviour/PickerInstantCommit/Coarse>></$link></$checkbox>
 
 <$checkbox tiddler="$:/config/hypergsd/inherit-tags"
-    field="text" checked="yes" unchecked="no" default="yes"
-    class="tc-control-panel-item"
+  field="text" checked="yes" unchecked="no" default="yes"
+  class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/inherit-tags" class="tc-tiny-gap-left"><<lingo Behaviour/InheritTags>></$link></$checkbox><br/>
 <<lingo Behaviour/InheritTags/Prompt>>
 
 <$checkbox tiddler="$:/config/hypergsd/new-action-navigate"
-    field="text" checked="yes" unchecked="no" default="yes"
-    class="tc-control-panel-item"
+  field="text" checked="yes" unchecked="no" default="yes"
+  class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/new-action-navigate" class="tc-tiny-gap-left"><<lingo Behaviour/NewActionNavigate>></$link></$checkbox>
 <br/>
 <$checkbox tiddler="$:/config/hypergsd/new-project-navigate"
-    field="text" checked="yes" unchecked="no" default="yes"
-    class="tc-control-panel-item"
+  field="text" checked="yes" unchecked="no" default="yes"
+  class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/new-project-navigate" class="tc-tiny-gap-left"><<lingo Behaviour/NewProjectNavigate>></$link></$checkbox>
 
 <<lingo Behaviour/CloseOnComplete>><br/>

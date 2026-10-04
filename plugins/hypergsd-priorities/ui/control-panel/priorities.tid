@@ -7,10 +7,10 @@ title: $:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities
 
 <<lingo Priorities/Default/Label>>
 <$select tiddler="$:/config/hypergsd/priorities/default" default="">
-    <option value=""><<lingo Priorities/Default/None>></option>
-    <$list filter="[enlist[A B C]]" variable="priority-stop">
-        <option value=<<priority-stop>> ><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}} /></option>
-    </$list>
+  <option value=""><<lingo Priorities/Default/None>></option>
+  <$list filter="[enlist[A B C]]" variable="priority-stop">
+    <option value=<<priority-stop>> ><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}} /></option>
+  </$list>
 </$select>
 
 ! <<lingo Priorities/Config/Heading>>

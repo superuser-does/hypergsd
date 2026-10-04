@@ -11,18 +11,18 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/fragments
 
 ''<<lingo Fragments/LinkItems/Label>>''
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/LinkItem"
-    visibility-base="$:/config/hypergsd/LinkItem/visibility/"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/LinkItem"
+  visibility-base="$:/config/hypergsd/LinkItem/visibility/"/>
 
 ''<<lingo Fragments/RowBefore/Label>>''
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/ListItem/Prefix"
-    visibility-base="$:/config/hypergsd/ListItem/visibility/"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/ListItem/Prefix"
+  visibility-base="$:/config/hypergsd/ListItem/visibility/"/>
 
 ''<<lingo Fragments/RowAfter/Label>>''
 <$transclude
-    $variable="hgsd-visibility-list"
-    tag-list="$:/tags/hypergsd/ListItem/Suffix"
-    visibility-base="$:/config/hypergsd/ListItem/visibility/"/>
+  $variable="hgsd-visibility-list"
+  tag-list="$:/tags/hypergsd/ListItem/Suffix"
+  visibility-base="$:/config/hypergsd/ListItem/visibility/"/>

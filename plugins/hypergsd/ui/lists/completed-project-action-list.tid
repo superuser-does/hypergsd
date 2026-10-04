@@ -5,9 +5,9 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-project-action-list
 
 <!-- No future-items-sweep: members' projects are complete by construction, so the active-parent sweep would empty the list. -->
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/IncompleteActionsUnderCompletedProjects}}
-    list-filter="[tag[$:/GSD/Action]gsd_complete[false]] :filter[get[gsd_project]tag[$:/GSD/Project]get[gsd_complete]else[false]match[true]] +[sort[title]]"
-    group-select="yes"
-    group-default="$:/plugins/yan/hypergsd/ui/group-by/project"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>
+  list-heading={{$:/language/hypergsd/Lists/IncompleteActionsUnderCompletedProjects}}
+  list-filter="[tag[$:/GSD/Action]gsd_complete[false]] :filter[get[gsd_project]tag[$:/GSD/Project]get[gsd_complete]else[false]match[true]] +[sort[title]]"
+  group-select="yes"
+  group-default="$:/plugins/yan/hypergsd/ui/group-by/project"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>

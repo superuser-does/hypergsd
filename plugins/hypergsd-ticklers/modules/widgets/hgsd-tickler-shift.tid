@@ -7,7 +7,7 @@ title: $:/plugins/yan/hypergsd-ticklers/modules/widgets/hgsd-tickler-shift
 <!-- The tooltip alone goes through wikify: the button widget writes the title attribute raw, so a <<lingo>> value must be resolved to text first (the label needs no such round — body position wikifies) -->
 <$wikify name="resolved-tooltip" text=<<tooltip>> >
 <$let shift-milliseconds={{{ [<days>multiply[86400000]] }}}
-    new-date={{{ [<base-date>format:date[TIMESTAMP]add<shift-milliseconds>format:timestamp[]] }}} >
+  new-date={{{ [<base-date>format:date[TIMESTAMP]add<shift-milliseconds>format:timestamp[]] }}} >
 <$button tooltip=<<resolved-tooltip>> class=<<class>> actions=<<after-shift-actions>> >
 <%if [<new-date>minlength[17]] %>
 <$action-setfield $tiddler=<<target-tiddler>> gsd_tickler_date=<<new-date>>/>

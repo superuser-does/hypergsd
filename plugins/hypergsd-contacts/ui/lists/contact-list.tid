@@ -5,8 +5,8 @@ tags: $:/tags/hypergsd/Lists/Contact $:/tags/hypergsd/Lists/Contact/Portion/Full
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-list
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/Contacts}}
-    list-filter="[tag[$:/GSD/Contact]] +[sort[title]]"
-    group-select="yes"
-    sort-select="yes"
-    sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>
+  list-heading={{$:/language/hypergsd/Lists/Contacts}}
+  list-filter="[tag[$:/GSD/Contact]] +[sort[title]]"
+  group-select="yes"
+  sort-select="yes"
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>

@@ -16,23 +16,23 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-convert
 <$let part-cond={{{ [<warn-cond>!match[]addprefix<nl>] }}}>
 <$let msg={{{ [[$:/language/hypergsd/Convert/Base]] :map[get[text]] +[addsuffix<part-always>] +[addsuffix<part-cond>] }}}>
 <$button
-    class=<<class>>
-    style=<<style>>
-    role=<<role>>
-    tooltip=<<tooltip>> >
-    <$slot $name="ts-raw">{{$:/language/hypergsd/Convert/DefaultButtonLabel}}</$slot>
-    <$action-confirm $message=<<msg>>>
-        <%if [<current-status>match[next]] %>
-            <$action-setfield $tiddler=<<currentTiddler>> gsd_status="active"/>
-        <%else%>
-            <$action-setfield $tiddler=<<currentTiddler>> gsd_status="future"/>
-        <%endif%>
-        <$action-setfield $tiddler=<<currentTiddler>> gsd_prerequisites=""/>
-        <$fieldmangler tiddler=<<currentTiddler>>>
-            <$action-sendmessage $message="tm-remove-tag" $param="$:/GSD/Action"/>
-            <$action-sendmessage $message="tm-add-tag" $param="$:/GSD/Project"/>
-        </$fieldmangler>
-    </$action-confirm>
+  class=<<class>>
+  style=<<style>>
+  role=<<role>>
+  tooltip=<<tooltip>> >
+  <$slot $name="ts-raw">{{$:/language/hypergsd/Convert/DefaultButtonLabel}}</$slot>
+  <$action-confirm $message=<<msg>>>
+    <%if [<current-status>match[next]] %>
+      <$action-setfield $tiddler=<<currentTiddler>> gsd_status="active"/>
+    <%else%>
+      <$action-setfield $tiddler=<<currentTiddler>> gsd_status="future"/>
+    <%endif%>
+    <$action-setfield $tiddler=<<currentTiddler>> gsd_prerequisites=""/>
+    <$fieldmangler tiddler=<<currentTiddler>>>
+      <$action-sendmessage $message="tm-remove-tag" $param="$:/GSD/Action"/>
+      <$action-sendmessage $message="tm-add-tag" $param="$:/GSD/Project"/>
+    </$fieldmangler>
+  </$action-confirm>
 </$button>
 </$let>
 </$let>

@@ -14,7 +14,7 @@ title: $:/plugins/yan/hypergsd/ui/list-items/body-text
 <!-- suppressed for this item type -->
 <%else%>
 <div class="gsd-muted" title={{$:/language/hypergsd/Lists/Row/BodyText}}>
-    <$transclude $tiddler="$:/plugins/yan/hypergsd/images/excerpt" size="12pt"/>
+  <$transclude $tiddler="$:/plugins/yan/hypergsd/images/excerpt" size="12pt"/>
 </div>
 <%endif%>
 <%endif%>

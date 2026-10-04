@@ -3,20 +3,20 @@ title: GSD/Ticklers
 <!-- Three sections split on today (the tickler-check procedure's idiom: the 17-digit UTC strings compare correctly as strings), realm scoping from $hgsd.list's default scope. Completed repeating ticklers roll to a future date and rest here between cycles — the due-day and overdue raise includes them regardless of completion, so no revival pass is needed. The check itself runs automatically at startup, at the top of every hour and at local midnight. -->
 <$let today=<<now "[UTC]YYYY0MM0DD000000000">>>
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/RequiringAction}}
-    list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]gsd_complete[false]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] +[sort[gsd_tickler_date]]"
-    group-select="yes"/>
+  list-heading={{$:/language/hypergsd/Lists/RequiringAction}}
+  list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]gsd_complete[false]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] +[sort[gsd_tickler_date]]"
+  group-select="yes"/>
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/UpcomingTicklers}}
-    list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:gt<today>] +[sort[gsd_tickler_date]]"
-    group-select="yes"/>
+  list-heading={{$:/language/hypergsd/Lists/UpcomingTicklers}}
+  list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:gt<today>] +[sort[gsd_tickler_date]]"
+  group-select="yes"/>
 <$hgsd.toggle
-    text={{$:/language/hypergsd/Lists/OldTicklers/Show}}
-    hide-text={{$:/language/hypergsd/Lists/OldTicklers/Hide}}
-    class="hgsd-completed-toggle">
+  text={{$:/language/hypergsd/Lists/OldTicklers/Show}}
+  hide-text={{$:/language/hypergsd/Lists/OldTicklers/Hide}}
+  class="hgsd-completed-toggle">
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/OldTicklers}}
-    list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]gsd_complete[true]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] +[!nsort[gsd_comp_date]]"
-    group-select="yes"/>
+  list-heading={{$:/language/hypergsd/Lists/OldTicklers}}
+  list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]gsd_complete[true]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] +[!nsort[gsd_comp_date]]"
+  group-select="yes"/>
 </$hgsd.toggle>
 </$let>

@@ -5,8 +5,8 @@ tags: $:/tags/hypergsd/Lists/Reference
 title: $:/plugins/yan/hypergsd-references/ui/lists/references-list
 
 <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/References}}
-    list-filter="[tag[$:/GSD/Reference]]"
-    group-select="yes"
-    sort-select="yes"
-    add-button=<<new-reference-button>> />
+  list-heading={{$:/language/hypergsd/Lists/References}}
+  list-filter="[tag[$:/GSD/Reference]]"
+  group-select="yes"
+  sort-select="yes"
+  add-button=<<new-reference-button>> />

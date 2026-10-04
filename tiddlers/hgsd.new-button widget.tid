@@ -23,7 +23,7 @@ Content becomes the button label.
 ! Example
 ```
 <$hgsd.new-button gsd-type="action" gsd-status="next" gsd-project=<<currentTiddler>> gsd-calling-tiddler=<<currentTiddler>>>
-    new next action
+  new next action
 </$hgsd.new-button>
 ```
 

@@ -5,29 +5,29 @@ title: GSD/Contexts
 
 \procedure add-context-actions()
 <$let newContextState="$:/temp/hypergsd/NewContextName"
-    newContextName={{{ [<newContextState>get[text]trim[]] }}}>
-    <$list filter="[<newContextName>!is[blank]]" variable="ignore">
-        <!-- Tags the tiddler with this dashboard's own title — the dashboard IS the context tag list (user-data tag lists are open GSD/* dashboard tags; extension tag lists stay $:/tags/hypergsd/*). If the tiddler does not exist, TW creates it automatically with the tag. -->
-        <$action-listops $tiddler=<<newContextName>> $tags="[[GSD/Contexts]]" />
-        <$action-deletetiddler $tiddler=<<newContextState>> />
-        <$action-navigate $to=<<newContextName>> />
-    </$list>
+  newContextName={{{ [<newContextState>get[text]trim[]] }}}>
+  <$list filter="[<newContextName>!is[blank]]" variable="ignore">
+    <!-- Tags the tiddler with this dashboard's own title — the dashboard IS the context tag list (user-data tag lists are open GSD/* dashboard tags; extension tag lists stay $:/tags/hypergsd/*). If the tiddler does not exist, TW creates it automatically with the tag. -->
+    <$action-listops $tiddler=<<newContextName>> $tags="[[GSD/Contexts]]" />
+    <$action-deletetiddler $tiddler=<<newContextState>> />
+    <$action-navigate $to=<<newContextName>> />
+  </$list>
 </$let>
 \end
 
 <div>
-    <$let newContextState="$:/temp/hypergsd/NewContextName">
-        <$keyboard key="enter" actions=<<add-context-actions>>>
-            <$edit-text tiddler=<<newContextState>> field="text" placeholder={{$:/language/hypergsd/Dashboards/Contexts/NewContext/Placeholder}} tag="input" />
-        </$keyboard>
-        <$button actions=<<add-context-actions>>>
-            {{$:/language/EditTemplate/Fields/Add/Button}}
-        </$button>
-    </$let>
+  <$let newContextState="$:/temp/hypergsd/NewContextName">
+    <$keyboard key="enter" actions=<<add-context-actions>>>
+      <$edit-text tiddler=<<newContextState>> field="text" placeholder={{$:/language/hypergsd/Dashboards/Contexts/NewContext/Placeholder}} tag="input" />
+    </$keyboard>
+    <$button actions=<<add-context-actions>>>
+      {{$:/language/EditTemplate/Fields/Add/Button}}
+    </$button>
+  </$let>
 </div>
 
 <ul>
 <$list filter="[tag[GSD/Contexts]!is[draft]sort[title]]">
-    <li><$link to=<<currentTiddler>>><$view field="title"/></$link></li>
+  <li><$link to=<<currentTiddler>>><$view field="title"/></$link></li>
 </$list>
 </ul>
