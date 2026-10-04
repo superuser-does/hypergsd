@@ -130,7 +130,7 @@ Lists/WaitingActions/Hint: Incomplete actions with status waiting
 Lists/CompletedActions/Caption: Completed action list
 Lists/CompletedActions/Hint: Completed actions, newest completion first
 Lists/CleanupActions/Caption: Completed action list
-Lists/CleanupActions/Hint: Completed actions older than the cleanup timeout
+Lists/CleanupActions/Hint: Completed actions older than the cleanup age limit
 Lists/ActiveProjects/Caption: Active project list
 Lists/ActiveProjects/Hint: Projects with status active
 Lists/FutureProjects/Caption: Future project List
@@ -138,7 +138,7 @@ Lists/FutureProjects/Hint: Projects with status future
 Lists/CompletedProjects/Caption: Completed projects list
 Lists/CompletedProjects/Hint: Completed projects
 Lists/CleanupProjects/Caption: Completed project list
-Lists/CleanupProjects/Hint: Completed projects older than the cleanup timeout
+Lists/CleanupProjects/Hint: Completed projects older than the cleanup age limit
 Lists/NoNextAction/Caption: No next action list
 Lists/NoNextAction/Hint: Active projects that have no next action
 Lists/IncompleteActionsUnderCompletedProjects/Caption: Incomplete actions under completed projects
