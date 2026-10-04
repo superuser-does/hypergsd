@@ -1,11 +1,7 @@
 title: GSD/Cleanup: completed items
 
+\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Dashboards/
-<div class="tc-message-box">
-
-<<lingo Cleanup/IntroA>> {{$:/config/hypergsd/cleanup-age-in-days}} <<lingo Cleanup/IntroB>>
-
-</div>
 
 <$checkbox tiddler="$:/config/hypergsd/cleanup-uncompleted-project-actions"
   field="text" checked="show" unchecked="hide" default="hide"
