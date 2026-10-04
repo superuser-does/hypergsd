@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/CleanupOpenActions}}
 tags: $:/tags/hypergsd/Review/5
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup-open-actions
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/Cleanup: open actions under completed projects"><<lingo Review/CleanupOpenActions>></$link><br/>

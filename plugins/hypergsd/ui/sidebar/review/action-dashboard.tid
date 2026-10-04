@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/ActionDashboard}}
 tags: $:/tags/hypergsd/Review/2
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/action-dashboard
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/Action dashboard"><<lingo Review/ActionDashboard>></$link><br/>

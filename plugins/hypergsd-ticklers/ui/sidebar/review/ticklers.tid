@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/Ticklers}}
 tags: $:/tags/hypergsd/Review/4
 title: $:/plugins/yan/hypergsd-ticklers/ui/sidebar/review/ticklers
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/Ticklers"><<lingo Review/Ticklers>></$link><br/>

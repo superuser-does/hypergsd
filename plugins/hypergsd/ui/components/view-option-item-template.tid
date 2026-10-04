@@ -1,6 +1,4 @@
 title: $:/plugins/yan/hypergsd/ui/components/view-option-item-template
 
-\whitespace trim
-
 <!-- Item template for the Group by / SortBy tag lists on Settings → Dashboards: the core row alone — checkbox (writes <visibility-base><member> as show/hide, the offered/withdrawn toggle the view strip and the per-list pickers read) plus caption and drag handle. No portion picker: portions are meaningless for these tag lists. -->
 <$transclude $tiddler="$:/core/ui/ControlPanel/Toolbars/ItemTemplate"/>

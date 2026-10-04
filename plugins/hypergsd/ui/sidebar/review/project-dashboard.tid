@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/ProjectDashboard}}
 tags: $:/tags/hypergsd/Review/3
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/project-dashboard
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/Project dashboard"><<lingo Review/ProjectDashboard>></$link><br/>

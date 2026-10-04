@@ -1,8 +1,6 @@
 tags: $:/tags/Global
 title: $:/plugins/yan/hypergsd/modules/realm-scopes
 
-\whitespace trim
-
 <!-- Shared realm-scoping vocabulary. Two families: SCOPE LISTS — raw filters whose output is the allowed realm tags plus the `no-realm` sentinel when realm-less items are included; consumers split with !match[no-realm] / match[no-realm]. SCOPING ARITHMETIC — hgsd-scope-include/exclude reduce <scope-base> by <scope-tags>; both must be $let at the evaluation site (they are ambient variables, not parameters). Consumers: $hgsd.pick, $hgsd.pick-field, $hgsd.list, the realm-warning globe, and any extension via the realm-scope attribute (Boilerplate: realm scoping). Position rules: the selection's pristine marker runs FIRST (:then never short-circuits on accumulated output); the state read uses [title[X]…] mid-filter; :then[subfilter<…>] because a procedure's raw value is filter TEXT, not an evaluated list. -->
 \procedure hgsd-realm-all() [all[tags]prefix[$:/GSD/Realm/]] [[no-realm]]
 

@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/Cleanup}}
 tags: $:/tags/hypergsd/Review/5
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/Cleanup: completed items"><<lingo Review/Cleanup>></$link><br/>

@@ -3,7 +3,5 @@ description: {{$:/language/hypergsd/Settings/Fragments/RealmGlobe/Hint}}
 tags: $:/tags/hypergsd/ListItem/Suffix
 title: $:/plugins/yan/hypergsd/ui/list-items/realm
 
-\whitespace trim
-
 <!-- Realm-scope globe: appears on a row whose item falls outside the review sidebar's current realm selection. Scoped dashboards never show it (outside rows are invisible by construction); it fires on unscoped surfaces — project pages' local lists render every item regardless of realm. The gate lives in the shared hgsd-realm-warning procedure with every link surface; untag this fragment to drop row globes. -->
 <$transclude $variable="hgsd-realm-warning" linked-tiddler=<<currentTiddler>>/>

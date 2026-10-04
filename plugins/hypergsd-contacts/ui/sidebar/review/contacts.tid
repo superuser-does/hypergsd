@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/Contacts}}
 tags: $:/tags/hypergsd/Review/5
 title: $:/plugins/yan/hypergsd-contacts/ui/sidebar/review/contacts
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/Contacts"><<lingo Review/Contacts>></$link><br/>

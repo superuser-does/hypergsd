@@ -2,7 +2,6 @@ caption: {{$:/language/hypergsd/Sidebar/Review/References}}
 tags: $:/tags/hypergsd/Review/5
 title: $:/plugins/yan/hypergsd-references/ui/sidebar/review/references
 
-\whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
 <$link to="GSD/References"><<lingo Review/References>></$link><br/>
