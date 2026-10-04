@@ -43,7 +43,7 @@ Rules: each entry is a single bracketed filter run, entries separated by spaces 
 
 * A panel/modal ''section'' with custom state: put it under a covered namespace (`$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`) and nothing is needed. Anything else currently requires a main-plugin gate edit — file it upstream; the panel gate lives in `ui/ViewTemplate/view-body`.
 * State that must reach ''inside'' frozen lists beyond row content (the derivation itself): the outer gates carry pass-through runs for the contextualise namespaces as the worked example — same upstream route.
-* New-item modal sections: the chassis provides `new-temp`/`new-state`; section edits and the type tag list already wake the modal.
+* New-item modal sections: the chassis provides `new-data-title`/`new-state`; section edits and the type tag list already wake the modal.
 
 ! Recursion safety
 

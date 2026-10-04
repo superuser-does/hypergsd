@@ -8,20 +8,20 @@ Add a section to the new-item modal.
 Tag a tiddler with `$:/tags/hypergsd/ModalTemplate` (plus exactly one `$:/tags/hypergsd/ModalTemplate/Portion/N`, `/Portion/Top` or `/Portion/Full` tag) to make it a modal attribute section. Variables in scope:
 
 | !Variable | !Meaning |
-|new-temp |The working temp tiddler (`$:/temp/gsd-new-temp`) — read/write values here |
+|new-data-title |The working temp tiddler (`$:/temp/gsd-new-temp`) — read/write values here |
 |new-state |The internal state temp (`$:/temp/gsd-new-state`: selected type, status pick, per-type memory) |
 |current-type |Currently selected type name |
 |section-target / section-type / section-mode / section-status-target |The chassis contract the panel sets too — dual-context sections (ui/attributes) read these instead of assuming `currentTiddler`; here `section-target` is the data temp and `section-mode` is `modal` |
 |gsd-* |The invoking button's parameters |
 
-Write user selections to fields on `new-temp` (the submit step maps them onto the created tiddler); the Type selector lives on its `hgsd-type` field.
+Write user selections to fields on `new-data-title` (the submit step maps them onto the created tiddler); the Type selector lives on its `hgsd-type` field.
 
 ```
 title: $:/plugins/MyPlugin/ui/modal/due-date
 tags: Documentation [[HyperGSD API]]
 
 <label>Due date:
-<$edit-text tiddler=<<new-temp>> field="myplugin-due" placeholder="YYYY-MM-DD"/>
+<$edit-text tiddler=<<new-data-title>> field="myplugin-due" placeholder="YYYY-MM-DD"/>
 </label>
 ```
 

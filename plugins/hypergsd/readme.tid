@@ -54,7 +54,7 @@ Notes:
 
 * Use `currentTiddler` (or `is[current]`) to guard a section by the viewed tiddler's type, like the built-in sections do.
 * Interactive controls: standard widgets (`<$button>`, `<$checkbox>`, `<$edit-text>`) carry their own event handling. Raw `<input>` elements are only wired up for the plugin's own `data-hgsd-*` actions via the `hgsd-interactive` event delegation — new actions require extending `$:/plugins/yan/hypergsd/modules/event-handler`.
-* In the modal, the chassis provides `new-temp` (the working tiddler), `current-type` (selected type) and the invoking button's `gsd-*` parameters as variables. Submitting with ''create another'' ticked keeps the working tiddler and reopens the modal with only the title wiped; the checkbox is session state in `$:/state/hypergsd/create-another`.
+* In the modal, the chassis provides `new-data-title` (the working tiddler), `current-type` (selected type) and the invoking button's `gsd-*` parameters as variables. Submitting with ''create another'' ticked keeps the working tiddler and reopens the modal with only the title wiped; the checkbox is session state in `$:/state/hypergsd/create-another`.
 
 ! Registering a new item type
 

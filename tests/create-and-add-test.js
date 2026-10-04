@@ -84,7 +84,7 @@ t("created with contact tag + inherited realm tag",
   JSON.stringify(created && created.fields.tags));
 t("no gsd_status written for contact type", !created || created.fields.gsd_status === undefined);
 t("host field linked", wiki.getTiddler("Host action").fields.gsd_contact === "New Person");
-t("add-temp pick cleared", (wiki.getTiddler(ADDTEMP) || {fields: {}}).fields["hgsd-pick"] === "");
+t("pick-tiddler-title pick cleared", (wiki.getTiddler(ADDTEMP) || {fields: {}}).fields["hgsd-pick"] === "");
 
 // 5. Editing state: editor state closed on create
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false", gsd_contact: "Existing contact"});
@@ -101,7 +101,7 @@ t("editing state: created + linked + editor closed",
 wiki.deleteTiddler(EDITPOP);
 wiki.addTiddler({title: "$:/temp/gsd-new-temp"});
 wiki.addTiddler({title: "$:/temp/hypergsd/add-project-$:/temp/gsd-new-temp", "hgsd-pick": "Fresh Project"});
-const modalSrc = '<$let section-target="$:/temp/gsd-new-temp" section-type="action" section-mode="modal" new-temp="$:/temp/gsd-new-temp" current-type="action" gsd-project=""><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project"/></$let>';
+const modalSrc = '<$let section-target="$:/temp/gsd-new-temp" section-type="action" section-mode="modal" new-data-title="$:/temp/gsd-new-temp" current-type="action" gsd-project=""><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project"/></$let>';
 const r6 = render(modalSrc, "$:/plugins/yan/hypergsd/ui/new-gsd-modal");
 t("modal: create button shown", has(r6.buttons, 'create Fresh Project and add') && !!r6.createBtnWidget, JSON.stringify(r6.buttons));
 if (r6.createBtnWidget) fireActions(r6.createBtnWidget);
@@ -142,7 +142,7 @@ const prereqAddBtn = (() => {
     if (!n || found || typeof n !== "object") return;
     if (Array.isArray(n)) return n.forEach(f);
     const p = n.parseTreeNode;
-    if (p && p.tag === "$button" && (function dig(m) { return (m.children || []).some(ch => (ch.tag === "$action-listops" && String((ch.attributes || {})["$subfilter"] && ch.attributes["$subfilter"].value || "") === "[<add-temp>get[hgsd-pick]]") || dig(ch)); })(p)) { found = n; return; }
+    if (p && p.tag === "$button" && (function dig(m) { return (m.children || []).some(ch => (ch.tag === "$action-listops" && String((ch.attributes || {})["$subfilter"] && ch.attributes["$subfilter"].value || "") === "[<pick-tiddler-title>get[hgsd-pick]]") || dig(ch)); })(p)) { found = n; return; }
     (n.children || []).forEach(f);
   })(r7c.w ? [r7c.w] : []);
   return found;
@@ -387,7 +387,7 @@ $tw.rootWidget.dispatchEvent = function(event) {
 };
 const submitVia = () => {
   const body = '<$importvariables filter="[[$:/plugins/yan/hypergsd/ui/new-gsd-modal]]">'
-    + '<$let new-temp="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state" gsd-type="action" gsd-status="next" gsd-complete="false" gsd-project="" gsd-contact="" gsd-update-status="no" gsd-calling-tiddler="">'
+    + '<$let new-data-title="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state" gsd-type="action" gsd-status="next" gsd-complete="false" gsd-project="" gsd-contact="" gsd-update-status="no" gsd-calling-tiddler="">'
     + '<$button><$transclude $variable="hgsd-modal-submit"/></$button>'
     + '</$let></$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});

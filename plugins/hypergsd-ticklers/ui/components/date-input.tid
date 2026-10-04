@@ -3,15 +3,15 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/components/date-input
 
 \whitespace trim
 \procedure hgsd-date-input(target-tiddler, target-field, history-field)
-<$let display-temp={{{ [[$:/temp/hgsd-date/]addsuffix<target-tiddler>addsuffix[/]addsuffix<target-field>] }}} >
+<$let date-input-title={{{ [[$:/temp/hgsd-date/]addsuffix<target-tiddler>addsuffix[/]addsuffix<target-field>] }}} >
 <!-- Focus-safe date input: a native date box on a temp tiddler, re-seeded from the canonical field through the default attribute (the wrapping scope derives from the TARGET, never the temp, so the input is never rebuilt mid-interaction). No name/id: core's edit-text forwards neither (probed 2026-09-13: autocomplete="off" does not silence Chrome's nameless-field warning either), and a raw input would re-implement the binding for a console recommendation only. inputActions executes bare action widgets only — no conditionals — so the routing lives in the target filters: a pick canonicalises and writes the 17-digit store form, and appends it to the history list field (chronological; the last entry is always the current date); an EMPTY event is a total no-op on both writes (browsers emit empty change events on restores and cache wakes, and nothing destructive may hang off them) — the empty write routes at a nonexistent discard title, which the trailing deletetiddler then removes. Removing a date means deleting the field in edit mode. -->
-<$edit-text tiddler=<<display-temp>> field="text" tag="input" type="date"
+<$edit-text tiddler=<<date-input-title>> field="text" tag="input" type="date"
   class="hgsd-date-input"
   default={{{ [<target-tiddler>get<target-field>] :filter[minlength[17]] +[format:date[YYYY-0MM-0DD]] }}}
   inputActions="""
   <$action-setfield $tiddler={{{ [<target-tiddler>] :filter[<actionValue>!match[]] +[else[$:/temp/hgsd-date-discard]] }}} $field=<<target-field>> $value={{{ [<actionValue>split[-]join[]addsuffix[000000000]minlength[17]] }}}/>
   <$action-listops $tiddler={{{ [<target-tiddler>] :filter[<actionValue>!match[]] +[else[$:/temp/hgsd-date-discard]] }}} $field=<<history-field>> $subfilter="[<actionValue>split[-]join[]addsuffix[000000000]minlength[17]]"/>
-  <$action-deletefield $tiddler=<<display-temp>> $field="text"/>
+  <$action-deletefield $tiddler=<<date-input-title>> $field="text"/>
   <$action-deletetiddler $tiddler="$:/temp/hgsd-date-discard"/>
   """/>
 </$let>

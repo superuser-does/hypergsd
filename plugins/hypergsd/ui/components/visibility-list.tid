@@ -3,7 +3,7 @@ title: $:/plugins/yan/hypergsd/ui/components/visibility-list
 
 \whitespace trim
 
-<!-- The settings draggable for one tag list: core's list-tagged-draggable + our item template (the core checkbox row — writes <visibility-base><member-title> as show/hide — plus drag-reorder via the tag's list field, PLUS the Portion picker) provide each row; the $set feeds the template's config-base variable. The portion vocabulary is derived here and flows ambiently into the template (next-free = one past the HIGHEST portion number in use, seeded with the implicit Portion/1 that untagged members occupy — so a fresh column is always offered; the two band slots Top/Full are derived too and excluded). The tag-basis note above the list (lingo Settings/TagBasis/*): a line naming this list's tag as a pill, and — only where portions="no" is not passed (the sidebar blocks and the Group by / Sort by lists, whose rows carry no Portion picker) — the portion sentence on the line below (a simple <br>, same paragraph). Global scope: the control panel renders at page level. -->
+<!-- The settings draggable for one tag list: core's list-tagged-draggable + our item template (the core checkbox row — writes <visibility-base><member-title> as show/hide — plus drag-reorder via the tag's list field, PLUS the Portion picker) provide each row; the $set feeds the template's config-base variable. The portion vocabulary is derived here and flows ambiently into the template (next-free-portion-number = one past the HIGHEST portion number in use, seeded with the implicit Portion/1 that untagged members occupy — so a fresh column is always offered; the two band slots Top/Full are derived too and excluded). The tag-basis note above the list (lingo Settings/TagBasis/*): a line naming this list's tag as a pill, and — only where portions="no" is not passed (the sidebar blocks and the Group by / Sort by lists, whose rows carry no Portion picker) — the portion sentence on the line below (a simple <br>, same paragraph). Global scope: the control panel renders at page level. -->
 \procedure hgsd-visibility-list(tag-list, visibility-base, item-template:"$:/plugins/yan/hypergsd/ui/components/portion-item-template", portions:"yes")
 <$set name="config-base" value=<<visibility-base>>>
 <$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
@@ -11,8 +11,8 @@ title: $:/plugins/yan/hypergsd/ui/components/visibility-list
   top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
   full-portion={{{ [<tag-list>addsuffix[/Portion/Full]] }}}>
 <!-- nested: a later attribute of the SAME let cannot read its siblings -->
-<$let next-free-n={{{ [<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<tag-list>addsuffix[/Portion/1]] +[unique[]removeprefix<portion-prefix>nsort[]last[1]add[1]] }}}
-  next-free-tag={{{ [<tag-list>addsuffix[/Portion/]addsuffix<next-free-n>] }}}>
+<$let next-free-portion-number={{{ [<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<tag-list>addsuffix[/Portion/1]] +[unique[]removeprefix<portion-prefix>nsort[]last[1]add[1]] }}}
+  next-free-portion-tag={{{ [<tag-list>addsuffix[/Portion/]addsuffix<next-free-portion-number>] }}}>
 <p>//{{$:/language/hypergsd/Settings/TagBasis/Prompt}}&#32;<$macrocall $name="tag" tag=<<tag-list>>/><%if [<portions>!match[no]] %><br>{{$:/language/hypergsd/Settings/TagBasis/Portions}}.<%endif%>//</p>
 <$transclude
   $variable="list-tagged-draggable"

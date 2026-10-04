@@ -14,10 +14,10 @@ The widget prescribes no display of its own (2026-09-01: no root wrapper — the
 |field |`hgsd-pick` |Field to write (the temp field every pick consumer's Add/Save/keyboard/Create path reads — the suite-wide name; a call site may override it, e.g. the capture modal's `gsd_context`) |
 |list-filter |— |''Required.'' Filter producing the candidate titles; drafts are always excluded (an inline `!is[draft]` on the funnel — they inherit the base tiddler's fields and would otherwise appear mid-edit) |
 |placeholder |(blank) |Handle placeholder text |
-|none-title |`-- none --` |Label for the empty choice |
+|none-label |`-- none --` |Label for the empty choice |
 |none-value |(blank) |Value written by the empty choice |
 |group-by |(blank) |Field to group candidates into `<optgroup>`s (e.g. `gsd_project`) |
-|none-group-title |(none) |Optgroup label for candidates without the grouping field |
+|none-group-label |(none) |Optgroup label for candidates without the grouping field |
 |initial |(blank) |Handle's initial value when the field is empty |
 |id |— |''Required for multi-instance correctness.'' Deterministic popup-state key; two pickers on one tiddler must differ |
 |search-mode |`title` |`title` or `extended` (adds body text and `gsd_project` to the search) |
@@ -32,7 +32,7 @@ The widget prescribes no display of its own (2026-09-01: no root wrapper — the
 
 With a `commit-kind`, selecting also commits the pick immediately — but only when the setting for the active pointer class is on: fine pointers (mouse) consult `$:/config/hypergsd/picker-instant-commit/fine` (default on), coarse pointers (touch) consult `$:/config/hypergsd/picker-instant-commit/coarse` (default off, keeping the Add step). With the applicable setting off, a pick only infills the field as before and the Add/Save button stays the commit step. The gates are evaluated at pick time, so toggling either setting or flipping the pointer takes effect on the very next pick; the pointer state itself comes from core's media-query tracking (`ui/config/pointer-coarse-tracker`). The buttons are never removed — they remain for an off setting and for typed non-existent titles (the create-and-add flow).
 
-This tiddler also hosts `hgsd-pick-keyboard-commit`, the pick family's keyboard-commit dispatcher (2026-09-27; the key is the caller's `$keyboard` binding, Enter by default): invoked from the keyboard actions strings of [[$hgsd.pick-field|hgsd.pick-field widget]] and [[$hgsd.pick-append|hgsd.pick-append widget]], it reads the caller's ambient scope (`add-temp`/`target`/`field`/`direction`/`new-*`) and forks — a non-blank pick naming no existing tiddler (with `new-type` set) routes through the shared creation core `hgsd-create-and-add-actions`, everything else commits exactly as the row's own Add/Save button. The whole fork, existence check included, evaluates only at keypress.
+This tiddler also hosts `hgsd-pick-keyboard-commit`, the pick family's keyboard-commit dispatcher (2026-09-27; the key is the caller's `$keyboard` binding, Enter by default): invoked from the keyboard actions strings of [[$hgsd.pick-field|hgsd.pick-field widget]] and [[$hgsd.pick-append|hgsd.pick-append widget]], it reads the caller's ambient scope (`pick-tiddler-title`/`target`/`field`/`direction`/`new-*`) and forks — a non-blank pick naming no existing tiddler (with `new-type` set) routes through the shared creation core `hgsd-create-and-add-actions`, everything else commits exactly as the row's own Add/Save button. The whole fork, existence check included, evaluates only at keypress.
 
 !! realm-scope contract
 
@@ -57,5 +57,5 @@ An unknown variable or broken filter yields an empty scope list — an empty pic
 ```
 <$hgsd.pick tiddler=<<currentTiddler>> field="gsd_project" id="proj"
   list-filter="[tag[$:/GSD/Project]gsd_complete[false]sort[title]]"
-  group-by="gsd_project" none-group-title="No group"/>
+  group-by="gsd_project" none-group-label="No group"/>
 ```

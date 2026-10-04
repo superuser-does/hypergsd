@@ -7,21 +7,21 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-convert
 \widget $hgsd.convert(current-status, class, style, role, tooltip)
 <!-- Conversion asks for confirmation on every convert. The message beyond the base question comes from $:/tags/hypergsd/Convert/Warning fragments: a warning field (lingo key) plus an optional conditions filter (blank = always applicable); host-title (the converted action) is ambient for every conditions filter. -->
 <$let host-title=<<currentTiddler>>>
-<!-- nl: a real newline for the confirm message (native dialogs render \n as a line break). Built via decodeuricomponent because entities don't decode inside triple-brace filter attributes, and a trailing empty operand breaks the attribute scanner — hence the else[nl] guard. -->
-<$let pct={{{ [[%0A]] }}}>
-<$let nl={{{ [<pct>decodeuricomponent[]else[nl]] }}}>
-<$let warn-always={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[!has[hgsd-conditions]] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<nl>] }}}>
-<$let warn-cond={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<nl>] }}}>
-<$let part-always={{{ [<warn-always>!match[]addprefix<nl>] }}}>
-<$let part-cond={{{ [<warn-cond>!match[]addprefix<nl>] }}}>
-<$let msg={{{ [[$:/language/hypergsd/Convert/Base]] :map[get[text]] +[addsuffix<part-always>] +[addsuffix<part-cond>] }}}>
+<!-- newline: a real newline for the confirm message (native dialogs render \n as a line break). Built via decodeuricomponent because entities don't decode inside triple-brace filter attributes, and a trailing empty operand breaks the attribute scanner — hence the else[newline] guard. -->
+<$let encoded-newline={{{ [[%0A]] }}}>
+<$let newline={{{ [<encoded-newline>decodeuricomponent[]else[newline]] }}}>
+<$let always-warnings={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[!has[hgsd-conditions]] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<newline>] }}}>
+<$let conditional-warnings={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<newline>] }}}>
+<$let always-warnings-segment={{{ [<always-warnings>!match[]addprefix<newline>] }}}>
+<$let conditional-warnings-segment={{{ [<conditional-warnings>!match[]addprefix<newline>] }}}>
+<$let confirm-message={{{ [[$:/language/hypergsd/Convert/Base]] :map[get[text]] +[addsuffix<always-warnings-segment>] +[addsuffix<conditional-warnings-segment>] }}}>
 <$button
   class=<<class>>
   style=<<style>>
   role=<<role>>
   tooltip=<<tooltip>> >
   <$slot $name="ts-raw">{{$:/language/hypergsd/Convert/DefaultButtonLabel}}</$slot>
-  <$action-confirm $message=<<msg>>>
+  <$action-confirm $message=<<confirm-message>>>
     <%if [<current-status>match[next]] %>
       <$action-setfield $tiddler=<<currentTiddler>> gsd_status="active"/>
     <%else%>

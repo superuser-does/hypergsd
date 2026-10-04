@@ -63,7 +63,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
             tiddler=<<pick-temp>>
             field="hgsd-pick"
             list-filter="[tag[GSD/Contexts]] -[all[current]tags[]]"
-            none-title={{$:/language/hypergsd/Lists/Contextualise/Choose}}
+            none-label={{$:/language/hypergsd/Lists/Contextualise/Choose}}
             id={{{ [[contextualise-]addsuffix<current-group>addsuffix[-]addsuffix<list-scope>] }}}
             search-mode="title"
             focus="yes"

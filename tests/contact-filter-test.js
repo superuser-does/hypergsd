@@ -119,16 +119,16 @@ setSelection(null);
   // keyboard route: type a fresh pick, fire the ((input-accept)) actions string
   wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Bob Comp"});
   poke(w, TEMP);
-  const kb = (() => { let k = null; (function f(n) { if (k || !n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f); if (n.parseTreeNode && n.parseTreeNode.tag === "$keyboard") { k = n; return; } (n.children || []).forEach(f); })(w.children); return k; })();
-  t("keyboard bound", kb ? (kb.getAttribute("key") || "").indexOf("input-accept") !== -1 : false, true);
-  if (kb) kb.invokeActionString(kb.getAttribute("actions"), kb, null, {variables: {}});
+  const keyboardWidget = (() => { let foundKeyboard = null; (function f(n) { if (foundKeyboard || !n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f); if (n.parseTreeNode && n.parseTreeNode.tag === "$keyboard") { foundKeyboard = n; return; } (n.children || []).forEach(f); })(w.children); return foundKeyboard; })();
+  t("keyboard bound", keyboardWidget ? (keyboardWidget.getAttribute("key") || "").indexOf("input-accept") !== -1 : false, true);
+  if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}});
   t("input-accept commits", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Carol", "ZZ Bob Comp"]);
   // guard: a non-existent pick neither commits nor clears the box
   wiki.addTiddler({title: TEMP, "hgsd-pick": "No Such Contact"});
-  if (kb) kb.invokeActionString(kb.getAttribute("actions"), kb, null, {variables: {}});
+  if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}});
   t("non-existent pick adds nothing", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Carol", "ZZ Bob Comp"]);
   t("non-existent pick keeps the text", wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join(""), "No Such Contact");
-  t("input cleared after real commit", (() => { wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Carol"}); if (kb) kb.invokeActionString(kb.getAttribute("actions"), kb, null, {variables: {}}); const f = wiki.getTiddler(TEMP).fields; return f["hgsd-pick"] === undefined ? "" : f["hgsd-pick"]; })(), "");
+  t("input cleared after real commit", (() => { wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Carol"}); if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}}); const f = wiki.getTiddler(TEMP).fields; return f["hgsd-pick"] === undefined ? "" : f["hgsd-pick"]; })(), "");
   wiki.deleteTiddler(POPUP);
 }
 

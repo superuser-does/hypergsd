@@ -19,7 +19,7 @@ One commit affordance per pick state: blank shows the new cluster alone, a typed
 |list-filter |— |''Required.'' Candidate filter for the inner picker |
 |id |— |''Required.'' Unique per field within the tiddler (popup/temp state keys derive from it) |
 |label |(blank) |Label rendered above the row |
-|group-by, none-title, none-group-title, search-mode, placeholder |— |Passed through to the inner picker |
+|group-by, none-label, none-group-label, search-mode, placeholder |— |Passed through to the inner picker |
 |edit-placeholder |`type to change / leave blank to clear` |Placeholder shown in the editing (change) picker, where saving a blank clears the field |
 |new-type |(blank) |Enables the "new" button: type preselected in the modal; blank omits the button |
 |new-status |`next` |Status preselected by the "new" button |

@@ -182,7 +182,7 @@ plugins/hypergsd/
 │       │                        with hgsd-group/hgsd-ungrouped/hgsd-sort fields —
 │       │                        the config prefix run alone gates every level.
 │       │                        Sort applies via the composed-variable
-│       │                        rows-filter ([loop-base] [sort-expr] +[join[ ]],
+│       │                        rows-filter ([loop-base] [sort-expression] +[join[ ]],
 │       │                        passed whole to $list — subfilter does NOT
 │       │                        reorder, and macrocalls inside quoted filter
 │       │                        attrs are literal). ONE grouped renderer
@@ -265,10 +265,10 @@ plugins/hypergsd/
 │       │                        (both $hgsd.pick invocations pass commit-kind
 │       │                        "field" — picking drafts the target directly in
 │       │                        the modal and writes it live in the panel; the
-│       │                        editing state also commit-clears edit-pop). Both
+│       │                        editing state also commit-clears edit-state-title). Both
 │       │                        keyboard-commit sites route through
 │       │                        hgsd-pick-keyboard-commit (create-if-missing at
-│       │                        keypress; the editing state passes edit-pop as
+│       │                        keypress; the editing state passes edit-state-title as
 │       │                        close-state). Affordance matrix: both Save
 │       │                        buttons render only for a pick commitable without
 │       │                        creation (elseif on the dispatcher's create gate
@@ -285,7 +285,7 @@ plugins/hypergsd/
 │       │                        ungated-by-contract: called inside the gate's
 │       │                        then-branch) in the commit slot,
 │       │                        hgsd-new-fallback (plain new button, self-gated)
-│       │                        last; riding the per-keystroke add-temp refresh
+│       │                        last; riding the per-keystroke pick-tiddler-title refresh
 │       │                        the create gate always used. Also hosts
 │       │                        hgsd-new-options (the kind-mapped create-and-add
 │       │                        button, rendered inside the caller's create
@@ -333,11 +333,11 @@ plugins/hypergsd/
 │                                (filter; ambient host-title; absent = always).
 │                                Two enumeration pipelines (:filter runs are
 │                                SINGLE runs — no multi-run operands; constructor
-│                                runs REPLACE accumulated output, so parts append
-│                                via +[addsuffix<part>]); lines separate with nl
-│                                ([[%0A]] + decodeuricomponent — entities don't
-│                                decode in filter attrs and op[]] tails break the
-│                                scanner, hence the else[nl] guard).
+│                                runs REPLACE accumulated output, so segments append
+│                                via +[addsuffix<segment>]); lines separate with
+│                                newline ([[%0A]] + decodeuricomponent — entities
+│                                don't decode in filter attrs and op[]] tails break
+│                                the scanner, hence the else[newline] guard).
 │                                The prereq fragment captures host-title in a
 │                                $let first — :filter[] rebinds currentTiddler
 │                                to each candidate. title[X] is existence-blind —
@@ -817,7 +817,7 @@ emits unconditionally and defeats the gate — and the title input writes to
 re-render the sections) → `hgsd-modal-submit` (project resolution + status cascade only) →
 `create-gsd-tiddler` (tags + fields + side-effects, §5) — which transcludes
 `$:/tags/hypergsd/Inheritance` members at the point of creation (contract
-vars create-title/new-type/calling-tiddler/new-temp/new-state; core ships
+vars create-title/new-type/calling-tiddler/new-data-title/new-state; core ships
 informal-tags — caller's non-`$/:` tags flow onto the new item, blank caller =
 nothing — and realm; HyperGSD-Contexts ships context-tags; the contract is
 Inheritance; plain tag scan, removable by untagging; runs only in the submit
@@ -895,12 +895,12 @@ membership rebuild). The view-panel gate scopes picker temps per panel — the F
 run pair `[prefix[$:/temp/hypergsd/add-]] :and[suffix<currentTiddler>]` (order
 matters: `:and` replaces output so far; later runs append) so typing into one
 panel's picker refreshes only that panel — the MODAL chassis carries the same
-scoped pair FIRST (`:and[suffix<new-temp>]`), without which typing into the
+scoped pair FIRST (`:and[suffix<new-data-title>]`), without which typing into the
 modal's pickers never filtered the dropdown. The project/contact view templates
 scope by SUBTRACTION runs (only one `:and` chain is possible per filter — a
 second would wipe the first's output): additive runs admit all
 gsd-list/show-completed temps, then
-`-[prefix[$:/temp/gsd-list/]!prefix<this-liststate-prefix>]` and
+`-[prefix[$:/temp/gsd-list/]!prefix<this-list-prefix>]` and
 `-[prefix[...show-completed/]!suffix<currentTiddler>]` drop other hosts'
 temps — a completed-toggle/collapse/state-write in one view refreshes only
 that view (~90% fewer filter calls with 10 views open). Whitelist authoring
@@ -991,7 +991,7 @@ Coupling notes:
   keeps its own `hgsd-row` wrapper — view-body-contact renders through the
   chassis members and view-body-project through the ProjectView members,
   which call `hgsd-item` directly outside the engine's
-  per-list whitelist (hence the `hgsd-row-whitelist-expr` function's param default).
+  per-list whitelist (hence the `hgsd-row-whitelist-expression` function's param default).
 - Extension surface: Type tag list, AfterCreation, PanelTemplate/ModalTemplate
   (+ Group tags), ListItem Prefix/Suffix, Strip, dashboard list tags (incl.
   ContactAction), per-list visibility, KeyboardShortcut triggers (see
@@ -1041,8 +1041,8 @@ Widgets (`$:/tags/Global` unless noted):
 |---|---|---|
 | `$hgsd.list` | list-heading, list-filter, group-by, group-state, group-select:"no", group-members:"", sort-select:"no", sort-default (the modified-desc member), group-default:"", add-button, future-items-sweep:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | realm-filtered, frozen, delegated list (core engine); future-items-sweep="yes" hides items whose parent project is not active when the config says hide (parentless items always pass). all-titles is the draft gate (inline `!is[draft]`); list-filters start with `tag[]` to ride the tag index |
 | `$hgsd.new-button` | gsd-type, gsd-status, gsd-complete, gsd-project, gsd-contact, gsd-realm, gsd-update-status, gsd-calling-tiddler, class/style/aria-label/role/tooltip/disabled | seeds temp tiddler + opens creation modal |
-| `$hgsd.pick` | tiddler, field:"pick", list-filter, placeholder, none-title:"-- none --", none-value, group-by (any field), none-group-title:"(none)", initial, id, search-mode:"title"\|"extended", focus:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | searchable popup select w/ generic optgroups; realm-scope = always-evaluated filter (scope list: realm tags + no-realm sentinel; "" = everything via hgsd-realm-all). Display-neutral (no root wrapper): native inline handle; flex hosts stretch it via hgsd-sizer-select on the input |
-| `$hgsd.pick-field` | field, tiddler:"" (write target, blank=currentTiddler — the modal's drafting editor), new-button:"show" ("hide" suppresses the plain new-button fallback — modals do not stack), list-filter, id, label, group-by, none-title, none-group-title, new-type (blank=omit), new-status:"next", new-update-status:"no", search-mode, placeholder, realm-scope:"[subfilter<hgsd-realm-selection>]", link-items:"show" ("hide" — no LinkItem adornments in the set state) | 3-state field editor (empty/set/editing) wrapping `$hgsd.pick` |
+| `$hgsd.pick` | tiddler, field:"pick", list-filter, placeholder, none-label:"-- none --", none-value, group-by (any field), none-group-label:"(none)", initial, id, search-mode:"title"\|"extended", focus:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | searchable popup select w/ generic optgroups; realm-scope = always-evaluated filter (scope list: realm tags + no-realm sentinel; "" = everything via hgsd-realm-all). Display-neutral (no root wrapper): native inline handle; flex hosts stretch it via hgsd-sizer-select on the input |
+| `$hgsd.pick-field` | field, tiddler:"" (write target, blank=currentTiddler — the modal's drafting editor), new-button:"show" ("hide" suppresses the plain new-button fallback — modals do not stack), list-filter, id, label, group-by, none-label, none-group-label, new-type (blank=omit), new-status:"next", new-update-status:"no", search-mode, placeholder, realm-scope:"[subfilter<hgsd-realm-selection>]", link-items:"show" ("hide" — no LinkItem adornments in the set state) | 3-state field editor (empty/set/editing) wrapping `$hgsd.pick` |
 | create-gsd-tiddler | gsd-type,gsd-status,gsd-complete,gsd-update-status,gsd-calling-tiddler,new-title,gsd-realm-tags,gsd-context-tags | modal create procedure. Grade-2 temp SPLIT: $:/temp/gsd-new-temp = DATA fields only (pass-through loop copies every field onto the created tiddler, blanks skipped via hgsd-set-field-if-present — structural exclusions as negated title runs; -enlist[...] negated runs DO NOT parse); $:/temp/gsd-new-state = internal (hgsd-type, gsd_status pick, per-type memory, gsd_context, inherited contexts). gsd_status/gsd_complete written explicitly (resolution-owned); gsd_project/gsd_contact validated in submit then written back to the data temp for the loop. Both temps deleted on submit only (cancel keeps entries by design). A sub-plugin modal section writes gsd_whatever to the data temp — zero main-plugin changes |
 | `$hgsd.realm-picker` | state-tiddler:"$:/state/hypergsd/effective-realm" | plain realm `<$select>` bound to a state tiddler; public sub-plugin surface (single internal caller: capture default-realm) |
 | `$hgsd.convert` | current-status, class/style/aria-label/role/tooltip | action→project (next→active else future, clears prereqs, retags) |
@@ -1202,9 +1202,9 @@ list), and tv-config-toolbar-{class,icons,text} in PageControls buttons.
 `target-tiddler`, the section chassis contract vars (`section-target`,
 `section-type`, `section-mode`, `section-status-target` — set by view-body and
 new-gsd-modal around their section loops; dual sections in ui/attributes read
-them), `new-temp`/`new-state` (modal's two temps),
+them), `new-data-title`/`new-state` (modal's two temps),
 `viewing-title` (dependants section: viewing title vs item),
-`radio-name`, `edit-pop`/`add-temp`, `current-group`, `current-date`,
+`radio-name`, `edit-state-title`/`pick-tiddler-title`, `current-group`, `current-date`,
 `final-*`/`raw-*` (modal submit), `realmTag`, `groupState`,
 `caller` (new-button fallback chain), loop vars `listItem`-style:
 `dependant`, `prereq-item`, `dependant-item`, `context-tag-item`,

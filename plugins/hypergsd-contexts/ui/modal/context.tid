@@ -14,7 +14,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
   field="gsd_context"
   list-filter="[tag[GSD/Contexts]]"
   initial={{{ [[$:/state/hypergsd/effective-context]get[text]] }}}
-  none-title={{$:/language/hypergsd/Sections/Context/None}}
+  none-label={{$:/language/hypergsd/Sections/Context/None}}
   id="context"
   realm-scope=""/>
 <%if [<new-state>get[gsd_context]!match[]] :and[!is[tiddler]] %>

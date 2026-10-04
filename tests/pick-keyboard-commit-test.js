@@ -22,11 +22,11 @@ const render = (src, cur) => {
 
 // fire the FIRST $keyboard in the tree (each pick row carries exactly one)
 const fireKey = (w) => {
-  let kb = null;
-  (function f(n){ if(!n||kb) return; if(Array.isArray(n)) return n.forEach(f);
-    const p = n.parseTreeNode; if(p && p.tag === "$keyboard") { kb = n; return; } if(n.children) n.children.forEach(f); })(w.children);
-  if (!kb) throw new Error("no $keyboard found");
-  kb.invokeActionString(kb.getAttribute("actions"), kb, {type: "keydown"});
+  let keyboardWidget = null;
+  (function f(n){ if(!n||keyboardWidget) return; if(Array.isArray(n)) return n.forEach(f);
+    const p = n.parseTreeNode; if(p && p.tag === "$keyboard") { keyboardWidget = n; return; } if(n.children) n.children.forEach(f); })(w.children);
+  if (!keyboardWidget) throw new Error("no $keyboard found");
+  keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, {type: "keydown"});
 };
 
 const pickOf = (tmp) => (wiki.getTiddler(tmp) || {fields: {}}).fields["hgsd-pick"];

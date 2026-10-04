@@ -32,7 +32,7 @@ Besides widgets, HyperGSD exports procedures on the `$:/tags/Global` tag (plus s
 
 | !Where | !Variables in scope |
 |Panel sections |`currentTiddler` (the viewed item) plus the chassis contract: `section-target` (the item), `section-type`, `section-mode` (`panel`), `section-status-target` |
-|Modal sections |`new-temp` (the data temp tiddler), `new-state` (internal modal state), `current-type` (selected type), the same `section-*` contract (`section-target` = the data temp, `section-mode` = `modal`), plus the invoking button's `gsd-*` parameters |
+|Modal sections |`new-data-title` (the data temp tiddler), `new-state` (internal modal state), `current-type` (selected type), the same `section-*` contract (`section-target` = the data temp, `section-mode` = `modal`), plus the invoking button's `gsd-*` parameters |
 |AfterCreation rules |`hgsd-new-title`, `hgsd-new-type`, `hgsd-calling-tiddler`, `hgsd-new-source` (`modal` or `picker`) |
 |Row fragments |`currentTiddler` (the row's item) |
 |Link fragments |`linked-tiddler` (the link target) with the host's ambient scope intact |

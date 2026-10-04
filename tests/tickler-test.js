@@ -165,8 +165,8 @@ t("alert tags exactly day and week", JSON.stringify(wiki.filterTiddlers("[[$:/ta
 t("members are data-only (no body to drift)", ["day","week","month","year"].every(m => (wiki.getTiddler("$:/plugins/yan/hypergsd-ticklers/ui/shift/" + m).fields.text || "") === ""));
 
 // ── Section gating + Grade-2 pass-through data temp ──────────────────────────
-const modalSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-temp="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let>`;
-const modalRepeatSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-temp="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat" $mode="block"/></$let>`;
+const modalSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-data-title="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let>`;
+const modalRepeatSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-data-title="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat" $mode="block"/></$let>`;
 const clearTip = (wiki.getTiddlerText("$:/language/hypergsd/Sections/Tickler/Clear/Hint") || "").trim();
 const findClearButton = r => { let btn = null; (function f(n){ if(!n||btn||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
   if(n.parseTreeNode && n.parseTreeNode.tag === "$button" && (n.domNodes||[])[0] && (n.domNodes[0].attributes || {}).title === clearTip) { btn = n; return; }

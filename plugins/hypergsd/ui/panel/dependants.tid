@@ -21,7 +21,7 @@ title: $:/plugins/yan/hypergsd/ui/panel/dependants
       direction="item"
       list-filter="[tag[$:/GSD/Action]gsd_complete[false]] -[<currentTiddler>]"
       group-by="gsd_project"
-      none-title={{$:/language/hypergsd/Sections/PrereqOf/Choose}}
+      none-label={{$:/language/hypergsd/Sections/PrereqOf/Choose}}
       new-type="action"
       new-status="future"
       new-project={{!!gsd_project}}

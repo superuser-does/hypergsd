@@ -18,7 +18,7 @@ let fails = 0;
 const t = (name, got, want) => { const ok = JSON.stringify(got) === JSON.stringify(want); if (!ok) fails++; console.log((ok ? "PASS " : "FAIL ") + name + (ok ? "" : " got:" + JSON.stringify(got))); };
 
 const panelCtx = (src, host) => `<$tiddler tiddler="${host}"><$let section-target="${host}" section-mode="panel" section-status-target="${host}" section-type={{{ [is[current]tag[$:/GSD/Action]then[action]else[project]] }}}>${src}</$let></$tiddler>`;
-const modalCtx = (src, type, temp, state, gsdStatus) => `<$let section-target="${temp}" section-type="${type}" section-mode="modal" section-status-target="${state}" new-temp="${temp}" new-state="${state}" current-type="${type}" gsd-status="${gsdStatus || "next"}" gsd-project="">${src}</$let>`;
+const modalCtx = (src, type, temp, state, gsdStatus) => `<$let section-target="${temp}" section-type="${type}" section-mode="modal" section-status-target="${state}" new-data-title="${temp}" new-state="${state}" current-type="${type}" gsd-status="${gsdStatus || "next"}" gsd-project="">${src}</$let>`;
 const render = (inner, imports) => {
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + inner + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
@@ -136,7 +136,7 @@ t("project modal: host action untouched by modal drafting",
   const src = (wiki.getTiddler("$:/plugins/yan/hypergsd/ui/new-gsd-modal") || {fields: {}}).fields.text || "";
   const wl = (src.match(/<\$refresh subfilter="([^"]+)"/) || [])[1] || "";
   t("modal whitelist: scoped add- pair present and FIRST (the :and trap)",
-    [wl.indexOf("[prefix[$:/temp/hypergsd/add-]] :and[suffix<new-temp>]") === 0,
+    [wl.indexOf("[prefix[$:/temp/hypergsd/add-]] :and[suffix<new-data-title>]") === 0,
      wl.indexOf("[prefix[$:/temp/hypergsd/add-]] :and") < wl.indexOf("[tag[$:/tags/hypergsd/ModalTemplate]]")],
     [true, true]);
 })();

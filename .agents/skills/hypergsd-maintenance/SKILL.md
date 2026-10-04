@@ -134,7 +134,7 @@ Single-operand `match[x]then[..]else[..]` works. For "if none of these match" se
 A filter run must not contain another bracketed run — `[ [<var>get[field]] :and[tag[x]] ]` is a parse error ("Missing [ in filter expression"). Each source pipeline must be its own top-level run; validate or transform the combined output with trailing modifier runs instead:
 
 ```
-{{{ [<new-temp>get[gsd_context]] [[$:/state/x]get[text]] +[tag[$:/GSD/Contact]] +[unique[]] }}}
+{{{ [<new-data-title>get[gsd_context]] [[$:/state/x]get[text]] +[tag[$:/GSD/Contact]] +[unique[]] }}}
 ```
 
 ### Keep the modal's tag computation in `hgsd-modal-submit`

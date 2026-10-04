@@ -16,7 +16,7 @@ Each member is transcluded with these variables:
 * `new-type` — its GSD type
 * `calling-tiddler` — the tiddler whose panel the creation came from; blank
   when invoked outside the story river (toolbar, sidebar)
-* `new-temp`, `new-state` — the modal's two temps
+* `new-data-title`, `new-state` — the modal's two temps
 
 Tag rules send `tm-add-tag` within the surrounding fieldmangler (they render
 inside the created tiddler). Field-writing rules are pointless: the pass-through

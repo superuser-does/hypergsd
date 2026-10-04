@@ -14,7 +14,7 @@ A one-row list adder wrapping `<$hgsd.pick>` — the pick family's list member, 
 |list-filter |— |''Required.'' Candidate filter for the inner picker |
 |direction |`own` |The one semantic bit: `own` appends the picked title to the target's field; `item` appends the target's title to the ''picked'' tiddler's field (the mirror side — the other action gains the prerequisite) |
 |group-by |(blank) |Field to group the picker's candidates by |
-|none-title |(blank) |Placeholder text of the picker's empty option |
+|none-label |(blank) |Placeholder text of the picker's empty option |
 |search-mode |`extended` |The inner picker's search mode |
 |new-type |(blank) |Type tag for create-and-add / the new button; blank omits both |
 |new-status |`next` |Status written to created tiddlers |

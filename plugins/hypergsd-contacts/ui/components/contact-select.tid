@@ -32,7 +32,7 @@ hgsd-strip-host: Actions by contact
         field="hgsd-pick"
         id="contact-filter"
         list-filter="[tag[$:/GSD/Contact]]"
-        none-title={{$:/language/hypergsd/Lists/ContactFilter/Choose}}
+        none-label={{$:/language/hypergsd/Lists/ContactFilter/Choose}}
         search-mode="extended"/>
     </$keyboard>
     <$button actions="""<$transclude $variable="hgsd-contact-add"/>""">

@@ -28,9 +28,9 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/pills
 <!-- Pill colour classes are generated per status from the hgsd-status-colours dictionary -->
 <$list variable="status-colour-type" filter="[[action]] [[project]]">
 <$list variable="status-colour-status" filter="[function[hgsd-status-set],<status-colour-type>]">
-<$let k={{{ [<status-colour-type>addsuffix[-]addsuffix<status-colour-status>] }}}
-  kb={{{ [<status-colour-type>addsuffix[-]addsuffix<status-colour-status>addsuffix[-border]] }}}>
-.<$text text=<<k>>/>&#x20;{&#x2D;&#x2D;pill-bg:{{{ [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]getindex<k>else[#888888]] }}};&#x2D;&#x2D;pill-fg:{{{ [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]getindex<kb>else[#666666]] }}};
+<$let pill-class={{{ [<status-colour-type>addsuffix[-]addsuffix<status-colour-status>] }}}
+  pill-border-index={{{ [<status-colour-type>addsuffix[-]addsuffix<status-colour-status>addsuffix[-border]] }}}>
+.<$text text=<<pill-class>>/>&#x20;{&#x2D;&#x2D;pill-bg:{{{ [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]getindex<pill-class>else[#888888]] }}};&#x2D;&#x2D;pill-fg:{{{ [[$:/plugins/yan/hypergsd/ui/stylesheet/hgsd-status-colours]getindex<pill-border-index>else[#666666]] }}};
 }
 </$let>
 </$list>

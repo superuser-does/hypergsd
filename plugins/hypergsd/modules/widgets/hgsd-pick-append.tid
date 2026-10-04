@@ -3,18 +3,18 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-append
 
 \whitespace trim
 
-<!-- One-row list adder over $hgsd.pick — the pick family's list member, sibling of $hgsd.pick-field (the three-state single-value editor). direction carries the same bit and vocabulary the prereq row procedure uses: "own" appends the picked title to target's field (the DependsOn panel), "item" appends target's title to the PICKED tiddler's field (PrereqOf — the mirror side, where "adding" means the other action gains the prerequisite). The keyboard commit (the $keyboard binding, Enter by default) routes through hgsd-pick-keyboard-commit (in hgsd-pick.tid): the create-vs-append fork — including the pick's existence check — evaluates ONLY at keypress inside the keyboard's actions string, so panel renders pay nothing (the 2026-09-27 reason the fork is never precomputed at render; the instant-commit dispatcher already ran this way). The button row declares its affordances in order through one elseif chain on the same create gate (a non-blank pick that names no tiddler shows the create-and-add button — via hgsd-new-options, the kind-mapped wrapper — in the commit slot; an existing pick shows Add; a blank box shows only hgsd-new-fallback's plain new button): one commit affordance per pick state. hgsd-new-options receives the same bit as its kind (create-fork shape). add-temp is deterministic per id plus write target (qualify() would collide two simultaneously open tiddlers) and lives under the prefix the view-body refresh guard whitelists. tooltip/caption override the new-button fallback's generic strings (blank = generic); new-project/new-complete pass through to the created action. -->
-\widget $hgsd.pick-append(field, tiddler:"", id, list-filter, direction:"own", group-by:"", none-title:"", search-mode:"extended", new-type:"", new-status:"next", new-update-status:"no", new-project:"", new-complete:"false", tooltip:"", caption:"")
+<!-- One-row list adder over $hgsd.pick — the pick family's list member, sibling of $hgsd.pick-field (the three-state single-value editor). direction carries the same bit and vocabulary the prereq row procedure uses: "own" appends the picked title to target's field (the DependsOn panel), "item" appends target's title to the PICKED tiddler's field (PrereqOf — the mirror side, where "adding" means the other action gains the prerequisite). The keyboard commit (the $keyboard binding, Enter by default) routes through hgsd-pick-keyboard-commit (in hgsd-pick.tid): the create-vs-append fork — including the pick's existence check — evaluates ONLY at keypress inside the keyboard's actions string, so panel renders pay nothing (the 2026-09-27 reason the fork is never precomputed at render; the instant-commit dispatcher already ran this way). The button row declares its affordances in order through one elseif chain on the same create gate (a non-blank pick that names no tiddler shows the create-and-add button — via hgsd-new-options, the kind-mapped wrapper — in the commit slot; an existing pick shows Add; a blank box shows only hgsd-new-fallback's plain new button): one commit affordance per pick state. hgsd-new-options receives the same bit as its kind (create-fork shape). pick-tiddler-title is deterministic per id plus write target (qualify() would collide two simultaneously open tiddlers) and lives under the prefix the view-body refresh guard whitelists. tooltip/caption override the new-button fallback's generic strings (blank = generic); new-project/new-complete pass through to the created action. -->
+\widget $hgsd.pick-append(field, tiddler:"", id, list-filter, direction:"own", group-by:"", none-label:"", search-mode:"extended", new-type:"", new-status:"next", new-update-status:"no", new-project:"", new-complete:"false", tooltip:"", caption:"")
 <$let target={{{ [<tiddler>!match[]then<tiddler>else<currentTiddler>] }}}>
-<$let add-temp={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
+<$let pick-tiddler-title={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
 <div class="gsd-list-item hgsd-sizer-droplist">
   <div>
   <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
   <$hgsd.pick
-    tiddler=<<add-temp>>
+    tiddler=<<pick-tiddler-title>>
     list-filter=<<list-filter>>
     group-by=<<group-by>>
-    none-title=<<none-title>>
+    none-label=<<none-label>>
     search-mode=<<search-mode>>
     id=<<id>>
     commit-kind={{{ [<direction>match[item]then[append-to-picked]else[append]] }}}
@@ -24,19 +24,19 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-append
   </$keyboard>
   </div>
   <div>
-  <%if [<add-temp>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
+  <%if [<pick-tiddler-title>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
     <$transclude $variable="hgsd-new-options" kind=<<direction>>/>
-  <%elseif [<add-temp>get[hgsd-pick]!match[]] %>
+  <%elseif [<pick-tiddler-title>get[hgsd-pick]!match[]] %>
   <%if [<direction>match[item]] %>
   <$button>
-    <$action-listops $tiddler={{{ [<add-temp>get[hgsd-pick]] }}} $field=<<field>> $subfilter="[<currentTiddler>]" />
-    <$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>
+    <$action-listops $tiddler={{{ [<pick-tiddler-title>get[hgsd-pick]] }}} $field=<<field>> $subfilter="[<currentTiddler>]" />
+    <$action-setfield $tiddler=<<pick-tiddler-title>> hgsd-pick=""/>
     {{$:/language/EditTemplate/Fields/Add/Button}}
   </$button>
   <%else%>
   <$button>
-    <$action-listops $tiddler=<<target>> $field=<<field>> $subfilter="[<add-temp>get[hgsd-pick]]" />
-    <$action-setfield $tiddler=<<add-temp>> hgsd-pick=""/>
+    <$action-listops $tiddler=<<target>> $field=<<field>> $subfilter="[<pick-tiddler-title>get[hgsd-pick]]" />
+    <$action-setfield $tiddler=<<pick-tiddler-title>> hgsd-pick=""/>
     {{$:/language/EditTemplate/Fields/Add/Button}}
   </$button>
   <%endif%>

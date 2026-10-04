@@ -11,10 +11,10 @@ title: $:/plugins/yan/hypergsd/ui/attributes/status
 <%if [<section-target>get[gsd_complete]else[false]match[false]] %>
 <fieldset class="hgsd-interactive">
   <legend class="hgsd-screen-reader-only"><<lingo Status/Legend>></legend>
-  <$let type-mem-field={{{ [<section-type>addsuffix[_status]addprefix[gsd_]] }}}>
+  <$let type-memory-field={{{ [<section-type>addsuffix[_status]addprefix[gsd_]] }}}>
   <%if [<section-mode>match[modal]] %>
-    <%if [<section-status-target>has<type-mem-field>] %>
-      <$let display-status={{{ [<section-status-target>get<type-mem-field>] }}}><$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status=<<display-status>>/></$let>
+    <%if [<section-status-target>has<type-memory-field>] %>
+      <$let display-status={{{ [<section-status-target>get<type-memory-field>] }}}><$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status=<<display-status>>/></$let>
     <%elseif [function[hgsd-status-set],<section-type>match<gsd-status>] %>
       <$transclude $variable="hgsd-status-radios" target-tiddler=<<section-status-target>> current-type=<<section-type>> current-status=<<gsd-status>>/>
     <%else%>

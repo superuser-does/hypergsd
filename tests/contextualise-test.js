@@ -138,7 +138,7 @@ const renderOpen = (host, listFilter, heading) => {
     typeof n.set === "string" && n.set.indexOf("$:/state/hypergsd/contextualise") === 0);
   t("rows do not share a state title", new Set(toggles.map(b => b.set)).size === toggles.length, true);
   t("reveal opened through gate", collect(c).selects.length >= 1, true);
-  t("options = both contexts + none-title", collect(c).selects[0], ["", "@out and about", "@Phone"]); // sort[] is case-insensitive
+  t("options = both contexts + none-label", collect(c).selects[0], ["", "@out and about", "@Phone"]); // sort[] is case-insensitive
 }
 
 // --- 2b. the reveal opens through the DASHBOARD CHASSIS gate as well ---
