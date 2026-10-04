@@ -1,8 +1,0 @@
-title: $:/plugins/kookma/trashbin/restore-notification
-type: text/vnd.tiddlywiki
-
-{{$:/plugins/kookma/trashbin/images/recycle}} 
-
-''Warning''<br>
-The target tiddler <b><$text text=<<restoredTiddler>>/></b> already exists.<br>
-It cannot be overwritten!
