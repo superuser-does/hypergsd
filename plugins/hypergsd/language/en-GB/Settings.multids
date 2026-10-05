@@ -12,7 +12,7 @@ Behaviour/Caption: Behaviour
 Behaviour/NewActionNavigate: Navigate to new actions upon creation
 Behaviour/NewProjectNavigate: Navigate to new projects upon creation
 Behaviour/InheritTags: Inherit the tiddler's tags when creating from its panel
-Behaviour/InheritTags/Prompt: //Enable to have new items copy the tiddler's non-GSD tags. Certain GSD tags, such as realms, are inherited separately and are not affected by this switch.//
+Behaviour/InheritTags/Prompt: Enable to have new items copy the tiddler's non-GSD tags. Certain GSD tags, such as realms, are inherited separately and are not affected by this setting.
 Behaviour/PickerInstantCommit: Commit picker selections instantly:
 Behaviour/PickerInstantCommit/Fine: For fine pointers (mouse input)
 Behaviour/PickerInstantCommit/Coarse: For coarse pointers (touch input)

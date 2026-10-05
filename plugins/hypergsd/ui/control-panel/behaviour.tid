@@ -20,7 +20,7 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/behaviour
   field="text" checked="yes" unchecked="no" default="yes"
   class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/inherit-tags" class="tc-tiny-gap-left"><<lingo Behaviour/InheritTags>></$link></$checkbox><br/>
-<<lingo Behaviour/InheritTags/Prompt>>
+//<<lingo Behaviour/InheritTags/Prompt>>//
 
 <$checkbox tiddler="$:/config/hypergsd/new-action-navigate"
   field="text" checked="yes" unchecked="no" default="yes"
