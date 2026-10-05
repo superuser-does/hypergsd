@@ -5,8 +5,14 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Lists/
 
-<!-- Refresh gate (outside the type test: without it the is[current]tag condition re-evaluated on every global cycle, per open page — same fix as view-body and the placement slot). Admission: the type test's own input ([tag[GSD/Contexts]], input-driven), the machinery below (type-gate, config/state prefixes — the group-by checkbox writes $:/state/hypergsd/context-group — gsd-list temps, pick popups, the row fragment's add-context temp, ListItem runs), member-list edits (ContextAction tag/prefix runs: a new member matches tag[], drag-reorder and untag write the tag tiddler itself, which prefix[] catches), deletions. -->
-<$refresh subfilter="[tag[GSD/Contexts]] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [tag[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/temp/hypergsd/add-context-]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [!is[tiddler]] -[is[draft]]">
+<!-- Gate composition for the context page's freeze (below): ListItem fragment runs, ContextAction member runs and the transitive strip runs (section-portions.tid's derivations), plus the base. The contexts fragment's pick temp arrives via its own hgsd-refresh-whitelist declaration — no hand-copied run. -->
+\function hgsd-view-body-context-whitelist(base-whitelist:"[tag[GSD/Contexts]] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [tag[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [!is[tiddler]] -[is[draft]]")
+[function[hgsd-listitem-feature-runs]] [function[hgsd-member-feature-runs]] [function[hgsd-chassis-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
+\end
+
+<!-- Refresh gate (outside the type test: without it the is[current]tag condition re-evaluated on every global cycle, per open page — same fix as view-body and the placement slot). Admission: the type test's own input ([tag[GSD/Contexts]], input-driven), the machinery below (type-gate, config/state prefixes — the group-by checkbox writes $:/state/hypergsd/context-group — gsd-list temps, pick popups, ListItem runs), member-list edits (ContextAction tag/prefix runs: a new member matches tag[], drag-reorder and untag write the tag tiddler itself, which prefix[] catches), feature-owned runs derived from hgsd-refresh-whitelist declarations, deletions. -->
+<$let tag-list="$:/tags/hypergsd/Lists/ContextAction" strip-hosts-regex={{{ [[$:/tags/hypergsd/Lists/ContextAction]] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
+<$refresh subfilter={{{ [function[hgsd-view-body-context-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Lists/ContextAction $:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix $:/tags/hypergsd/Strip">
 <%if [is[current]tag[GSD/Contexts]] %>
 <div class="context-view-template">
   <h3><<lingo Context/Heading>></h3>
@@ -31,3 +37,4 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
 </div>
 <%endif%>
 </$refresh>
+</$let>

@@ -14,8 +14,8 @@ HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when 
 
 | !Surface you add | !Wakes on (no action needed for these) |
 |Panel or modal section (`$:/tags/hypergsd/PanelTemplate` / `ModalTemplate`) |your section tiddler's edits, the item's edits (type gate), the type tag list, `$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`, the picker temps `$:/temp/hypergsd/add-<id>-<target>` (scoped per host), the modal's own temp/state tiddlers, ListItem tag-list edits |
-|Dashboard or view list (an `$hgsd.list` instance via the list tag lists) |item edits and deletions, realm tag-tiddler edits, `$:/config/hypergsd/*`, per-list collapse states, ListItem tag-list edits, the contextualise namespaces |
-|Dashboard page chassis (`hgsd-dashboard-portions`) |tag list/membership edits, per-list visibility config, and the page's own `$hgsd.toggle` state writes (scoped `show-completed` prefix runs with a subtraction that drops other pages' toggles) — a member using a custom `state-prefix` on the toggle must add matching runs to this gate |
+|Dashboard or view list (an `$hgsd.list` instance via the list tag lists) |item edits and deletions, realm tag-tiddler edits, `$:/config/hypergsd/*`, per-list collapse states, ListItem tag-list edits, every fragment and strip declaration (your own included) |
+|Dashboard page chassis (`hgsd-dashboard-portions`) |tag list/membership edits, per-list visibility config, and the page's own `$hgsd.toggle` state writes (scoped `show-completed` prefix runs with a subtraction that drops other pages' toggles) — a member using a custom `state-prefix` on the toggle must declare the matching prefixes in its `hgsd-refresh-whitelist` field |
 |Row fragment (`$:/tags/hypergsd/ListItem/Prefix` or `/Suffix`) |''the row's own item'' changing, ListItem tag-list edits, per-fragment visibility config — plus anything you declare yourself (below) |
 |Link fragment (`$:/tags/hypergsd/LinkItem`) |the link target changing (renders inside the host's gates); the realm globe reads `$:/config/hypergsd/realm-selection`, already covered |
 |Portion placement |portions are ordinary tag-list members — no refresh implications beyond the row's own item |
@@ -23,7 +23,7 @@ HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when 
 
 ! The one thing you may need: a `hgsd-refresh-whitelist` field
 
-If a fragment renders from state tiddlers ''of its own'' (a reveal, a picker, a feature toggle), declare them on the fragment tiddler:
+If anything you ship renders state tiddlers ''of its own'' (a reveal, a picker, a feature toggle), declare them in an `hgsd-refresh-whitelist` field on the member tiddler — the same contract whatever you are adding: a row fragment (`$:/tags/hypergsd/ListItem/Prefix` or `/Suffix`), a Strip member, a dashboard Lists member, or a ViewPlacement body. Every gate that renders the member composes your field: the row freeze, the list engine's outer and per-list gates, the dashboard chassis, the view gates and the placement slot. A Lists member hosting a strip control carries `hgsd-heading` (the chassis resolves it to find the strip). Scoped `:and` pairs (per-host temps like the modal's `add-` pair) stay hand-written in the host gates.
 
 ```
 title: $:/plugins/MyPlugin/ui/list-items/due-date
@@ -31,18 +31,18 @@ tags: $:/tags/hypergsd/ListItem/Suffix
 hgsd-refresh-whitelist: [prefix[$:/state/MyPlugin/due]] [prefix[$:/temp/MyPlugin/due]]
 ```
 
-Rules: each entry is a single bracketed filter run, entries separated by spaces (no bare spaces inside a run). The row's own item, the tag lists and visibility config are already in the engine's base — do not repeat them. The field is read per list render, so editing it takes effect immediately. The same applies to feature configs: any tiddler titled under `$:/config/hypergsd/…` (the contextualise chips' `$:/config/hypergsd/Contexts/show-contexts`, for example) is admitted by every gate's base prefix run, so a fragment gated on such a config needs no whitelist entry at all.
+Rules: each entry is a single bracketed filter run, entries separated by spaces (no bare spaces inside a run). The row's own item, the tag lists and visibility config are already in the engine's base — do not repeat them. Each gate composes the field when it derives its whitelist, and member fields are fingerprinted, so editing it takes effect immediately. The same applies to feature configs: any tiddler titled under `$:/config/hypergsd/…` (the contextualise chips' `$:/config/hypergsd/Contexts/show-contexts`, for example) is admitted by every gate's base prefix run, so a fragment gated on such a config needs no whitelist entry at all.
 
 ! Worked examples from the shipped sub-plugins
 
 * ''Contacts'' — the free case: its contact sections use `$hgsd.pick-field`, whose temps (`$:/temp/hypergsd/add-…`) and popups (`$:/state/popup/pick-…`) are chassis-whitelisted, and its per-contact lists are `$hgsd.list` instances. Nothing refresh-related was needed.
 * ''Ticklers'' — the in-row date input opens a picker popup under `$:/state/popup/pick-…`; its fragment (`ui/list-items/tickler`) declares `[prefix[$:/state/popup/pick-]]` in a `hgsd-refresh-whitelist` field. Before the field existed, this required a main-plugin whitelist edit.
-* ''Contexts'' — the contextualise fragment keeps feature state under `$:/state/hypergsd/contextualise` (per-copy titles: row + group + list scope) plus popup/temp prefixes; its `hgsd-refresh-whitelist` field declares all three. (The list engine's own gates also carry these as pass-through runs, because the feature's popups live ''inside'' the frozen list derivation — see below.)
+* ''Contexts'' — the contextualise fragment keeps feature state under `$:/state/hypergsd/contextualise` (per-copy titles: row + group + list scope) plus popup/temp prefixes; its `hgsd-refresh-whitelist` field declares all three, and every gate above the rows (the list engine's outer and per-list gates, the dashboard chassis, the view gates) derives them from that field, because the popups live ''inside'' the frozen list derivation.
 
 ! Outside rows and links
 
 * A panel/modal ''section'' with custom state: put it under a covered namespace (`$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`) and nothing is needed. Anything else currently requires a main-plugin gate edit — file it upstream; the panel gate lives in `ui/ViewTemplate/view-body`.
-* State that must reach ''inside'' frozen lists beyond row content (the derivation itself): the outer gates carry pass-through runs for the contextualise namespaces as the worked example — same upstream route.
+* State that must reach ''inside'' frozen lists beyond row content (the derivation itself): declare it on the member that renders it — the outer gates and the chassis derive their feature runs from `hgsd-refresh-whitelist` fields, the same contract as rows.
 * New-item modal sections: the chassis provides `new-data-title`/`new-state`; section edits and the type tag list already wake the modal.
 
 ! Recursion safety

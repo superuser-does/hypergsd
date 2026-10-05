@@ -78,38 +78,38 @@ const check = (name, got, want) => {
   console.log((ok ? "PASS " : "FAIL ") + name + (ok ? "" : " got:" + JSON.stringify(got) + " want:" + JSON.stringify(want)));
 };
 
-// 1. Main dashboard: default composition and order (by-contact seeded hidden, completed in collapsed reveal)
+// 1. Main dashboard: default composition and order (by-contact seeded hidden, completed in collapsed reveal; the roster left the dashboard with 4356189)
 check("main default composition",
-  render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Next actions", "Active projects", "Future actions", "Future projects", "Contact list", "Waiting actions"]);
-
-// 2. Visibility toggle hides a list (checkbox state tiddler)
-wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/contact-list"), text: "hide"});
-check("hide Contact list via visibility",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
   ["Next actions", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
 
+// 2. Visibility toggle hides a list (checkbox state tiddler)
+wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd/ui/lists/future-project-list"), text: "hide"});
+check("hide Future projects via visibility",
+  render("GSD/Dashboard").filter(t => !t.includes("items")),
+  ["Next actions", "Active projects", "Future actions", "Waiting actions"]);
+wiki.deleteTiddler(vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd/ui/lists/future-project-list"));
+
 // 3. Seeded-hidden member appears when enabled (joins Portion/1 unlisted; the flat list stays Portion/2)
-wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/contact-list"), text: "show"});
 wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact"), text: "show"});
 check("enable by-contact variant",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Next actions", "Waiting actions by contact", "Active projects", "Future actions", "Future projects", "Contact list", "Waiting actions"]);
+  ["Next actions", "Waiting actions by contact", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
 wiki.deleteTiddler(vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact"));
 
-// 4. Drag-reorder = tag tiddler list field write: Contacts pinned first
+// 4. Drag-reorder = tag tiddler list field write: future projects pinned first (within Portion/1;
+// waiting keeps its explicit Portion/2 tag, completed stay in the Full band)
 wiki.addTiddler({title: "$:/tags/hypergsd/Lists/Dashboard", list: [
-  "$:/plugins/yan/hypergsd-contacts/ui/lists/contact-list",
+  "$:/plugins/yan/hypergsd/ui/lists/future-project-list",
   "$:/plugins/yan/hypergsd/ui/lists/next-action-list",
   "$:/plugins/yan/hypergsd/ui/lists/active-project-list",
-  "$:/plugins/yan/hypergsd/ui/lists/waiting-action-list",
   "$:/plugins/yan/hypergsd/ui/lists/future-action-list",
-  "$:/plugins/yan/hypergsd/ui/lists/future-project-list",
+  "$:/plugins/yan/hypergsd/ui/lists/waiting-action-list",
   "$:/plugins/yan/hypergsd/ui/lists/completed-action-list",
   "$:/plugins/yan/hypergsd/ui/lists/completed-project-list"]});
 check("list-field reorder honored",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Contact list", "Next actions", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
+  ["Future projects", "Next actions", "Active projects", "Future actions", "Waiting actions"]);
 
 // 5. Completed lists are self-lazy ($hgsd.toggle inside the members): collapsed
 // by default (button, no heading); one per-page state opens both (shared default);

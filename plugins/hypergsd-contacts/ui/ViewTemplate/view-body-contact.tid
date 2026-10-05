@@ -2,19 +2,26 @@ title: $:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact
 
 \whitespace trim
 
+<!-- Gate composition for the contact view's freeze (below): ListItem fragment runs, ContactAction member runs and the transitive strip runs (section-portions.tid's derivations), plus the base — the base's scoped subtraction runs stay literal data until the subfilter evaluates them. -->
+\function hgsd-view-body-contact-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [prefix[$:/config/hypergsd]] [prefix[$:/temp/gsd-list/]] [prefix[$:/state/hypergsd/show-completed/]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] -[prefix[$:/temp/gsd-list/]!prefix<this-list-prefix>] -[prefix[$:/state/hypergsd/show-completed/]!suffix<currentTiddler>] -[is[draft]]")
+[function[hgsd-listitem-feature-runs]] [function[hgsd-member-feature-runs]] [function[hgsd-chassis-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
+\end
+
 <% if [is[current]tag[$:/GSD/Contact]] %>
 <div class="project-view-template">
-<!-- Freezes the view against the global refresh cycle. Scoped by SUBTRACTION runs (a second :and chain would wipe the first's output): the additive runs let item/config changes and ALL temps through, then the subtraction runs drop OTHER hosts' temps, so a toggle or collapse in one view refreshes only that view. A host name that is a prefix/suffix of another host's over-refreshes — never under-refreshes. -->
+<!-- Freezes the view against the global refresh cycle. Scoped by SUBTRACTION runs (a second :and chain would wipe the first's output): the additive runs let item/config changes and ALL temps through, then the subtraction runs drop OTHER hosts' temps, so a toggle or collapse in one view refreshes only that view. A host name that is a prefix/suffix of another host's over-refreshes — never under-refreshes. Feature-owned runs (row fragments, ContactAction members, strips hosted on their lists) are derived from hgsd-refresh-whitelist declarations. -->
 <$let this-list-prefix={{{ [[$:/temp/gsd-list/]addsuffix<currentTiddler>] }}} >
-<$refresh subfilter="[subfilter<hgsd-type-gate>] [prefix[$:/config/hypergsd]] [prefix[$:/temp/gsd-list/]] [prefix[$:/state/hypergsd/show-completed/]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [prefix[$:/state/hypergsd/contextualise]] [prefix[$:/state/popup/pick-contextualise]] [prefix[$:/temp/hypergsd/add-context-]] -[prefix[$:/temp/gsd-list/]!prefix<this-list-prefix>] -[prefix[$:/state/hypergsd/show-completed/]!suffix<currentTiddler>] -[is[draft]]">
+<$let tag-list="$:/tags/hypergsd/Lists/ContactAction" strip-hosts-regex={{{ [[$:/tags/hypergsd/Lists/ContactAction]] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
+<$refresh subfilter={{{ [function[hgsd-view-body-contact-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Lists/ContactAction $:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix $:/tags/hypergsd/Strip">
 <!-- Centralised O(1) event listener for all checkboxes and buttons in this view. -->
 <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
   <!-- Every block is a $hgsd.list invocation, so realm scoping, grouping, frozen refresh and the shared row composer all apply. Member visibility and drag-reorder are admitted by the hgsd-dashboard-portions gate this row now transcludes (the chassis carries its own refresh); the completed list is a Portion/Full member that self-toggles via $hgsd.toggle. section-target carries the contact past the chassis's block-mode transclusion, mirroring view-body-project. -->
   <$set name="section-target" value=<<currentTiddler>>>
-    <$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/ContactAction" visibility-base="$:/config/hypergsd/Lists/ContactAction/visibility/"/>
+    <$transclude $variable="hgsd-dashboard-portions" tag-list=<<tag-list>> visibility-base="$:/config/hypergsd/Lists/ContactAction/visibility/"/>
   </$set>
 </$eventcatcher>
 </$refresh>
+</$let>
 </$let>
 </div>
 <% endif %>
