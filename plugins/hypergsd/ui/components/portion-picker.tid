@@ -8,7 +8,7 @@ title: $:/plugins/yan/hypergsd/ui/components/portion-picker
   state-ref={{{ [[$:/state/hypergsd/portion/]addsuffix<currentTiddler>addsuffix[!!text]] }}}>
   <$select tiddler=<<state-title>> default={{{ [all[current]tags[]prefix<portion-prefix>first[]else<default-portion>] }}} actions="<$action-listops $tiddler=<<currentTiddler>> $tags='+[!prefix<portion-prefix>] [list<state-ref>] +[unique[]]'/>">
     <option value=<<top-portion>>>{{$:/language/hypergsd/Settings/PanelModal/PortionTop}}</option>
-    <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] [<next-free-portion-tag>] +[unique[]] +[sort[]]" variable="portion-option">
+    <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] [<next-free-portion-tag>] +[unique[]sort[]]" variable="portion-option">
       <option value=<<portion-option>>><$text text={{{ [<portion-option>removeprefix<portion-prefix>] }}}/></option>
     </$list>
     <option value=<<full-portion>>>{{$:/language/hypergsd/Settings/PanelModal/PortionFull}}</option>

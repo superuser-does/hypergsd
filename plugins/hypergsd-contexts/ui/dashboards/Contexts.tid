@@ -28,7 +28,7 @@ title: GSD/Contexts
 </div>
 
 <ul>
-<$list filter="[tag[GSD/Contexts]!is[draft]sort[title]]">
+<$list filter="[tag[GSD/Contexts]!is[draft]]">
   <li><$link to=<<currentTiddler>>><$view field="title"/></$link></li>
 </$list>
 </ul>

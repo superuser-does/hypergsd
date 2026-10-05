@@ -10,8 +10,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-convert
 <!-- newline: a real newline for the confirm message (native dialogs render \n as a line break). Built via decodeuricomponent because entities don't decode inside triple-brace filter attributes, and a trailing empty operand breaks the attribute scanner — hence the else[newline] guard. -->
 <$let encoded-newline={{{ [[%0A]] }}}>
 <$let newline={{{ [<encoded-newline>decodeuricomponent[]else[newline]] }}}>
-<$let always-warnings={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[!has[hgsd-conditions]] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<newline>] }}}>
-<$let conditional-warnings={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map[get[hgsd-warning]] +[addprefix[$:/language/hypergsd/Convert/Warnings/]] :map[get[text]] +[join<newline>] }}}>
+<$let always-warnings={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[!has[hgsd-conditions]] :map[get[hgsd-warning]addprefix[$:/language/hypergsd/Convert/Warnings/]get[text]] +[join<newline>] }}}>
+<$let conditional-warnings={{{ [[$:/tags/hypergsd/Convert/Warning]] :and[tagging[]] :filter[has[hgsd-conditions]subfilter{!!hgsd-conditions}] :map[get[hgsd-warning]addprefix[$:/language/hypergsd/Convert/Warnings/]get[text]] +[join<newline>] }}}>
 <$let always-warnings-segment={{{ [<always-warnings>!match[]addprefix<newline>] }}}>
 <$let conditional-warnings-segment={{{ [<conditional-warnings>!match[]addprefix<newline>] }}}>
 <$let confirm-message={{{ [[$:/language/hypergsd/Convert/Base]] :map[get[text]] +[addsuffix<always-warnings-segment>] +[addsuffix<conditional-warnings-segment>] }}}>

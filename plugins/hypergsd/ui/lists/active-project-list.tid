@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd/ui/lists/active-project-list
 
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/ActiveProjects}}
-  list-filter="[tag[$:/GSD/Project]gsd_status[active]gsd_complete[false]sort[title]]" 
+  list-filter="[tag[$:/GSD/Project]gsd_status[active]gsd_complete[false]]" 
   group-select="yes"
   sort-select="yes"
   sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"

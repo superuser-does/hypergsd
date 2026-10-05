@@ -5,5 +5,5 @@ title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-waiting-action-list
 
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/WaitingActions}}
-  list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_status[waiting]gsd_complete[false]] +[sort[title]]"
+  list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_status[waiting]gsd_complete[false]]"
   add-button=<<new-contact-waiting-button>>/>

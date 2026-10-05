@@ -22,7 +22,7 @@ title: $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
   </span>
   <hr/>
   <$reveal state=<<listState>> type="match" text="show" default="show" retain="yes">
-    <$list filter="[tag[$:/GSD/Reference]!is[draft]gsd_project<currentTiddler>sort[title]]">
+    <$list filter="[tag[$:/GSD/Reference]!is[draft]gsd_project<currentTiddler>]">
       <<hgsd-item>>
     </$list>
   </$reveal>

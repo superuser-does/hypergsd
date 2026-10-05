@@ -14,8 +14,8 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-action-list
   unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedAction">
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
-  list-filter="[tag[$:/GSD/Action]gsd_complete[true]sort[title]!nsort[gsd_comp_date]]"
+  list-filter="[tag[$:/GSD/Action]gsd_complete[true]]"
   group-select="yes"
   sort-select="yes"
-  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" /> <!-- title pre-sort is the tiebreak for equal timestamps; undated legacy items sink -->
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" /> <!-- rows take their order from the strip (completed-desc sinks undated legacy items; ties fall to the default title order) -->
 </$hgsd.toggle>

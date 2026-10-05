@@ -215,8 +215,10 @@ plugins/hypergsd/
 │       │                        filter attributes — a triple-brace $let attr
 │       │                        with a multi-item :map silently evaluates EMPTY;
 │       │                        :map:flat for multi-key items;
-│       │                        :and[unique[]sort[title]!match[]] dedupes (a
-│       │                        +[unique[]] append does not). The scoped
+│       │                        :and[unique[]sort[title]!match[]] dedupes — a
+│       │                        merged +[unique[]…] run does too (5.4.1 probe;
+│       │                        the old non-dedupe claim was the triple-brace
+│       │                        bug). The scoped
 │       │                        list-group prefix pair is whitelisted in THREE
 │       │                        gates (chassis, outer derivation, inner freeze)
 │       │                        — miss one and the strip freezes shut live.

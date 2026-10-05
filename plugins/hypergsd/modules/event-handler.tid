@@ -34,7 +34,7 @@ title: $:/plugins/yan/hypergsd/modules/event-handler
 
 \procedure hgsd-handle-complete-event(item-title)
 <%if [<dom-data-hgsd-action>match[complete]] %>
-  <%if [<item-title>get[gsd_complete]else[false]match[true]] %>
+  <%if [<item-title>gsd_complete[true]] %>
     <$transclude $variable="hgsd-do-complete" item-title=<<item-title>>/>
   <%else%>
     <!-- Completion warning: the tag's list field IS the membership ([list[]], not tagging[] — a deleted entry retires its warning). host-title must be bound BEFORE the gate so member conditions (evaluated via subfilter) can see it; +[limit[1]] keeps the gate's output single-item so the $let survives the triple-brace trap. -->

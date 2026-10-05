@@ -8,7 +8,7 @@ title: $:/plugins/yan/hypergsd/ui/project-view/subprojects
 <$set name="currentTiddler" value=<<section-target>>>
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/Subprojects}}
-  list-filter="[tag[$:/GSD/Project]!is[draft]gsd_project<currentTiddler>sort[title]sort[gsd_status]sort[gsd_complete]]"
+  list-filter="[tag[$:/GSD/Project]!is[draft]gsd_project<currentTiddler>sort[gsd_status]sort[gsd_complete]]"
   realm-scope=""
-  add-button=<<new-subproject-button>>/> <!-- gsd_status sorts "active" before "future", then completed projects last -->
+  add-button=<<new-subproject-button>>/> <!-- gsd_status sorts "active" before "future", then completed projects last; equal keys fall back to the default title order -->
 </$set>

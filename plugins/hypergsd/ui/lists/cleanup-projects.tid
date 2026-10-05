@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd/ui/lists/cleanup-projects
 
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
-  list-filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>] +[!nsort[gsd_comp_date]]"
+  list-filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>]"
   group-select="yes"
   sort-select="yes"
   sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />

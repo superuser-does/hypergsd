@@ -14,7 +14,7 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-project-list
   unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedProject">
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
-  list-filter="[tag[$:/GSD/Project]gsd_complete[true]] +[!nsort[gsd_comp_date]]"
+  list-filter="[tag[$:/GSD/Project]gsd_complete[true]]"
   group-select="yes"
   sort-select="yes"
   sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />

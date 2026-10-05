@@ -19,7 +19,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 </div>
 <%endif%>
 <div class=<<columns-class>>>
-  <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]] +[sort[]]" variable="capture-portion-tag">
+  <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]sort[]]" variable="capture-portion-tag">
     <div>
       <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="portion-member">
         <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>

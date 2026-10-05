@@ -10,7 +10,7 @@ title: $:/plugins/yan/hypergsd/ui/lists/cleanup-actions
 <$let show-uncompleted-parent-items={{{ [[$:/config/hypergsd/cleanup-uncompleted-project-actions]get[text]else[hide]match[show]then[true]else[false]] }}} >
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
-  list-filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] +[!nsort[gsd_comp_date]]"
+  list-filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]]"
   group-select="yes"
   sort-select="yes"
   sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc"/>

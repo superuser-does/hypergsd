@@ -8,7 +8,7 @@ title: $:/plugins/yan/hypergsd/ui/project-view/waiting-actions
 <$set name="currentTiddler" value=<<section-target>>>
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/WaitingActions}}
-  list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_status[waiting]gsd_complete[false]sort[title]]"
+  list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_status[waiting]gsd_complete[false]]"
   realm-scope=""
   add-button=<<new-waiting-action-button>>/>
 </$set>
