@@ -38,16 +38,13 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-new-button
     <%if [<gsd-contact>!is[blank]] %>
       <$action-setfield $tiddler="$:/temp/gsd-new-temp" gsd_contact=<<gsd-contact>> />
     <%endif%>
-    <!-- Context inheritance: $filter replaces on every click so re-opens never duplicate. Callers that don't pass gsd-calling-tiddler fall back to the tiddler the button renders in. The !match[] guard matters: an unset parameter yields [""] in a filter pipeline, which does not trigger a plain else (empty strings are not empty pipelines). -->
-    <$let caller={{{ [<gsd-calling-tiddler>!match[]else<currentTiddler>] }}}>
-    <$action-listops $tiddler="$:/temp/gsd-new-state" $field="gsd_inherited_contexts" $filter="[<caller>tags[]tag[GSD/Contexts]]" />
-    </$let>
     <!-- Inherit realm from parent tiddler only if user hasn't explicitly set one -->
     <%if [<gsd-realm>!is[blank]] %>
       <%if [[$:/state/hypergsd/effective-realm]!has[text]] %>
         <$action-setfield $tiddler="$:/state/hypergsd/effective-realm" text=<<gsd-realm>> />
       <%endif%>
     <%endif%>
+    <!-- The caller reaches the modal resolved — an explicit gsd-calling-tiddler wins, else the tiddler the button renders in — so the Inheritance rules' caller harvests cover panel and list quick-adds; sidebar and toolbar buttons render with a blank currentTiddler and forward nothing. The !match[] guard matters: an unset parameter yields [""] in a filter pipeline, which does not trigger a plain else (empty strings are not empty pipelines). -->
     <$action-sendmessage
       $message="tm-modal"
       $param="$:/plugins/yan/hypergsd/ui/new-gsd-modal"
@@ -58,7 +55,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-new-button
       gsd-project=<<gsd-project>>
       gsd-contact=<<gsd-contact>>
       gsd-update-status=<<gsd-update-status>>
-      gsd-calling-tiddler=<<gsd-calling-tiddler>> />
+      gsd-calling-tiddler={{{ [<gsd-calling-tiddler>!match[]else<currentTiddler>] }}} />
     <$action-sendmessage $message="gsd-select-entry"/>
   </$button>
 </$messagecatcher>

@@ -3,13 +3,12 @@ title: $:/plugins/yan/hypergsd/modules/inheritance/realm
 
 \whitespace trim
 
-<!-- Realm tags for the new item: the modal's effective-realm state (NoRealm/none guards; a typed new-realm name wins) plus the caller's realm tags, unique. Was modal-submit's gsd-realm-tags parameter dance; now point-of-creation only. -->
+<!-- Realm tags for the new item: the modal's effective-realm state (NoRealm/none guards; a typed new-realm name wins) plus the caller's realm tags, unique. The caller harvest rides the list filter directly — a triple-brace $let attribute truncates multi-item outputs to the first. Point-of-creation only. -->
 <$let raw-realm={{{ [[$:/state/hypergsd/effective-realm]get[text]else[]] }}}
   new-realm-name={{{ [[$:/temp/gsd-new-realm-name]get[text]else[]] }}}
   final-realm={{{ [<raw-realm>match[new]then<new-realm-name>else<raw-realm>] }}}
-  effective-realm-tag={{{ [<final-realm>!match[NoRealm]!match[none]!match[]then[$:/GSD/Realm/]addsuffix<final-realm>] }}}
-  caller-realm-tags={{{ [<calling-tiddler>tags[]prefix[$:/GSD/Realm/]] }}} >
-<$list filter="[enlist<effective-realm-tag>] [enlist<caller-realm-tags>] +[unique[]]" variable="realm-tag-item">
+  effective-realm-tag={{{ [<final-realm>!match[NoRealm]!match[none]!match[]then[$:/GSD/Realm/]addsuffix<final-realm>] }}} >
+<$list filter="[enlist<effective-realm-tag>] [<calling-tiddler>tags[]prefix[$:/GSD/Realm/]] +[unique[]]" variable="realm-tag-item">
 <$action-sendmessage $message="tm-add-tag" $param=<<realm-tag-item>>/>
 </$list>
 </$let>

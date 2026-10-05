@@ -811,8 +811,11 @@ drag tab, group-by-project via the shared $:/state/hypergsd/context-group
 toggle).
 
 Creation path: `$hgsd.new-button` → seeds `$:/temp/gsd-new-temp`
-(gsd_project, gsd_contact, gsd_inherited_contexts) + `$:/temp/gsd-new-state`
-(hgsd-type, per-type status memory) + `$:/state/hypergsd/effective-realm`
+(gsd_project, gsd_contact) + `$:/temp/gsd-new-state`
+(hgsd-type, per-type status memory) + `$:/state/hypergsd/effective-realm`,
+and forwards the RESOLVED caller (explicit parameter else currentTiddler) into
+tm-modal so the Inheritance rules' caller harvests cover panel and list
+quick-adds
 → `tm-modal` → `ui/new-gsd-modal` (chassis: keyboard wrappers, title input, create
 button, Attributes `<fieldset>`; attribute rows from two tag loops over
 `$:/tags/hypergsd/ModalTemplate` portioned via the same chassis, transcluding the
@@ -1033,8 +1036,8 @@ Persisted fields (set by modal/panel fragments/handler):
 | `gsd_action_status` / `gsd_project_status` | per-type radio memory (modal UI persistence across type switches) | status radios with `data-hgsd-status-field` |
 
 Working-only fields (never persisted on real tiddlers): `hgsd-type`,
-`gsd_status` pick + per-type memory, `gsd_context`,
-`gsd_inherited_contexts` — these live on `$:/temp/gsd-new-state` during
+`gsd_status` pick + per-type memory, `gsd_context`
+— these live on `$:/temp/gsd-new-state` during
 modal editing; the data fields (`gsd_project`, `gsd_contact`, `gsd-title`)
 live on `$:/temp/gsd-new-temp` (Grade-2 temp split, §5). Removed vs GSD5:
 `gsd_realm`, `gsd_tickdate`, `gsd_action` (migrated to `gsd_prerequisites`),
@@ -1311,8 +1314,9 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   context (created from the Contexts dashboard or the modal type dropdown);
   context tiddlers show an inline next/waiting/future dashboard
   (view-body-context); contexts are excluded for contact/reference types;
-  the Collect sidebar pins an "effective context" for new items; new-buttons
-  harvest the caller's context tags into `gsd_inherited_contexts`.
+  the Collect sidebar pins an "effective context" for new items; the context
+  Inheritance rule harvests the caller's context tags directly — the same
+  state-default + pick + caller-harvest shape as the realm rule.
 - **Realms for new items**: Collect sidebar sets effective-realm; project/contact
   buttons inherit the parent's first realm tag; the modal offers "new realm"
   free-text creation. New items are tagged with the

@@ -3,8 +3,8 @@ title: $:/plugins/yan/hypergsd-contexts/modules/inheritance/context-tags
 
 \whitespace trim
 
-<!-- Context tags: the modal's picked gsd_context, the effective-context state, and the caller's inherited contexts — each validated as a context, unique, and only for types that take contexts (not context/reference/contact types). Was modal-submit's context-tags computation; point-of-creation only. -->
-<$let raw-context-tags={{{ [<new-state>get[gsd_context]] [[$:/state/hypergsd/effective-context]get[text]] [<new-state>get[gsd_inherited_contexts]enlist-input[]] +[tag[GSD/Contexts]] +[unique[]format:titlelist[]join[ ]] }}}>
+<!-- Context tags: the modal's picked gsd_context, the effective-context state, and the caller's context tags — the same state-default + pick + caller-harvest shape as the realm rule (the new-button forwards the resolved caller, so panel and list quick-adds inherit too). Each validated as a context, unique, and only for types that take contexts (not context/reference/contact types). Point-of-creation only. -->
+<$let raw-context-tags={{{ [<new-state>get[gsd_context]] [[$:/state/hypergsd/effective-context]get[text]] [<calling-tiddler>tags[]tag[GSD/Contexts]] +[tag[GSD/Contexts]] +[unique[]format:titlelist[]join[ ]] }}}>
 <$list filter="[<new-type>!match[context][reference][contact]then<raw-context-tags>enlist-input[]]" variable="context-tag-item">
 <$action-sendmessage $message="tm-add-tag" $param=<<context-tag-item>>/>
 </$list>

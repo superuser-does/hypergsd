@@ -1,8 +1,9 @@
-// Context + realm inheritance through the modal submit: a quick-add button on a
-// context-tagged project writes gsd_inherited_contexts; the submit's let chain
-// (final-type .. context-tags, new-gsd-modal.tid) must compute context-tags and
-// realm-tags as ATTRIBUTES — an early `}}}>` once closed the let after raw-realm,
-// silently dropping context/realm application (regression 2026-09-11).
+// Creation inheritance through the modal submit: the new-button forwards the
+// RESOLVED caller (explicit parameter else currentTiddler) into tm-modal, and
+// the Inheritance rail harvests it directly at creation — the context rule
+// takes the caller's context tags, the realm rule every caller realm tag (not
+// just the parameter seed), informal-tags every non-system tag; system tags
+// never leak. Panel/list quick-adds and pick-field opens behave identically.
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw.boot.startup();
 global.$tw = $tw;
@@ -13,7 +14,8 @@ let fails = 0;
 const t = (name, ok, extra) => { if (Array.isArray(ok)) ok = JSON.stringify(ok) === JSON.stringify(extra); if (!ok) fails++; console.log((ok ? "PASS " : "FAIL ") + name + (ok || !extra ? "" : " " + extra)); };
 
 wiki.addTiddler({title: "ZZ ctx", tags: ["GSD/Contexts"]});
-wiki.addTiddler({title: "ZZ proj", tags: ["$:/GSD/Project", "ZZ ctx"], gsd_status: "active", gsd_complete: "false"});
+wiki.addTiddler({title: "ZZ person", tags: ["GSD/Contact"]});
+wiki.addTiddler({title: "ZZ proj", tags: ["$:/GSD/Project", "$:/GSD/Realm/Home", "$:/GSD/Realm/Work", "ZZ ctx", "ZZ person", "chess"], gsd_status: "active", gsd_complete: "false"});
 wiki.addTiddler({title: "$:/state/hypergsd/effective-realm", text: "Home"});
 
 // 1. fire the project view's quick-add button (context inheritance seed)
@@ -24,13 +26,18 @@ let qbtn = null;
   if(n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && ((n.domNodes[0].attributes||{}).class||"").indexOf("gsd-list-new-button")!==-1){ qbtn=n; return; }
   (n.children||[]).forEach(f); })(pv);
 t("quick-add button rendered", !!qbtn);
+// capture the tm-modal the button dispatches, to guard the resolved-caller forward itself
+let modalParams = null;
+const origDispatch = $tw.rootWidget.dispatchEvent.bind($tw.rootWidget);
+$tw.rootWidget.dispatchEvent = function(ev) { if (ev.type === "tm-modal") modalParams = ev.paramObject; return origDispatch(ev); };
 qbtn.invokeActions(qbtn, {type: "click"});
-t("button seeds gsd_inherited_contexts from the project's contexts", (wiki.getTiddler("$:/temp/gsd-new-state")||{fields:{}}).fields.gsd_inherited_contexts === "[[ZZ ctx]]", JSON.stringify((wiki.getTiddler("$:/temp/gsd-new-state")||{fields:{}}).fields.gsd_inherited_contexts));
+$tw.rootWidget.dispatchEvent = origDispatch;
+t("button forwards the resolved caller to the modal", (modalParams && modalParams["gsd-calling-tiddler"]) === "ZZ proj", JSON.stringify(modalParams && modalParams["gsd-calling-tiddler"]));
 t("button seeds the project on the data temp", (wiki.getTiddler("$:/temp/gsd-new-temp")||{fields:{}}).fields.gsd_project === "ZZ proj");
 
 // 2. render the modal as tm-modal would, title typed, submit
 wiki.addTiddler({title: "$:/temp/gsd-new-title", "hgsd-title": "ZZ inherit probe"});
-const modal = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/new-gsd-modal" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "$:/temp/gsd-new-state", "gsd-type": "action", "gsd-status": "next", "gsd-complete": "false", "gsd-project": "ZZ proj", "gsd-update-status": "no", "gsd-calling-tiddler": ""}});
+const modal = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/new-gsd-modal" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "$:/temp/gsd-new-state", "gsd-type": "action", "gsd-status": "next", "gsd-complete": "false", "gsd-project": "ZZ proj", "gsd-update-status": "no", "gsd-calling-tiddler": "ZZ proj"}});
 const mc = doc.createElement("div"); modal.render(mc);
 let cbtn = null;
 (function f(n){ if(cbtn||!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
@@ -48,9 +55,12 @@ t("tiddler created", !!created);
 t("type tag applied", tags.indexOf("$:/GSD/Action") !== -1, JSON.stringify(tags));
 t("inherited context tag applied", tags.indexOf("ZZ ctx") !== -1, JSON.stringify(tags));
 t("effective realm tag applied", tags.indexOf("$:/GSD/Realm/Home") !== -1, JSON.stringify(tags));
+t("caller's second realm tag applied (rail harvest, not just the parameter seed)", tags.indexOf("$:/GSD/Realm/Work") !== -1, JSON.stringify(tags));
+t("caller's informal tags applied through the forwarded caller", tags.indexOf("chess") !== -1 && tags.indexOf("ZZ person") !== -1, JSON.stringify(tags));
+t("caller's system tags not inherited", tags.indexOf("$:/GSD/Project") === -1, JSON.stringify(tags));
 t("project field applied", created && created.fields.gsd_project === "ZZ proj");
 
-["ZZ inherit probe", "ZZ proj", "ZZ ctx", "$:/state/hypergsd/effective-realm",
+["ZZ inherit probe", "ZZ proj", "ZZ ctx", "ZZ person", "$:/state/hypergsd/effective-realm",
  "$:/temp/gsd-new-state", "$:/temp/gsd-new-temp", "$:/temp/gsd-new-title",
  "$:/state/hypergsd/create-another"].forEach(x => wiki.deleteTiddler(x));
 console.log(fails === 0 ? "ALL CONTEXT-INHERIT CASES PASS" : fails + " FAILURE(S)");

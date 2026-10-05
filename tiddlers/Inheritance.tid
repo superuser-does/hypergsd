@@ -36,7 +36,7 @@ Field values are the attribute sections' responsibility at pick time.
 * `HyperGSD` — ''realm tags'': the modal's effective-realm state (NoRealm/none
   guards; a typed new-realm name wins) plus the caller's realm tags, unique.
 * `HyperGSD-Contexts` — ''context tags'': the modal's picked context, the
-  effective-context state and the caller's inherited contexts, validated as
+  effective-context state and the caller's context tags, validated as
   contexts, for types that take contexts.
 
 !! Removal

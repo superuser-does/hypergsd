@@ -17,7 +17,6 @@ A context describes where or how an action happens. Unlike the other types, cont
 
 | !Field | !Values | !Note |
 |gsd_context |''context tag'' |Modal seeding: selected context tag |
-|gsd_inherited_contexts |''titlelist'' |Contexts inherited from the calling tiddler |
 
 !! UI Controls
 The context view template shows the context's actions; the Contexts dashboard lists every listed context.
