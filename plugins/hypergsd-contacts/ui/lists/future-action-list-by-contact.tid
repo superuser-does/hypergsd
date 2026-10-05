@@ -1,6 +1,7 @@
 caption: {{$:/language/hypergsd/Settings/Lists/FutureByContact/Caption}}
 description: {{$:/language/hypergsd/Settings/Lists/FutureByContact/Hint}}
 hgsd-heading: $:/language/hypergsd/Lists/FutureByContact
+list-after: $:/plugins/yan/hypergsd/ui/lists/future-action-list
 tags: $:/tags/hypergsd/Lists/Dashboard
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/future-action-list-by-contact
 

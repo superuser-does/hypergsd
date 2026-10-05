@@ -1,2 +1,3 @@
-list: $:/plugins/yan/hypergsd/ui/modal/type $:/plugins/yan/hypergsd/ui/attributes/status $:/plugins/yan/hypergsd/ui/attributes/project $:/plugins/yan/hypergsd-contacts/ui/attributes/contact $:/plugins/yan/hypergsd-contexts/ui/modal/context $:/plugins/yan/hypergsd/ui/modal/realm
+<!-- This list field orders the CORE members only (always present, so no absence hazard); sub-plugin members pin themselves via list-before/list-after against these anchors — an absent sub-plugin is an inert pin, and the natural fallback equals the old degraded order. -->
+list: $:/plugins/yan/hypergsd/ui/modal/type $:/plugins/yan/hypergsd/ui/attributes/status $:/plugins/yan/hypergsd/ui/attributes/project $:/plugins/yan/hypergsd/ui/modal/realm
 title: $:/tags/hypergsd/ModalTemplate

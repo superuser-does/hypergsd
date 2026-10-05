@@ -14,7 +14,7 @@ wiki.addTiddler({title: "$:/state/hypergsd/current-realm", text: "NoRealm"});
 const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
 const LF = "[all[tiddlers]tag[$:/GSD/Action]] +[sort[title]]";
 const render = () => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" active-parents-only="no"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -45,7 +45,7 @@ const render = () => {
       else if (n.tag === "a" && cls.indexOf("hgsd-project-link") !== -1) marks.push("project-link");
       else if (n.tag === "a" && cls.indexOf("hgsd-contact-link") !== -1) marks.push("contact-link");
       else if (n.tag === "span" && cls.indexOf("gsd-muted") !== -1) marks.push("comp-date");
-      else if (n.tag === "div" && attrs.title === "This tiddler contains a note in its body") marks.push("note");
+      else if (n.tag === "div" && attrs.title === "This tiddler contains text in its body") marks.push("body-text");
       else if (n.tag === "button" && attrs["data-hgsd-action"] === "delete") marks.push("delete");
       else if ((n.textContent || "").indexOf("EXT-") !== -1 && !(n.children || []).some(ch => ch.isTiddlyWikiFakeDom))
         marks.push(n.textContent.trim().slice(0, 14));
@@ -81,8 +81,8 @@ const t = (name, got, exp) => {
 };
 // completed+dated row: checkbox, title, comp-date, project-link, delete (status AND note both hidden when complete)
 t("completed row order", render().done, ["checkbox", "title", "comp-date", "project-link", "delete"]);
-// open row with body text: checkbox, 3 status radios, title, note, project-link
-t("open row order", render().open, ["checkbox", "status", "status", "status", "title", "note", "project-link"]);
+// open row with body text: checkbox, 3 status radios, title, body-text icon, project-link
+t("open row order", render().open, ["checkbox", "status", "status", "status", "title", "body-text", "project-link"]);
 // colour hooks: pill labels carry computed item-status <type>-<status> classes
 // (a literal {{{ }}} in a quoted class attr once shipped — pills painted nothing)
 t("open row pill classes (colour hooks)", render().openPillClasses,
@@ -90,16 +90,16 @@ t("open row pill classes (colour hooks)", render().openPillClasses,
 
 // gsd_complete convention (2026-09-03): incomplete is the positive
 // gsd_complete[false] everywhere — every creation path seeds the field, so a
-// missing value is NOT incomplete (no pills, not listed). note.tid keeps the
-// one negative check (not type-gated; field-less types like contacts pass).
+// missing value is NOT incomplete (no pills, not listed). body-text.tid keeps
+// the one negative check (not type-gated; field-less types like contacts pass).
 wiki.addTiddler({title: "C unseeded", tags: ["$:/GSD/Action"], text: "has body"});
-t("unseeded action row: checkbox+title+note, no status pills", render().unseeded, ["checkbox", "title", "note"]);
+t("unseeded action row: checkbox+title+body-text, no status pills", render().unseeded, ["checkbox", "title", "body-text"]);
 t("unseeded action not listed as incomplete",
   wiki.filterTiddlers("[all[tiddlers]tag[$:/GSD/Action]gsd_complete[false]]").includes("C unseeded"), false);
 const offenders = wiki.filterTiddlers("[all[shadows+tiddlers]prefix[$:/plugins/yan/hypergsd/]]")
-  .filter(tt => tt !== "$:/plugins/yan/hypergsd/ui/list-items/note"
+  .filter(tt => tt !== "$:/plugins/yan/hypergsd/ui/list-items/body-text"
     && (wiki.getTiddlerText(tt) || "").indexOf("!gsd_complete[true]") !== -1);
-t("no negative gsd_complete checks outside note.tid", offenders, []);
+t("no negative gsd_complete checks outside body-text.tid", offenders, []);
 wiki.deleteTiddler("C unseeded");
 // extension hooks: prefix before title, suffix after delete (appended after listed fragments)
 wiki.addTiddler({title: "ZZ ext prefix", tags: ["$:/tags/hypergsd/ListItem/Prefix"], text: "EXT-P"});
@@ -123,7 +123,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix"});
 // identity survives); the row's own item edit must reach it (node replaced)
 {
   wiki.addTiddler({title: "A other", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" active-parents-only="no"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -152,7 +152,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix"});
 // row gate's subfilter (tag list-driven extensibility, not main-plugin edits)
 {
   wiki.addTiddler({title: "ZZ wl test", tags: ["$:/tags/hypergsd/ListItem/Suffix"], text: "EXT-W", "hgsd-refresh-whitelist": "[prefix[$:/state/hypergsd/ext-feature]]"});
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" active-parents-only="no"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -171,7 +171,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix"});
 // fragment was dead code. Pin that no chip text ever returns — the exact
 // action fingerprints above also fail if any prefix chip leaks.
 const chipRender = (filter) => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + filter + '" group-state="false" active-parents-only="no"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + filter + '" group-state="false"/>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   const chips = [];
@@ -217,19 +217,20 @@ wiki.addTiddler({title: "J act", tags: ["$:/GSD/Action"], gsd_status: "next", gs
 wiki.addTiddler({title: "J both", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_project: "P one", gsd_contact: "C one"});
 wiki.addTiddler({title: "J ref", tags: ["$:/GSD/Reference"], gsd_project: "P one"});
 const JF = "[all[tiddlers]prefix[J ]] +[sort[title]]";
-const flatJ = jumpRender(JF, 'group-state="false" active-parents-only="no"');
+const flatJ = jumpRender(JF, 'group-state="false"');
 t("flat rows: jump links on all three rows, tooltips are target titles",
   [flatJ.project, flatJ.contact, flatJ.tooltips], [["P one","P one","P one"], ["C one"], ["C one","P one","P one","P one"]]);
-const onProject = jumpRender(JF, 'group-state="false" active-parents-only="no"', {storyTiddler: "P one"});
+const onProject = jumpRender(JF, 'group-state="false"', {storyTiddler: "P one"});
 t("inside the project's page: project links suppressed, contact links kept",
   [onProject.project, onProject.contact], [[], ["C one"]]);
-const onContact = jumpRender(JF, 'group-state="false" active-parents-only="no"', {storyTiddler: "C one"});
+const onContact = jumpRender(JF, 'group-state="false"', {storyTiddler: "C one"});
 t("inside the contact's page: contact links suppressed, project links kept",
   [onContact.project, onContact.contact], [["P one","P one","P one"], []]);
-const byProject = jumpRender(JF, 'group-state="true" group-by="gsd_project" active-parents-only="no"');
+const byProject = jumpRender(JF, 'group-state="true" group-by="gsd_project"');
 t("grouped by project: hidden under own heading, contact link kept",
   [byProject.project, byProject.contact], [[], ["C one"]]);
-const byContact = jumpRender(JF, 'group-state="true" group-by="gsd_contact" active-parents-only="no"');
+const byContact = jumpRender(JF, 'group-state="true" group-by="gsd_contact"');
 t("grouped by contact: contact hidden under own heading, project links kept",
   [byContact.project, byContact.contact], [["P one","P one","P one"], []]);
 console.log(fails === 0 ? "ALL LIST-ITEM CASES PASS" : fails + " FAILURE(S)");
+process.exit(fails ? 1 : 0);

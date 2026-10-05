@@ -18,7 +18,7 @@ const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tid
 const LF = "[all[tiddlers]tag[$:/GSD/Action]] -[is[draft]] +[sort[title]]";
 
 const renderRows = () => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" active-parents-only="no"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   return {c, w};

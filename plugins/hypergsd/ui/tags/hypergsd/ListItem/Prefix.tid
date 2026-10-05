@@ -1,4 +1,3 @@
-list: [[$:/plugins/yan/hypergsd/ui/list-items/complete]] [[$:/plugins/yan/hypergsd/ui/list-items/status]] [[$:/plugins/yan/hypergsd-priorities/ui/list-items/priority]]
 title: $:/tags/hypergsd/ListItem/Prefix
 
-<!-- Order pin: complete checkbox, status pills, then the priorities sub-plugin's row select. Without this list field membership renders alphabetically (hypergsd-priorities paths sort before hypergsd/ ones). The sub-plugin entry dangles harmlessly when that plugin is absent — tagging[] only yields existing tiddlers. -->
+<!-- Order pin: complete checkbox, status pills, then the priorities sub-plugin's row select — the members self-pin (list-before/list-after), so no list field sits here; membership renders alphabetically without them (hypergsd-priorities paths sort before hypergsd/ ones, hence the priority member's pin). A sub-plugin entry dangling from an absent plugin simply never joins the tag index. -->

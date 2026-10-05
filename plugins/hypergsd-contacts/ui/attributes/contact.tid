@@ -1,5 +1,6 @@
 caption: {{$:/language/hypergsd/Sections/Contact/Caption}}
 description: {{$:/language/hypergsd/Sections/Contact/Description}}
+list-before: $:/plugins/yan/hypergsd/ui/modal/realm
 tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/1 $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/1
 title: $:/plugins/yan/hypergsd-contacts/ui/attributes/contact
 

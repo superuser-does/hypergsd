@@ -2,5 +2,6 @@ caption: {{$:/language/hypergsd/Lists/GroupBy/context}}
 hgsd-group-filter: [all[current]tags[]tag[GSD/Contexts]]
 hgsd-group-key: context
 hgsd-types: action
+list-before: $:/plugins/yan/hypergsd/ui/group-by/realm
 tags: $:/tags/hypergsd/GroupBy
 title: $:/plugins/yan/hypergsd-contexts/ui/group-by/context

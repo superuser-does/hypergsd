@@ -129,7 +129,7 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
       <!-- Inline parse mode inside <$keyboard> never forms paragraphs from blank lines, so the gap above Attributes is a literal empty paragraph -->
       <p>&nbsp;</p>
 
-      <!-- Attribute rows are tag-driven sections: $:/tags/hypergsd/ModalTemplate (list field = order), Group/1, Group/2, ... tags for placement (untagged sections land in Group/1), visibility via $:/config/hypergsdModal/visibility/<title>. Chassis variables (new-data-title, current-type) and the tm-modal parameters propagate into the transcluded sections. -->
+      <!-- Attribute rows are tag-driven sections: $:/tags/hypergsd/ModalTemplate (order = the engine's sortByList: the core-only list field, member list-before/list-after pins, then alphabetical), Group/1, Group/2, ... tags for placement (untagged sections land in Group/1), visibility via $:/config/hypergsdModal/visibility/<title>. Chassis variables (new-data-title, current-type) and the tm-modal parameters propagate into the transcluded sections. -->
       <fieldset class="hgsd-modal-attributes">
         <legend><h3><<lingo Attributes>></h3></legend>
         <!-- Freezes the attribute sections against unrelated cycles (title typing lives on gsd-new-title, outside this whitelist). Prefix/tag runs ONLY — a literal [[title]] run emits unconditionally and defeats the gate. The scoped add- pair comes FIRST (:and replaces the output so far): pick-field sections draft typed picks on $:/temp/hypergsd/add-<id>-<new-data-title>, and without this run those keystrokes never re-render the dropdown. -->

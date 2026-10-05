@@ -1,2 +1,3 @@
-list: $:/plugins/yan/hypergsd/ui/panel/complete $:/plugins/yan/hypergsd/ui/attributes/status $:/plugins/yan/hypergsd/ui/panel/convert $:/plugins/yan/hypergsd/ui/attributes/project $:/plugins/yan/hypergsd/ui/panel/prereq $:/plugins/yan/hypergsd/ui/panel/dependants $:/plugins/yan/hypergsd-contacts/ui/attributes/contact
+<!-- This list field orders the CORE members only (always present, so no absence hazard); sub-plugin members append alphabetically after them (contact, priority, tickler rows) and need no pins. -->
+list: $:/plugins/yan/hypergsd/ui/panel/complete $:/plugins/yan/hypergsd/ui/attributes/status $:/plugins/yan/hypergsd/ui/panel/convert $:/plugins/yan/hypergsd/ui/attributes/project $:/plugins/yan/hypergsd/ui/panel/prereq $:/plugins/yan/hypergsd/ui/panel/dependants
 title: $:/tags/hypergsd/PanelTemplate

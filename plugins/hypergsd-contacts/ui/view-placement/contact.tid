@@ -3,5 +3,6 @@ hgsd-config: Contact
 hgsd-default: top
 hgsd-type-tag: $:/GSD/Contact
 list: $:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact
+list-after: $:/plugins/yan/hypergsd/ui/view-placement/project
 tags: $:/tags/hypergsd/ViewPlacement
 title: $:/plugins/yan/hypergsd-contacts/ui/view-placement/contact

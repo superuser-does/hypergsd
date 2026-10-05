@@ -1,8 +1,8 @@
 // Realm set scoping: one state tiddler ($:/config/hypergsd/realm-selection, list
 // field) = full realm tag titles + optional `no-realm` sentinel. Pristine
 // (missing) = all realms + sentinel. Empty = nothing (sentinel may re-add
-// realm-less items). Matrix over selection × sentinel × active-parents, plus
-// sidebar UI structure.
+// realm-less items). Matrix over selection × sentinel, plus sidebar UI
+// structure.
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw.boot.startup();
 global.$tw = $tw;
@@ -17,8 +17,8 @@ const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tid
 const LF = "[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title]]";
 const setSel = (list) => list === undefined ? wiki.deleteTiddler(SEL)
   : wiki.addTiddler({title: SEL, list: list.map(t => t === "no-realm" ? t : "$:/GSD/Realm/" + t)});
-const render = (ap) => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" active-parents-only="' + (ap ? "yes" : "no") + '"/>';
+const render = () => {
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -32,19 +32,18 @@ const t = (name, got, exp) => { const ok = JSON.stringify(got) === JSON.stringif
 const sentinel = "no-realm";
 
 // core matrix
-setSel(undefined);                        t("pristine (missing) = all + realmless", render(false), ["H item","N item","W item"]);
-setSel(["Work", sentinel]);               t("{Work}+sentinel = union mode", render(false), ["N item","W item"]);
-setSel(["Work","Home",sentinel]);         t("{Work,Home}+sentinel = multi-union (new)", render(false), ["H item","N item","W item"]);
-setSel(["Work"]);                         t("{Work} no sentinel = Work only", render(false), ["W item"]);
-setSel([]);                               t("empty = nothing", render(false), []);
-setSel([sentinel]);                       t("{}+sentinel = realmless only (old no-realm-only)", render(false), ["N item"]);
-setSel(["Work","Home"]);                  t("{Work,Home} no sentinel = realmed only (old exclude)", render(false), ["H item","W item"]);
-setSel(["Work",sentinel]);                t("{Work}+sentinel + active-parents guard intact", render(true), ["N item","W item"]);
+setSel(undefined);                        t("pristine (missing) = all + realmless", render(), ["H item","N item","W item"]);
+setSel(["Work", sentinel]);               t("{Work}+sentinel = union mode", render(), ["N item","W item"]);
+setSel(["Work","Home",sentinel]);         t("{Work,Home}+sentinel = multi-union (new)", render(), ["H item","N item","W item"]);
+setSel(["Work"]);                         t("{Work} no sentinel = Work only", render(), ["W item"]);
+setSel([]);                               t("empty = nothing", render(), []);
+setSel([sentinel]);                       t("{}+sentinel = realmless only (old no-realm-only)", render(), ["N item"]);
+setSel(["Work","Home"]);                  t("{Work,Home} no sentinel = realmed only (old exclude)", render(), ["H item","W item"]);
 
 // pristine fallback embraces realms created later
 setSel(undefined);
 wiki.addTiddler({title: "L item", tags: ["$:/GSD/Action", "$:/GSD/Realm/Later"], gsd_status: "next", gsd_complete: "false", gsd_project: "P one"});
-t("pristine picks up new realm live", render(false), ["H item","L item","N item","W item"]);
+t("pristine picks up new realm live", render(), ["H item","L item","N item","W item"]);
 wiki.deleteTiddler("L item");
 
 // sidebar UI: buttons, per-realm checked states, sentinel box — and NO wikilink

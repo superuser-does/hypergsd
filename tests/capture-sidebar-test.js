@@ -1,8 +1,10 @@
 // Capture sidebar block presentation: $:/tags/hypergsd/Capture/Block/<n> tag
 // tiddlers each own one block (1 defaults, 2 new action/project/reference,
-// 3 new contact/context — the rarer pair, 4 realm note) — the block's list
-// field pins member order (what the Settings → Sidebar drag lists write).
-// Empty blocks leave no div (no double gap).
+// 3 new contact/context — the rarer pair, 4 realm note) — within-block order
+// is the engine's sortByList (member list-before/list-after pins, then
+// alphabetical; a Settings drag writes the block's list field after deleting
+// pins — core's list-tagged-draggable drop actions). Empty blocks leave no div
+// (no double gap).
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true;
 $tw.boot.argv = [__dirname + "/fixture-wiki"];
@@ -67,13 +69,17 @@ t("hidden entry drops from its block", hidden[1].text.indexOf("new action"), -1)
 t("hidden entry leaves other blocks intact", [hidden.length, hidden[2].text.indexOf("new contact") !== -1, hidden[3].text.indexOf("You can create a new realm") !== -1], [4, true, true]);
 wiki.deleteTiddler(VIS);
 
-// order authority: reversing Block/2's list field reorders the block (the settings drag list writes it)
+// order authority: a Settings drag deletes member pins, then writes the block's list field (core's
+// list-tagged-draggable drop actions) — with the new-reference pin gone, the written list rules
+const REFERENCE_MEMBER = "$:/plugins/yan/hypergsd-references/ui/sidebar/capture/new-reference";
+wiki.addTiddler(new $tw.Tiddler(wiki.getTiddler(REFERENCE_MEMBER), {"list-after": undefined}));
 wiki.addTiddler({title: "$:/tags/hypergsd/Capture/Block/2",
   caption: "{{$:/language/hypergsd/Settings/Sidebar/CaptureBlock/2}}",
   list: "$:/plugins/yan/hypergsd-references/ui/sidebar/capture/new-reference $:/plugins/yan/hypergsd/ui/sidebar/capture/new-action $:/plugins/yan/hypergsd/ui/sidebar/capture/new-project"});
 const reordered = renderCapture();
-t("block 2 follows its own list field (reference now first)",
+t("block 2 follows its dragged order (reference now first)",
   reordered[1].text.indexOf("new reference") < reordered[1].text.indexOf("new action"), true);
+wiki.deleteTiddler(REFERENCE_MEMBER);
 wiki.deleteTiddler("$:/tags/hypergsd/Capture/Block/2");
 
 // empty block leaves no div: empty-override both rarer buttons -> block 3 gone, no double gap

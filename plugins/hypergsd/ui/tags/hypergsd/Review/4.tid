@@ -1,3 +1,2 @@
 caption: {{$:/language/hypergsd/Settings/Sidebar/Block/4}}
-list: $:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts $:/plugins/yan/hypergsd-ticklers/ui/sidebar/review/ticklers
 title: $:/tags/hypergsd/Review/4

@@ -1,7 +1,10 @@
 // Review sidebar block tag list: $:/tags/hypergsd/Review/<n> tag tiddlers are
-// blocks (list field pins within-block order), entries ship in their owning
-// plugin, one adjacent-sibling CSS rule is the gap. Realm selection must render
-// live inside block 1 (checkboxes, all/none, the no-realm sentinel).
+// blocks (within-block order = the engine's sortByList: member
+// list-before/list-after pins, then alphabetical; block 5's contacts entry
+// pins before the core cleanup member so references leads), entries ship in
+// their owning plugin, one adjacent-sibling CSS rule is the gap. Realm
+// selection must render live inside block 1 (checkboxes, all/none, the
+// no-realm sentinel).
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true;
 $tw.boot.argv = [__dirname + "/fixture-wiki"];

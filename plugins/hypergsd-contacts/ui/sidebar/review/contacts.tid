@@ -1,4 +1,5 @@
 caption: {{$:/language/hypergsd/Sidebar/Review/Contacts}}
+list-before: $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup
 tags: $:/tags/hypergsd/Review/5
 title: $:/plugins/yan/hypergsd-contacts/ui/sidebar/review/contacts
 

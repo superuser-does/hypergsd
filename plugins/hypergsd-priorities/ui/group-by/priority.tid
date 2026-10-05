@@ -4,6 +4,7 @@ hgsd-group-key: priority
 hgsd-label-filter: [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<currentTiddler>get[text]else[]trim[]minlength[1]] [<currentTiddler>] +[limit[1]]
 hgsd-synthetic-keys: yes
 hgsd-types: action project
+list-before: $:/plugins/yan/hypergsd/ui/group-by/status
 tags: $:/tags/hypergsd/GroupBy
 title: $:/plugins/yan/hypergsd-priorities/ui/group-by/priority
 

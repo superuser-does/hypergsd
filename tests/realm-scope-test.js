@@ -61,13 +61,11 @@ let fails = 0;
 const t = (name, got, exp) => { const ok = JSON.stringify(got) === JSON.stringify(exp); if(!ok) fails++; console.log((ok?"PASS ":"FAIL ") + name + " got:" + JSON.stringify(got)); };
 
 // ── list: default across the five selection states (matches the realm-selection matrix) ──
-setSel(undefined);                t("list default pristine", listRender('active-parents-only="no"'), ["H item","N item","W item"]);
+setSel(undefined);                t("list default pristine", listRender(""), ["H item","N item","W item"]);
 setSel(["Work"]);                 t("list default {Work}", listRender(""), ["W item"]);
 setSel(["Work","no-realm"]);      t("list default {Work}+sent", listRender(""), ["N item","W item"]);
 setSel([]);                       t("list default empty", listRender(""), []);
 setSel(["no-realm"]);             t("list default {}+sent", listRender(""), ["N item"]);
-// parents interplay through shared defines
-setSel(["Work","no-realm"]);      t("list default +parents", listRender('active-parents-only="yes"'), ["N item","W item"]);
 // explicit subfilter == default
 setSel(["Work"]);                 t("list explicit subfilter", listRender('realm-scope="[subfilter<hgsd-realm-selection>]"'), ["W item"]);
 // direct filter scope

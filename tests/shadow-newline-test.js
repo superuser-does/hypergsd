@@ -39,9 +39,17 @@ const t = (name, got, exp) => {
   if (!ok) fails++;
   console.log((ok ? "PASS " : "FAIL ") + name + " got:" + JSON.stringify(got));
 };
-t("shadow active-parents hides future-parented (dashboard case)",
-  render({"active-parents-only": "yes", "group-by": "gsd_project", "group-state": "false"}).items,
+// Sweep reads the dashboard-future-project-items config shadow with an exact
+// match[hide] — the shipped .tid carries no trailing newline, so the shadow's
+// clean text is load-bearing here (a dirty text field would flip the gate).
+t("shadow sweep hides future-parented (dashboard case)",
+  render({"future-items-sweep": "yes", "group-state": "false"}).items,
   ["A under active", "C no project"]);
+wiki.addTiddler({title: "$:/config/hypergsd/dashboard-future-project-items", text: "show"});
+t("sweep config override show reveals future-parented",
+  render({"future-items-sweep": "yes", "group-state": "false"}).items,
+  ["A under active", "B under future", "C no project"]);
+wiki.deleteTiddler("$:/config/hypergsd/dashboard-future-project-items");
 // Lint: with the trim[] guards gone, exact-match config reads depend on
 // shipped shadows carrying no trailing newline in their TEXT field (the
 // header ends at the blank line; only text swallows the file's final byte).
@@ -80,3 +88,4 @@ t("preserve-action shadow=true takes preserve branch",
   condTxt("<%if [title[$:/config/hypergsd/preserve-action]get[text]else[true]trim[]match[true]] %>BRANCH-PRESERVE<%else%>BRANCH-PLAIN<%endif%>"),
   "BRANCH-PRESERVE");
 console.log(fails === 0 ? "ALL SHADOW-NEWLINE CASES PASS" : fails + " FAILURE(S)");
+process.exit(fails ? 1 : 0);

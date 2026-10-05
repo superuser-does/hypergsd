@@ -5,7 +5,7 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/review-sidebar
 
 \whitespace trim
 
-<!-- Block tag list: each $:/tags/hypergsd/Review/<n> tag tiddler is one block (its list field pins within-block order; unlisted entries append alphabetically). Entries ship in whichever plugin owns them, so an absent sub-plugin is simply a missing entry — the loop never gates on existence. The strip-prefix/nsort/re-prefix keeps numeric block order past 9; the gap between blocks is one adjacent-sibling margin rule on .hgsd-sidebar-block. Hidden entries ($:/config/hypergsd/Review/visibility/<title> = hide, written by the Settings → Sidebar tab) are gated per entry. -->
+<!-- Block tag list: each $:/tags/hypergsd/Review/<n> tag tiddler is one block (within-block order = the engine's sortByList: the block's list field first where one ships, member list-before/list-after pins, then alphabetical). Entries ship in whichever plugin owns them — sub-plugin members carry their own pins against core anchors, so an absent sub-plugin is an inert pin, never a dangling core title. The strip-prefix/nsort/re-prefix keeps numeric block order past 9; the gap between blocks is one adjacent-sibling margin rule on .hgsd-sidebar-block. Hidden entries ($:/config/hypergsd/Review/visibility/<title> = hide, written by the Settings → Sidebar tab) are gated per entry. -->
 <$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Review/]!is[draft]removeprefix[$:/tags/hypergsd/Review/]nsort[]addprefix[$:/tags/hypergsd/Review/]]" variable="review-block">
 <div class="hgsd-sidebar-block">
 <$list filter="[all[shadows+tiddlers]tag<review-block>!is[draft]]" variable="review-entry">

@@ -1,4 +1,5 @@
-// Dashboard list composition: tag-driven loops, visibility gating, order via list field.
+// Dashboard list composition: tag-driven loops, visibility gating, order via
+// the tag list (core-owned list field plus member list-before/list-after pins).
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw.boot.startup();
 global.$tw = $tw;
@@ -97,8 +98,10 @@ check("enable by-contact variant",
   ["Next actions", "Waiting actions by contact", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
 wiki.deleteTiddler(vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact"));
 
-// 4. Drag-reorder = tag tiddler list field write: future projects pinned first (within Portion/1;
-// waiting keeps its explicit Portion/2 tag, completed stay in the Full band)
+// 4. Drag-reorder = tag tiddler list field write (core's drag deletes member
+// pins first; the by-contact pins stay inert here because those lists are
+// seeded hidden): future projects pinned first (within Portion/1; waiting keeps
+// its explicit Portion/2 tag, completed stay in the Full band)
 wiki.addTiddler({title: "$:/tags/hypergsd/Lists/Dashboard", list: [
   "$:/plugins/yan/hypergsd/ui/lists/future-project-list",
   "$:/plugins/yan/hypergsd/ui/lists/next-action-list",
@@ -542,7 +545,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
     ["None", "Contacts", "Realms"]);
   check("group-members subtracts from the full tag list",
     stripOf('list-heading="TZ" list-filter="[tag[$:/GSD/Reference]]" group-select="yes" group-members="[subfilter<hgsd-group-default>] -[[$:/plugins/yan/hypergsd/ui/group-by/project]]"'),
-    ["None", "Contacts", "Contexts", "Realms"]);
+    ["None", "Contacts", "Contexts", "Realms", "Priority", "Status"]);
 }
 
 // 12e-bis. Relevance regressions: sort-only lists compute list-types (the
@@ -567,10 +570,10 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
   wiki.addTiddler({title: "ZZ typed cat sort", tags: ["$:/tags/hypergsd/SortBy"], "sort-key": "zzc", "sort-filter": "+[sort[title]]", "sort-category": "ZZ Cat", "hgsd-types": "action"});
   wiki.addTiddler({title: "ZZ typed bare sort", tags: ["$:/tags/hypergsd/SortBy"], "sort-key": "zzb", "sort-filter": "+[sort[title]]", "hgsd-types": "action"});
   check("sort-only list: typed members hidden on a reference list (categorised AND bare)",
-    sortOptionsOf('list-heading="TR" list-filter="[tag[$:/GSD/Reference]]" sort-select="yes" active-parents-only="no"')
+    sortOptionsOf('list-heading="TR" list-filter="[tag[$:/GSD/Reference]]" sort-select="yes"')
       .filter(v => v.indexOf("ZZ typed") === 0), []);
   wiki.addTiddler({title: "ZZ act2", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
-  const actionOpts = sortOptionsOf('list-heading="TA" list-filter="[tag[$:/GSD/Action]gsd_complete[false]]" sort-select="yes" active-parents-only="no"');
+  const actionOpts = sortOptionsOf('list-heading="TA" list-filter="[tag[$:/GSD/Action]gsd_complete[false]]" sort-select="yes"');
   check("sort-only ACTION list offers both typed members",
     [actionOpts.indexOf("ZZ typed cat sort") !== -1, actionOpts.indexOf("ZZ typed bare sort") !== -1], [true, true]);
   wiki.deleteTiddler("ZZ typed cat sort"); wiki.deleteTiddler("ZZ typed bare sort"); wiki.deleteTiddler("ZZ act2"); wiki.deleteTiddler("R2");
@@ -627,7 +630,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 {
   const GST2 = "$:/config/hypergsd/list-view/GSD/Test/Next actions";
   wiki.deleteTiddler(GST2);
-  const body = '<$hgsd.list list-heading="Next actions" list-filter="[tag[$:/GSD/Action]gsd_complete[false]]" group-select="yes" group-default="$:/plugins/yan/hypergsd/ui/group-by/project" active-parents-only="no"/>';
+  const body = '<$hgsd.list list-heading="Next actions" list-filter="[tag[$:/GSD/Action]gsd_complete[false]]" group-select="yes" group-default="$:/plugins/yan/hypergsd/ui/group-by/project"/>';
   const render2 = () => {
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c);
@@ -729,7 +732,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
     })(c);
     return rows.filter(r => r.indexOf("ZZ s") === 0);
   };
-  const AT = 'list-heading="TS" list-filter="[tag[$:/GSD/Reference]] -[is[draft]]" sort-select="yes" active-parents-only="no"';
+  const AT = 'list-heading="TS" list-filter="[tag[$:/GSD/Reference]] -[is[draft]]" sort-select="yes"';
   check("default sort: newest modified first",
     rowsOf(AT), ["ZZ sc", "ZZ sb", "ZZ sa"]);
   check("title-asc state sorts A-Z",

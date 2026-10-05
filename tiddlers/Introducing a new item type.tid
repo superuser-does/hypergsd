@@ -46,7 +46,8 @@ Before joining anything, decide:
 # ''List blocks'' — for each dashboard you want the type listed on, ship a
   member of that dashboard's tag list with `hgsd-heading` and a Portion
   claim. Visibility rides the dashboard's visibility base; order rides the
-  tag's `list` field (users reorder via Settings).
+  tag list (the core-owned `list` field plus member `list-before`/`list-after`
+  pins — users reorder via Settings, whose drag writes the list field).
 # ''Capture'' — a member of a `$:/tags/hypergsd/Capture/Block/''n''` list so
   the type's capture controls appear in the capture sidebar, plus a toolbar
   button (`$hgsd.new-button`) for creating it from anywhere.

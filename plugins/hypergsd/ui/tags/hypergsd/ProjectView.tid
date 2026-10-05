@@ -1,2 +1,3 @@
-list: $:/plugins/yan/hypergsd/ui/project-view/next-actions $:/plugins/yan/hypergsd/ui/project-view/waiting-actions $:/plugins/yan/hypergsd/ui/project-view/future-actions $:/plugins/yan/hypergsd/ui/project-view/completed-actions $:/plugins/yan/hypergsd/ui/project-view/subprojects $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
+<!-- This list field orders the CORE members only (always present, so no absence hazard); sub-plugin members pin themselves via list-before/list-after against these anchors — an absent sub-plugin is an inert pin, and the natural fallback equals the old degraded order. -->
+list: $:/plugins/yan/hypergsd/ui/project-view/next-actions $:/plugins/yan/hypergsd/ui/project-view/waiting-actions $:/plugins/yan/hypergsd/ui/project-view/future-actions $:/plugins/yan/hypergsd/ui/project-view/completed-actions $:/plugins/yan/hypergsd/ui/project-view/subprojects
 title: $:/tags/hypergsd/ProjectView

@@ -1,5 +1,6 @@
 caption: {{$:/language/hypergsd/Sections/Context/Caption}}
 description: {{$:/language/hypergsd/Sections/Context/Description}}
+list-before: $:/plugins/yan/hypergsd/ui/modal/realm
 tags: $:/tags/hypergsd/ModalTemplate $:/tags/hypergsd/ModalTemplate/Portion/2
 title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
 

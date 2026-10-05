@@ -3,5 +3,6 @@ hgsd-config: Reference
 hgsd-default: top
 hgsd-type-tag: $:/GSD/Reference
 list: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body
+list-after:
 tags: $:/tags/hypergsd/ViewPlacement
 title: $:/plugins/yan/hypergsd-references/ui/view-placement/reference

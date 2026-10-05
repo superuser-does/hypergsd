@@ -18,7 +18,7 @@ tags: Documentation [[HyperGSD API]]
 ```
 
 * The number picks the block. Shipped blocks: ''1'' realm selection, ''2'' project links, ''3'' action links, ''4'' contexts and ticklers, ''5'' references, contacts and cleanup.
-* Within-block order comes from the block tag tiddler's `list` field (the core convention) — listed entries render first in `list` order, unlisted ones append alphabetically.
+* Within-block order is the engine's tag-list order — member `list-before`/`list-after` pins (the contacts entry pins itself before the cleanup member, so references leads), then alphabetical; no block tag tiddler ships a `list` field. A user-level `list` field (written by the Settings drag list) overrides the pins.
 * The entry's body is the content, rendered block-mode inside the block's `div`. Define your own `\procedure lingo-base()` if you use `<<lingo>>`.
 * The blocks themselves are discovered from the tag tiddlers' titles, sorted numerically — ship a `$:/tags/hypergsd/Review/6` tiddler to open a sixth block.
 * An absent sub-plugin is simply a missing entry; nothing gates on plugin existence.

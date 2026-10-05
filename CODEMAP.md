@@ -200,8 +200,9 @@ plugins/hypergsd/
 │       │                        INSIDE the buster gate — item edits never re-run
 │       │                        it); group-members="<filter>" overwrites the
 │       │                        offered set outright (type relevance skipped),
-│       │                        composing from hgsd-group-default = the tag
-│       │                        tiddler's list field (data-only:
+│       │                        composing from hgsd-group-default = the
+│       │                        GroupBy tag-index enumeration in render order
+│       │                        (data-only:
 │       │                        hgsd-group-key/hgsd-group-filter/optional
 │       │                        hgsd-label-filter; label via lingo fallback to
 │       │                        the key) + include-ungrouped toggle; per-list
@@ -522,7 +523,7 @@ plugins/hypergsd/
 │   A/B/C alphabetical = High→Low for free; not-set items land in the
 │   engine's keyless No group) — both typed action+project; a list-row
 │   select (ui/list-items/priority, a ListItem/Prefix member pinned after
-│   the status pills via the tag tiddler's list field — native $select,
+│   the status pills via its own list-after member pin — native $select,
 │   colour via CSS custom properties from the colours dict, Short/
 │   language strings with Name/ fallback, commits through
 │   hgsd-priority-set); a Settings → HyperGSD → Priorities tab (a native
@@ -732,8 +733,10 @@ plugins/hypergsd/
     │                            Contacts, new-reference from References,
     │                            new-context + default-context from Contexts).
     │                            Review is a block tag list —
-    │                            $:/tags/hypergsd/Review/<n> tag tiddlers (list
-    │                            field = within-block order), entries in
+    │                            $:/tags/hypergsd/Review/<n> tag tiddlers
+    │                            (within-block order = engine sortByList:
+    │                            member list-before/list-after pins, then
+    │                            alphabetical — no list field ships), entries in
     │                            ui/sidebar/review/ shipped by their owning
     │                            plugin, gaps via one adjacent-sibling margin
     │                            rule on .hgsd-review-block
@@ -768,8 +771,10 @@ plugins/hypergsd/
 Rendering pipeline (dashboard path):
 
 ```
-ui/dashboards/*            tag-driven loops ($:/tags/hypergsd*List; order = tag
-  │                        tiddler list field, blocks gated by visibility)
+ui/dashboards/*            tag-driven loops ($:/tags/hypergsd*List; order =
+  │                        the tag list — core-owned list field plus member
+  │                        list-before/list-after pins, blocks gated by
+  │                        visibility)
   └─ ui/lists/*            one <$hgsd.list> each (+ realm/group wiring)
        └─ $hgsd.list       realm set-arithmetic → pre-bracketed `hgsd-titles`
             └─ hgsd-render-inner   <$refresh> freeze + <$eventcatcher>
@@ -1145,7 +1150,7 @@ enter/escape per-widget.
 | `ui/panel/dependants` mirror picker | the "Prerequisite of" section carries the full DependsOn interaction writing the OTHER side: picker over incomplete actions minus self (the literal filter carries a `-[<currentTiddler>]` run — variable operands resolve at evaluation, so self-exclusion needs no dynamic composition), add/remove write the PICKED action's `gsd_prerequisites` (both sections' rows sort `gsd_complete` — incomplete first, stable within groups — and every add path clears the per-action pick afterwards), typed new picks go through `hgsd-create-and-add` with `new-prereq` (blank `target-field` skips the target write; `target-tiddler` still names the caller for AfterCreation rules) |
 | `$:/tags/hypergsd/AfterCreation` | post-create extension point — tagged rules transcluded by the shared runner `hgsd-run-after-create` (modules/run-after-create.tid, $:/tags/Global) after EVERY creation: the modal (new-source=modal) AND create-and-add pickers (new-source=picker, calling-tiddler = the tiddler whose field receives the item). Contract vars `hgsd-new-title`/`hgsd-new-type`/`hgsd-calling-tiddler`/`hgsd-new-source` are `$let` into scope (plain tiddler transclusion inherits caller scope but DROPS extra <$transclude> attributes — those only reach procedures/widgets). No list-field pinning: navigation is not a member — the modal navigates itself after the hook honouring new-action-navigate / new-project-navigate (pickers never navigate), so members are order-independent and no rule invalidates the invoking tree mid-chain. Members must read created-item data through ACTION attributes (invoke-time) — the calling tree renders before the item exists; the priorities default-priority rule is the reference. Shipped rules: contact-delegation + priorities default-priority (sub-plugins) |
 | `$:/tags/hypergsd/Ticklers/Snooze` + members | snooze-interval tag list (sub-plugin) — each member carries `days` + `caption`; the tickler alert body renders one button per member (list field pins one-day → one-week; ship your own by tagging) |
-| `$:/tags/hypergsd/Capture/Block/<n>` + members | **capture tag list** — numbered blocks own the capture sidebar outright (1 defaults: the //Default context:// select + //Default realm:// picker, one labelled line per member; 2 the common new-item buttons: action/project/reference; 3 the rarer pair: contact/context; 4 the realm note). Each block tag tiddler's `list` field pins member order (unlisted append alphabetically) and its `caption` (lingo `Settings/Sidebar/CaptureBlock/<n>`) labels its drag list in Settings → Sidebar; hide writes `$:/config/hypergsd/Capture/visibility/<title>` (default show), gated per entry by the renderer. Buttons are single `<$hgsd.new-button>` invocations; members ship from whichever plugin owns the type, so an absent sub-plugin is a missing entry (an all-absent block renders no div — no double gap) |
+| `$:/tags/hypergsd/Capture/Block/<n>` + members | **capture tag list** — numbered blocks own the capture sidebar outright (1 defaults: the //Default context:// select + //Default realm:// picker, one labelled line per member; 2 the common new-item buttons: action/project/reference; 3 the rarer pair: contact/context; 4 the realm note). Within-block order is the engine's sortByList (member list-before/list-after pins, then alphabetical — no block tag tiddler ships a list field) and each block's `caption` (lingo `Settings/Sidebar/CaptureBlock/<n>`) labels its drag list in Settings → Sidebar; hide writes `$:/config/hypergsd/Capture/visibility/<title>` (default show), gated per entry by the renderer. Buttons are single `<$hgsd.new-button>` invocations; members ship from whichever plugin owns the type, so an absent sub-plugin is a missing entry (an all-absent block renders no div — no double gap) |
 | `$:/config/hypergsd*/visibility/*` (11 list .multids across main + sub-plugins) | per-dashboard list visibility + drag-order seeds — live, consumed by the dashboard tag loops (see §7) |
 
 Control panel (`$:/tags/ControlPanel/SettingsTab` → HyperGSD): General
@@ -1344,8 +1349,8 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   per-page show-completed state opens both), so no page-level markup or
   literal `-[[title]]` exclusions exist — their Settings drag position is
   inert (the Full band renders after every portion; only the in-band
-  order follows the list field). The waiting list is the sole Portion/2
-  member (renders after Portion/1's members regardless of list-field
+  order follows the tag list). The waiting list is the sole Portion/2
+  member (renders after Portion/1's members regardless of tag-list
   position). Every by-contact list is seeded hidden on the main dashboard
   (available in its Settings drag rows), the flat waiting list seeded hidden
   on the Actions waiting page. ui/tags/HyperGSD/Lists/ContactAction + its
