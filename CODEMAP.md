@@ -501,8 +501,8 @@ plugins/hypergsd/
 │   (A/B/C, absent = not set): modules/priority-sets holds the vocabulary
 │   (\function hgsd-priority-rank, the status-sets pattern) AND the shared
 │   write \procedure hgsd-priority-set(item-title, priority-value) — the
-│   set path for every action-driven surface (the panel's Not set row, a
-│   planned list-item select); the panel's Portion/0 section (ui/panel/
+│   set path for every action-driven surface (the panel's Not set row); the
+│   panel's Portion/0 section (ui/panel/
 │   priority — the first portion claim below Portion/1) is three raw
 │   radios behind the section's OWN eventcatcher (the status-pill
 │   architecture: the catcher receives the label-forwarded click —
@@ -1438,18 +1438,10 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   sub-plugin ships a `$:/tags/hypergsd/Settings/List` tab; caption key
   Settings/Pages/Contact/Caption). Realm scoping and grouping support
   arrive free via the engine.
-- The References dashboard's grouping toggle reads
-  `$:/state/hypergsd/references-group` (view state only — no config shadow).
-
-Planned in-fork work (kept as reminders):
-- Sidebar targets not yet shipped: GSD/Active Project List, GSD/Active
-  Actions, GSD/Completed * sorted by name. The plugin ships no table
-  dashboard variant (deliberately left to user wikis; the review-sidebar
-  link and Review/TableDashboard lingo key are gone with it).
-- The ticklers stylesheet title
-  ($:/plugins/yan/hypergsd-ticklers/stylesheet/ticklers) does not match its
-  disk path (ui/stylesheet/ticklers.tid) — the filename=title convention is
-  broken for this one file.
+- The References dashboard has no bespoke grouping machinery: its list
+  (references-list) passes `group-select="yes"`/`sort-select="yes"`, so
+  grouping and sorting live in the standard view strip (view state at
+  `$:/config/hypergsd/list-view/GSD/References/References`).
 
 Intentional:
 - ui/readme.tid keeps GSD5 author credit — fork lineage attribution.
