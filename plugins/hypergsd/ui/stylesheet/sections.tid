@@ -64,6 +64,23 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
   margin-top: 1em;
 }
 
+/* Panel folding (hgsd-transclude-member, modules/section-portions): a
+   foldable section renders inside .hgsd-fold-slot, a reveal keyed on the
+   tiddler's core fold state. Two collapse guards keep folded layout hugging
+   its content: a slot whose section rendered nothing (sections gate their
+   own content by type) still leaves an empty wrapper, and a group or band
+   whose children are all hidden-or-empty must not linger as a gap-bearing
+   flex item. `:not()` with a selector list is the modern form; `:has` is
+   already in use by the status pills. */
+.hgsd-fold-slot:empty {
+  display: none;
+}
+.hgsd-capture > div:not(:has(> *:not([hidden], .hgsd-fold-slot:empty))),
+.hgsd-portion-top:not(:has(> *:not([hidden], .hgsd-fold-slot:empty))),
+.hgsd-portion-full:not(:has(> *:not([hidden], .hgsd-fold-slot:empty))) {
+  display: none;
+}
+
 /* The panel chassis is a styled fieldset: tc-tiddler-info supplies padding,
    background and top/bottom hairlines; this rule completes the border box on
    all four sides (revert option: see Panel chrome). */

@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
 \procedure lingo-base() $:/language/hypergsd/Lists/
 
 <!-- Gate composition for the context page's freeze (below): ListItem fragment runs, ContextAction member runs and the transitive strip runs (section-portions.tid's derivations), plus the base. The contexts fragment's pick temp arrives via its own hgsd-refresh-whitelist declaration — no hand-copied run. -->
-\function hgsd-view-body-context-whitelist(base-whitelist:"[tag[GSD/Contexts]] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [tag[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [!is[tiddler]] -[is[draft]]")
+\function hgsd-view-body-context-whitelist(base-whitelist:"[tag[GSD/Contexts]] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [tag[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/tags/hypergsd/Lists/ContextAction]] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd]] [prefix[$:/state/folded/]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [!is[tiddler]] -[is[draft]]")
 [function[hgsd-listitem-feature-runs]] [function[hgsd-member-feature-runs]] [function[hgsd-chassis-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
@@ -14,6 +14,8 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
 <$let tag-list="$:/tags/hypergsd/Lists/ContextAction" strip-hosts-regex={{{ [[$:/tags/hypergsd/Lists/ContextAction]] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
 <$refresh subfilter={{{ [function[hgsd-view-body-context-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Lists/ContextAction $:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix $:/tags/hypergsd/Strip">
 <%if [is[current]tag[GSD/Contexts]] %>
+<!-- View folding: the hand-rolled context block (heading + group-by toggle + lists — this view predates the dashboard chassis) folds on the host's core fold state like every chassis-hosted view; the reveal sits INSIDE this view's gate, so the gate's whitelist carries the folded prefix above. -->
+<$reveal tag="div" class="hgsd-fold-slot hgsd-fold-view" type="nomatch" stateTitle={{{ [[$:/state/folded/]addsuffix<currentTiddler>] }}} text="hide" default="show" retain="yes" animate="yes">
 <div class="context-view-template">
   <h3><<lingo Context/Heading>></h3>
   <!-- Group-by-project toggle shared by every block (each reads the state itself; default grouped). -->
@@ -35,6 +37,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
     <%endif%>
   </$list>
 </div>
+</$reveal>
 <%endif%>
 </$refresh>
 </$let>

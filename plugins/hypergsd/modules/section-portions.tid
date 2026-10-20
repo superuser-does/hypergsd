@@ -4,7 +4,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 \whitespace trim
 
 <!-- The ONE portion chassis core behind both named wrappers (panels/modal and dashboards): Portion/1..N render as side-by-side boxes (flattened to one flow by the panel-layout setting), while the two band slots bracket the row — Portion/Top spans the full width before it, Portion/Full after it. A portion exists the moment a member claims it; untagged members land in Portion/1 (the else<default-portion> indirection resolves their effective portion, so explicit and implicit claims share one loop and tag-list order rules within a portion); membership/order come from the tag list (a core-owned list field where the core interleave is non-alphabetical, member list-before/list-after pins after that, unlisted append alphabetically); visibility per member from <visibility-base><title>. Members are list tiddlers transcluded in block mode and read their section context (section-target/type/mode or new-data-title/current-type) from the CALLER's ambient scope. Scope: Global, not Global/View — the modal renders outside ViewTemplate imports. -->
-\procedure hgsd-portions-core(tag-list, visibility-base, columns-class)
+\procedure hgsd-portions-core(tag-list, visibility-base, columns-class, fold-state:"", fold-visibility-base:"")
 <$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
   portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
   top-portion={{{ [<tag-list>addsuffix[/Portion/Top]] }}}
@@ -13,7 +13,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 <div class="hgsd-portion-top">
   <$list filter="[<tag-list>] :and[tagging[]] :and[tag<top-portion>] :and[!is[draft]]" variable="portion-member">
     <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-      <$transclude $tiddler=<<portion-member>> $mode="block"/>
+      <$transclude $variable="hgsd-transclude-member" member=<<portion-member>>/>
     <%endif%>
   </$list>
 </div>
@@ -23,7 +23,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
     <div>
       <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="portion-member">
         <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-          <$transclude $tiddler=<<portion-member>> $mode="block"/>
+          <$transclude $variable="hgsd-transclude-member" member=<<portion-member>>/>
         <%endif%>
       </$list>
     </div>
@@ -33,7 +33,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 <div class="hgsd-portion-full">
   <$list filter="[<tag-list>] :and[tagging[]] :and[tag<full-portion>] :and[!is[draft]]" variable="portion-member">
     <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>
-      <$transclude $tiddler=<<portion-member>> $mode="block"/>
+      <$transclude $variable="hgsd-transclude-member" member=<<portion-member>>/>
     <%endif%>
   </$list>
 </div>
@@ -41,8 +41,17 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 </$let>
 \end
 
-\procedure hgsd-section-portions(tag-list, visibility-base)
-<$transclude $variable="hgsd-portions-core" tag-list=<<tag-list>> visibility-base=<<visibility-base>> columns-class="hgsd-capture"/>
+<!-- The ONE member transclusion point (all three loops in the chassis above route through it). Panel folding: when the caller passes a fold-state title (the panel chassis passes the tiddler's CORE fold state, $:/state/folded/<title> — same tiddler, same orientation, as the body's own reveal, so the built-in fold bar/toolbar button folds body and sections together), members whose folded visibility is "hide" render inside a reveal keyed on that state; members set to "show" render bare and stay visible while folded. Config lives at <fold-visibility-base><member> (text show/hide, default hide — Status and Complete ship "show"), read fresh each render so the Settings select takes effect on the next admitted cycle (the config prefix is already gate-admitted). No fold-state (the modal and the dashboard wrapper) means no wrapping at all — the modal never folds. -->
+\procedure hgsd-transclude-member(member)
+<%if [<fold-state>!match[]] :and[<fold-visibility-base>addsuffix<member>get[text]else[hide]match[hide]] %>
+<$reveal tag="div" class="hgsd-fold-slot" type="nomatch" stateTitle=<<fold-state>> text="hide" default="show" retain="yes" animate="yes"><$transclude $tiddler=<<member>> $mode="block"/></$reveal>
+<%else%>
+<$transclude $tiddler=<<member>> $mode="block"/>
+<%endif%>
+\end
+
+\procedure hgsd-section-portions(tag-list, visibility-base, fold-state:"", fold-visibility-base:"")
+<$transclude $variable="hgsd-portions-core" tag-list=<<tag-list>> visibility-base=<<visibility-base>> columns-class="hgsd-capture" fold-state=<<fold-state>> fold-visibility-base=<<fold-visibility-base>>/>
 \end
 
 <!-- Dashboard pages' wrapper: same slot vocabulary, full-width row (dashboards fill the page; panels hug content in .hgsd-capture). Refresh gate: dashboard pages sit in the story with no chassis gate of their own, so portion/membership edits (Settings picker, tag-list `list` writes) and per-list visibility config must wake this row. Item edits and deletions open the chassis via the type-gate and !is[tiddler] runs so the inner $hgsd.list gates can decide for themselves (their rows freeze further down); drafts never match the type-gate, so editor keystrokes stay out. The [match<tag-list>] run is input-driven, not a bare [<tag-list>] variable run — a variable run emits the tag's title unconditionally, which kept this gate permanently open (fixed 2026-09-12). Two base runs admit content that lives INSIDE this gate: the config prefix (a member list's view strip reads its per-list config tiddler inside the list's own freeze below; also config-driven list options like future-items-sweep) and the scoped show-completed pair ($hgsd.toggle state inside a member's own content; subtraction scopes it to this page — a suffix-of-another-title page over-refreshes, never under-refreshes). Everything feature-owned is DERIVED (hgsd-chassis-whitelist, file top): ListItem fragments' and this tag list's members' hgsd-refresh-whitelist fields, plus Strip members found transitively through the members' hgsd-heading — a missed declaration, not a missed host-gate run, is the only way a member's control can freeze now. -->
@@ -61,9 +70,12 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 
 \procedure hgsd-dashboard-portions(tag-list, visibility-base)
 <!-- The strip-hosts regex for the transitive derivation: this list's members' resolved heading texts. Sits above the gate (the derivation reads it as a variable), so it recomputes on every admitted descent — one tag-index walk, page-level, negligible. -->
+<!-- View folding: the whole chassis (bands + portions row, lists and all) sits inside a reveal keyed on the HOST's core fold state — the same tiddler, same orientation as the body's reveal and the panel's section reveals, so the built-in fold bar/toolbar button folds body, panel sections and lists together. GENERIC by construction: every host folds — dashboard pages, the project view, the contact view — with zero per-host wiring, the state title being $:/state/folded/<currentTiddler> at chassis scope (procedures do not rebind currentTiddler; the member transclusions below it do, but they sit deeper). The reveal sits OUTSIDE/ABOVE this gate on purpose: a fold toggle flips the state without touching the lists' own refresh (unrelated changes pass through reveal.refreshChildren into the gate untouched — the gate's whitelist needs no folded prefix), and on cores with lazy reveals (>=5.5) a folded chassis constructs no children at all, gate included — the whole view costs one hidden div while folded. Host views that wrap this chassis in their OWN gates (view-body-project, view-body-contact) admit the prefix themselves. -->
 <$let strip-hosts-regex={{{ [<tag-list>] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
+<$reveal tag="div" class="hgsd-fold-slot hgsd-fold-view" type="nomatch" stateTitle={{{ [[$:/state/folded/]addsuffix<currentTiddler>] }}} text="hide" default="show" retain="yes" animate="yes">
 <$refresh subfilter={{{ [function[hgsd-chassis-whitelist]] }}} subfilter-tag-inputs={{{ [<tag-list>] [[$:/tags/hypergsd/ListItem/Prefix]] [[$:/tags/hypergsd/ListItem/Suffix]] [[$:/tags/hypergsd/Strip]] +[join[ ]] }}}>
 <$transclude $variable="hgsd-portions-core" tag-list=<<tag-list>> visibility-base=<<visibility-base>> columns-class="hgsd-portion-columns"/>
 </$refresh>
+</$reveal>
 </$let>
 \end

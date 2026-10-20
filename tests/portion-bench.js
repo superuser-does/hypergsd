@@ -20,8 +20,8 @@ const fmt = ms => ms.toFixed(3) + " ms";
 const surfaces = {
   "dashboard chassis (GSD/Dashboard)":
     '<$transclude $tiddler="GSD/Dashboard" $mode="block"/>',
-  "panel chassis (hgsd-section-portions)":
-    '<$tiddler tiddler="A next"><$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/></$tiddler>',
+  "panel chassis (hgsd-section-portions, fold params as the panel passes them)":
+    '<$tiddler tiddler="A next"><$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/" fold-state="$:/state/folded/A next" fold-visibility-base="$:/config/hypergsdPanel/folded/"/></$tiddler>',
   "Settings sections page (picker rows)":
     '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sections" $mode="block"/>'
 };

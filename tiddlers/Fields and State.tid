@@ -30,6 +30,7 @@ Type identity is carried by ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD
 |`$:/state/hypergsd/effective-realm` / `-context` |Inherited realm/context for the capture sidebar and modal (creation side — separate vocabulary from realm-selection) |
 |`$:/state/hypergsd/show-completed/<tiddler>` |Per-view lazy toggle for completed sections — and per dashboard page: `$hgsd.toggle` members default to this prefix plus the hosting page's title (override with the widget's `state`/`state-prefix`) |
 |`$:/state/hypergsd/edit-<field>-<tiddler>` |Pick-field editor open state |
+|`$:/state/folded/<tiddler>` |''Core's'' per-tiddler fold state — written by the fold bar / fold toolbar button (not by HyperGSD). Panel sections whose folded visibility is Hidden render inside reveals keyed on it, and the lists chassis (`hgsd-dashboard-portions`) folds whole views on it — project/contact views and dashboard pages fold with the tiddler. Session-only; absent means unfolded |
 |`$:/state/popup/pick-<id>-<tiddler>` |Picker popup state (whitelisted in view refresh gates) |
 |`$:/temp/gsd-new-temp` |Modal working tiddler (`hgsd-type`, `gsd-*` values) |
 |`$:/temp/gsd-new-title` |Modal title input, kept outside refresh gates |
@@ -53,6 +54,7 @@ Type identity is carried by ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD
 |`$:/config/hypergsd/list-view/<host>/<heading>` |— |Per-instance view state (group / ungrouped / sort fields) — the strip's writes |
 |`$:/config/hypergsd/<Tag list>/hidden/<member>` |— |Withdraws a GroupBy/SortBy member from every strip and picker (Settings → Dashboards) |
 |`$:/config/hypergsdPanel/visibility/<section>` / `$:/config/hypergsdModal/visibility/<section>` |show |Per-section show/hide (Settings → Panel and modal) |
+|`$:/config/hypergsdPanel/folded/<section>` |hide |Per-section visibility while the tiddler is folded: `show` keeps the section beside Status and Complete, `hide` (the default) folds it away with the body (Settings → Panel and modal → Panel sections; the modal never folds) |
 |`$:/config/hypergsd/new-action-navigate` / `new-project-navigate` |yes |Navigate to the tiddler after creating it from the modal (the modal's own post-hook step, not an AfterCreation member) |
 
 ''Authoring note'': config-shadow `.tid` bodies ship ''without'' trailing newlines (shadow-newline-test enforces this) and `match[]` compares exactly — append `trim[]` or use a `get[else]` operand when comparing config text values in filters.

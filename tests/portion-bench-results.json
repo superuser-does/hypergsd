@@ -1,6 +1,6 @@
 {
-  "dashboard chassis (GSD/Dashboard)": 29.469333,
-  "panel chassis (hgsd-section-portions)": 6.096554,
-  "Settings sections page (picker rows)": 12.889031,
-  "dashboard refresh (member add+remove)": 9.985094
+  "dashboard chassis (GSD/Dashboard)": 27.089309,
+  "panel chassis (hgsd-section-portions, fold params as the panel passes them)": 6.485814,
+  "Settings sections page (picker rows)": 13.245131,
+  "dashboard refresh (member add+remove)": 9.321959
 }

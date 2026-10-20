@@ -1,8 +1,8 @@
 title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body
 
 \whitespace trim
-<!-- Refresh gate: freezes the panel against the global refresh cycle (each ViewPlacement member's type dispatch happens upstream in view-body-slot before this body is transcluded, so the body needs no type test of its own). The tag run is a prefix run, NEVER a literal title run (emits unconditionally, defeats the gate). The scoped pair comes FIRST (:and replaces the output so far), so typing into one panel's picker re-renders only that panel. A host title that is a suffix of another host's may over-refresh — harmless. -->
-<$refresh subfilter="[prefix[$:/temp/hypergsd/add-]] :and[suffix<currentTiddler>] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/PanelTemplate]] [prefix[$:/tags/hypergsd/PanelTemplate]] [tag[$:/tags/hypergsd/Type]] [prefix[$:/state/hypergsd]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] -[is[draft]]">
+<!-- Refresh gate: freezes the panel against the global refresh cycle (each ViewPlacement member's type dispatch happens upstream in view-body-slot before this body is transcluded, so the body needs no type test of its own). The tag run is a prefix run, NEVER a literal title run (emits unconditionally, defeats the gate). The scoped pair comes FIRST (:and replaces the output so far), so typing into one panel's picker re-renders only that panel. A host title that is a suffix of another host's may over-refresh — harmless. The folded-state prefix admits the CORE fold state: the per-section reveals below read $:/state/folded/<title>, and without this run the built-in fold bar/toolbar button would write a state the frozen panel never sees (a silently dead toggle). -->
+<$refresh subfilter="[prefix[$:/temp/hypergsd/add-]] :and[suffix<currentTiddler>] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/PanelTemplate]] [prefix[$:/tags/hypergsd/PanelTemplate]] [tag[$:/tags/hypergsd/Type]] [prefix[$:/state/hypergsd]] [prefix[$:/state/folded/]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] -[is[draft]]">
 <!-- The panel is a styled fieldset: it genuinely groups a set of related form controls. Section membership/order come from $:/tags/hypergsd/PanelTemplate (the core-only list field single-sources core order; sub-plugin sections append alphabetically and need no pins); Group/1, Group/2, ... tags decide placement (untagged sections land in Group/1). Groups are bare divs — orientation (stacked or flowing) is the transcluded panel-layout setting, not markup. Visibility per section: $:/config/hypergsdPanel/visibility/<section-title>, default show. -->
 <fieldset class="tc-tiddler-info gsd-info-mod hgsd-panel-fieldset">
   <!-- Centralised O(1) event listener for all UI controls in this panel. -->
@@ -13,7 +13,7 @@ title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body
       section-mode="panel"
       section-status-target=<<currentTiddler>>
       section-type={{{ [all[current]tags[]tag[$:/tags/hypergsd/Type]get[hgsd-type]] }}}>
-    <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/>
+    <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/" fold-state={{{ [[$:/state/folded/]addsuffix<currentTiddler>] }}} fold-visibility-base="$:/config/hypergsdPanel/folded/"/>
     </$let>
   </div>
   </$eventcatcher>

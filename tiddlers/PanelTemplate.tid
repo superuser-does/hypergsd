@@ -31,5 +31,23 @@ tags: Documentation [[HyperGSD API]]
 
 The view's placement (above/below the body) is configurable per type via the [[ViewPlacement|ViewPlacement]] tag list (`$:/config/hypergsd/Placement/*`); the orientation within a group (stacked or flowing) is the `$:/config/hypergsd/panel-layout` setting (Panel and modal tab, shared with the modal).
 
+! Folding
+
+Panel sections participate in TiddlyWiki's per-tiddler folding. The panel chassis passes the tiddler's core fold state (`$:/state/folded/<title>` — the same tiddler, with the same orientation, as the body's own reveal) into the portions engine, and every section whose folded visibility is Hidden renders inside a `<$reveal>` keyed on that state. Fold a tiddler with the fold bar or the fold toolbar button and the body and the Hidden sections fold together; sections set to Shown stay visible. The core fold bar ships hidden in TiddlyWiki — enable it under Settings → Toolbars → view toolbar buttons (this wiki ships it enabled).
+
+Each section's folded visibility is set per section in Settings → Panel and modal → Panel sections ("Visibility when tiddler is folded"), stored as `show`/`hide` at `$:/config/hypergsdPanel/folded/<section title>`, defaulting to `hide`. Status and Complete ship as `show`; hypergsd-priorities ships its Priority section as `show` from its own config. The modal never folds — its sections render regardless of the host tiddler's fold state.
+
+! Lists fold too
+
+Folding is generic at the lists chassis: `hgsd-dashboard-portions` wraps its whole output (bands, portions, lists) in a reveal keyed on the host's core fold state, so ''every'' host folds with its tiddler — dashboard pages, the project view (a folded project tiddler shows its panel card and nothing else), the contact view, and the hand-rolled context view. No configuration and no per-host wiring: a new dashboard page or view host gets folding by rendering through the chassis.
+
+! Folding for section authors
+
+A shipped panel section needs ''no work'' to participate: it folds away with the tiddler by default, and its Settings row grows the folded-visibility select automatically. Three things to know:
+
+* ''Stay-visible sections'' ship a config shadow titled `$:/config/hypergsdPanel/folded/<section title>` with text `show` (body without a trailing newline — the config-shadow rule; see [[Fields and State]]). That is exactly how Status and Complete ship theirs (`ui/config/panel-fold/defaults.multids`). A sub-plugin ships its own file the same way, so the default travels with the plugin — hypergsd-priorities ships its Priority section as `show` (`hypergsd-priorities/ui/config/panel-fold/defaults.multids`).
+* ''One extra wrapper div.'' In the panel, a foldable section's content sits inside `div.hgsd-fold-slot` (the reveal). Styles keyed on your section's own classes are unaffected; a selector reaching ''down'' from the portion container (`.hgsd-capture > div > …`) gains one level in panels. Modal and dashboard renderings have no wrapper.
+* ''No refresh declaration.'' The reveal reads core's `$:/state/folded/` prefix, which the panel and placement-slot gates already admit — nothing to add to `hgsd-refresh-whitelist`. A sub-plugin hosting its ''own'' panel chassis (its own `hgsd-section-portions` call with `fold-state`) must admit `[prefix[$:/state/folded/]]` in its own gate; without `fold-state` a chassis simply never folds (the modal and every dashboard).
+
 ! Best Practice
 Interactive controls: standard widgets carry their own handling; raw `<input>`/`<button>` elements only work for the plugin's `data-hgsd-*` actions via the event delegation — new actions require extending the event handler module.

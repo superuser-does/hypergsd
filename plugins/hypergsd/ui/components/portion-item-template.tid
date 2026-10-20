@@ -5,3 +5,12 @@ title: $:/plugins/yan/hypergsd/ui/components/portion-item-template
 <!-- Item template for the Settings draggables (hgsd-visibility-list): the core row (caption/description + checkbox + drag handle) plus the Portion picker (ui/components/portion-picker — retags the member; its ambient scope comes from the hosting visibility-list). -->
 <$transclude $tiddler="$:/core/ui/ControlPanel/Toolbars/ItemTemplate"/>
 <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/portion-picker"/>
+<!-- Folded-visibility select: rendered only where the hosting list passes fold-visibility-base (the panel sections list — the modal never folds), so the control never appears on rows it cannot affect. Writes show/hide to <fold-visibility-base><member>; the panel chassis reads the same tiddler when wrapping members in fold reveals (modules/section-portions, hgsd-transclude-member). default=hide: an unconfigured section folds away with the tiddler; Status and Complete ship "show" shadows (ui/config/panel-fold/defaults.multids). -->
+<%if [<fold-visibility-base>!match[]] %>
+<span class="hgsd-fold-picker" title={{$:/language/hypergsd/Settings/PanelModal/FoldedVisibility/Hint}}>
+  <$select tiddler={{{ [<fold-visibility-base>addsuffix<currentTiddler>] }}} default="hide">
+    <option value="show">{{$:/language/hypergsd/Settings/PanelModal/FoldedVisibility/Shown}}</option>
+    <option value="hide">{{$:/language/hypergsd/Settings/PanelModal/FoldedVisibility/Hidden}}</option>
+  </$select>
+</span>
+<%endif%>

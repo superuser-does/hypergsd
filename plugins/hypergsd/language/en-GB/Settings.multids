@@ -37,6 +37,10 @@ PanelModal/Sections: Section visibility
 PanelModal/Prompt: Choose which sections are displayed in the view panel and the new-item modal. Drag and drop entries to change the ordering.
 PanelModal/Panel: Panel sections
 PanelModal/Modal: Modal sections
+PanelModal/FoldNote: Sections set to Hidden are tucked away while a tiddler is folded, and the tiddler's lists fold with it; fold with TiddlyWiki's fold bar or the fold toolbar button. Status and Complete default to Shown.
+PanelModal/FoldedVisibility/Hint: Visibility when tiddler is folded
+PanelModal/FoldedVisibility/Shown: Shown
+PanelModal/FoldedVisibility/Hidden: Hidden
 PanelModal/PortionTop: Top, full-width
 PanelModal/PortionFull: Bottom, full-width
 PanelModal/Portion/Hint: Portions are the layout slots an entry renders in. Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag

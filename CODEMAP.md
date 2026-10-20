@@ -27,8 +27,8 @@ logic is wikitext.
 | Author | Yannis Anthymidis (fork); upstream GSD5 by Roma Quintin Hicks et al. |
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
-| Main-plugin content | 215 files + `plugin.info` (197 tid + 16 multids + 1 js) |
-| Sub-plugin content | contacts 39 files (29/9/0), contexts 24 (17/6/0), priorities 14 (10/3/0), references 17 (12/4/0), ticklers 25 (19/4/1), trashbin 4 (2/1/0) — tid/multids/js |
+| Main-plugin content | 216 files + `plugin.info` (197 tid + 17 multids + 1 js) |
+| Sub-plugin content | contacts 39 files (29/9/0), contexts 24 (17/6/0), priorities 15 (10/4/0), references 17 (12/4/0), ticklers 25 (19/4/1), trashbin 4 (2/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; `ui/readme.tid` (`$:/language/Help/hypergsd/about`) keeps the GSD5 author credit (fork lineage attribution); the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
@@ -90,7 +90,20 @@ plugins/hypergsd/
 │   │                            and hgsd-dashboard-portions (every dashboard
 │   │                            page is a one-line call; only it carries the
 │   │                            refresh gate) — the shared Portion/N +
-│   │                            Top/Full band layout engine (see §7)
+│   │                            Top/Full band layout engine (see §7);
+│   │                            hgsd-transclude-member is the ONE member
+│   │                            transclusion point — with fold params it
+│   │                            wraps fold-configured sections in a reveal
+│   │                            keyed on the tiddler's core fold state
+│   │                            ($:/state/folded/<title>; config at
+│   │                            $:/config/hypergsdPanel/folded/<member>,
+│   │                            default hide; Status/Complete ship show);
+│   │                            hgsd-dashboard-portions self-wraps in the
+│   │                            same reveal above its gate, so every host
+│   │                            (dashboard pages, the project and contact
+│   │                            views) folds with its tiddler — host gates
+│   │                            (view-body-project/-contact/-context)
+│   │                            admit the folded prefix
 │   ├── view-body-slot.tid       Global/View \procedure hgsd-view-body-slot(side)
 │   │                            — the ViewPlacement placement engine behind
 │   │                            view-body-top/bottom; carries its own refresh
@@ -788,7 +801,10 @@ before/after core body, looping the `$:/tags/hypergsd/ViewPlacement` tag list:
 per member, the type-tag match + `hgsd-config`/`hgsd-default` side pick the
 hook, the `list` field orders the bodies) → shared
 `view-body` panel (styled `<fieldset>` chassis; sections from two tag loops over
-``$:/tags/hypergsd/PanelTemplate` portioned via modules/section-portions (Portion/N + the Top/Full bands), visibility-guarded) +
+``$:/tags/hypergsd/PanelTemplate` portioned via modules/section-portions (Portion/N + the Top/Full bands), visibility-guarded; the chassis passes the
+core fold state so sections configured Hidden fold with the tiddler —
+see hgsd-transclude-member; both this gate and the slot gate admit
+`[prefix[$:/state/folded/]]` so the built-in fold toggle reaches the reveals) +
 `view-body-project` (own `$refresh`+`$eventcatcher` wrappers around the
 `$:/tags/hypergsd/ProjectView` tag list rendered through
 hgsd-dashboard-portions — the five ui/project-view members

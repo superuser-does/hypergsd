@@ -18,7 +18,9 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/sections
 
 !! <<lingo PanelModal/Panel>>
 
-<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/>
+//<<lingo PanelModal/FoldNote>>//
+
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/" fold-visibility-base="$:/config/hypergsdPanel/folded/"/>
 
 !!<<lingo PanelModal/Modal>>
 
