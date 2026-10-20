@@ -1,0 +1,4 @@
+title: $:/config/hypergsdPanel/folded/$:/
+
+plugins/yan/hypergsd/ui/attributes/status: show
+plugins/yan/hypergsd/ui/panel/complete: show
