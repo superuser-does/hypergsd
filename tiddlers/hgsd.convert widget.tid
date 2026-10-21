@@ -3,7 +3,7 @@ title: hgsd.convert widget
 tags: Documentation [[HyperGSD API]]
 
 ! Introduction
-The convert widget turns the current Action tiddler into a Project tiddler in one click: it removes the `$:/GSD/Action` tag, adds `$:/GSD/Project`, clears `gsd_prerequisites`, and sets the new project's status — `active` if the action was `next`, otherwise `future`.
+The convert widget turns the current Action tiddler into a Project tiddler in one click: it removes the `$:/GSD/Action` tag, adds `$:/GSD/Project`, clears `gsd_prerequisites`, and sets the new project's status — `active` if the action was `next`, otherwise `future`. A non-empty `gsd_prerequisites` adds a warning line to the confirmation (see [[Convert warnings]]).
 
 ! Content and Attributes
 The widget's content becomes the button label (defaults to `convert`).

@@ -18,7 +18,7 @@ Having a much bigger wiki also led to questions on how to make about how to make
 
 * ''Multiple dependencies'': You can now have a list of dependencies against a single GSD action, with easy ways to add and remove them.
 ** While technically possible, contacts have been limited to just one, as a design decision to help productivity. If you are thinking you should list more than one contact, consider changing your action into multiple.
-* ''Searchable pickers'': Projects, contacts, contexts and prerequisites are now chosen through a reusable popup picker (`$hgsd.pick`) instead of a flat dropdown. Type into the box to filter the list as you go. Project pickers (e.g. to select parent project) filter for titles and text default, while the prerequisite picker also searches body text and project name. Results stay grouped under their projects, with the current project shown first for convenience.
+* ''Searchable pickers'': Projects, contacts, contexts and pre-requisites are now chosen through a reusable popup picker (`$hgsd.pick`) instead of a flat dropdown. Type into the box to filter the list as you go. Project pickers (e.g. to select parent project) filter for titles and text default, while the pre-requisite picker also searches body text and project name. Results stay grouped under their projects, with the current project shown first for convenience.
 * ''Explicit contexts'': Contexts are now managed separately from other tags. They are deliberately not namespaced to GSD, and any page can become a context by tagging it with <<tag-pill GSD/Contexts>>
 * ''Modal options'': The new HyperGSD tiddler modal now lets you choose the type, status, project, contact, context and realm of a new item before it is created.
 * ''In-place editing'': Clicking edit beside a project or contact opens the picker pre-filled with the current value and focused ready for typing. Enter saves, Escape cancels without changing anything.
@@ -33,7 +33,7 @@ Having a much bigger wiki also led to questions on how to make about how to make
 * ''Tag-driven types'': HyperGSD relies 100% on specific tags (<<tag-pill $:/GSD/Action>>, <<tag-pill $:/GSD/Project>>, <<tag-pill $:/GSD/Contact>>, <<tag-pill $:/GSD/Reference>>) to identify items. This routes every database query through TiddlyWiki's ultra-fast C-level tag index rather than performing slow field scans.
 * ''Statically-linked dashboards'': The "Dynamic Extensibility" loops that generated dashboards via shadow tags have been ripped out. Dashboards are now heavily optimized, hardcoded transclusions.
 * ''Draft tiddlers are now excluded'' from lists, so you will not see a draft and the standard tiddler on refresh.
-* ''Unified picker widget'': The Contact, Project, Prerequisite and modal dropdowns have been consolidated into one reusable `$hgsd.pick` widget — a single popup selector whose grouped lists are built from literal, statically-cacheable filter runs.
+* ''Unified picker widget'': The Contact, Project, Pre-requisite and modal dropdowns have been consolidated into one reusable `$hgsd.pick` widget — a single popup selector whose grouped lists are built from literal, statically-cacheable filter runs.
 * ''Bulletproof checkboxes'': Status and completion doodads now use a robust conditional rendering strategy to explicitly remove the `checked` attribute when inactive, preventing browser rendering bugs.
 
 !! What Was Removed?

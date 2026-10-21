@@ -27,7 +27,7 @@ logic is wikitext.
 | Author | Yannis Anthymidis (fork); upstream GSD5 by Roma Quintin Hicks et al. |
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
-| Main-plugin content | 216 files + `plugin.info` (197 tid + 17 multids + 1 js) |
+| Main-plugin content | 217 files + `plugin.info` (198 tid + 17 multids + 1 js) |
 | Sub-plugin content | contacts 39 files (29/9/0), contexts 24 (17/6/0), priorities 15 (10/4/0), references 17 (12/4/0), ticklers 25 (19/4/1), trashbin 4 (2/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; `ui/readme.tid` (`$:/language/Help/hypergsd/about`) keeps the GSD5 author credit (fork lineage attribution); the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
@@ -345,7 +345,7 @@ plugins/hypergsd/
 │                                passes <$action-confirm>). Message = base +
 │                                $:/tags/hypergsd/Convert/Warning fragments
 │                                (modules/convert-warnings/): each carries
-│                                `hgsd-warning` (sentence) + optional `hgsd-conditions`
+│                                `hgsd-warning` (lingo key) + optional `hgsd-conditions`
 │                                (filter; ambient host-title; absent = always).
 │                                Two enumeration pipelines (:filter runs are
 │                                SINGLE runs — no multi-run operands; constructor

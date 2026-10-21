@@ -16,7 +16,7 @@ type: text/vnd.tiddlywiki
 
 !!! Picker and list refreshing
 
-To eliminate UI lag during typing and navigation, the filters in the panel dropdowns (Contact, Project, and Prerequisite) have been stripped of all dynamic variables. This allows TiddlyWiki to aggressively cache them.
+To eliminate UI lag during typing and navigation, the filters in the panel dropdowns (Contact, Project, and Pre-requisite) have been stripped of all dynamic variables. This allows TiddlyWiki to aggressively cache them.
 
 * ''Broken links'': If you e.g. assign a contact to an action and then delete that contact tiddler entirely, the dropdown will display as blank (`-- none --`) because the engine no longer performs an expensive fallback search to find the missing title.
 

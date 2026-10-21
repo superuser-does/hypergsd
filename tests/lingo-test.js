@@ -76,7 +76,7 @@ check("override removed", render("$:/plugins/yan/hypergsd/ui/control-panel/view-
 const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix + "]]").length;
 const fams = {
   "$:/language/hypergsd/Settings/": 159, "$:/language/hypergsd/Sections/": 75,
-  "$:/language/hypergsd/Convert/": 4, "$:/language/hypergsd/Lists/": 79,
+  "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 79,
   "$:/language/hypergsd/Dashboards/": 9, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 40, "$:/language/hypergsd/NewItem/": 5,
   "$:/language/hypergsd/Widgets/": 13,
@@ -104,6 +104,9 @@ check("picker instant-commit labels present", [/instantly/i.test(wiki.getTiddler
 // 7. Fragment warning fields hold keys, not prose
 const frag = wiki.getTiddler("$:/plugins/yan/hypergsd/modules/convert-warnings/prerequisite");
 check("fragment warning is a key", frag && frag.fields["hgsd-warning"], "Prerequisite");
+const fragOwn = wiki.getTiddler("$:/plugins/yan/hypergsd/modules/convert-warnings/own-prerequisites");
+check("own-prereq fragment warning is a key", fragOwn && fragOwn.fields["hgsd-warning"], "OwnPrerequisites");
+check("own-prereq warning text resolves", /pre-requisites/.test(wiki.getTiddlerText("$:/language/hypergsd/Convert/Warnings/OwnPrerequisites") || ""), true);
 
 // 8. Spot renders: sidebar tabs and toolbar buttons localise
 const review = render("$:/plugins/yan/hypergsd/ui/sidebar/review-sidebar");

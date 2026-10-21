@@ -10,7 +10,7 @@ It contains:
 ** Contexts (TW5 Tags; ships from the HyperGSD-Contexts sub-plugin)
 ** References (ships from the HyperGSD-References sub-plugin)
 * An array of tools and displays to organize HyperGSD tiddlers
-** Instant-commit pickers: the project, contact and prerequisite pickers commit a selection the moment you pick it, when you're using a mouse (on by default; toggle in Settings → Core) — on touch they keep the explicit Add step
+** Instant-commit pickers: the project, contact and pre-requisite pickers commit a selection the moment you pick it, when you're using a mouse (on by default; toggle in Settings → Core) — on touch they keep the explicit Add step
 ** Per-list defaults: each dashboard list's Settings row carries Group by and Sort by pickers beside the Portion picker — the chosen default applies wherever that list renders, and per-page strip choices still override it
 ** Option withdrawal: untick any Group by or Sort by option on Settings → Dashboards to withdraw it from every list's view strip (re-tick to restore); a list's explicit group-members set is exempt; withdraw every Group by option and the Group by controls disappear entirely (None alone never shows)
 * Platform for expansion with other plugins

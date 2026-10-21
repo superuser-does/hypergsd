@@ -4,4 +4,5 @@ title: $:/language/hypergsd/Convert/
 # carry a warning field holding the KEY of an entry under Warnings/ below.
 Base: Convert this action into a project?
 DefaultButtonLabel: convert
-Warnings/Prerequisite: Other actions depend on this action as a prerequisite. Prerequisites only apply between actions, not projects.
+Warnings/OwnPrerequisites: This action still has pre-requisites, which will be cleared when it becomes a project.
+Warnings/Prerequisite: Other actions depend on this action as a pre-requisite. Pre-requisites only apply between actions, not projects.

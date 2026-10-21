@@ -6,7 +6,7 @@ tags: Documentation [[HyperGSD API]]
 Render a fragment after any GSD link to another tiddler by tagging a tiddler with `$:/tags/hypergsd/LinkItem`.
 
 ! Detail
-Where the [[ListItem|ListItem Prefix and Suffix]] tag lists adorn a list row's ''own item'', LinkItems adorn a ''link target''. The shared `hgsd-link-items(linked-tiddler)` procedure is placed after the link by every host — `$hgsd.pick-field`'s set state (between the value link and the change button), and the prerequisites/dependants rows. Members receive `linked-tiddler` (the link target's title) with the ambient scope intact.
+Where the [[ListItem|ListItem Prefix and Suffix]] tag lists adorn a list row's ''own item'', LinkItems adorn a ''link target''. The shared `hgsd-link-items(linked-tiddler)` procedure is placed after the link by every host — `$hgsd.pick-field`'s set state (between the value link and the change button), and the pre-requisites/dependants rows. Members receive `linked-tiddler` (the link target's title) with the ambient scope intact.
 
 | !Member | !Adornment |
 |`ui/link-items/realm` |the cross-realm globe — the target falls outside the review sidebar's current realm selection (gated by `$:/config/hypergsd/realm-warning`) |

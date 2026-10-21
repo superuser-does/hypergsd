@@ -3,7 +3,7 @@ title: hgsd.pick-append widget
 tags: Documentation [[HyperGSD API]]
 
 ! Introduction
-A one-row list adder wrapping `<$hgsd.pick>` — the pick family's list member, sibling of `<$hgsd.pick-field>` (the three-state single-value editor). Picking appends one title to a list field; the Add button appears only once a commitable pick is typed — existing title, or any title on hosts without creation (a blank box shows the "new" button alone, and a typed non-existent title leaves create-and-add as the only commit affordance) — and the keyboard shortcut (Enter by default) on a typed non-existent title creates that tiddler and adds it. Used by the DependsOn (`direction="own"`) and Prerequisite-of (`direction="item"`) panels.
+A one-row list adder wrapping `<$hgsd.pick>` — the pick family's list member, sibling of `<$hgsd.pick-field>` (the three-state single-value editor). Picking appends one title to a list field; the Add button appears only once a commitable pick is typed — existing title, or any title on hosts without creation (a blank box shows the "new" button alone, and a typed non-existent title leaves create-and-add as the only commit affordance) — and the keyboard shortcut (Enter by default) on a typed non-existent title creates that tiddler and adds it. Used by the DependsOn (`direction="own"`) and Pre-requisite-of (`direction="item"`) panels.
 
 ! Content and Attributes
 
@@ -12,7 +12,7 @@ A one-row list adder wrapping `<$hgsd.pick>` — the pick family's list member, 
 |tiddler |(blank) |Write target; blank = the current tiddler |
 |id |— |''Required.'' Unique per control within the tiddler (popup/temp state keys derive from it) |
 |list-filter |— |''Required.'' Candidate filter for the inner picker |
-|direction |`own` |The one semantic bit: `own` appends the picked title to the target's field; `item` appends the target's title to the ''picked'' tiddler's field (the mirror side — the other action gains the prerequisite) |
+|direction |`own` |The one semantic bit: `own` appends the picked title to the target's field; `item` appends the target's title to the ''picked'' tiddler's field (the mirror side — the other action gains the pre-requisite) |
 |group-by |(blank) |Field to group the picker's candidates by |
 |none-label |(blank) |Placeholder text of the picker's empty option |
 |search-mode |`extended` |The inner picker's search mode |
