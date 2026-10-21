@@ -13,9 +13,10 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-project-list
   class="hgsd-completed-toggle"
   state={{{ [[$:/state/hypergsd/show-completed/projects@]addsuffix<currentTiddler>] }}}
   unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedProject">
+<!-- !is[system] in the leading run keeps archived rows out (renamed $:/GSD/-prefixed items still match the tag/complete runs). -->
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
-  list-filter="[tag[$:/GSD/Project]gsd_complete[true]]"
+  list-filter="[tag[$:/GSD/Project]gsd_complete[true]!is[system]]"
   group-select="yes"
   sort-select="yes"
   sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />

@@ -13,10 +13,11 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-action-list
   class="hgsd-completed-toggle"
   state={{{ [[$:/state/hypergsd/show-completed/actions@]addsuffix<currentTiddler>] }}}
   unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedAction">
+<!-- !is[system] in the leading run: archived rows ($:/GSD/-prefixed renames from the cleanup tab's archive button) keep their tags and completion fields, and the default filter source admits system titles (only shadows are excluded), so the run is load-bearing. -->
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
-  list-filter="[tag[$:/GSD/Action]gsd_complete[true]]"
+  list-filter="[tag[$:/GSD/Action]gsd_complete[true]!is[system]]"
   group-select="yes"
   sort-select="yes"
-  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" /> <!-- rows take their order from the strip (completed-desc sinks undated legacy items; ties fall to the default title order) -->
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc"/> <!-- rows take their order from the strip (completed-desc sinks undated legacy items; ties fall to the default title order) -->
 </$hgsd.toggle>

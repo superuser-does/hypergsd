@@ -12,5 +12,5 @@ title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-completed-action-list
   class="hgsd-completed-toggle">
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
-  list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_complete[true]] +[!nsort[gsd_comp_date]]"/> <!-- undated legacy items sink; equal timestamps fall back to the default title order. No add-button: completed items are finished, not captured. -->
+  list-filter="[tag[$:/GSD/Action]gsd_contact<currentTiddler>gsd_complete[true]!is[system]] +[!nsort[gsd_comp_date]]"/> <!-- !is[system] keeps archived rows out (renamed items keep tags, contact link and completion); undated legacy items sink; equal timestamps fall back to the default title order. No add-button: completed items are finished, not captured. -->
 </$hgsd.toggle>

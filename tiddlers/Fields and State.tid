@@ -48,6 +48,7 @@ Type identity is carried by ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD
 |`$:/config/hypergsd/picker-instant-commit/fine` |true |Pickers commit selections instantly on fine pointers (mouse) |
 |`$:/config/hypergsd/picker-instant-commit/coarse` |false |Pickers commit selections instantly on coarse pointers (touch); off keeps the Add step |
 |`$:/config/hypergsd/cleanup-age-in-days` |14 |Minimum age in days before completed items appear on the Cleanup dashboard (the `!days:gsd_comp_date` threshold); edited on the Cleanup dashboard |
+|`$:/config/hypergsd/cleanup-archived-items` |hide |Show (`show`) or hide (`hide`) archived items ($:/GSD/-prefixed renames from the Cleanup dashboard's archive button) in the cleanup lists, so they can be reviewed or deleted; edited on the Cleanup dashboard |
 |`$:/config/hypergsd/realm-warning` |show |The cross-realm globe beside links and rows (Settings → General) |
 |`$:/config/hypergsd/panel-layout` |vertical |`horizontal` flattens panel/modal section groups into one wrapping flow |
 |`$:/config/hypergsd/list-default/<heading>` |— |Per-list default Group by / Sort by (the list's Settings page pickers; one default serves every host sharing the heading) |

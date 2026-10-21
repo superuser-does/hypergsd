@@ -3,10 +3,32 @@ title: GSD/Cleanup: completed items
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Dashboards/
 
+<!-- ARCHIVE: the alternative to deleting — renames every eligible item to $:/GSD/<title> via the core tm-rename-tiddler (its relinker follows the story list, so an open tab tracks its renamed item). Timestamps survive through $:/config/TimestampDisable: getModificationFields() reads that config live on every write, so the batch toggles it yes for the duration and restores the PRIOR value after (users who disabled timestamps globally stay disabled; absent becomes empty = timestamps on). No parameters by design: procedure params do not resolve inside action-time filter strings — the loops read the page's ambient $let variables (age-in-days, show-uncompleted-parent-items). Dynamic action-widget attributes travel as {{{ }}} filtered transclusions — the procedure-hop trap silently skips macro-style <<var>> attributes. The loops mirror the two lists' filters: completed, older than the cleanup age, non-system (!is[system] — archived copies are system-titled, so re-clicking never double-prefixes), the actions honouring the uncompleted-parents config, and the collision guard skipping items whose prefixed target already exists (has[title] matches shadows too — an action titled "Action" must not clobber the $:/GSD/Action tag tiddler). -->
+\procedure hgsd-cleanup-archive()
+<$let prior-timestamps={{{ [[$:/config/TimestampDisable]get[text]else[]] }}}>
+<$action-setfield $tiddler="$:/config/TimestampDisable" text="yes" $timestamp="no"/>
+<$list filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] :filter[addprefix[$:/GSD/]!has[title]]" variable="archive-item">
+  <$let archive-title={{{ [<archive-item>addprefix[$:/GSD/]] }}}>
+    <$action-sendmessage $message="tm-rename-tiddler" from={{{ [<archive-item>] }}} to={{{ [<archive-title>] }}}/>
+  </$let>
+</$list>
+<$list filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[addprefix[$:/GSD/]!has[title]]" variable="archive-item">
+  <$let archive-title={{{ [<archive-item>addprefix[$:/GSD/]] }}}>
+    <$action-sendmessage $message="tm-rename-tiddler" from={{{ [<archive-item>] }}} to={{{ [<archive-title>] }}}/>
+  </$let>
+</$list>
+<$action-setfield $tiddler="$:/config/TimestampDisable" text={{{ [<prior-timestamps>] }}} $timestamp="no"/>
+\end
+
 <$checkbox tiddler="$:/config/hypergsd/cleanup-uncompleted-project-actions"
   field="text" checked="show" unchecked="hide" default="hide"
   class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/cleanup-uncompleted-project-actions" class="tc-tiny-gap-left"><<lingo Cleanup/UncompletedProjectActions>></$link></$checkbox>
+
+<$checkbox tiddler="$:/config/hypergsd/cleanup-archived-items"
+  field="text" checked="show" unchecked="hide" default="hide"
+  class="tc-control-panel-item"
+><$link to="$:/config/hypergsd/cleanup-archived-items" class="tc-tiny-gap-left"><<lingo Cleanup/ArchivedItems>></$link></$checkbox>
 
 <<lingo Cleanup/DaysLabel>><$edit-text
   tiddler="$:/config/hypergsd/cleanup-age-in-days"
@@ -16,8 +38,20 @@ title: GSD/Cleanup: completed items
   autoHeight="no"
   rows="1"/>
 
-<!-- age-in-days feeds the lists' !days:gsd_comp_date<age-in-days> minimum-age threshold (negative offset: items appear once older than N days). -->
-<$let age-in-days={{{ [[-]addsuffix{$:/config/hypergsd/cleanup-age-in-days}] }}} >
+<!-- age-in-days feeds the lists' !days:gsd_comp_date<age-in-days> minimum-age threshold (negative offset: items appear once older than N days). show-uncompleted-parent-items is derived once here so the button's loops and the actions list share one source. archived-exclude-prefix is the lists' conditional exclusion: $:/GSD/ hides archived rows (the default), a never-matching sentinel shows them — the sentinel run form because a static filter attribute cannot carry conditional runs. -->
+<$let age-in-days={{{ [[-]addsuffix{$:/config/hypergsd/cleanup-age-in-days}] }}}
+  show-uncompleted-parent-items={{{ [[$:/config/hypergsd/cleanup-uncompleted-project-actions]get[text]else[hide]match[show]then[true]else[false]] }}}
+  archived-exclude-prefix={{{ [[$:/config/hypergsd/cleanup-archived-items]get[text]else[hide]match[show]then[zz-no-archived-exclusion]else[$:/GSD/]] }}}>
+
+<%if [tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] [tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] %>
+<$button
+  class="tc-tiddler-controls hgsd-cleanup-archive"
+  tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Hint}}
+  actions="""<$transclude $variable="hgsd-cleanup-archive"/>""">
+  <<lingo Cleanup/Archive>>
+</$button>
+<%endif%>
+
   <$list filter="[[$:/tags/hypergsd/Lists/Cleanup]] :and[tagging[]]" variable="dashboard-list">
     <%if [[$:/config/hypergsd/Lists/Cleanup/visibility/]addsuffix<dashboard-list>get[text]else[show]match[show]] %>
       <$transclude $tiddler=<<dashboard-list>> $mode="block"/>

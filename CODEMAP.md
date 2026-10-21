@@ -660,6 +660,7 @@ plugins/hypergsd/
     ├── config/                  28 files: 7 .multids list-visibility shadows + scalars
     │                            (new-action-navigate, new-project-navigate,
     │                            cleanup-age-in-days,
+    │                            cleanup-archived-items,
     │                            cleanup-uncompleted-project-actions,
     │                            close-on-complete, dashboard-future-project-items,
     │                            group-by/sort-by hidden bases, inherit-tags,
@@ -1165,6 +1166,7 @@ enter/escape per-widget.
 | `$:/config/hypergsd/Placement/{Action,Project,Contact,Reference}` | HyperGSD content above/below body per GSD type (defaults bottom/bottom/top/top; all four render from the ViewPlacement tag list in the View placement tab) |
 | `$:/config/hypergsd/panel-layout` | section orientation: `vertical` (default) keeps groups as side-by-side stacks; `horizontal` flattens them into one wrapping flow (`display: contents`) — panel and modal share it (Panel and modal tab radio) |
 | `$:/config/hypergsd/cleanup-age-in-days` | cleanup minimum age in days before completed items appear (default 14; the !days:gsd_comp_date threshold, under $:/config/hypergsd so it rides the config-prefix refresh gates) |
+| `$:/config/hypergsd/cleanup-archived-items` | show or hide archived items ($:/GSD/-prefixed archive renames) in the cleanup lists (default hide; the page checkbox swaps the lists' conditional exclusion prefix for a never-matching sentinel — Cleanup/ArchivedItems lingo) |
 | `$:/config/shortcuts/*` + `$:/config/ShortcutInfo/*` | 4 keyboard shortcuts |
 | `$:/config/hypergsdPanel/visibility/<section>` / `$:/config/hypergsdModal/visibility/<section>` | per-section show/hide (`show`\|`hide`, default show) — written by Sections tab checkboxes, read by the panel/modal tag loops |
 | `$:/tags/hypergsd/Type` + members (`hgsd-type` field) | **type tag list** — item-type tag-tiddlers (the `context` member ships from the HyperGSD-Contexts sub-plugin, `contact` from HyperGSD-Contacts, `reference` from HyperGSD-References); drives the generic refresh gate (`modules/type-gate.tid` `\procedure hgsd-type-gate`), the modal Type dropdown, and the creation paths' type→tag mapping (`\function hgsd-type-tag` in modules/create-and-add.tid; unique `hgsd-type` values are an extension-author contract, `first[]` guards duplicates). Naming: `hgsd-type` follows core's hyphenated shadow-config convention (caption, list-after, plugin-type) — dotted fields (draft.of, throttle.refresh) are transient/behavioral, not config. The modal temp's selected type is also `hgsd-type` |
@@ -1222,9 +1224,31 @@ picker state; ids: contact/project/prereq), `$:/temp/hypergsd/NewContextName`, `
 
 **Ambient transclusion variable**: `age-in-days` — set by `Cleanup: completed items.tid`
 (`$let age-in-days=-<N> days`) and read inside the transcluded `cleanup-actions` /
-`cleanup-projects` lists (`!days:gsd_comp_date<age-in-days>`). The cleanup lists
-break if transcluded anywhere else. Also `listState` ($qualify name, scoped per
+`cleanup-projects` lists (`!days:gsd_comp_date<age-in-days>`). The page also derives
+`show-uncompleted-parent-items` (the config read hoisted out of cleanup-actions so
+the archive button's loops share one source) and `archived-exclude-prefix` (`$:/GSD/`
+or a never-matching sentinel from cleanup-archived-items — the cleanup lists' trailing
+`:filter[!prefix<archived-exclude-prefix>]` is the sole gatekeeper for archived rows,
+so their leading runs carry NO !is[system]). The cleanup lists break if transcluded
+anywhere else. Also `listState` ($qualify name, scoped per
 list), and tv-config-toolbar-{class,icons,text} in PageControls buttons.
+
+**Archive button** (`Cleanup: completed items.tid`, `\procedure hgsd-cleanup-archive`):
+the delete-alternative — renames every listed item to `$:/GSD/<title>` via core's
+`tm-rename-tiddler` (its relinker follows list fields, so an open story tab tracks
+the renamed item). Timestamps survive because the batch wraps itself in
+`$:/config/TimestampDisable` (getModificationFields reads it live per write): toggle
+yes → rename loops → restore the PRIOR value (absent restores as empty = on; `yes`
+stays `yes` for globally-disabled users). Loop guards: `!is[system]` (no
+re-archiving), the age threshold, the parent-condition parity, and a collision guard
+(`:filter[addprefix[$:/GSD/]!has[title]]`, shadows included — an action named "Action"
+must not clobber the tag tiddler; such an item stays listed and deletable instead).
+Archived rows keep tags and completion fields, so every completed list elsewhere
+carries `!is[system]` in its leading run (completed-action/project lists, project-view
+completed-actions, the Contacts sub-plugin's contact-completed list); the delete
+row fragment needs no change and stays available once archived rows are shown again.
+Headless note: the rename handler lives in rootwidget.js, `platforms:["browser"]` —
+cleanup-archive-test.js registers the same three-line handler on $tw.rootWidget.
 
 **Widget/loop-locals**: `hgsd-titles`, `current-type`, `current-status`,
 `target-tiddler`, the section chassis contract vars (`section-target`,

@@ -12,7 +12,7 @@ title: $:/plugins/yan/hypergsd/ui/project-view/completed-actions
   class="hgsd-completed-toggle tc-btn-invisible tc-tiddlylink">
   <$hgsd.list
     list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
-    list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_complete[true]!nsort[gsd_comp_date]]"
-    realm-scope=""/> <!-- undated legacy items sink; equal timestamps fall back to the default title order -->
+    list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_complete[true]!is[system]!nsort[gsd_comp_date]]"
+    realm-scope=""/> <!-- !is[system] keeps archived rows out (renamed $:/GSD/-prefixed items keep tags, project link and completion); undated legacy items sink; equal timestamps fall back to the default title order -->
 </$hgsd.toggle>
 </$set>

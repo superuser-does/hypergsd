@@ -77,7 +77,7 @@ const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix
 const fams = {
   "$:/language/hypergsd/Settings/": 159, "$:/language/hypergsd/Sections/": 75,
   "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 79,
-  "$:/language/hypergsd/Dashboards/": 9, "$:/language/hypergsd/Toolbar/": 12,
+  "$:/language/hypergsd/Dashboards/": 12, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 40, "$:/language/hypergsd/NewItem/": 5,
   "$:/language/hypergsd/Widgets/": 13,
 };

@@ -2,6 +2,9 @@ title: $:/language/hypergsd/Dashboards/
 
 Cleanup/DaysLabel: Days before actions and projects appear here:&#x2004;
 Cleanup/UncompletedProjectActions: Show completed actions of uncompleted projects
+Cleanup/ArchivedItems: Show archived items
+Cleanup/Archive: Archive completed items
+Cleanup/Archive/Hint: Rename every item listed here to $:/GSD/&lt;title&gt;, hiding it from your lists while keeping it (and its timestamps) untouched; archived items reappear with "Show archived items" and can then be deleted
 CleanupOpenActions/Message: The following actions are still open but their project is complete. They should be completed, moved to another project, or deleted.
 NoNextAction/Message: The following projects are without a next action. They should be examined for the next possible action to be taken.
 Table/ProjectColumn: Project dashboard

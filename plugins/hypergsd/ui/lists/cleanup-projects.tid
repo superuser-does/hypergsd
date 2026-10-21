@@ -4,9 +4,10 @@ hgsd-heading: $:/language/hypergsd/Lists/CompletedProjects
 tags: $:/tags/hypergsd/Lists/Cleanup
 title: $:/plugins/yan/hypergsd/ui/lists/cleanup-projects
 
+<!-- The trailing :filter hides archived rows ($:/GSD/-prefixed renames, the cleanup page's archive button output) unless the page's show-archived checkbox swaps the ambient archived-exclude-prefix for a never-matching sentinel; age-in-days and the prefix arrive ambiently from the cleanup page, the one host of this list. NO !is[system] in the leading run: archived rows must reach the conditional run so it stays the sole gatekeeper. -->
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
-  list-filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>]"
+  list-filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>] :filter[!prefix<archived-exclude-prefix>]"
   group-select="yes"
   sort-select="yes"
   sort-default="$:/plugins/yan/hypergsd/ui/sort-by/completed-desc" />
