@@ -1,0 +1,4 @@
+hgsd-conditions: [<host-title>get[gsd_prerequisites]!match[]]
+hgsd-warning: OwnPrerequisites
+tags: $:/tags/hypergsd/Convert/Warning
+title: $:/plugins/yan/hypergsd/modules/convert-warnings/own-prerequisites
