@@ -3,21 +3,59 @@ title: GSD/Cleanup: completed items
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Dashboards/
 
-<!-- ARCHIVE: the alternative to deleting — renames every eligible item to $:/GSD/<title> via the core tm-rename-tiddler (its relinker follows the story list, so an open tab tracks its renamed item). Timestamps survive through $:/config/TimestampDisable: getModificationFields() reads that config live on every write, so the batch toggles it yes for the duration and restores the PRIOR value after (users who disabled timestamps globally stay disabled; absent becomes empty = timestamps on). No parameters by design: procedure params do not resolve inside action-time filter strings — the loops read the page's ambient $let variables (age-in-days, show-uncompleted-parent-items). Dynamic action-widget attributes travel as {{{ }}} filtered transclusions — the procedure-hop trap silently skips macro-style <<var>> attributes. The loops mirror the two lists' filters: completed, older than the cleanup age, non-system (!is[system] — archived copies are system-titled, so re-clicking never double-prefixes), the actions honouring the uncompleted-parents config, and the collision guard skipping items whose prefixed target already exists (has[title] matches shadows too — an action titled "Action" must not clobber the $:/GSD/Action tag tiddler). -->
-\procedure hgsd-cleanup-archive()
+<!-- ARCHIVE: the delete-alternative — renames every eligible item to $:/GSD/<title> via the core tm-rename-tiddler (its relinker follows the story list, so an open tab tracks its renamed item), behind the core $action-confirm native dialog (the convert widget's pattern; the wrapper lives INSIDE the procedure so every caller inherits the confirmation). item-type (Actions|Projects) picks the branch and confirm-message carries the dialog text — both parameters arrive from the per-type buttons (confirm-message as a static lingo transclusion there; assembling the lingo key inside a filtered transclusion is off the table — a slash-leading operand like addsuffix[/Confirm] parses as a filter error in this context). Parameters are consumed ONLY through body-level $let expressions, <%if%> conditionals or simple variable runs — a parameter never rides an action-time filter string directly (the procedure-hop trap), and dynamic action-widget attributes travel as {{{ [<var>] }}} filtered transclusions. TYPE-SPLIT LOOPS, each mirroring its page list 1:1 (the WYSIWYG contract): the projects loop carries NO parent-condition — the cleanup-projects list never had one, and a completed subproject of a live parent IS listed, so it must archive (a shared "type-neutral" run here once silently dropped every such subproject from the batch while the list showed them); the actions loop keeps the uncompleted-parents condition (the page checkbox). Timestamps survive through $:/config/TimestampDisable: getModificationFields() reads that config live on every write, so the batch toggles it yes for the duration and restores the PRIOR value after (users who disabled timestamps globally stay disabled; absent becomes empty = timestamps on) — the relink writes land inside the same window, so touched children stay unstamped too. age-in-days and show-uncompleted-parent-items arrive ambiently from the page $let below. Loop guards: the age threshold, !is[system] (archived copies are system-titled, so re-clicking never double-prefixes), the actions-only parent-condition parity, and the collision guard skipping items whose prefixed target already exists (has[title] matches shadows too — an action titled "Action" must not clobber the $:/GSD/Action tag tiddler). -->
+\procedure hgsd-cleanup-archive(item-type:"Actions", confirm-message:"")
+<$action-confirm $message={{{ [<confirm-message>] }}}>
 <$let prior-timestamps={{{ [[$:/config/TimestampDisable]get[text]else[]] }}}>
 <$action-setfield $tiddler="$:/config/TimestampDisable" text="yes" $timestamp="no"/>
-<$list filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] :filter[addprefix[$:/GSD/]!has[title]]" variable="archive-item">
-  <$let archive-title={{{ [<archive-item>addprefix[$:/GSD/]] }}}>
-    <$action-sendmessage $message="tm-rename-tiddler" from={{{ [<archive-item>] }}} to={{{ [<archive-title>] }}}/>
-  </$let>
-</$list>
+<%if [<item-type>match[Projects]] %>
 <$list filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[addprefix[$:/GSD/]!has[title]]" variable="archive-item">
   <$let archive-title={{{ [<archive-item>addprefix[$:/GSD/]] }}}>
     <$action-sendmessage $message="tm-rename-tiddler" from={{{ [<archive-item>] }}} to={{{ [<archive-title>] }}}/>
+    <!-- RELINK CHILDREN: actions and subprojects carry gsd_project as a plain field — retitle it to the archived parent so project grouping and the stranded-open-actions cleanup filter keep resolving (the archived project keeps its tag and completion, so get[gsd_project]tag[$:/GSD/Project] still matches through the new title). The field match over the default source catches already-archived children too. -->
+    <$list filter="[!is[draft]gsd_project<archive-item>]" variable="child-item">
+      <$action-setfield $tiddler={{{ [<child-item>] }}} gsd_project={{{ [<archive-title>] }}}/>
+    </$list>
+    <!-- RELINK DEPENDANTS: core's rename only relinks tags and list fields — custom fields keep pointing at the dead title. gsd_prerequisites is a titlelist, so the surgery is listops (subtract the old title, append the new; membership semantics, position not preserved); the dependant lookup is the hgsd-do-complete idiom. -->
+    <$list filter="[tag[$:/GSD/Action]!is[draft]] :filter[get[gsd_prerequisites]enlist-input[]match<archive-item>limit[1]]" variable="dependant">
+      <$action-listops $tiddler={{{ [<dependant>] }}} $field="gsd_prerequisites" $subfilter="-[<archive-item>] [<archive-title>]"/>
+    </$list>
   </$let>
 </$list>
+<%else%>
+<$list filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] :filter[addprefix[$:/GSD/]!has[title]]" variable="archive-item">
+  <$let archive-title={{{ [<archive-item>addprefix[$:/GSD/]] }}}>
+    <$action-sendmessage $message="tm-rename-tiddler" from={{{ [<archive-item>] }}} to={{{ [<archive-title>] }}}/>
+    <$list filter="[tag[$:/GSD/Action]!is[draft]] :filter[get[gsd_prerequisites]enlist-input[]match<archive-item>limit[1]]" variable="dependant">
+      <$action-listops $tiddler={{{ [<dependant>] }}} $field="gsd_prerequisites" $subfilter="-[<archive-item>] [<archive-title>]"/>
+    </$list>
+  </$let>
+</$list>
+<%endif%>
 <$action-setfield $tiddler="$:/config/TimestampDisable" text={{{ [<prior-timestamps>] }}} $timestamp="no"/>
+</$let>
+</$action-confirm>
+\end
+
+<!-- DELETE: the permanent sibling — same type-split eligibility as archive (projects loop without the parent-condition, actions loop with it), minus the rename collision guard (no delete analogue). One $action-confirm for the whole batch replaces the navigator's per-item native confirm (tm-delete-tiddler would prompt once per texty item); $action-deletetiddler is the direct store call. The gated $:/StoryList listops (hgsd-close-completed's pattern) keeps open tabs from dangling — deletion, unlike renaming, has no relinker to follow them. !is[system] keeps archived items out: they are deleted per-row (the delete fragment still renders for them once shown), not by this button. -->
+\procedure hgsd-cleanup-delete(item-type:"Actions", confirm-message:"")
+<$action-confirm $message={{{ [<confirm-message>] }}}>
+<%if [<item-type>match[Projects]] %>
+<$list filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]]" variable="delete-item">
+  <$action-deletetiddler $tiddler={{{ [<delete-item>] }}}/>
+  <%if [[$:/StoryList]contains<delete-item>] %>
+    <$action-listops $tiddler="$:/StoryList" $subfilter="-[<delete-item>]"/>
+  <%endif%>
+</$list>
+<%else%>
+<$list filter="[tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]]" variable="delete-item">
+  <$action-deletetiddler $tiddler={{{ [<delete-item>] }}}/>
+  <%if [[$:/StoryList]contains<delete-item>] %>
+    <$action-listops $tiddler="$:/StoryList" $subfilter="-[<delete-item>]"/>
+  <%endif%>
+</$list>
+<%endif%>
+</$action-confirm>
 \end
 
 <$checkbox tiddler="$:/config/hypergsd/cleanup-uncompleted-project-actions"
@@ -38,17 +76,41 @@ title: GSD/Cleanup: completed items
   autoHeight="no"
   rows="1"/>
 
-<!-- age-in-days feeds the lists' !days:gsd_comp_date<age-in-days> minimum-age threshold (negative offset: items appear once older than N days). show-uncompleted-parent-items is derived once here so the button's loops and the actions list share one source. archived-exclude-prefix is the lists' conditional exclusion: $:/GSD/ hides archived rows (the default), a never-matching sentinel shows them — the sentinel run form because a static filter attribute cannot carry conditional runs. -->
+<!-- age-in-days feeds the lists' !days:gsd_comp_date<age-in-days> minimum-age threshold (negative offset: items appear once older than N days). show-uncompleted-parent-items is derived once here so the buttons' loops and the actions list share one source. archived-exclude-prefix is the lists' conditional exclusion: $:/GSD/ hides archived rows (the default), a never-matching sentinel shows them — the sentinel run form because a static filter attribute cannot carry conditional runs. -->
 <$let age-in-days={{{ [[-]addsuffix{$:/config/hypergsd/cleanup-age-in-days}] }}}
   show-uncompleted-parent-items={{{ [[$:/config/hypergsd/cleanup-uncompleted-project-actions]get[text]else[hide]match[show]then[true]else[false]] }}}
   archived-exclude-prefix={{{ [[$:/config/hypergsd/cleanup-archived-items]get[text]else[hide]match[show]then[zz-no-archived-exclusion]else[$:/GSD/]] }}}>
 
-<%if [tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] [tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] %>
+<!-- Four type-scoped buttons, each gated on its own type's eligible set (the gates mirror their loops exactly — age/type/complete plus the actions-only parent-condition — except the collision guard (a collision-guarded row still lists, so its button stays; the only divergence, by design)). -->
+<%if [tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] %>
 <$button
-  class="tc-tiddler-controls hgsd-cleanup-archive"
-  tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Hint}}
-  actions="""<$transclude $variable="hgsd-cleanup-archive"/>""">
-  <<lingo Cleanup/Archive>>
+  tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Actions/Hint}}
+  actions="""<$transclude $variable="hgsd-cleanup-archive" item-type="Actions" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Actions/Confirm}}/>""">
+  <<lingo Cleanup/Archive/Actions>>
+</$button>
+<%endif%>
+<%if [tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] %>
+<$button
+  tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Actions/Hint}}
+  actions="""<$transclude $variable="hgsd-cleanup-delete" item-type="Actions" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Actions/Confirm}}/>""">
+  <<lingo Cleanup/Delete/Actions>>
+</$button>
+<%endif%>
+
+<br />
+
+<%if [tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] %>
+<$button
+  tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Projects/Hint}}
+  actions="""<$transclude $variable="hgsd-cleanup-archive" item-type="Projects" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Projects/Confirm}}/>""">
+  <<lingo Cleanup/Archive/Projects>>
+</$button>
+<%endif%>
+<%if [tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] %>
+<$button
+  tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Projects/Hint}}
+  actions="""<$transclude $variable="hgsd-cleanup-delete" item-type="Projects" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Projects/Confirm}}/>""">
+  <<lingo Cleanup/Delete/Projects>>
 </$button>
 <%endif%>
 

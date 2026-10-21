@@ -3,8 +3,18 @@ title: $:/language/hypergsd/Dashboards/
 Cleanup/DaysLabel: Days before actions and projects appear here:&#x2004;
 Cleanup/UncompletedProjectActions: Show completed actions of uncompleted projects
 Cleanup/ArchivedItems: Show archived items
-Cleanup/Archive: Archive completed items
-Cleanup/Archive/Hint: Rename every item listed here to $:/GSD/&lt;title&gt;, hiding it from your lists while keeping it (and its timestamps) untouched; archived items reappear with "Show archived items" and can then be deleted
+Cleanup/Archive/Actions: Archive completed actions
+Cleanup/Archive/Actions/Hint: Rename every completed action listed here to a $:/GSD/ system title so it leaves your lists; the action, its fields and its timestamps are kept. Archived items reappear when you tick Show archived items, and can then be deleted
+Cleanup/Archive/Actions/Confirm: Archive these completed actions? Each is renamed to a $:/GSD/ system title - nothing is deleted, and all fields and timestamps are kept unchanged
+Cleanup/Archive/Projects: Archive completed projects
+Cleanup/Archive/Projects/Hint: Rename every completed project listed here to a $:/GSD/ system title so it leaves your lists; the project, its fields and its timestamps are kept. Archived items reappear when you tick Show archived items, and can then be deleted
+Cleanup/Archive/Projects/Confirm: Archive these completed projects? Each is renamed to a $:/GSD/ system title - nothing is deleted, and all fields and timestamps are kept unchanged
+Cleanup/Delete/Actions: Delete completed actions
+Cleanup/Delete/Actions/Hint: Permanently delete every completed action listed here from the wiki
+Cleanup/Delete/Actions/Confirm: Delete these completed actions permanently? This cannot be undone
+Cleanup/Delete/Projects: Delete completed projects
+Cleanup/Delete/Projects/Hint: Permanently delete every completed project listed here from the wiki
+Cleanup/Delete/Projects/Confirm: Delete these completed projects permanently? This cannot be undone
 CleanupOpenActions/Message: The following actions are still open but their project is complete. They should be completed, moved to another project, or deleted.
 NoNextAction/Message: The following projects are without a next action. They should be examined for the next possible action to be taken.
 Table/ProjectColumn: Project dashboard

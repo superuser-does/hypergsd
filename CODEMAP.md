@@ -1233,16 +1233,37 @@ so their leading runs carry NO !is[system]). The cleanup lists break if transclu
 anywhere else. Also `listState` ($qualify name, scoped per
 list), and tv-config-toolbar-{class,icons,text} in PageControls buttons.
 
-**Archive button** (`Cleanup: completed items.tid`, `\procedure hgsd-cleanup-archive`):
-the delete-alternative — renames every listed item to `$:/GSD/<title>` via core's
-`tm-rename-tiddler` (its relinker follows list fields, so an open story tab tracks
-the renamed item). Timestamps survive because the batch wraps itself in
+**Archive/delete buttons** (`Cleanup: completed items.tid`, four type-scoped buttons —
+archive/delete × actions/projects, each gated on its own type's eligible set):
+archive renames every listed item to `$:/GSD/<title>` via core's `tm-rename-tiddler`
+(its relinker follows list fields, so an open story tab tracks the renamed item);
+delete removes them permanently (`$action-deletetiddler`, one $action-confirm for
+the whole batch — tm-delete-tiddler would prompt per texty item — plus the gated
+$:/StoryList listops, since deletion has no relinker). Both procedures take
+`(item-type, confirm-message)` parameters — item-type selects the loop's tag via a
+$let-filtered match (parameters never ride action-time filter strings), and
+confirm-message arrives pre-resolved from each button's static lingo transclusion
+(assembling the lingo key inside a filtered transclusion is off the table: a
+slash-leading operand like addsuffix[/Confirm] parses as a filter error there).
+Timestamps survive archiving because the batch wraps itself in
 `$:/config/TimestampDisable` (getModificationFields reads it live per write): toggle
-yes → rename loops → restore the PRIOR value (absent restores as empty = on; `yes`
-stays `yes` for globally-disabled users). Loop guards: `!is[system]` (no
-re-archiving), the age threshold, the parent-condition parity, and a collision guard
-(`:filter[addprefix[$:/GSD/]!has[title]]`, shadows included — an action named "Action"
-must not clobber the tag tiddler; such an item stays listed and deletable instead).
+yes → rename loop → restore the PRIOR value (absent restores as empty = on; `yes`
+stays `yes` for globally-disabled users). The rename's own relinker only covers tags
+and list fields, so the loop relinks the GSD reference fields itself, inside the same
+TimestampDisable window (the touched children stay unstamped too): gsd_prerequisites
+via listops surgery (subtract old title, append new — membership semantics; the
+dependant lookup is the hgsd-do-complete idiom) and, for projects, gsd_project on
+child actions AND subprojects (a plain field match over the default source, so
+already-archived children stay consistent too) — without the latter, the
+stranded-open-actions cleanup filter stops resolving after a project is archived
+(the archived parent keeps its tag and completion, so the filter matches through
+the new title). Wikitext text links are NOT relinked (core limitation, same as
+delete). Loop guards: `!is[system]` (no
+re-archiving, and archived rows out of the delete loops), the age threshold, the
+parent-condition parity (type-neutral — projects carry no gsd_project so the run
+passes them), and a collision guard (`:filter[addprefix[$:/GSD/]!has[title]]`,
+shadows included — an action named "Action" must not clobber the tag tiddler; such
+an item stays listed and deletable instead).
 Archived rows keep tags and completion fields, so every completed list elsewhere
 carries `!is[system]` in its leading run (completed-action/project lists, project-view
 completed-actions, the Contacts sub-plugin's contact-completed list); the delete
