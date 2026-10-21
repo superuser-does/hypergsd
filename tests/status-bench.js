@@ -4,7 +4,7 @@
 // stylesheet rendering; section 7 adds widget-tree depth telemetry (the
 // stack-overflow failure mode is a JS-frame budget, not the engine's
 // widget-count guard — see the probe comment). Run before and after a
-// the synthetic corpus matches live-data scale (~905 actions / ~81
+// change; the synthetic corpus matches live-data scale (~905 actions / ~81
 // projects / 50 references).
 //
 // Usage: node tests/status-bench.js [--json]
