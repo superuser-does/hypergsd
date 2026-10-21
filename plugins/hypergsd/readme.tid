@@ -92,7 +92,7 @@ Any list tiddler can carry its own disclosure — wrap its content in `$hgsd.tog
 </$hgsd.toggle>
 ```
 
-* `text` / `hide-text` are the button labels (hide-text defaults to text); `state` overrides the default state tiddler, which is `$:/state/hypergsd/show-completed/<hosting page>` — members sharing the default toggle together on a page.
+* `text` / `hide-text` are the button labels (hide-text defaults to text); `state` overrides the default state tiddler, which is `$:/state/hypergsd/show-completed/<hosting page>` — members sharing the default toggle together on a page (an overriding member keeps the gate-admitted prefix and the hosting page as the title's suffix, the shape the refresh gates scope on).
 * `class` is added to both buttons (the widget contributes `hgsd-toggle-closed`/`-open` state hooks); `unwrap-tag-lists` lists tag lists where the content renders bare — the pattern the dedicated Completed pages use for these very lists.
 * The default state prefix is the one the dashboard chassis refresh gate admits; a custom prefix inside a dashboard member needs matching gate runs ([[refresh gates|Refresh gates]]).
 * `$hgsd.toggle` is a thin convenience over the standard `<$reveal>` idiom — drop to core widgets when you need more than it exposes.

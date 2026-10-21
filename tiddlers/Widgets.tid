@@ -10,7 +10,7 @@ HyperGSD uses custom wikitext widgets to drive behaviour. All are defined in `$:
 :Realm-aware, refresh-frozen list engine used by every dashboard. See its own page for the full parameter table and examples.
 
 ;[[<$hgsd.toggle>|$:/plugins/yan/hypergsd/modules/widgets/hgsd-toggle]]
-:Disclosure wrapper: children render behind a show/hide button pair over the standard reveal idiom. Default state is per hosting page (`$:/state/hypergsd/show-completed/<page>`, shared by members using the default together); `state`/`state-prefix`/`class` override, and `unwrap-tag-lists` renders children bare when the member is a tag's whole content (the dedicated Completed pages). Used by the dashboard completed lists and the project view's completed member.
+:Disclosure wrapper: children render behind a show/hide button pair over the standard reveal idiom. Default state is per hosting page (`$:/state/hypergsd/show-completed/<page>`, shared by members using the default together); `state`/`state-prefix`/`class` override, and `unwrap-tag-lists` renders children bare when the member is a tag's whole content (the dedicated Completed pages). Used by the dashboard completed lists (the pair passing explicit `…/actions@<page>` / `…/projects@<page>` states so the two toggle independently) and the project view's completed member.
 
 ;[[<$hgsd.convert>|hgsd.convert widget]]
 :Convert the current Action tiddler into a Project tiddler.

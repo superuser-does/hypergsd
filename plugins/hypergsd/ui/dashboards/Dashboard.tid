@@ -1,5 +1,5 @@
 icon: $:/plugins/yan/hypergsd/images/dashboard
 title: GSD/Dashboard
 
-<!-- The two completed lists are Portion/Full members carrying their own $hgsd.toggle disclosure: they arrive collapsed in the Full region, sharing the page's show-completed state, with no page-level markup. -->
+<!-- The two completed lists are Portion/Full members carrying their own $hgsd.toggle disclosure: they arrive collapsed in the Full region, each passing an explicit show-completed state (…/actions@ + page, …/projects@ + page — the two open independently), with no page-level markup. -->
 <$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Dashboard" visibility-base="$:/config/hypergsd/Lists/Dashboard/visibility/"/>

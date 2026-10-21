@@ -22,7 +22,7 @@ Tag a tiddler with one of the list-family tags; the block then appears in that d
 |$:/tags/hypergsd/Lists/ContactAction |Ships from the Contacts sub-plugin — the contact page's own next/waiting/future/completed lists for that contact (live since 2026-09-01) |
 |$:/tags/hypergsd/Lists/ContextAction |Ships from the Contexts sub-plugin — the per-context view's next/waiting/future/completed lists |
 
-On the Main Dashboard the two completed lists are Portion/Full members carrying their own //show completed items…// disclosure (one per-page state opens both); the waiting list is the sole Portion/2 member, so it renders after Portion/1's members regardless of its list-field position. Their visibility checkboxes gate the same lists everywhere they render.
+On the Main Dashboard the two completed lists are Portion/Full members carrying their own //show completed actions…// / //show completed projects…// disclosure, each passing an explicit show-completed state (`…/actions@<page>`, `…/projects@<page>` — they open independently); the waiting list is the sole Portion/2 member, so it renders after Portion/1's members regardless of its list-field position. Their visibility checkboxes gate the same lists everywhere they render.
 
 The tagged tiddler's body is usually a single `$hgsd.list` invocation:
 

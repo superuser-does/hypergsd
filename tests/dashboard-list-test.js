@@ -115,8 +115,9 @@ check("list-field reorder honored",
   ["Future projects", "Next actions", "Active projects", "Future actions", "Waiting actions"]);
 
 // 5. Completed lists are self-lazy ($hgsd.toggle inside the members): collapsed
-// by default (button, no heading); one per-page state opens both (shared default);
-// the per-member visibility gate removes a member entirely, button and all
+// by default (button, no heading); each member passes an explicit state
+// (…/actions@<page>, …/projects@<page>), so the two open independently; the
+// per-member visibility gate removes a member entirely, button and all
 const textOf = (title) => {
   const body = G + '\n\n<$transclude $tiddler="' + title + '"/>\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
@@ -130,18 +131,23 @@ const textOf = (title) => {
 let out = render("GSD/Dashboard");
 check("completed collapsed by default (no headings, both buttons present)",
   [out.includes("Completed actions"), out.includes("Completed projects"),
-   textOf("GSD/Dashboard").includes("show completed actions"), textOf("GSD/Dashboard").includes("show completed items")],
+   textOf("GSD/Dashboard").includes("show completed actions"), textOf("GSD/Dashboard").includes("show completed projects")],
   [false, false, true, true]);
-wiki.addTiddler({title: "$:/state/hypergsd/show-completed/GSD/Test", text: "show"}); // render() pins currentTiddler=GSD/Test
+wiki.addTiddler({title: "$:/state/hypergsd/show-completed/actions@GSD/Test", text: "show"}); // render() pins currentTiddler=GSD/Test
 out = render("GSD/Dashboard");
-check("one page state opens both completed lists",
+check("actions key opens only the actions list",
+  [out.includes("Completed actions"), out.includes("Completed projects")], [true, false]);
+wiki.addTiddler({title: "$:/state/hypergsd/show-completed/projects@GSD/Test", text: "show"});
+out = render("GSD/Dashboard");
+check("projects key opens the projects list independently",
   [out.includes("Completed actions"), out.includes("Completed projects")], [true, true]);
 wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd/ui/lists/completed-action-list"), text: "hide"});
 out = render("GSD/Dashboard");
 check("visibility gate removes the member (button and all)",
   [out.includes("Completed actions"), textOf("GSD/Dashboard").includes("show completed actions"), out.includes("Completed projects")],
   [false, false, true]);
-wiki.deleteTiddler("$:/state/hypergsd/show-completed/GSD/Test");
+wiki.deleteTiddler("$:/state/hypergsd/show-completed/actions@GSD/Test");
+wiki.deleteTiddler("$:/state/hypergsd/show-completed/projects@GSD/Test");
 wiki.deleteTiddler(vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd/ui/lists/completed-action-list"));
 
 // 6. Waiting page: seeded default renders only the by-contact view; enabling adds the flat list
@@ -353,11 +359,15 @@ check("references page", render("GSD/References"), ["References"]);
   wiki.addTiddler({title: "$:/state/hypergsd/show-completed/Some Other Page", text: "show"});
   w.refresh({"$:/state/hypergsd/show-completed/Some Other Page": wiki.getTiddler("$:/state/hypergsd/show-completed/Some Other Page")});
   check("other page's toggle does not open this page's reveal", headingsOf(c), before);
-  wiki.addTiddler({title: "$:/state/hypergsd/show-completed/GSD/Action dashboard", text: "show"});
-  w.refresh({"$:/state/hypergsd/show-completed/GSD/Action dashboard": wiki.getTiddler("$:/state/hypergsd/show-completed/GSD/Action dashboard")});
-  check("own page state opens the completed list", headingsOf(c),
+  wiki.addTiddler({title: "$:/state/hypergsd/show-completed/projects@GSD/Action dashboard", text: "show"});
+  w.refresh({"$:/state/hypergsd/show-completed/projects@GSD/Action dashboard": wiki.getTiddler("$:/state/hypergsd/show-completed/projects@GSD/Action dashboard")});
+  check("wrong key on the right page does not open the actions reveal", headingsOf(c), before);
+  wiki.deleteTiddler("$:/state/hypergsd/show-completed/projects@GSD/Action dashboard");
+  wiki.addTiddler({title: "$:/state/hypergsd/show-completed/actions@GSD/Action dashboard", text: "show"});
+  w.refresh({"$:/state/hypergsd/show-completed/actions@GSD/Action dashboard": wiki.getTiddler("$:/state/hypergsd/show-completed/actions@GSD/Action dashboard")});
+  check("own page keyed state opens the completed list", headingsOf(c),
     ["Next actions", "Waiting actions", "Completed actions"]);
-  wiki.deleteTiddler("$:/state/hypergsd/show-completed/GSD/Action dashboard");
+  wiki.deleteTiddler("$:/state/hypergsd/show-completed/actions@GSD/Action dashboard");
   wiki.deleteTiddler("$:/state/hypergsd/show-completed/Some Other Page");
 }
 

@@ -14,8 +14,8 @@ Subprojects: Sub-projects
 NoNextActions: Projects without next actions
 IncompleteActionsUnderCompletedProjects: Incomplete actions under completed projects
 NoGroup: No group
-ShowCompletedLists: show completed items…
-HideCompletedLists: hide completed items
+ShowCompletedLists: show completed projects…
+HideCompletedLists: hide completed projects
 ShowCompletedActions: show completed actions…
 HideCompletedActions: hide completed actions
 GroupByProject: Group by project

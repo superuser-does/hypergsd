@@ -6,11 +6,12 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-project-list
 
 \whitespace trim
 
-<!-- The list carries its own disclosure: on the Dashboard tag list it renders collapsed behind the toggle (sharing the page's state with the completed-action list, so both open together); the dedicated Completed Projects page renders it bare. -->
+<!-- The list carries its own disclosure: on the Dashboard tag list it renders collapsed behind the toggle (an explicit state, <prefix>projects@<hosting page>, opening independently of the completed-actions list beside it — both members used to derive the same page state and open together; the page stays the title's suffix, the form the refresh gates scope on); the dedicated Completed Projects page renders it bare. -->
 <$hgsd.toggle
   text={{$:/language/hypergsd/Lists/ShowCompletedLists}}
   hide-text={{$:/language/hypergsd/Lists/HideCompletedLists}}
   class="hgsd-completed-toggle"
+  state={{{ [[$:/state/hypergsd/show-completed/projects@]addsuffix<currentTiddler>] }}}
   unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedProject">
 <$hgsd.list
   list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}

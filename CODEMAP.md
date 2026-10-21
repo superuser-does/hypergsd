@@ -325,7 +325,9 @@ plugins/hypergsd/
 │       │                        pair over the standard reveal idiom; default
 │       │                        state $:/state/hypergsd/show-completed/<hosting
 │       │                        page> (shared per page — members using the
-│       │                        default toggle together), state/state-prefix/
+│       │                        default toggle together; an overriding member
+│       │                        keeps the prefix and page-suffix shape the
+│       │                        scoped gate runs match), state/state-prefix/
 │       │                        class override, unwrap-tag-lists renders children
 │       │                        bare (reads the ambient tag-list inherited
 │       │                        through the chassis's plain transclusion). The
@@ -1204,7 +1206,7 @@ all/none via action-listops; read by $hgsd.list's shown-realms/show-realmless
 derivation — see Boilerplate: realm scoping for the contract),
 `effective-realm`, `effective-context` (creation side,
 separate vocabulary); UI state —
-`show-completed/<tiddler>` and `show-completed/<dashboard page>` (lazy lists — $hgsd.toggle members default to the page-title form),
+`show-completed/<tiddler>` and `show-completed/<dashboard page>` (lazy lists — $hgsd.toggle members default to the page-title form; the dashboard's completed pair passes explicit `…/actions@<page>` / `…/projects@<page>` states),
 `edit-<field>-<tiddler>` (per-tiddler field-editor flag, deterministic titles),
 `context-group` (the contexts view's grouped-by-project toggle),
 `$:/state/popup/pick-<id>-<tiddler>` (picker
@@ -1365,8 +1367,9 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   `index: value` lines reassemble into the exact state-tiddler paths (a
   .multids loader property worth knowing: no trailing newline in values, but
   the gate trim[]s anyway). Main Dashboard: the two completed lists are
-  Portion/Full members carrying their own $hgsd.toggle disclosure (one
-  per-page show-completed state opens both), so no page-level markup or
+  Portion/Full members carrying their own $hgsd.toggle disclosure (each
+  passing an explicit state — …/actions@<page> and …/projects@<page> —
+  so they open independently), so no page-level markup or
   literal `-[[title]]` exclusions exist — their Settings drag position is
   inert (the Full band renders after every portion; only the in-band
   order follows the tag list). The waiting list is the sole Portion/2
