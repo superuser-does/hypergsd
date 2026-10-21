@@ -35,7 +35,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
 <$let list-scope={{{ [<listState>removeprefix[$:/temp/gsd-list/]] }}} >
 <$let contextualise-state={{{ [[$:/state/hypergsd/contextualise-]addsuffix<currentTiddler>addsuffix[-]addsuffix<current-group>addsuffix[-]addsuffix<list-scope>] }}}
   pick-temp={{{ [[$:/temp/hypergsd/add-context-]addsuffix<currentTiddler>addsuffix[-]addsuffix<current-group>addsuffix[-]addsuffix<list-scope>] }}} >
-<span>
+<span class="hgsd-contextualise">
   <%if [[$:/config/hypergsd/Contexts/show-contexts]get[text]else[yes]match[yes]] %>
   <!-- Applied contexts as tag pills via tag-pill-BODY directly: the outer tag-pill hop only wrapped the pill and re-bound currentTiddler, while the body hop is load-bearing (it resolves the palette sections into plain params, which attribute position cannot do) — one hop less down the row's widget stack, the navigate action targets the loop variable itself, and the bench's chip assertion guards the core-internal macro name. -->
   <$list filter="[all[current]tags[]tag[GSD/Contexts]] -[<storyTiddler>] +[sort[]]" variable="applied-context">

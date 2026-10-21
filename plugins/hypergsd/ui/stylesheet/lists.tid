@@ -16,10 +16,12 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   margin-inline-start: 0.5em;
 }
 
-.gsd-list-item {
+/* Rows: gap is the sole spacing between members — invisible buttons carry no padding and flex never renders inter-widget whitespace, so nothing else separates the controls; the panel chassis is excluded because its children are the portion bands, which space themselves by margin. */
+.gsd-list-item:not(.gsd-panel) {
   display: flex;
   align-items: center;
-  padding-bottom: 0.2em;
+  gap: 0.3em;
+  padding-bottom: 0.3em;
 }
 
 /* Row children other than the title link refuse to shrink; the title flexes. */
@@ -28,32 +30,27 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   flex-shrink: 0;
 }
 
-/* LinkItem container: inline-flex + middle keeps members centred and spaced
-   after the link in any host; members carry no alignment CSS of their own.
-   The :empty collapse keeps a fragment-less span from contributing its
-   margin — the clear-button class is the sole spacing after the value. */
+/* LinkItem container: inline-flex + middle keeps members centred after the link in any host; members carry no alignment CSS of their own.
+   The :empty collapse is display:none — an empty span still counts as a flex item and would contribute a gap on both sides. */
 .hgsd-link-items {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-  margin-inline-start: 0.25em;
   &:empty {
-    margin-inline-start: 0;
+    display: none;
   }
 }
 
-/* The value-clear × of every picker surface — pick-field's set state, the
-   prereq rows, the contact chips: one deliberate distance from the value it
-   clears; the svg rides the text line at 1em on every host. */
+/* pick-field's set state wraps each control in its own reveal, so an empty link-items span hides behind a bare tc-reveal flex item — the wrapper collapses too, or the clear button would sit two gaps from the value. */
+.gsd-list-item > .tc-reveal:has(> .hgsd-link-items:empty) {
+  display: none;
+}
+
+/* The value-clear × of every picker surface — pick-field's set state, the prereq rows, the contact chips: hosts without a gap row (the chips) carry their own spacing; the svg rides the text line at 1em on every host. */
 .hgsd-clear-button {
-  margin-inline-start: 0.25em;
   & svg {
     height: 1em;
   }
-}
-
-.gsd-list-item-title {
-  margin-inline: 0.5em;
 }
 
 .hgsd-group-title {
