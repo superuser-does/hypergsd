@@ -30,6 +30,20 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   flex-shrink: 0;
 }
 
+/* The title link opts out of the defaults that overflow narrow screens:
+   core sets overflow-wrap:break-word on body.tc-body, which breaks an
+   over-long word in flowing text but does NOT lower min-content — so the
+   flexbox floor (min-width:auto) kept the item at its longest token and one
+   long identifier in one title floored its row — and the whole column,
+   through the min-content chain — past the viewport edge. anywhere DOES
+   lower min-content; min-width:0 lets the item actually shrink that far
+   (anywhere alone still left 9px at 360px). Titles wrap at word boundaries
+   except when a single token alone exceeds the available width. */
+.gsd-list-item > a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 /* LinkItem container: inline-flex + middle keeps members centred after the link in any host; members carry no alignment CSS of their own.
    The :empty collapse is display:none — an empty span still counts as a flex item and would contribute a gap on both sides. */
 .hgsd-link-items {
