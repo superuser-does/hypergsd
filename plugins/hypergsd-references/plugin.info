@@ -9,5 +9,6 @@
     "parent-plugin": "$:/plugins/yan/hypergsd",
     "dependents": ["$:/plugins/yan/hypergsd"],
     "list": "readme",
-    "version": "0.2.1"
+    "version": "0.2.2",
+    "stability":"STABILITY_1_EXPERIMENTAL"
 }
