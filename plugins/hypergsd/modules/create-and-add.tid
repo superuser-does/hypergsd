@@ -3,7 +3,7 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
 
 \whitespace trim
 
-<!-- Shared "create «typed» and add" cluster, split 2026-09-27 into a creation core plus the button shell so the pick family's keyboard-commit dispatcher (hgsd-pick-keyboard-commit, in hgsd-pick.tid) can run the SAME creation from a keyboard actions string. hgsd-create-and-add-actions is the core: creates the tiddler immediately (type tag via the tag-list mapping, realm tags inherited from currentTiddler so scoped pickers list it), writes the created title to target-tiddler/target-field, clears pick-tiddler/close-state when passed. The dependants shape passes target-field blank with new-prereq instead: nothing is written to a target; the created action's gsd_prerequisites gains new-prereq, and target-tiddler still names the caller for the AfterCreation rules. Every dynamic attribute in the core is a filtered transclusion: through the actions-string hop (the keyboard caller) a macro-style <<param>> attribute never fires the action widget, while filter expressions resolve the parameters reliably — the hgsd-pick-commit discovery; the button path is indifferent to the form. The shell keeps the label as a SLOT (default English) so fills render in the caller's scope where typed-pick is already computed. Callers gate on [<typed-pick>!match[]] :and[!is[tiddler]] — the variable run keeps multi-word titles whole (enlist<> splits them on spaces and would wrongly offer create for existing multi-word titles). -->
+<!-- Shared "create «typed» and add" cluster, split 2026-09-27 into a creation core plus the button shell so the pick family's keyboard-commit dispatcher (hgsd-pick-keyboard-commit, in hgsd-pick.tid) can run the SAME creation from a keyboard actions string. hgsd-create-and-add-actions is the core: creates the tiddler immediately (type tag via the tag-list mapping, realm tags inherited from currentTiddler so scoped pickers list it), writes the created title to target-tiddler/target-field, clears pick-tiddler/close-state when passed. The dependants shape passes target-field blank with new-prereq instead: nothing is written to a target; the created action's gsd_prerequisites gains new-prereq, and target-tiddler still names the caller for the AfterCreation rules. Every dynamic attribute in the core is a filtered transclusion: through the actions-string hop (the keyboard caller) a macro-style <<param>> attribute never fires the action widget, while filter expressions resolve the parameters reliably — the hgsd-pick-commit discovery; the button path is indifferent to the form. The shell keeps the label as a SLOT (default English) so fills render in the caller's scope where typed-pick is already computed. Callers gate on [<typed-pick>!match[]] :and[!is[tiddler]] — the variable run keeps multi-word titles whole (enlist<> splits them on spaces and would wrongly offer create for existing multi-word titles). Since 2026-10-26 the core also navigates after the hook: actions/projects honour the new-action-navigate / new-project-navigate toggles (same fallbacks as the modal), every other type keeps the picker's stay-in-place default. -->
 <!-- The two derivations every creation path shares live here (the modal's create-gsd-tiddler calls both): the type-tag lookup and the core-field seeding gate — only action and project types carry gsd_status/gsd_complete at creation. -->
 \function hgsd-type-tag(type) [all[shadows+tiddlers]tag[$:/tags/hypergsd/Type]] :filter[get[hgsd-type]match<type>] +[first[]]
 
@@ -44,6 +44,16 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
   <%endif%>
   <!-- AfterCreation rules run for picker creations too (new-source="picker"; navigate self-suppresses). Nested so createTiddler-title is in scope. -->
   <$transclude $variable="hgsd-run-after-create" new-title={{{ [<createTiddler-title>] }}} new-type={{{ [<new-type>] }}} calling-tiddler={{{ [<target-tiddler>] }}} new-source="picker" />
+  <!-- Navigation, LAST and after the hook (the modal's type rule, extended to pickers 2026-10-26): actions honour new-action-navigate, projects new-project-navigate — every other type keeps the picker's stay-in-place behaviour (their field-add is the point). Same get[else[yes]] fallbacks as the modal; last so nothing after it can be cut short by the story changing. -->
+  <%if [<new-type>match[action]] %>
+    <%if [[$:/config/hypergsd/new-action-navigate]get[text]else[yes]match[yes]] %>
+      <$action-navigate $to={{{ [<createTiddler-title>] }}} />
+    <%endif%>
+  <%elseif [<new-type>match[project]] %>
+    <%if [[$:/config/hypergsd/new-project-navigate]get[text]else[yes]match[yes]] %>
+      <$action-navigate $to={{{ [<createTiddler-title>] }}} />
+    <%endif%>
+  <%endif%>
 </$action-createtiddler>
 </$let>
 </$let>

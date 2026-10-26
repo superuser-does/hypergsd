@@ -4,6 +4,11 @@ $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw
 global.$tw = $tw;
 const fd = require("/home/yan/tiddlywiki/tw5source/core/modules/utils/fakedom.js");
 const wiki = $tw.wiki, doc = fd.fakeDocument;
+// fakeDOM nodes lack getBoundingClientRect (core's action-navigate wants the
+// triggering widget's origin rect for the animation), and picker creations can
+// navigate anywhere in this file now (project picker: new-project-navigate
+// ships yes), so the patch must sit before ANY render, not just the hook block.
+fd.fakeDocument.createElement("div").constructor.prototype.getBoundingClientRect = function() { return {top:0,left:0,bottom:0,right:0,width:0,height:0}; };
 
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false"});
 wiki.addTiddler({title: "Existing contact", tags: ["$:/GSD/Contact"]});
@@ -299,10 +304,8 @@ t("empty-state picker has no hint", emptyPh.indexOf("type to change / leave blan
 
 
 // AfterCreation hook: navigate rule gate matrix + picker suppression + tag order.
-// fakeDOM nodes lack getBoundingClientRect (core's action-navigate wants the origin
-// rect for the animation) and there is no story widget headless, so navigation is
-// asserted via a tm-navigate dispatch spy on the root widget.
-fd.fakeDocument.createElement("div").constructor.prototype.getBoundingClientRect = function() { return {top:0,left:0,bottom:0,right:0,width:0,height:0}; };
+// With the rect patch hoisted to the top of the file, navigation is asserted
+// via a tm-navigate dispatch spy on the root widget (no story widget headless).
 let navEvents = [];
 $tw.rootWidget.dispatchEvent = function(event) { if (event.type === "tm-navigate") navEvents.push(event.param); };
 const runHook = (type, source) => {

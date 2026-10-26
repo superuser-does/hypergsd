@@ -52,7 +52,7 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
     <%endif%>
     <!-- AfterCreation extension point: contract variables are $let inside the runner — plain tiddler transclusion inherits the caller's scope but DROPS extra <$transclude> attributes (those only reach procedures/widgets). Invoked via $transclude $variable because macrocall parameters do not evaluate <var> indirection. -->
     <$transclude $variable="hgsd-run-after-create" new-title=<<createTiddler-title>> new-type=<<gsd-type>> calling-tiddler=<<gsd-calling-tiddler>> new-source="modal" />
-    <!-- Navigation, AFTER the hook (the former navigate rule — moved here so field-writing rules can never be cut short by the story changing mid-chain). The modal always navigates by type rule: actions honour new-action-navigate, projects new-project-navigate, every other type always. Pickers never navigate (their field-add is the point), which is why this lives in the modal and not in the hook. -->
+    <!-- Navigation, AFTER the hook (the former navigate rule — moved here so field-writing rules can never be cut short by the story changing mid-chain). The modal always navigates by type rule: actions honour new-action-navigate, projects new-project-navigate, every other type always. Pickers navigate by the same action/project toggles inside hgsd-create-and-add-actions (every other picker type stays in place — its field-add is the point), which is why navigation lives in the creation paths and not in the hook. -->
     <%if [<gsd-type>match[action]] %>
       <%if [[$:/config/hypergsd/new-action-navigate]get[text]else[yes]match[yes]] %>
         <$action-navigate $to=<<createTiddler-title>> />

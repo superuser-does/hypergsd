@@ -56,6 +56,6 @@ Type identity is carried by ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD
 |`$:/config/hypergsd/<Tag list>/hidden/<member>` |— |Withdraws a GroupBy/SortBy member from every strip and picker (Settings → Dashboards) |
 |`$:/config/hypergsdPanel/visibility/<section>` / `$:/config/hypergsdModal/visibility/<section>` |show |Per-section show/hide (Settings → Panel and modal) |
 |`$:/config/hypergsdPanel/folded/<section>` |hide |Per-section visibility while the tiddler is folded: `show` keeps the section beside Status and Complete, `hide` (the default) folds it away with the body (Settings → Panel and modal → Panel sections; the modal never folds) |
-|`$:/config/hypergsd/new-action-navigate` / `new-project-navigate` |yes |Navigate to the tiddler after creating it from the modal (the modal's own post-hook step, not an AfterCreation member) |
+|`$:/config/hypergsd/new-action-navigate` / `new-project-navigate` |yes |Navigate to the tiddler after creating it, from the modal or via create-and-add (each creation path's own post-hook step, not an AfterCreation member) |
 
 ''Authoring note'': config-shadow `.tid` bodies ship ''without'' trailing newlines (shadow-newline-test enforces this) and `match[]` compares exactly — append `trim[]` or use a `get[else]` operand when comparing config text values in filters.
