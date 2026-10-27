@@ -80,9 +80,12 @@ t("radio labels from the dictionary", JSON.stringify(radioLabels) === JSON.strin
 const radioSelected = radioInputs.map(i => i.attributes.checked !== undefined ? 1 : 0);
 t("Medium radio checked (B)", JSON.stringify(radioSelected) === JSON.stringify([0, 1, 0]), JSON.stringify(radioSelected));
 t("radios carry data-tiddler and data-priority", radioInputs.every(i => i.attributes["data-tiddler"] === "ZZ prio action" && i.attributes["data-priority"] && i.attributes.name === "ZZ prio action-priority"), JSON.stringify((radioInputs[0] || {attributes: {}}).attributes));
-// selected-block inline styles: the option labels carry style only when selected (fakeDOM routes style to the style proxy)
-const optionStyles = optionLabels.map(l => l.style && l.style.backgroundColor ? (l.style.backgroundColor + "/" + l.style.color) : "");
-t("selected block fills solid with its colour, others stay plain", JSON.stringify(optionStyles) === JSON.stringify(["", "#E39A4A/#38220B", ""]), JSON.stringify(optionStyles));
+// selected-block colour: no inline styles anywhere — the rows carry letter hook classes and the stylesheet's generated rules own the colours
+const optionStyles = optionLabels.map(l => (l.attributes && l.attributes.style) || "");
+t("option labels carry no inline colour styles", optionStyles.every(s => s === ""), JSON.stringify(optionStyles));
+const hookRows = (function f(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => f(x, acc)); return acc; }
+	if (n.attributes && /\bhgsd-priority-row\b/.test(n.attributes.class || "")) acc.push(n.attributes.class); if (n.children) f(n.children, acc); return acc; })(panel.c.children, []);
+t("rows carry their letter hook classes", JSON.stringify(hookRows) === JSON.stringify(["hgsd-priority-row hgsd-priority-A", "hgsd-priority-row hgsd-priority-B", "hgsd-priority-row hgsd-priority-C"]), JSON.stringify(hookRows));
 
 // Portion/0: the radios must sit in the FIRST portion column of the capture row
 const captureRow = (function f(n) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const r = f(x); if (r) return r; } return null; }
@@ -120,10 +123,10 @@ function findClearButton(tree) {
 panel = renderPanel("ZZ prio action"); // still A
 clear = findClearButton(panel.w);
 t("clear ✕ present while a priority is set", !!clear);
-t("clear ✕ carries the selected block's ink", clear && clear.domNodes[0].style.color === "#FFFFFF", clear && JSON.stringify(clear.domNodes[0].style.color));
+t("clear ✕ carries no inline ink (the stylesheet's --priority-ink rule colours it)", clear && !((clear.domNodes[0].attributes || {}).style), clear && JSON.stringify(clear.domNodes[0].attributes.style));
 t("clear ✕ sits inside the selected row", clear && (function() {
 	const rows = (function f(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => f(x, acc)); return acc; }
-		if (n.attributes && n.attributes.class === "hgsd-priority-row") acc.push(n); if (n.children) f(n.children, acc); return acc; })(panel.c.children, []);
+		if (n.attributes && /\bhgsd-priority-row\b/.test(n.attributes.class || "")) acc.push(n); if (n.children) f(n.children, acc); return acc; })(panel.c.children, []);
 	const withButton = rows.filter(r => (r.children || []).filter(c => c.tag === "button").length === 1);
 	return rows.length === 3 && withButton.length === 1 && (withButton[0].children || []).some(c => c.tag === "label" && (c.attributes.class === "hgsd-priority-option"));
 })(), "row-count/with-button mismatch");
@@ -237,7 +240,7 @@ t("a pre-set priority is never overwritten", (() => {
 	function findTag(n, tag) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const r = findTag(x, tag); if (r) return r; } return null; }
 		if (n.tag === tag) return n; return findTag(n.children, tag); }
 	function findPrioSpan(n) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const r = findPrioSpan(x); if (r) return r; } return null; }
-		if (n.tag === "span" && (n.attributes.class || "") === "hgsd-row-priority") return n; return findPrioSpan(n.children); }
+		if (n.tag === "span" && /\bhgsd-row-priority\b/.test(n.attributes.class || "")) return n; return findPrioSpan(n.children); }
 	wiki.addTiddler({title: "ZZ row action", tags: ["$:/GSD/Action"], gsd_complete: "false", gsd_status: "next"});
 	wiki.addTiddler({title: "ZZ row contact", tags: ["$:/GSD/Contact"], gsd_complete: "false"});
 	wiki.addTiddler({title: "ZZ row done", tags: ["$:/GSD/Action"], gsd_complete: "true"});
@@ -250,9 +253,8 @@ t("a pre-set priority is never overwritten", (() => {
 			if (n.tag === "option") acc.push(n); if (n.children) g(n.children, acc); return acc; })(sel.children, []);
 		const vals = all.map(o => (o.attributes.value === undefined ? "" : o.attributes.value));
 		t("row select offers unset + A/B/C", JSON.stringify(vals) === JSON.stringify(["", "A", "B", "C"]), JSON.stringify(vals));
-		const styles = all.map(o => o.attributes.style || "");
-		t("row select sits in its colourable wrapper span", !!findPrioSpan(row.c.children), "span missing");
-		// (colour composition is verified in the browser — fakeDOM routes style through a proxy that drops the composed string)
+		t("row select sits in its colourable wrapper span (no letter set, no hook class)", ((s) => !!s && s.attributes.class === "hgsd-row-priority")(findPrioSpan(row.c.children)), "span/class mismatch");
+		t("row select options carry no inline styles (generated stylesheet rules own the colours)", all.every(o => !(o.attributes.style)), "inline style leaked");
 		t("row select unset option is a dash", textOf(all[0].children) === "–", textOf(all[0].children));
 		t("row select options use the short labels", textOf(all[1].children) === "H" && textOf(all[2].children) === "M" && textOf(all[3].children) === "L", [1,2,3].map(i => textOf(all[i].children)).join("/"));
 		(function driveSelect(root, value) { (function f(n) { if (!n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f);
@@ -267,6 +269,7 @@ t("a pre-set priority is never overwritten", (() => {
 	wiki.addTiddler(new $tw.Tiddler(wiki.getTiddler("ZZ row action"), {gsd_priority: "B"}));
 	row = renderRow("ZZ row action");
 	t("row select still present when a priority is set", !!findTag(row.c.children, "select"));
+	t("wrapper span carries the item's letter hook class", ((s) => !!s && s.attributes.class === "hgsd-row-priority hgsd-priority-B")(findPrioSpan(row.c.children)), findPrioSpan(row.c.children) && findPrioSpan(row.c.children).attributes.class);
 	t("no row select on contacts", !findTag(renderRow("ZZ row contact").c.children, "select"));
 	t("no row select on completed rows", !findTag(renderRow("ZZ row done").c.children, "select"));
 }
@@ -287,14 +290,13 @@ t("a pre-set priority is never overwritten", (() => {
 	t("names table renders one row per priority", bodyRows.length === 3, bodyRows.length);
 	const chips = bodyRows.map(r => { const td0 = r.children.find(x => cellTag(x)); return td0 ? textAll(td0.children).trim() : "?"; });
 	t("column 1 shows the bare letters", JSON.stringify(chips) === JSON.stringify(["A", "B", "C"]), JSON.stringify(chips));
-	// the colour column: core palette-manager pattern, one input per row, bound to the fills dictionary
-	const colourInputs = bodyRows.map(r => (function g(n) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const s = g(x); if (s) return s; } return null; }
-		if (n.tag === "input" && n.attributes.type === "color") return n; return g(n.children); })(r));
-	t("colour inputs carry the dictionary fills", colourInputs.every(i => i) && JSON.stringify(colourInputs.map(i => i.attributes.value)) === JSON.stringify(["#B3261E", "#E39A4A", "#78909C"]), JSON.stringify(colourInputs.map(i => i && i.attributes.value)));
-	// (the chips' colours are composed into a macrocall style attribute — fakeDOM's style proxy swallows it; browser-verified)
+	// the colour columns: fill, ink and line pickers (the core palette-manager input pattern) bound to the colours dictionary
+	const colourInputs = bodyRows.map(r => (function g(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => g(x, acc)); return acc; }
+		if (n.tag === "input" && n.attributes.type === "color") acc.push(n); return g(n.children, acc); })(r, []));
+	t("colour pickers carry the dictionary fills, inks and lines", colourInputs.every(r => r.length === 3) && JSON.stringify(colourInputs.map(r => r.map(i => i.attributes.value))) === JSON.stringify([["#B3261E", "#FFFFFF", "#8B1A14"], ["#E39A4A", "#38220B", "#8A5A14"], ["#78909C", "#1B2430", "#1B2430"]]), JSON.stringify(colourInputs.map(r => r.map(i => i && i.attributes.value))));
 	const inputs = bodyRows.map(r => (function g(n) { if (!n || typeof n !== "object") return []; if (Array.isArray(n)) { const a = []; n.forEach(x => { a.push(...g(x)); }); return a; }
 		if (n.tag === "input") return [n]; return g(n.children); })(r));
-	t("each row edits its colour, Name and Short strings", inputs.every(r => r.length === 3) && JSON.stringify(inputs.map(r => [r[0].attributes.type, r[1].attributes.value, r[2].attributes.value])) === JSON.stringify([["color", "High", "H"], ["color", "Medium", "M"], ["color", "Low", "L"]]),
+	t("each row edits its fill, ink, line, Name and Short strings", inputs.every(r => r.length === 5 && r.slice(0, 3).every(i => i.attributes.type === "color")) && JSON.stringify(inputs.map(r => r.map(i => i.attributes.value))) === JSON.stringify([["#B3261E", "#FFFFFF", "#8B1A14", "High", "H"], ["#E39A4A", "#38220B", "#8A5A14", "Medium", "M"], ["#78909C", "#1B2430", "#1B2430", "Low", "L"]]),
 		JSON.stringify(inputs.map(r => r.map(i => i.attributes.value))));
 	// a lingo override flows through the panel and back into the editor
 	wiki.addTiddler({title: "$:/language/hypergsd/Lists/Priorities/Name/A", text: "Urgent"});

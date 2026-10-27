@@ -8,6 +8,8 @@ Fragments/Priority/Caption: Priority select
 Fragments/Priority/Hint: A priority select on action and project rows
 Priorities/Config/Heading: Priority level configuration
 Priorities/Config/PriorityHeading: Priority
-Priorities/Config/ColourHeading: Colour
+Priorities/Config/FillHeading: Fill
+Priorities/Config/InkHeading: Text and icons
+Priorities/Config/LineHeading: Line (print only)
 Priorities/Config/NameHeading: Name
 Priorities/Config/ShortHeading: Short name

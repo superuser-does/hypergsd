@@ -2,8 +2,11 @@ title: $:/plugins/yan/hypergsd-priorities/ui/config/colours
 type: application/x-tiddler-dictionary
 
 A: #B3261E
-A-border: #FFFFFF
+A-ink: #FFFFFF
+A-line: #8B1A14
 B: #E39A4A
-B-border: #38220B
+B-ink: #38220B
+B-line: #8A5A14
 C: #78909C
-C-border: #1B2430
+C-ink: #1B2430
+C-line: #1B2430

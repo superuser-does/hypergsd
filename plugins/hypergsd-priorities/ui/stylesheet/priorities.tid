@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
   position: relative;
 }
 
-/* Option blocks: hairline boxes, the selected one filled solid with its colour (inline, dictionary-driven). Every block carries the wide end padding — the ✕ slot exists before a value is set, so widths never change and labels of any length cannot run under the ✕. The radio itself is hidden — the section's eventcatcher receives the label-forwarded click and does the write (the status-pill pattern). */
+/* Option blocks: hairline boxes, the selected one filled solid from the letter hook's generated custom properties (:has carries the checked state — the radio is display-none'd, but :checked still applies). Every block carries the wide end padding — the ✕ slot exists before a value is set, so widths never change and labels of any length cannot run under the ✕. The radio itself is hidden — the section's eventcatcher receives the label-forwarded click and does the write (the status-pill pattern). */
 .hgsd-priority-option {
   display: block;
   padding-block: 0.15em;
@@ -20,28 +20,33 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
   display: none;
 }
 
-/* The clear ✕ drops into the selected block's reserved slot, vertically centred and ink-matched (core pins button icons to the page foreground) */
+/* The selected block: fill and text/icons ink from the letter's custom properties, in every media (print included — the browser drops the fill on paper, the ink stays). */
+.hgsd-priority-option:has(input:checked) {
+  background-color: var(&#x2D;&#x2D;priority-fill);
+  color: var(&#x2D;&#x2D;priority-ink);
+}
+
+/* The clear ✕ drops into the selected block's reserved slot, vertically centred and ink-matched — its colour rides the letter hook's --priority-ink, so it always matches the selected block's text colour */
 .hgsd-priority-clear {
   position: absolute;
   inset-inline-end: 0.45em;
   top: 50%;
   translate: 0 -50%;
   padding: 0;
+  color: var(&#x2D;&#x2D;priority-ink);
 }
 
 .hgsd-priority-clear svg {
   fill: currentColor;
 }
 
-/* The row select: native box, untouched shape — only its size (to sit on the
-   row) and the dictionary-driven colour differ. The wrapper span joins the
-   row's flex-shrink:0 set (a bare select would squeeze under title pressure)
-   and carries the fill; the select paints transparent over it and inherits
-   its ink. */
+/* The row select's closed box: the wrapper span carries the item's letter hook class and paints fill + ink from the generated custom properties (the select paints transparent over it and inherits its ink; an unset item carries no hook class, the properties stay undefined and the span stays transparent). */
 .hgsd-row-priority {
   flex-shrink: 0;
   margin-inline-start: 0.35em;
   display: inline-flex;
+  background-color: var(&#x2D;&#x2D;priority-fill);
+  color: var(&#x2D;&#x2D;priority-ink);
 }
 
 .hgsd-priority-select {
@@ -49,24 +54,18 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
   background-color: transparent;
 }
 
-/* Dropdown colours: the member composes --hgsd-prio-* custom properties from
-   the colours dictionary onto the select itself; options inherit them. (The
-   $select widget drops foreign attributes on <option>, so the stylesheet owns
-   the mapping and the dictionary stays the single source.) */
-.hgsd-priority-select option[value="A"] {
-  background-color: var(--hgsd-prio-A);
-  color: var(--hgsd-prio-A-ink);
+/* Dropdown colours and the letter hooks, generated per letter from the colours dictionary (the pills.tid shape): the $select widget rebuilds <option> nodes itself and drops foreign attributes, so the stylesheet owns the mapping and the dictionary stays the single source. The dashes are written &#x2D;&#x2D; because stylesheet tiddlers render through wikitext, whose typography rule converts a literal -- to an en-dash. */
+<$list variable="priority-colour-letter" filter="[enlist[A B C]]">
+<$let priority-ink-index={{{ [<priority-colour-letter>addsuffix[-ink]] }}}
+  priority-line-index={{{ [<priority-colour-letter>addsuffix[-line]] }}}>
+.hgsd-priority-select option[value="{{{ [<priority-colour-letter>] }}}"] {
+  background-color: {{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-colour-letter>else[#d9d9d9]] }}};
+  color: {{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-ink-index>else[#5c5c5c]] }}};
 }
-
-.hgsd-priority-select option[value="B"] {
-  background-color: var(--hgsd-prio-B);
-  color: var(--hgsd-prio-B-ink);
+.hgsd-priority-<$text text=<<priority-colour-letter>>/>&#x20;{&#x2D;&#x2D;priority-fill:{{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-colour-letter>else[#d9d9d9]] }}};&#x2D;&#x2D;priority-ink:{{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-ink-index>else[#5c5c5c]] }}};&#x2D;&#x2D;priority-line:{{{ [[$:/plugins/yan/hypergsd-priorities/ui/config/colours]getindex<priority-line-index>else[#5c5c5c]] }}};
 }
-
-.hgsd-priority-select option[value="C"] {
-  background-color: var(--hgsd-prio-C);
-  color: var(--hgsd-prio-C-ink);
-}
+</$let>
+</$list>
 
 /* The configuration table keeps its natural width: theme rules that stretch
    tables to their container would balloon every column in the settings tab.
@@ -75,11 +74,17 @@ table.hgsd-priority-config {
   width: auto;
 }
 
-/* The selected stop's clear ✕ is screen-only interaction — hidden on paper
-   (the main plugin's print stylesheet covers the shared value-clear hook;
-   this one is priorities-owned). */
+/* The align attribute the parser emits for "| A |" cells loses to core's control-panel td rule inside Settings — the class rule carries the centring in every context */
+table.hgsd-priority-config td:first-child {
+  text-align: center;
+}
+
+/* Paper only: the ✕ is screen-only interaction, and the selected block's fill is dropped by the browser — the line ink takes the outline. */
 @media print {
   .hgsd-priority-clear {
     display: none;
+  }
+  .hgsd-priority-option:has(input:checked) {
+    border-color: var(&#x2D;&#x2D;priority-line);
   }
 }

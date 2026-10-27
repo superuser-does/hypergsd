@@ -526,15 +526,18 @@ plugins/hypergsd/
 │   radios behind the section's OWN eventcatcher (the status-pill
 │   architecture: the catcher receives the label-forwarded click —
 │   display:none inputs skip the change cascade — and hgsd-priority-click
-│   commits through hgsd-priority-set) inside hairline option blocks, the
-│   selected one filled solid with its colour inline from the colours
-│   dictionary (fill + text keys — deep red / bright orange / grey-blue,
-│   deliberately unlike the pastel status pills; the dot hidden); the
+│   commits through hgsd-priority-set) inside hairline option blocks, each
+│   row carries its letter as a hook class and the stylesheet's generated
+│   rules hang the --priority-* custom properties on it (fill / ink / line
+│   keys per letter from the colours dictionary — deep red / bright orange /
+│   grey-blue, deliberately unlike the pastel status pills; the dot hidden),
+│   the selected one filling via :has(input:checked) — text and icons keep the ink in every media, the line ink is the print-only outline; the
 │   clear ✕ drops into a reserved end slot on the selected row only
 │   (every block carries the slot padding, so widths never change and
-│   translated labels cannot collide; ink-matched via one fill rule —
-│   core pins button icons to the page foreground; logical properties
-│   throughout, RTL mirrors for free) — a three-rule stylesheet, no JS,
+│   translated labels cannot collide; its ink rides the same
+│   --priority-ink variable — core pins button icons to the page foreground;
+│   logical properties throughout, RTL mirrors for free) — a generated-block
+│   stylesheet, no JS,
 │   no state of its own (the write re-renders the panel through the type
 │   gate); plus the SortBy priority member (:sort[get[gsd_priority]
 │   else[zz]] — A,B,C, unset last) and the GroupBy priority member
@@ -543,15 +546,17 @@ plugins/hypergsd/
 │   engine's keyless No group) — both typed action+project; a list-row
 │   select (ui/list-items/priority, a ListItem/Prefix member pinned after
 │   the status pills via its own list-after member pin — native $select,
-│   colour via CSS custom properties from the colours dict, Short/
+│   the closed box painted by the letter hook class, dropdown options
+│   coloured by generated rules straight from the colours dict, Short/
 │   language strings with Name/ fallback, commits through
 │   hgsd-priority-set); a Settings → HyperGSD → Priorities tab (a native
 │   select binding $:/config/hypergsd/priorities/default — None/A/B/C —
-│   plus a configuration table — bare letter, colour (the core
-│   palette-manager input on the colours dict), full and short names
+│   plus a configuration table — bare letter, fill/ink/line (the core
+│   palette-manager inputs on the colours dict), full and short names
 │   (edit-text on the Name/ and Short/ language strings; edits create
 │   standard lingo overrides); the hgsd-priority-config class keeps its
-│   natural width) and an AfterCreation rule (modules/after-create/
+│   natural width and centres the letter column past core's control-panel
+│   table alignment) and an AfterCreation rule (modules/after-create/
 │   default-priority: a created item linked to a project inherits its
 │   priority, else the configured default; valid A/B/C only, never over
 │   an existing value — all reads ride action attributes, invoke-time,
