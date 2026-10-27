@@ -42,10 +42,11 @@ const L = t => ((wiki.getTiddlerText(t) || "").replace(/\s+/g, " ").trim());
 t("status: dual tag-list membership", [
   wiki.filterTiddlers("[[$:/tags/hypergsd/PanelTemplate]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd/ui/attributes/status"),
   wiki.filterTiddlers("[[$:/tags/hypergsd/ModalTemplate]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd/ui/attributes/status")], [true, true]);
-t("project/contact: dual membership + Portion/1 both sides", [
+t("project/contact: dual membership; project Portion/1, contact Portion/2", [
   wiki.filterTiddlers("[[$:/tags/hypergsd/PanelTemplate/Portion/1]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd/ui/attributes/project"),
   wiki.filterTiddlers("[[$:/tags/hypergsd/ModalTemplate/Portion/1]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd/ui/attributes/project"),
-  wiki.filterTiddlers("[[$:/tags/hypergsd/ModalTemplate/Portion/1]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact")], [true, true, true]);
+  wiki.filterTiddlers("[[$:/tags/hypergsd/PanelTemplate/Portion/2]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact"),
+  wiki.filterTiddlers("[[$:/tags/hypergsd/ModalTemplate/Portion/2]] :and[tagging[]]").includes("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact")], [true, true, true, true]);
 t("no stale panel/modal titles pinned in either list",
   wiki.filterTiddlers("[[$:/tags/hypergsd/PanelTemplate]] :and[tagging[]], [[$:/tags/hypergsd/ModalTemplate]] :and[tagging[]]")
     .filter(x => /\/ui\/(panel|modal)\/(status|project)$/.test(x) || /Contacts\/ui\/(panel|modal)\/contact$/.test(x)).length, 0);
