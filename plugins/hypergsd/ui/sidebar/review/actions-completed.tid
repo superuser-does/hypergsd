@@ -1,5 +1,5 @@
 caption: {{$:/language/hypergsd/Sidebar/Review/ActionsCompleted}}
-tags: $:/tags/hypergsd/Review/2
+tags: $:/tags/hypergsd/Review/3
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/actions-completed
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

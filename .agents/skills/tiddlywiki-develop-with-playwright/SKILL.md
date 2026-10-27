@@ -202,6 +202,17 @@ input.dispatchEvent(new Event("input", {bubbles: true}));
 
 Navigate by dispatching `tm-navigate` on the NAVIGATOR widget — a rootWidget dispatch never reaches it (the handler lives on NavigatorWidget and services the event on its bubble-up path; walk the widget tree for `parseTreeNode.tag === "$navigator"` and dispatch there). Reveal/picker refreshes are synchronous, but give the page ~500–800 ms after clicks before asserting.
 
+## Print verification (media emulation + vision-model delegation)
+
+`@media print` rules can be verified without the print dialog: `page.emulateMedia({media: "print"})` applies them in the live viewport (note: backgrounds still render — emulation is not the print pipeline's background-dropping). Take a full-page screenshot, then hand the images to a vision-model delegate with a concrete yes/no checklist per screenshot — cheaper than interpreting DOM dumps, and it catches cascade failures a headless harness cannot (a specificity/ordering bug once shipped green through fakeDOM tests and only the screenshot caught it). Reset with `{media: "screen"}`.
+
+Browser-side fixture traps (all bitten in practice):
+
+- `$tw.wiki.addTiddler()` in `page.evaluate` autosaves through the server: every fixture lands as a `.tid` in the SERVED wiki's `tiddlers/` folder — `git status` the wiki folder after any visual session and delete the fixtures.
+- `$tw.wiki.addToStory()` from `page.evaluate` crashed a page ("Linked List only accepts string values") — set the story via `addTiddler({title: "$:/StoryList", list: [...titles], text: ""})`.
+- `--listen credentials=` takes a FILE path (one `user:password` per line), not inline credentials; anonymous PUT stays 403.
+- A crashed page (TiddlyWiki's internal-error modal) plus a `page.goto` can leave the CLI in "does not handle the modal state" — `close` + `open` a fresh session rather than fighting it.
+
 ## Step 4: deployed wikis
 
 Only use a deployed server for final verification:

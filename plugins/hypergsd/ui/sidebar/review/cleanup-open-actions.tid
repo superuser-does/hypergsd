@@ -1,5 +1,5 @@
 caption: {{$:/language/hypergsd/Sidebar/Review/CleanupOpenActions}}
-tags: $:/tags/hypergsd/Review/5
+tags: $:/tags/hypergsd/Review/6
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup-open-actions
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

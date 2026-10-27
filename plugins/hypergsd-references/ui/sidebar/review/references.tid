@@ -1,5 +1,5 @@
 caption: {{$:/language/hypergsd/Sidebar/Review/References}}
-tags: $:/tags/hypergsd/Review/5
+tags: $:/tags/hypergsd/Review/6
 title: $:/plugins/yan/hypergsd-references/ui/sidebar/review/references
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

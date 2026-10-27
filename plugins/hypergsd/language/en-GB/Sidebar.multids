@@ -19,11 +19,12 @@ Review/None/Hint: Show nothing until realms are ticked
 Review/All: all
 Review/None: none
 Review/NoRealm: Items not in a realm
-Review/ProjectDashboard: Project dashboard
-Review/ProjectsWithoutNext: Projects without next actions
-Review/ProjectsCompleted: Projects completed
+Review/Dashboard: Dashboard
 Review/ActionDashboard: Action dashboard
 Review/ActionsWaiting: Actions waiting
 Review/ActionsCompleted: Actions completed
+Review/ProjectDashboard: Project dashboard
+Review/ProjectsWithoutNext: Projects without next actions
+Review/ProjectsCompleted: Projects completed
 Review/Cleanup: Cleanup: completed items
 Review/CleanupOpenActions: Cleanup: open actions under completed projects

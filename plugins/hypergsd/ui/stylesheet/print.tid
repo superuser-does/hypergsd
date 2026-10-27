@@ -1,14 +1,7 @@
 tags: $:/tags/Stylesheet
 title: $:/plugins/yan/hypergsd/ui/stylesheet/print
 
-/* Interactive controls that carry no meaning on paper, hidden in print only
-   (screens never see this block). One selector per main-owned hook, so any
-   surface adopting a hook is covered wherever it lives: the value-clear ×
-   (pick-field's set state, prereq rows, the contacts filter's inline removal
-   buttons, the tickler date clear), the list-heading quick-add buttons
-   (project view, contacts, references) and the icon-only row buttons (delete
-   on completed rows, context, trash). :has() is the shipped baseline
-   (lists.tid, pills.tid). */
+/* Interactive controls that carry no meaning on paper, hidden in print only (screens never see this block). One selector per main-owned hook, so any surface adopting a hook is covered wherever it lives: the value-clearing × (pick-field's set state, prereq rows, the contacts filter's inline removal buttons, the tickler date clear), the list-heading quick-add buttons (project view, contacts, references) and the icon-only row buttons (delete on completed rows, context, trashbin). :has() is the shipped baseline (lists.tid, pills.tid). */
 @media print {
   .hgsd-change-button,
   .hgsd-clear-button,

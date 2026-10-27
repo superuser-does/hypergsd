@@ -74,10 +74,11 @@ Sidebar/CaptureBlock/2: New action, project and reference
 Sidebar/CaptureBlock/3: New contact and context
 Sidebar/CaptureBlock/4: Realm note
 Sidebar/Block/1: Realm selection
-Sidebar/Block/2: Project links
+Sidebar/Block/2: Dashboard
 Sidebar/Block/3: Action links
-Sidebar/Block/4: Contexts and ticklers
-Sidebar/Block/5: References, contacts and cleanup
+Sidebar/Block/4: Project links
+Sidebar/Block/5: Contexts and ticklers
+Sidebar/Block/6: References, contacts and cleanup
 
 # Fragments settings tab ($:/plugins/yan/hypergsd/ui/control-panel/fragments)
 Fragments/Caption: Fragments

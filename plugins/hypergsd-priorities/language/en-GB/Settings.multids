@@ -10,6 +10,6 @@ Priorities/Config/Heading: Priority level configuration
 Priorities/Config/PriorityHeading: Priority
 Priorities/Config/FillHeading: Fill
 Priorities/Config/InkHeading: Text and icons
-Priorities/Config/LineHeading: Line (print only)
+Priorities/Config/LineHeading: Line (print layout only)
 Priorities/Config/NameHeading: Name
 Priorities/Config/ShortHeading: Short name

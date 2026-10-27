@@ -57,7 +57,7 @@ function renderReview() {
 
 const blocks = renderReview();
 
-t("five blocks render", blocks.length, 5);
+t("six blocks render", blocks.length, 6);
 
 // 1. Realm selection, live in block 1
 t("block 1 is the realm-selection fieldset: legend, all/none, both realms, the no-realm sentinel",
@@ -69,21 +69,22 @@ t("block 1 is the realm-selection fieldset: legend, all/none, both realms, the n
 t("realm checkboxes: one per realm plus the no-realm sentinel", blocks[0].checkboxes, 3);
 t("block 1 has no page links", blocks[0].links, []);
 
-// 2-3. Core link blocks, in the pinned order (reordered 2026-09-26: actions before projects —
+// 2-4. Core link blocks, in the pinned order (reordered 2026-09-26: actions before projects —
 // the block list fields pin within-block order and must match the entries' block tags)
-t("block 2 order", blocks[1].links, ["Action dashboard", "Actions waiting", "Actions completed"]);
-t("block 3 order", blocks[2].links, ["Project dashboard", "Projects without next actions", "Projects completed"]);
+t("block 2 is the dashboard link", blocks[1].links, ["Dashboard"]);
+t("block 3 order", blocks[2].links, ["Action dashboard", "Actions waiting", "Actions completed"]);
+t("block 4 order", blocks[3].links, ["Project dashboard", "Projects without next actions", "Projects completed"]);
 
-// 4-5. Sub-plugin blocks
-t("block 4 order", blocks[3].links, ["Contexts", "Ticklers"]);
-t("block 5 order", blocks[4].links, ["References", "Contacts", "Cleanup: completed items", "Cleanup: open actions under completed projects"]);
+// 5-6. Sub-plugin blocks
+t("block 5 order", blocks[4].links, ["Contexts", "Ticklers"]);
+t("block 6 order", blocks[5].links, ["References", "Contacts", "Cleanup: completed items", "Cleanup: open actions under completed projects"]);
 
 // 6. Absence: an empty override of the contexts entry drops it, Ticklers stays
 wiki.addTiddler({title: "$:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts"});
 const after = renderReview();
-t("overridden-empty entry: block 4 keeps only Ticklers", after[3].links, ["Ticklers"]);
-t("other blocks unaffected by the override", [after.length, after[1].links, after[4].links],
-  [5, ["Action dashboard", "Actions waiting", "Actions completed"], ["References", "Contacts", "Cleanup: completed items", "Cleanup: open actions under completed projects"]]);
+t("overridden-empty entry: block 5 keeps only Ticklers", after[4].links, ["Ticklers"]);
+t("other blocks unaffected by the override", [after.length, after[2].links, after[5].links],
+  [6, ["Action dashboard", "Actions waiting", "Actions completed"], ["References", "Contacts", "Cleanup: completed items", "Cleanup: open actions under completed projects"]]);
 wiki.deleteTiddler("$:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts");
 
 // 7. Realm list is live: a third realm (with a carrying item) appears in block 1
@@ -96,17 +97,17 @@ t("new realm named in block 1", grown[0].text.indexOf("Side") !== -1, true);
 // 8. Visibility: a hidden entry drops out of the sidebar render
 wiki.addTiddler({title: "$:/config/hypergsd/Review/visibility/$:/plugins/yan/hypergsd/ui/sidebar/review/action-dashboard", text: "hide"});
 const hidden = renderReview();
-t("hidden entry drops from its block", hidden[1].links, ["Actions waiting", "Actions completed"]);
+t("hidden entry drops from its block", hidden[2].links, ["Actions waiting", "Actions completed"]);
 wiki.deleteTiddler("$:/config/hypergsd/Review/visibility/$:/plugins/yan/hypergsd/ui/sidebar/review/action-dashboard");
 
-// 9. The Sidebar settings tab: the four capture block lists, then the five review blocks
+// 9. The Sidebar settings tab: the four capture block lists, then the six review blocks
 const sw = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
   G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block"/>\n\n</$importvariables>'),
   {document: doc, parentWidget: $tw.rootWidget});
 const sc = doc.createElement("div"); sw.render(sc);
 const tab = String(sc.children.length ? (function f(x) { let t = ""; (function g(y) { if (!y || typeof y !== "object") return; if (Array.isArray(y)) return y.forEach(g); t += (y.textContent || ""); (y.children || []).forEach(g); })(x); return t; })(sc.children[0] && sc.children[0].children ? sc.children : sc.children) : "");
 const flat9 = tab.replace(/\s+/g, " ");
-const order = ["Capture defaults", "New action, project and reference", "New contact and context", "Realm note", "Realm selection", "Project links", "Action links", "Contexts and ticklers", "References, contacts and cleanup"];
+const order = ["Capture defaults", "New action, project and reference", "New contact and context", "Realm note", "Realm selection", "Dashboard", "Action links", "Project links", "Contexts and ticklers", "References, contacts and cleanup"];
 t("sidebar tab: capture blocks first, then review blocks in numeric order",
   order.map((k, i) => [flat9.indexOf(k) !== -1, i === 0 || flat9.indexOf(order[i - 1]) < flat9.indexOf(k)]),
   order.map(() => [true, true]));
