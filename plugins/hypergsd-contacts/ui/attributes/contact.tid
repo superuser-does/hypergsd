@@ -9,7 +9,8 @@ title: $:/plugins/yan/hypergsd-contacts/ui/attributes/contact
 <!-- Ships from this sub-plugin so absence of HyperGSD-Contacts removes section and strings structurally. One pick-field over section-target: panel = immediate saves; modal = drafting on the data temp (the inherited contact arrives seeded by hgsd.new-button). New-button fallback suppressed in the modal — typed non-existent picks still offer create-and-add. -->
 <%if [<section-type>match[action]] %>
 <div>
-  <div>
+  <!-- hgsd-print-hide-blank is the print stylesheet's blank-field hook, carried only while Behaviour is set to hide (the config prefix rides the view-body gate, so the toggle live-updates open pages) -->
+  <div class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank]] }}}>
     {{$:/language/hypergsd/Sections/Contact/Label}}
     <br/>
     <$hgsd.pick-field

@@ -8,7 +8,8 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler
 
 <!-- due to browser limitations, the native date input offers no way to clear the date when it is used without confirmation, so there is an explicit action-deletefield to clear it easily. The button's hgsd-clear-button is print-ONLY: the main plugin's print stylesheet hides the value-clear × of every picker surface on paper, nothing styles it on screen — inside a button, core's button svg.tc-image-button rule already pins the × to 1em -->
 <%if [<section-type>match[action]] %>
-<label>
+<!-- hgsd-print-hide-blank-input is the print stylesheet's unset-date hook (a set date renders the clear ✕ inside, which the rule keys on), carried only while Behaviour is set to hide -->
+<label class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank-input]] }}}>
 <<lingo Tickler/Label>>
 <br/>
 <$transclude $variable="hgsd-date-input" target-tiddler=<<section-target>> target-field="gsd_tickler_date" history-field="gsd_tickler_date_history"/>

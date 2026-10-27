@@ -7,6 +7,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-append
 \widget $hgsd.pick-append(field, tiddler:"", id, list-filter, direction:"own", group-by:"", none-label:"", search-mode:"extended", new-type:"", new-status:"next", new-update-status:"no", new-project:"", new-complete:"false", tooltip:"", caption:"")
 <$let target={{{ [<tiddler>!match[]then<tiddler>else<currentTiddler>] }}}>
 <$let pick-tiddler-title={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
+<!-- The wrapper div exists so hgsd-pick-append-row (print-ONLY: the print stylesheet hides the add-row inside sections whose blank-field hiding is active) sits on an element with no display rule of its own — hiding the row itself would need a compound selector to outrank the base stylesheet's .hgsd-sizer-droplist display rule, which sorts after the print stylesheet in the Stylesheet tag list -->
+<div class="hgsd-pick-append-row">
 <div class="gsd-list-item hgsd-sizer-droplist">
   <div>
   <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
@@ -43,6 +45,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-append
   <%endif%>
   <$transclude $variable="hgsd-new-fallback"/>
   </div>
+</div>
 </div>
 </$let>
 </$let>

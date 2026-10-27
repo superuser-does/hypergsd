@@ -11,6 +11,7 @@ Root/Caption: HyperGSD
 Behaviour/Caption: Behaviour
 Behaviour/NewActionNavigate: Navigate to new actions upon creation
 Behaviour/NewProjectNavigate: Navigate to new projects upon creation
+Behaviour/PrintBlankFields: Show blank fields when printing
 Behaviour/InheritTags: Inherit the tiddler's tags when creating from its panel
 Behaviour/InheritTags/Prompt: Enable to have new items copy the tiddler's non-GSD tags. Certain GSD tags, such as realms, are inherited separately and are not affected by this setting.
 Behaviour/PickerInstantCommit: Commit picker selections instantly:

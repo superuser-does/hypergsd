@@ -87,5 +87,42 @@ t("tickler panel: date-clear button carries hgsd-clear-button", domHasClass(tick
 const listR = render('<$tiddler tiddler="ZZ proj P"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project" $mode="block"/></$tiddler>');
 t("project view: list quick-add button carries gsd-list-new-button", domHasClass(listR, "gsd-list-new-button"));
 
+// ── blank-field print hook: the show/hide Behaviour toggle gates the host class; a set field's value link is the discriminator the rule keys on ──
+t("print stylesheet selects the blank-field hook", printCss.indexOf(".hgsd-print-hide-blank") !== -1);
+wiki.addTiddler({title: "ZZ person", tags: "GSD/Contact", gsd_complete: "false"});
+wiki.addTiddler({title: "ZZ blank host", tags: "$:/GSD/Action", gsd_complete: "false"});
+wiki.addTiddler({title: "ZZ contact host", tags: "$:/GSD/Action", gsd_complete: "false", gsd_contact: "ZZ person"});
+wiki.addTiddler({title: "ZZ project host", tags: "$:/GSD/Action", gsd_complete: "false", gsd_project: "ZZ proj P"});
+const attrHost = (member, title) => render('<$tiddler tiddler="' + title + '"><$let section-target="' + title + '" section-type="action" section-mode="panel"><$transclude $tiddler="' + member + '" $mode="block"/></$let></$tiddler>');
+const hasLink = r => { let hit = false; (function f(n){ if(!n||hit||typeof n!=='object')return; if(Array.isArray(n))return n.forEach(f);
+	if(n.isTiddlyWikiFakeDom && n.tag === 'a') { hit = true; return; } (n.children||[]).forEach(f); })(r.c); return hit; };
+t("blank-field hook absent by default (show)", !anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact", "ZZ blank host"), "hgsd-print-hide-blank"));
+wiki.addTiddler({title: "$:/config/hypergsd/print-blank-fields", text: "hide"});
+t("hook on an unset host when set to hide (contact)", anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact", "ZZ blank host"), "hgsd-print-hide-blank"));
+t("hook on an unset host when set to hide (of project)", anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd/ui/attributes/project", "ZZ blank host"), "hgsd-print-hide-blank"));
+const contactSet = attrHost("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact", "ZZ contact host");
+t("set host carries the hook AND its value link (the rule's :not(:has(a)) spares it)", anyNodeHasClass(contactSet, "hgsd-print-hide-blank") && hasLink(contactSet));
+const projectSet = attrHost("$:/plugins/yan/hypergsd/ui/attributes/project", "ZZ project host");
+t("set of-project host likewise", anyNodeHasClass(projectSet, "hgsd-print-hide-blank") && hasLink(projectSet));
+wiki.addTiddler({title: "$:/config/hypergsd/print-blank-fields", text: "show"});
+t("explicit show drops the hook again", !anyNodeHasClass(attrHost("$:/plugins/hypergsd-contacts/ui/attributes/contact", "ZZ blank host"), "hgsd-print-hide-blank"));
+wiki.deleteTiddler("$:/config/hypergsd/print-blank-fields");
+
+// ── the multi-row sections: empty prereq/dependants hide under the toggle; a row's link spares a populated section; the add-row hides unconditionally ──
+wiki.addTiddler({title: "$:/config/hypergsd/print-blank-fields", text: "hide"});
+wiki.addTiddler({title: "ZZ prereq host", tags: "$:/GSD/Action", gsd_complete: "false", gsd_prerequisites: "ZZ bare"});
+const sectionHost = (member, title) => render('<$tiddler tiddler="' + title + '"><$transclude $tiddler="' + member + '" $mode="block"/></$tiddler>');
+const emptyPrereq = sectionHost("$:/plugins/yan/hypergsd/ui/panel/prereq", "ZZ blank host");
+t("empty depends-on carries the hook when hidden", anyNodeHasClass(emptyPrereq, "hgsd-print-hide-blank"));
+const setPrereq = sectionHost("$:/plugins/yan/hypergsd/ui/panel/prereq", "ZZ prereq host");
+t("populated depends-on carries the hook AND row links (spared by the rule)", anyNodeHasClass(setPrereq, "hgsd-print-hide-blank") && hasLink(setPrereq));
+const emptyDependants = sectionHost("$:/plugins/yan/hypergsd/ui/panel/dependants", "ZZ blank host");
+t("empty dependants carries the hook when hidden", anyNodeHasClass(emptyDependants, "hgsd-print-hide-blank"));
+t("pick-append add-rows carry the print hook (gated by the section class)", anyNodeHasClass(setPrereq, "hgsd-pick-append-row"));
+t("print stylesheet gates the add-row behind the section hook and hides the unset date", printCss.indexOf(".hgsd-print-hide-blank .hgsd-pick-append-row") !== -1 && printCss.indexOf(".hgsd-print-hide-blank-input") !== -1);
+const unsetTickler = render('<$tiddler tiddler="ZZ blank host"><$let section-target="ZZ blank host" section-type="action" section-mode="panel"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let></$tiddler>');
+t("unset tickler date carries the unset-date hook", anyNodeHasClass(unsetTickler, "hgsd-print-hide-blank-input"));
+wiki.deleteTiddler("$:/config/hypergsd/print-blank-fields");
+
 console.log(fails === 0 ? "ALL PRINT-HOOK CHECKS PASS" : fails + " PRINT-HOOK CHECK(S) FAILED");
 process.exit(fails === 0 ? 0 : 1);

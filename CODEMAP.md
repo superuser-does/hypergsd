@@ -769,7 +769,12 @@ plugins/hypergsd/
     │                            sections, lists, pills, colour-manager,
     │                            hgsd-status-colours (status→colour dictionary),
     │                            print (@media print — hides interactive
-    │                            controls on paper via the hook classes)
+    │                            controls on paper via the hook classes, and
+    │                            blank fields — single-value pickers,
+    │                            empty prerequisite/dependant sections, the
+    │                            unset tickler date — when Behaviour's print
+    │                            toggle is set to hide; the add-row
+    │                            hides behind the same section hook)
     └── tags/                    folder names MIRROR the two title namespaces:
                                  GSD/ holds tiddlers titled under $:/GSD/
                                  (Action, Project — the identity tags; Contact

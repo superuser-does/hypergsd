@@ -18,4 +18,19 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/print
   .gsd-button {
     display: none;
   }
+
+  /* Blank fields leave nothing on paper when Behaviour is set to hide: a set single-value field or prerequisite row always renders its value link, the unset state never renders an anchor */
+  .hgsd-print-hide-blank:not(:has(a.tc-tiddlylink)) {
+    display: none;
+  }
+
+  /* An unset tickler date: the set state renders the clear ✕ inside, which this keys on */
+  .hgsd-print-hide-blank-input:not(:has(.hgsd-clear-button)) {
+    display: none;
+  }
+
+  /* Add-rows are pure interaction, the rows above them are the data — hidden inside sections whose blank-field hiding is active, so the one Behaviour toggle governs every blank-field affordance. The wrapper carries no display rule, so the plain selector needs no specificity */
+  .hgsd-print-hide-blank .hgsd-pick-append-row {
+    display: none;
+  }
 }

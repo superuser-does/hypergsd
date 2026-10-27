@@ -9,7 +9,8 @@ title: $:/plugins/yan/hypergsd/ui/panel/dependants
 <!-- Mirror of the DependsOn section, writing the OTHER side through the same shared twins: hgsd-prereq-row with direction "item" (the × trims THIS action's title off the row item's list), $hgsd.pick-append with direction "item" (the picked action gains THIS title as its prerequisite). viewing-title is load-bearing: $list owns currentTiddler as its iteration variable, so the loop filter cannot read <currentTiddler> directly — the let snapshots it before the loop. -->
 <$let viewing-title=<<currentTiddler>> >
 <div class="hgsd-interactive">
-  <div>
+  <!-- hgsd-print-hide-blank is the print stylesheet's blank-field hook, carried only while Behaviour is set to hide (the config prefix rides the view-body gate, so the toggle live-updates open pages) -->
+  <div class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank]] }}}>
     <<lingo PrereqOf/Label>>
     <br/>
     <$list filter="[tag[$:/GSD/Action]] :filter[get[gsd_prerequisites]enlist-input[]match<viewing-title>] +[sort[gsd_complete]]" variable="dependant-item">

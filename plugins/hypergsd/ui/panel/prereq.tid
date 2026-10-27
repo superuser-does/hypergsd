@@ -8,7 +8,8 @@ title: $:/plugins/yan/hypergsd/ui/panel/prereq
 <%if [is[current]tag[$:/GSD/Action]] %>
 <!-- Rows and the add-row are the shared prereq twins: hgsd-prereq-row draws each row (direction "own" — the × trims the row item off THIS action's list), $hgsd.pick-append adds to it (picked title appended to gsd_prerequisites). -->
 <div class="hgsd-interactive">
-  <div>
+  <!-- hgsd-print-hide-blank is the print stylesheet's blank-field hook, carried only while Behaviour is set to hide (the config prefix rides the view-body gate, so the toggle live-updates open pages) -->
+  <div class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank]] }}}>
     <<lingo DependsOn/Label>>
     <br/>
     <$list filter="[all[current]get[gsd_prerequisites]enlist-input[]] +[sort[gsd_complete]]" variable="prereq-item">
