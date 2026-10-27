@@ -294,8 +294,8 @@ wiki.deleteTiddler(vis("hypergsd/Lists/Contact", "$:/plugins/yan/hypergsd-contac
   check("tag-basis: portions list carries tag line + portion sentence in one paragraph (line break, no full stop after the pill)",
     noteOf(pv).some(s => s.indexOf("Tiddlers tagged with") === 0 && s.indexOf("Portions are the layout slots") !== -1 && s.indexOf(".") > s.indexOf("Portions are")), true);
   const sb = dom("$:/plugins/yan/hypergsd/ui/control-panel/sidebar");
-  check("tag-basis: sidebar blocks carry the note without the portion sentence",
-    [noteOf(sb).length >= 2, noteOf(sb).every(s => s.indexOf("Tiddlers tagged with") === 0 && s.indexOf("Portions") === -1)], [true, true]);
+  check("tag-basis: sidebar lists carry the note with the numbered portion sentence (no Top/Full slots)",
+    [noteOf(sb).length >= 2, noteOf(sb).every(s => s.indexOf("Tiddlers tagged with") === 0 && s.indexOf("Portions are the layout slots") !== -1 && s.indexOf("Portion/Top") === -1)], [true, true]);
   const db = dom("$:/plugins/yan/hypergsd/ui/control-panel/dashboards");
   check("tag-basis: Group by / Sort by sections carry the note without the portion clause",
     noteOf(db).filter(s => s.indexOf("Portions") === -1).length >= 2, true);
@@ -812,43 +812,49 @@ wiki.addTiddler({title: "A delegated", tags: ["$:/GSD/Action"], gsd_status: "wai
 }
 wiki.deleteTiddler("A delegated");
 
-// Settings → Sidebar: per-block capture drag lists (block tag tiddlers'
-// captions as labels; plain rows — no Portion select on portion-less entries).
+// Settings → Sidebar: one draggable per sidebar tab (all members in tag-list order,
+// numeric Portion picker on every row — next-free runs one past the highest number
+// in use, so capture offers 1-5 and review 1-10 past the shipped 9).
 {
   const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block"/>\n\n</$importvariables>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", body);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
-  let capItems = null;
-  (function f(n) {
-    if (!n || typeof n !== "object") return;
-    if (Array.isArray(n)) return n.forEach(f);
-    if (n.isTiddlyWikiFakeDom) {
-      if (((n.attributes || {}).class || "").indexOf("tc-tagged-draggable-list") !== -1
-          && (n.textContent || "").indexOf("new action") !== -1) {
-        capItems = (n.children || []).filter(ch => ch.isTiddlyWikiFakeDom && ch.tag).map(ch =>
-          (n2 => { let s = ""; (function g(x) { if (!x || typeof x !== "object") return; if (Array.isArray(x)) return x.forEach(g); if (x.isTiddlyWikiFakeDom) return (x.children || []).forEach(g); s += (x.textContent || ""); })(n2); return s.replace(/\s+/g, " ").trim(); })(ch)).filter(s => s);
+  const rowsOf = (needle) => {
+    let rows = null;
+    (function f(n) {
+      if (!n || typeof n !== "object") return;
+      if (Array.isArray(n)) return n.forEach(f);
+      if (n.isTiddlyWikiFakeDom) {
+        if (((n.attributes || {}).class || "").indexOf("tc-tagged-draggable-list") !== -1
+            && (n.textContent || "").indexOf(needle) !== -1) {
+          rows = (n.children || []).filter(ch => ch.isTiddlyWikiFakeDom && ch.tag).map(ch =>
+            (n2 => { let s = ""; (function g(x) { if (!x || typeof x !== "object") return; if (Array.isArray(x)) return x.forEach(g); if (x.isTiddlyWikiFakeDom) return (x.children || []).forEach(g); s += (x.textContent || ""); })(n2); return s.replace(/\s+/g, " ").trim(); })(ch)).filter(s => s);
+        }
+        (n.children || []).forEach(f);
       }
-      (n.children || []).forEach(f);
-    }
-  })(c);
-  // the block's own rows: caption -- description, drag order = the block's list field
-  check("settings: block 2 drag list = the common buttons (caption -- description) in list-field order", capItems, [
+    })(c);
+    return rows;
+  };
+  // capture rows: caption -- description then the picker's option labels; order = the tag
+  // list (listed core members first — new-reference pins after new-project — then the
+  // unlisted sub-plugin members in engine registration order)
+  check("settings: capture drag list = all eight entries (caption -- description) in tag-list order",
+    rowsOf("new action").map(s => s.replace(/[0-9]+$/, "")), [
+    "Default realm – The realm inherited by new items created in the capture sidebar",
     "new action – Add a new action",
     "new project – Add a new project",
-    "new reference – Add new reference"
+    "new reference – Add new reference",
+    "Realm note – The small-print hint about creating new realms",
+    "new contact – Add a new contact",
+    "Default context – The context inherited by new items created in the capture sidebar",
+    "new context – Add new context"
   ]);
-  const tabText = String(c.textContent || "");
-  check("settings: all four capture block captions render",
-    ["Capture defaults", "New action, project and reference", "New contact and context", "Realm note"]
-      .every(s2 => tabText.indexOf(s2) !== -1), true);
-  check("settings: review block captions still render", tabText.indexOf("Realm selection") !== -1, true);
-  check("settings: defaults and note rows carry captions and hints",
-    ["Default realm – The realm inherited by new items created in the capture sidebar",
-     "Default context – The context inherited by new items created in the capture sidebar",
-     "Realm note – The small-print hint about creating new realms"]
-      .every(s2 => tabText.indexOf(s2.replace(/\s+/g, " ")) !== -1), true);
-
+  check("settings: every capture row carries the numeric Portion picker (options 1-5, no band labels)",
+    [rowsOf("new action").length, rowsOf("new action").every(s => /[0-9]+$/.test(s)), String(c.textContent).indexOf("full-width")], [8, true, -1]);
+  check("settings: review rows offer next-free 10 past the shipped Portion/9",
+    rowsOf("Project dashboard").some(s => /123478910$/.test(s)), true);
+  check("settings: the old block captions are gone", String(c.textContent || "").indexOf("Capture defaults"), -1);
 }
 
 // Refresh-path cases for the OUTER DERIVATION GATE (2026-09-01): the $let tree above

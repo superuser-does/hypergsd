@@ -5,13 +5,5 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/review-sidebar
 
 \whitespace trim
 
-<!-- Block tag list: each $:/tags/hypergsd/Review/<n> tag tiddler is one block (within-block order = the engine's sortByList: the block's list field first where one ships, member list-before/list-after pins, then alphabetical). Entries ship in whichever plugin owns them — sub-plugin members carry their own pins against core anchors, so an absent sub-plugin is an inert pin, never a dangling core title. The strip-prefix/nsort/re-prefix keeps numeric block order past 9; the gap between blocks is one adjacent-sibling margin rule on .hgsd-sidebar-block. Hidden entries ($:/config/hypergsd/Review/visibility/<title> = hide, written by the Settings → Sidebar tab) are gated per entry. -->
-<$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Review/]!is[draft]removeprefix[$:/tags/hypergsd/Review/]nsort[]addprefix[$:/tags/hypergsd/Review/]]" variable="review-block">
-<div class="hgsd-sidebar-block">
-<$list filter="[all[shadows+tiddlers]tag<review-block>!is[draft]]" variable="review-entry">
-<%if [[$:/config/hypergsd/Review/visibility/]addsuffix<review-entry>get[text]else[show]match[show]] %>
-<$transclude $tiddler=<<review-entry>> $mode="block"/>
-<%endif%>
-</$list>
-</div>
-</$list>
+<!-- Portion chassis (modules/section-portions): $:/tags/hypergsd/Review members render grouped by their Portion/<n> tag, numbers only (no Top/Full bands on this surface; untagged members land in Portion/1; Portion/9 ships deliberately so later additions can take 6-8 without renumbering). Within-portion order = the engine's sortByList: the tag list's list field first, then member list-before/list-after pins, then engine order. Entries ship in whichever plugin owns them, so an absent sub-plugin is a missing member; a portion whose members are all absent never exists, an all-hidden one renders an empty div that collapses via :empty. Hidden entries ($:/config/hypergsd/Review/visibility/<title> = hide, written by the Settings → Sidebar tab) are gated per entry. No refresh gate: sidebar chrome refreshes natively. -->
+<$transclude $variable="hgsd-portions-core" tag-list="$:/tags/hypergsd/Review" visibility-base="$:/config/hypergsd/Review/visibility/" columns-class="hgsd-sidebar-portions"/>

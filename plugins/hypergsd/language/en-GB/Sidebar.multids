@@ -19,6 +19,7 @@ Review/None/Hint: Show nothing until realms are ticked
 Review/All: all
 Review/None: none
 Review/NoRealm: Items not in a realm
+Review/RealmSelection: Realm selection
 Review/Dashboard: Dashboard
 Review/ActionDashboard: Action dashboard
 Review/ActionsWaiting: Actions waiting

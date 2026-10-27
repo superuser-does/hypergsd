@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Sidebar/Capture/DefaultRealm/Caption}}
 description: {{$:/language/hypergsd/Sidebar/Capture/DefaultRealm/Hint}}
-tags: $:/tags/hypergsd/Capture/Block/1
+tags: $:/tags/hypergsd/Capture $:/tags/hypergsd/Capture/Portion/1
 title: $:/plugins/yan/hypergsd/ui/sidebar/capture/default-realm
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

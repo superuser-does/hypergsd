@@ -8,8 +8,8 @@ System tags are the integration surface: tag your tiddler and the framework pick
 
 ;[[$:/tags/hypergsd/Type|Type tag list]]
 :Register a new item type.
-;[[$:/tags/hypergsd/Capture/Block/<n>|Capture sidebar hooks]]
-:Add a "new (thing)" entry button, or a defaults control, to the capture sidebar.
+;[[$:/tags/hypergsd/Capture|Capture sidebar hooks]]
+:Add a "new (thing)" entry button, or a defaults control, to the capture sidebar — the review sidebar takes entries the same way over `$:/tags/hypergsd/Review`.
 ;[[$:/tags/hypergsd/AfterCreation|AfterCreation]]
 :Run a rule after every item creation.
 ;[[$:/tags/hypergsd/PanelTemplate|PanelTemplate]]

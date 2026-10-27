@@ -3,7 +3,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 
 \whitespace trim
 
-<!-- The ONE portion chassis core behind both named wrappers (panels/modal and dashboards): Portion/1..N render as side-by-side boxes (flattened to one flow by the panel-layout setting), while the two band slots bracket the row — Portion/Top spans the full width before it, Portion/Full after it. A portion exists the moment a member claims it; untagged members land in Portion/1 (the else<default-portion> indirection resolves their effective portion, so explicit and implicit claims share one loop and tag-list order rules within a portion); membership/order come from the tag list (a core-owned list field where the core interleave is non-alphabetical, member list-before/list-after pins after that, unlisted append alphabetically); visibility per member from <visibility-base><title>. Members are list tiddlers transcluded in block mode and read their section context (section-target/type/mode or new-data-title/current-type) from the CALLER's ambient scope. Scope: Global, not Global/View — the modal renders outside ViewTemplate imports. -->
+<!-- The ONE portion chassis core behind both named wrappers (panels/modal and dashboards, and the two sidebar tabs): Portion/1..N render as side-by-side boxes (flattened to one flow by the panel-layout setting), while the two band slots bracket the row — Portion/Top spans the full width before it, Portion/Full after it. A portion exists the moment a member claims it; untagged members land in Portion/1 (the else<default-portion> indirection resolves their effective portion, so explicit and implicit claims share one loop and tag-list order rules within a portion); membership/order come from the tag list (a core-owned list field where the core interleave is non-alphabetical, member list-before/list-after pins after that, unlisted append alphabetically); visibility per member from <visibility-base><title>. Portion numbers order numerically past 9 (the strip/nsort/re-prefix in the loop — the review sidebar ships Portion/9, and the Settings picker offers one past the highest number in use). Members are list tiddlers transcluded in block mode and read their section context (section-target/type/mode or new-data-title/current-type) from the CALLER's ambient scope. Scope: Global, not Global/View — the modal renders outside ViewTemplate imports. -->
 \procedure hgsd-portions-core(tag-list, visibility-base, columns-class, fold-state:"", fold-visibility-base:"")
 <$let default-portion={{{ [<tag-list>addsuffix[/Portion/1]] }}}
   portion-prefix={{{ [<tag-list>addsuffix[/Portion/]] }}}
@@ -19,7 +19,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 </div>
 <%endif%>
 <div class=<<columns-class>>>
-  <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]sort[]]" variable="capture-portion-tag">
+  <$list filter="[<tag-list>] :and[tagging[]] :and[tags[]prefix<portion-prefix>!match<full-portion>!match<top-portion>] [<default-portion>] +[unique[]removeprefix<portion-prefix>nsort[]addprefix<portion-prefix>]" variable="capture-portion-tag">
     <div>
       <$list filter="[<tag-list>] :and[tagging[]] :and[!is[draft]] :filter[tags[]prefix<portion-prefix>first[]else<default-portion>match<capture-portion-tag>]" variable="portion-member">
         <%if [<visibility-base>addsuffix<portion-member>get[text]else[show]match[show]] %>

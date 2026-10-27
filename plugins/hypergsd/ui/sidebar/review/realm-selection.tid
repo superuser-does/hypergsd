@@ -1,5 +1,5 @@
-caption: {{$:/language/hypergsd/Settings/Sidebar/Block/1}}
-tags: $:/tags/hypergsd/Review/1
+caption: {{$:/language/hypergsd/Sidebar/Review/RealmSelection}}
+tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/1
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/realm-selection
 
 <!-- Block-mode transclusion: the component uses only absolute titles, so the currentTiddler rebinding of plain transclusion changes nothing. -->

@@ -1,7 +1,7 @@
 caption: {{$:/language/hypergsd/Sidebar/Capture/NewReference/Label}}
 description: {{$:/language/hypergsd/Sidebar/Capture/NewReference/Hint}}
 list-after: $:/plugins/yan/hypergsd/ui/sidebar/capture/new-project
-tags: $:/tags/hypergsd/Capture/Block/2
+tags: $:/tags/hypergsd/Capture $:/tags/hypergsd/Capture/Portion/2
 title: $:/plugins/yan/hypergsd-references/ui/sidebar/capture/new-reference
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

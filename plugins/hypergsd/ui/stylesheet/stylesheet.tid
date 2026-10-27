@@ -72,7 +72,12 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/stylesheet
   text-decoration: underline;
 }
 
-/* Sidebars: the vertical gap between numbered blocks — sibling selector so the first and last blocks get no extra margin. */
-.hgsd-sidebar-block + .hgsd-sidebar-block {
-  margin-top: 1em;
+/* Sidebars: the vertical gap between numbered portions (modules/section-portions, class on the wrapper div) — sibling selector so the first and last portions get no extra margin; a portion whose members are all hidden renders empty and collapses. */
+.hgsd-sidebar-portions > div {
+  &:empty {
+    display: none;
+  }
+  & + div {
+    margin-top: 1em;
+  }
 }

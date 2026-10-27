@@ -27,7 +27,7 @@ logic is wikitext.
 | Author | Yannis Anthymidis (fork); upstream GSD5 by Roma Quintin Hicks et al. |
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
-| Main-plugin content | 217 files + `plugin.info` (198 tid + 17 multids + 1 js) |
+| Main-plugin content | 209 files + `plugin.info` (190 tid + 17 multids + 1 js) |
 | Sub-plugin content | contacts 39 files (29/9/0), contexts 24 (17/6/0), priorities 15 (10/4/0), references 17 (12/4/0), ticklers 25 (19/4/1), trashbin 4 (2/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; `ui/readme.tid` (`$:/language/Help/hypergsd/about`) keeps the GSD5 author credit (fork lineage attribution); the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
@@ -494,8 +494,8 @@ plugins/hypergsd/
 │   link; core-contract Complete checkbox; Alert-tag list shift members
 │   through the shared $hgsd.tickler-shift widget, base = now),
 │   GSD/Ticklers, and lingo in the shared namespaces. The ticklers plugin
-│   also ships its own review-sidebar entry (block 4 of the
-│   $:/tags/hypergsd/Review/<n> tag list), so core keeps no tickler branch
+│   also ships its own review-sidebar entry (a Portion/7 member of the
+│   $:/tags/hypergsd/Review tag list), so core keeps no tickler branch
 │   in the sidebar. plugins/hypergsd-references ships the reference type +
 │   every reference surface: the $:/GSD/Reference type member, the
 │   GSD/References page, the references-list block (the sole
@@ -623,11 +623,13 @@ plugins/hypergsd/
     │                            inline display:grid — legend row 1, one label per
     │                            row, no stylesheet rule), visibility-list
     │                            (Global — hgsd-visibility-list(tag-list,
-    │                            visibility-base): core's list-tagged-draggable +
-    │                            ItemTemplate behind the $set config-base the
-    │                            ItemTemplate reads; every settings draggable —
-    │                            the list tabs, Panel and modal, Fragments — calls
-    │                            it; renders the tag-basis note above each list —
+    │                            visibility-base, item-template, portions,
+    │                            fold-visibility-base, bands): core's
+    │                            list-tagged-draggable + ItemTemplate behind the
+    │                            $set config-base the ItemTemplate reads; every
+    │                            settings draggable — the list tabs, Panel and
+    │                            modal, Fragments, the sidebar tabs — calls it;
+    │                            renders the tag-basis note above each list —
     │                            lingo Settings/TagBasis/*, the tag pill via core's
     │                            tag macro; portions="no" (the sidebar blocks,
     │                            Group by / Sort by) drops the portion clause;
@@ -751,20 +753,21 @@ plugins/hypergsd/
     │                            cross-realm globe)
     ├── shortcuts/               2 KeyboardShortcut triggers (modal openers)
     ├── sidebar/                 Capture + Review tabs ($:/tags/SideBar). capture/
-    │                            holds the tab chassis + Capture/Block members:
-    │                            default-realm (the <$hgsd.realm-picker> call,
+    │                            holds the tab chassis + $:/tags/hypergsd/Capture
+    │                            members: default-realm (the <$hgsd.realm-picker> call,
     │                            "Default realm:" label), new-action/new-project
     │                            buttons, realm-note (new-contact ships from
     │                            Contacts, new-reference from References,
     │                            new-context + default-context from Contexts).
-    │                            Review is a block tag list —
-    │                            $:/tags/hypergsd/Review/<n> tag tiddlers
-    │                            (within-block order = engine sortByList:
-    │                            member list-before/list-after pins, then
-    │                            alphabetical — no list field ships), entries in
-    │                            ui/sidebar/review/ shipped by their owning
-    │                            plugin, gaps via one adjacent-sibling margin
-    │                            rule on .hgsd-review-block
+    │                            Both tabs render through hgsd-portions-core
+    │                            (modules/section-portions): members of
+    │                            $:/tags/hypergsd/Capture and $:/tags/hypergsd/Review
+    │                            group by their Portion/<n> tag, numbers only, one
+    │                            stacked div per portion (.hgsd-sidebar-portions;
+    │                            within-portion order = engine sortByList: the tag
+    │                            list's list field first, member pins, then engine
+    │                            order), entries in ui/sidebar/review/ shipped by
+    │                            their owning plugin
     ├── stylesheet/              7 stylesheets: base (shared utilities),
     │                            sections, lists, pills, colour-manager,
     │                            hgsd-status-colours (status→colour dictionary),
@@ -782,11 +785,11 @@ plugins/hypergsd/
                                  which repeat the GSD/ folder convention),
                                  HyperGSD/ holds those titled under
                                  $:/tags/hypergsd/ (AfterCreation,
-                                 Capture/Block/<1-4>, Complete/Warning, GroupBy,
+                                 Capture, Complete/Warning, GroupBy,
                                  Inheritance, LinkItem, ListItem/Prefix,
                                  ListItemSuffix, Lists/{Action,Dashboard,Project},
                                  ModalTemplate, PanelTemplate, ProjectView,
-                                 Review/<1-5>, SortBy, Strip, Type, ViewPlacement
+                                 Review, SortBy, Strip, Type, ViewPlacement
                                  — the control tag lists). Paths are
                                  organisational only (the title: field names
                                  the tiddler, never the file path), so any
@@ -1189,16 +1192,17 @@ enter/escape per-widget.
 | `ui/panel/dependants` mirror picker | the "Prerequisite of" section carries the full DependsOn interaction writing the OTHER side: picker over incomplete actions minus self (the literal filter carries a `-[<currentTiddler>]` run — variable operands resolve at evaluation, so self-exclusion needs no dynamic composition), add/remove write the PICKED action's `gsd_prerequisites` (both sections' rows sort `gsd_complete` — incomplete first, stable within groups — and every add path clears the per-action pick afterwards), typed new picks go through `hgsd-create-and-add` with `new-prereq` (blank `target-field` skips the target write; `target-tiddler` still names the caller for AfterCreation rules) |
 | `$:/tags/hypergsd/AfterCreation` | post-create extension point — tagged rules transcluded by the shared runner `hgsd-run-after-create` (modules/run-after-create.tid, $:/tags/Global) after EVERY creation: the modal (new-source=modal) AND create-and-add pickers (new-source=picker, calling-tiddler = the tiddler whose field receives the item). Contract vars `hgsd-new-title`/`hgsd-new-type`/`hgsd-calling-tiddler`/`hgsd-new-source` are `$let` into scope (plain tiddler transclusion inherits caller scope but DROPS extra <$transclude> attributes — those only reach procedures/widgets). No list-field pinning: navigation is not a member — each creation path navigates itself after the hook honouring new-action-navigate / new-project-navigate (the modal always for other types; pickers stay in place for them), so members are order-independent and no rule invalidates the invoking tree mid-chain. Members must read created-item data through ACTION attributes (invoke-time) — the calling tree renders before the item exists; the priorities default-priority rule is the reference. Shipped rules: contact-delegation + priorities default-priority (sub-plugins) |
 | `$:/tags/hypergsd/Ticklers/Snooze` + members | snooze-interval tag list (sub-plugin) — each member carries `days` + `caption`; the tickler alert body renders one button per member (list field pins one-day → one-week; ship your own by tagging) |
-| `$:/tags/hypergsd/Capture/Block/<n>` + members | **capture tag list** — numbered blocks own the capture sidebar outright (1 defaults: the //Default context:// select + //Default realm:// picker, one labelled line per member; 2 the common new-item buttons: action/project/reference; 3 the rarer pair: contact/context; 4 the realm note). Within-block order is the engine's sortByList (member list-before/list-after pins, then alphabetical — no block tag tiddler ships a list field) and each block's `caption` (lingo `Settings/Sidebar/CaptureBlock/<n>`) labels its drag list in Settings → Sidebar; hide writes `$:/config/hypergsd/Capture/visibility/<title>` (default show), gated per entry by the renderer. Buttons are single `<$hgsd.new-button>` invocations; members ship from whichever plugin owns the type, so an absent sub-plugin is a missing entry (an all-absent block renders no div — no double gap) |
+| `$:/tags/hypergsd/Capture` / `$:/tags/hypergsd/Review` + members | **sidebar tag lists** — members own the capture/review sidebars outright, rendered through hgsd-portions-core grouped by their numeric `Portion/<n>` tag (numbers only, no Top/Full bands; untagged members land in Portion/1; the review list ships 1-4 then 7-9 deliberately — 7 references/ticklers, 8 contexts/contacts, 9 the cleanup pair — leaving 5-6 free for later additions; portion numbers order numerically past 9). Capture: 1 the two defaults selects, 2 the common new-item buttons (action/project/reference — new-reference pins list-after new-project), 3 the rarer pair (contact/context), 4 the realm note. Review: 1 realm selection, 2 the dashboard link, 3 the action links, 4 the project links. Within-portion order is the engine's sortByList (the tag list's core-only `list` field first, member list-before/list-after pins, then engine registration order — the sub-plugin pairs in 7 and 8 ride engine order, no pin and no core anchor lives there); the Settings → Sidebar tab renders one `hgsd-visibility-list` draggable per tab (`bands="no"` — numeric Portion picker per row, no band options); hide writes `$:/config/hypergsd/Capture\|Review/visibility/<title>` (default show), gated per entry by the renderer. Buttons are single `<$hgsd.new-button>` invocations; members ship from whichever plugin owns the type, so an absent sub-plugin is a missing entry (a portion whose members are all absent never exists; an all-hidden one renders an empty div collapsed by `:empty`) |
 | `$:/config/hypergsd*/visibility/*` (11 list .multids across main + sub-plugins) | per-dashboard list visibility + drag-order seeds — live, consumed by the dashboard tag loops (see §7) |
 
 Control panel (`$:/tags/ControlPanel/SettingsTab` → HyperGSD): General
 checkboxes + cleanup timeout; View placement radios; Dashboards grouping
 checkbox + per-dashboard list tabs — 9 from main + Contact page from the
-Contacts sub-plugin. Every draggable surface (list tabs, Panel and modal, Fragments)
-calls the one shared procedure `hgsd-visibility-list(tag-list,
-visibility-base)` (ui/components/visibility-list, $:/tags/Global — Global
-because the control panel renders outside the ViewTemplate chain): it wraps
+Contacts sub-plugin. Every draggable surface (list tabs, Panel and modal, Fragments,
+the Sidebar tab) calls the one shared procedure `hgsd-visibility-list(tag-list,
+visibility-base, item-template, portions, fold-visibility-base, bands)` (ui/components/visibility-list,
+$:/tags/Global — Global because the control panel renders outside the ViewTemplate
+chain): it wraps
 core's `list-tagged-draggable` + `$:/core/ui/ControlPanel/Toolbars/ItemTemplate`
 in the `$set config-base` the ItemTemplate reads, so the checkbox writes
 `<visibility-base><item-title>` as show/hide and drag-reorder writes the
@@ -1446,20 +1450,26 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   calls; every page uses the plain default — the completed lists are
   Portion/Full members that SELF-toggle via $hgsd.toggle, and the chassis
   gate carries scoped show-completed runs to admit the in-member toggle
-  writes). Portion/N slots sit side by side (.hgsd-capture row for
-  panels/modal, full-width .hgsd-portion-columns for dashboards); the two
-  band slots bracket the row as plain block siblings — Portion/Top spans
-  before it, Portion/Full after it (band gates chain the limit INSIDE the
-  :and run — `:and[tag<X>limit[1]]`; a `:and[tag<X>]limit[1]]` shape closes
-  the run early, leaving limit[1] to parse as orphan titles that union in —
-  band divs render empty-but-present on unclaimed tag lists); a portion
-  exists the moment a member claims it; untagged members land in Portion/1
-  (routed by a separate untagged loop — else[<variable>] does not parse);
-  order numeric, zero-pad beyond nine. Settings: the visibility-list
+  writes); the two sidebar tabs call hgsd-portions-core directly (numbers
+  only — no member carries a band tag, so the band gates render nothing;
+  .hgsd-sidebar-portions stacks one div per portion). Portion/N slots sit
+  side by side (.hgsd-capture row for panels/modal, full-width
+  .hgsd-portion-columns for dashboards); the two band slots bracket the row
+  as plain block siblings — Portion/Top spans before it, Portion/Full after
+  it (band gates chain the limit INSIDE the :and run — `:and[tag<X>limit[1]]`;
+  a `:and[tag<X>]limit[1]]` shape closes the run early, leaving limit[1] to
+  parse as orphan titles that union in — band divs render empty-but-present
+  on unclaimed tag lists); a portion exists the moment a member claims it;
+  untagged members land in Portion/1 (routed by a separate untagged loop —
+  else[<variable>] does not parse); order numeric — nsort on the stripped
+  portion numbers, so Portion/9 renders before the picker's next-free 10. Settings: the visibility-list
   draggable's item template (ui/components/portion-item-template wraps the
   core row + the shared ui/components/portion-picker) retags the member
   (drops its other portion tags, adds the choice; options = the two bands
-  bracketing portions in use + next-free, mirroring visual order; next-free
+  bracketing portions in use + next-free, mirroring visual order — numeric
+  only where the host passes bands="no" (the sidebar tabs), which also
+  swaps the picker tooltip and the tag-basis sentence to the numbered
+  wording; next-free
   is MAX-BASED — one past the highest number in use, seeded with the
   implicit Portion/1 as a plain run AFTER the :and enumeration (a seed
   before it is wiped — :and replaces the accumulator; a count-based form
@@ -1471,8 +1481,8 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
 - Section visibility/order is tag-driven and live: panel and modal render
   `tagging[$:/tags/hypergsd/{Panel,Modal}Template]` in two portion loops
   (one loop per distinct Portion/N tag in use — a portion exists the moment a
-  section claims it; untagged sections land in Portion/1; order numeric, zero-pad
-  beyond nine), guarded by
+  section claims it; untagged sections land in Portion/1; order numeric via
+  the strip/nsort/re-prefix in the chassis loop), guarded by
   `$:/config/hypergsd{Panel,Modal}/visibility/<section>` (`else[show]`).
   Order single-sourced in each primary tag tiddler's `list` field (drag
   writes an override); a container hugs its content (`width:fit-content`) and
@@ -1506,7 +1516,7 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   retrieval is unnecessary). Per-status dashboard lists/sections remain the
   shipped five (opt-in via the list tag lists for replacement statuses).
 - The sidebar tab is Capture (`$:/tags/hypergsdCapture`), owned outright by
-  the capture block tag lists (§5a).
+  the $:/tags/hypergsd/Capture member list (§5a).
 - $:/tags/hypergsd/Lists/ContactAction (tag tiddler ships from the
   SUB-plugin): GSD5's contact-page list hook — LIVE. view-body-contact
   renders the tagged $hgsd.list blocks (next/waiting/future/completed for
@@ -1541,7 +1551,7 @@ tiddlers plus both codebases.
 | Contexts | gen-1 `gsd_type[context]` vs gen-2 "any tag" tension | explicit opt-in `GSD/Contexts` (the dashboard is the tag list); per-context view template + dashboard; excluded for contacts/references |
 | Dependencies | `gsd_action` (single) | `gsd_prerequisites` list + picker + promotion + dependants section + modal back-linking |
 | Contacts | `gsd_contact` field (34 sites) | same field, deliberately single; "new contact from action" auto-assigns |
-| Rendering | gen-1 JS widgets; gen-2 `$gsd5.*` + dynamic `$:/tags/GSD5*` shadow-tag loops | `$hgsd.*` wikitext widgets; dashboard/list/section composition tag-driven (Lists/*, Panel/ModalTemplate, Capture/Block, ContactAction hooks) |
+| Rendering | gen-1 JS widgets; gen-2 `$gsd5.*` + dynamic `$:/tags/GSD5*` shadow-tag loops | `$hgsd.*` wikitext widgets; dashboard/list/section composition tag-driven (Lists/*, Panel/ModalTemplate, Capture, Review, ContactAction hooks) |
 | Refresh | default widget refresh | `<$refresh>` freeze wrappers + whitelists; invisible to CPU until GSD item changes |
 | Events | one widget per checkbox/radio | 1 `<$eventcatcher>` per region + raw `<input>`/`<button>` + `data-hgsd-*` contract |
 | Status controls | `<$radio>` widgets | pure HTML radios (`input:checked + span` CSS), conditional `checked` attr |

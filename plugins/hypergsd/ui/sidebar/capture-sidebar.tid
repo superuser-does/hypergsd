@@ -5,15 +5,5 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/capture-sidebar
 
 \whitespace trim
 
-<!-- Block tag list: each $:/tags/hypergsd/Capture/Block/<n> tag tiddler is one block (within-block order = the engine's sortByList: the block's list field first where one ships, member list-before/list-after pins, then alphabetical). Entries ship in whichever plugin owns them — sub-plugin members carry their own pins against core anchors, so an absent sub-plugin is an inert pin, never a dangling core title; the loop never gates on existence; a block whose members are all absent renders no div, so no double gap. The strip-prefix/nsort/re-prefix keeps numeric block order past 9; the gap between blocks is one adjacent-sibling margin rule on .hgsd-sidebar-block. Hidden entries ($:/config/hypergsd/Capture/visibility/<title> = hide, default show, written by the Settings → Sidebar tab) are gated per entry. -->
-<$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Capture/Block/]!is[draft]removeprefix[$:/tags/hypergsd/Capture/Block/]nsort[]addprefix[$:/tags/hypergsd/Capture/Block/]]" variable="capture-block">
-<%if [all[shadows+tiddlers]tag<capture-block>!is[draft]limit[1]] %>
-<div class="hgsd-sidebar-block">
-<$list filter="[all[shadows+tiddlers]tag<capture-block>!is[draft]]" variable="capture-entry">
-<%if [[$:/config/hypergsd/Capture/visibility/]addsuffix<capture-entry>get[text]else[show]match[show]] %>
-<$transclude $tiddler=<<capture-entry>> $mode="block"/>
-<%endif%>
-</$list>
-</div>
-<%endif%>
-</$list>
+<!-- Portion chassis (modules/section-portions): $:/tags/hypergsd/Capture members render grouped by their Portion/<n> tag, numbers only (no Top/Full bands on this surface; untagged members land in Portion/1). Within-portion order = the engine's sortByList: the tag list's list field first, then member list-before/list-after pins, then engine order. Entries ship in whichever plugin owns them, so an absent sub-plugin is a missing member; a portion whose members are all absent never exists, an all-hidden one renders an empty div that collapses via :empty. Hidden entries ($:/config/hypergsd/Capture/visibility/<title> = hide, default show, written by the Settings → Sidebar tab) are gated per entry. No refresh gate: sidebar chrome refreshes natively. -->
+<$transclude $variable="hgsd-portions-core" tag-list="$:/tags/hypergsd/Capture" visibility-base="$:/config/hypergsd/Capture/visibility/" columns-class="hgsd-sidebar-portions"/>

@@ -1,10 +1,13 @@
-// Review sidebar block tag list: $:/tags/hypergsd/Review/<n> tag tiddlers are
-// blocks (within-block order = the engine's sortByList: member
-// list-before/list-after pins, then alphabetical; block 5's contacts entry
-// pins before the core cleanup member so references leads), entries ship in
-// their owning plugin, one adjacent-sibling CSS rule is the gap. Realm
-// selection must render live inside block 1 (checkboxes, all/none, the
-// no-realm sentinel).
+// Review sidebar portion tag list: $:/tags/hypergsd/Review members render
+// grouped by their Portion/<n> tag (1 realm selection, 2 the dashboard link,
+// 3 the action links, 4 the project links, 7 references/ticklers,
+// 8 contexts/contacts, 9 the cleanup pair — 7-9 ship deliberately, leaving
+// 5-6 free for later additions) — within-portion order is the engine's
+// sortByList (the tag list's list field first, then member pins, then engine
+// registration order — the sub-plugin pairs in 7 and 8 ride engine order,
+// no core anchor lives in those portions), entries ship in their owning
+// plugin. Realm selection must render live inside portion 1 (checkboxes,
+// all/none, the no-realm sentinel).
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true;
 $tw.boot.argv = [__dirname + "/fixture-wiki"];
@@ -36,83 +39,109 @@ function renderReview() {
     G + '\n\n<$transclude $tiddler="' + REVIEW + '" $mode="block"/>\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
-  const blocks = [];
+  const portions = [];
   (function f(x) { if (!x || typeof x !== "object") return; if (Array.isArray(x)) return x.forEach(f);
     if (x.isTiddlyWikiFakeDom) {
       const cls = (x.attributes || {}).class || "";
-      if (cls.indexOf("hgsd-sidebar-block") !== -1) {
-        const b = {text: String(x.textContent || ""), checkboxes: 0, links: []};
-        (function g(y) { if (!y || typeof y !== "object") return; if (Array.isArray(y)) return y.forEach(g);
-          if (y.isTiddlyWikiFakeDom) {
-            if (y.tag === "input") b.checkboxes++;
-            if (y.tag === "a") b.links.push(String(y.textContent || ""));
-            (y.children || []).forEach(g);
-          } })(x);
-        blocks.push(b);
+      if (cls.indexOf("hgsd-sidebar-portions") !== -1) {
+        (x.children || []).forEach(function(div) {
+          if (!div.isTiddlyWikiFakeDom || div.tag !== "div") return;
+          const p = {text: String(div.textContent || ""), checkboxes: 0, links: []};
+          (function g(y) { if (!y || typeof y !== "object") return; if (Array.isArray(y)) return y.forEach(g);
+            if (y.isTiddlyWikiFakeDom) {
+              if (y.tag === "input") p.checkboxes++;
+              if (y.tag === "a") p.links.push(String(y.textContent || ""));
+              (y.children || []).forEach(g);
+            } })(div);
+          portions.push(p);
+        });
       }
       (x.children || []).forEach(f);
     } })(c.children);
-  return blocks;
+  return portions;
 }
 
-const blocks = renderReview();
+const portions = renderReview();
 
-t("six blocks render", blocks.length, 6);
+t("seven portions render", portions.length, 7);
 
-// 1. Realm selection, live in block 1
-t("block 1 is the realm-selection fieldset: legend, all/none, both realms, the no-realm sentinel",
-  [blocks[0].text.indexOf("Select realms:") !== -1,
-   blocks[0].text.indexOf("all") !== -1 && blocks[0].text.indexOf("none") !== -1,
-   blocks[0].text.indexOf("Home") !== -1 && blocks[0].text.indexOf("Work") !== -1,
-   blocks[0].text.indexOf("Items not in a realm") !== -1],
+// 1. Realm selection, live in portion 1
+t("portion 1 is the realm-selection fieldset: legend, all/none, both realms, the no-realm sentinel",
+  [portions[0].text.indexOf("Select realms:") !== -1,
+   portions[0].text.indexOf("all") !== -1 && portions[0].text.indexOf("none") !== -1,
+   portions[0].text.indexOf("Home") !== -1 && portions[0].text.indexOf("Work") !== -1,
+   portions[0].text.indexOf("Items not in a realm") !== -1],
   [true, true, true, true]);
-t("realm checkboxes: one per realm plus the no-realm sentinel", blocks[0].checkboxes, 3);
-t("block 1 has no page links", blocks[0].links, []);
+t("realm checkboxes: one per realm plus the no-realm sentinel", portions[0].checkboxes, 3);
+t("portion 1 has no page links", portions[0].links, []);
 
-// 2-4. Core link blocks, in the pinned order (reordered 2026-09-26: actions before projects —
-// the block list fields pin within-block order and must match the entries' block tags)
-t("block 2 is the dashboard link", blocks[1].links, ["Dashboard"]);
-t("block 3 order", blocks[2].links, ["Action dashboard", "Actions waiting", "Actions completed"]);
-t("block 4 order", blocks[3].links, ["Project dashboard", "Projects without next actions", "Projects completed"]);
+// 2-4. Core link portions, in the list-field order
+t("portion 2 is the dashboard link", portions[1].links, ["Dashboard"]);
+t("portion 3 order", portions[2].links, ["Action dashboard", "Actions waiting", "Actions completed"]);
+t("portion 4 order", portions[3].links, ["Project dashboard", "Projects without next actions", "Projects completed"]);
 
-// 5-6. Sub-plugin blocks
-t("block 5 order", blocks[4].links, ["Contexts", "Ticklers"]);
-t("block 6 order", blocks[5].links, ["References", "Contacts", "Cleanup: completed items", "Cleanup: open actions under completed projects"]);
+// 5-9. Sub-plugin portions 7 and 8 plus the core cleanup pair in 9 (7-9 ship
+// deliberately, leaving 5-6 free); the pairs in 7 and 8 ride engine
+// registration order — no pin and no core anchor lives in those portions
+t("portion 7 order", portions[4].links, ["References", "Ticklers"]);
+t("portion 8 order", portions[5].links, ["Contacts", "Contexts"]);
+t("portion 9 holds the cleanup pair",
+  portions[6].links, ["Cleanup: completed items", "Cleanup: open actions under completed projects"]);
 
-// 6. Absence: an empty override of the contexts entry drops it, Ticklers stays
+// 6. Absence: an empty override of the contexts entry drops it, Contacts stays
 wiki.addTiddler({title: "$:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts"});
 const after = renderReview();
-t("overridden-empty entry: block 5 keeps only Ticklers", after[4].links, ["Ticklers"]);
-t("other blocks unaffected by the override", [after.length, after[2].links, after[5].links],
-  [6, ["Action dashboard", "Actions waiting", "Actions completed"], ["References", "Contacts", "Cleanup: completed items", "Cleanup: open actions under completed projects"]]);
+t("overridden-empty entry: portion 8 keeps only Contacts", after[5].links, ["Contacts"]);
+t("other portions unaffected by the override", [after.length, after[2].links, after[6].links],
+  [7, ["Action dashboard", "Actions waiting", "Actions completed"], ["Cleanup: completed items", "Cleanup: open actions under completed projects"]]);
 wiki.deleteTiddler("$:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts");
 
-// 7. Realm list is live: a third realm (with a carrying item) appears in block 1
+// 7. Realm list is live: a third realm (with a carrying item) appears in portion 1
 wiki.addTiddler({title: "$:/GSD/Realm/Side", tags: []});
 wiki.addTiddler({title: "Side item", tags: ["$:/GSD/Action", "$:/GSD/Realm/Side"], gsd_status: "next"});
 const grown = renderReview();
-t("new realm adds a checkbox in block 1", grown[0].checkboxes, 4);
-t("new realm named in block 1", grown[0].text.indexOf("Side") !== -1, true);
+t("new realm adds a checkbox in portion 1", grown[0].checkboxes, 4);
+t("new realm named in portion 1", grown[0].text.indexOf("Side") !== -1, true);
 
 // 8. Visibility: a hidden entry drops out of the sidebar render
 wiki.addTiddler({title: "$:/config/hypergsd/Review/visibility/$:/plugins/yan/hypergsd/ui/sidebar/review/action-dashboard", text: "hide"});
 const hidden = renderReview();
-t("hidden entry drops from its block", hidden[2].links, ["Actions waiting", "Actions completed"]);
+t("hidden entry drops from its portion", hidden[2].links, ["Actions waiting", "Actions completed"]);
 wiki.deleteTiddler("$:/config/hypergsd/Review/visibility/$:/plugins/yan/hypergsd/ui/sidebar/review/action-dashboard");
 
-// 9. The Sidebar settings tab: the four capture block lists, then the six review blocks
+// 9. The Sidebar settings tab: one draggable per sidebar, tag-basis note with the numbered
+// portion sentence, a Portion picker on every row (numbers only — no band labels)
 const sw = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
   G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block"/>\n\n</$importvariables>'),
   {document: doc, parentWidget: $tw.rootWidget});
 const sc = doc.createElement("div"); sw.render(sc);
-const tab = String(sc.children.length ? (function f(x) { let t = ""; (function g(y) { if (!y || typeof y !== "object") return; if (Array.isArray(y)) return y.forEach(g); t += (y.textContent || ""); (y.children || []).forEach(g); })(x); return t; })(sc.children[0] && sc.children[0].children ? sc.children : sc.children) : "");
-const flat9 = tab.replace(/\s+/g, " ");
-const order = ["Capture defaults", "New action, project and reference", "New contact and context", "Realm note", "Realm selection", "Dashboard", "Action links", "Project links", "Contexts and ticklers", "References, contacts and cleanup"];
-t("sidebar tab: capture blocks first, then review blocks in numeric order",
-  order.map((k, i) => [flat9.indexOf(k) !== -1, i === 0 || flat9.indexOf(order[i - 1]) < flat9.indexOf(k)]),
-  order.map(() => [true, true]));
-t("sidebar tab: capture member and review entry rows render",
-  [flat9.indexOf("new action") !== -1, flat9.indexOf("Project dashboard") !== -1], [true, true]);
+const flat9 = (function f(x) { let t = ""; (function g(y) { if (!y || typeof y !== "object") return; if (Array.isArray(y)) return y.forEach(g); t += (y.textContent || ""); (y.children || []).forEach(g); })(x); return t.replace(/\s+/g, " "); })(sc);
+t("sidebar tab: both tag-basis notes render with their tag pills",
+  [flat9.indexOf("Tiddlers tagged with $:/tags/hypergsd/Capture") !== -1,
+   flat9.indexOf("Tiddlers tagged with $:/tags/hypergsd/Review") !== -1],
+  [true, true]);
+t("sidebar tab: the numbered portion sentence renders (no Top/Full slots)",
+  [flat9.indexOf("such as Portion/1, to this tag") !== -1,
+   flat9.indexOf("Top, full-width"), flat9.indexOf("Bottom, full-width")],
+  [true, -1, -1]);
+t("sidebar tab: capture heading precedes review heading, member rows render",
+  [flat9.indexOf("Capture sidebar tab") < flat9.indexOf("Review sidebar tab"),
+   flat9.indexOf("new action") !== -1, flat9.indexOf("Project dashboard") !== -1],
+  [true, true, true]);
+t("sidebar tab: the realm-selection and dashboard rows carry their own captions",
+  [flat9.indexOf("Realm selection – ") !== -1, flat9.indexOf("Dashboard – ") !== -1], [true, true]);
+// every picker option label is a number: 1..9 and the next-free 10 on the review list
+const pickOptions = [];
+(function f(x) { if (!x || typeof x !== "object") return; if (Array.isArray(x)) return x.forEach(f);
+  if (x.isTiddlyWikiFakeDom && x.tag === "select") {
+    (x.children || []).forEach(function(o) {
+      if (o.tag === "option") pickOptions.push(String(o.textContent || ""));
+    });
+  }
+  (x.children || []).forEach(f); })(sc.children);
+t("portion picker options are all numbers (review offers next-free 10 past the shipped 9)",
+  [pickOptions.length > 0, pickOptions.indexOf("10") !== -1, pickOptions.every(function(o) { return /^[0-9]+$/.test(o); })],
+  [true, true, true]);
 
 console.log(fails ? fails + " FAILURE(S)" : "ALL " + n + " PASS");
 process.exit(fails ? 1 : 0);

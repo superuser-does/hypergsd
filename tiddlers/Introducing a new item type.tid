@@ -48,9 +48,9 @@ Before joining anything, decide:
   claim. Visibility rides the dashboard's visibility base; order rides the
   tag list (the core-owned `list` field plus member `list-before`/`list-after`
   pins — users reorder via Settings, whose drag writes the list field).
-# ''Capture'' — a member of a `$:/tags/hypergsd/Capture/Block/''n''` list so
-  the type's capture controls appear in the capture sidebar, plus a toolbar
-  button (`$hgsd.new-button`) for creating it from anywhere.
+# ''Capture'' — a member of the `$:/tags/hypergsd/Capture` list claiming
+  `Portion/''n''` so the type's capture controls appear in the capture
+  sidebar, plus a toolbar button (`$hgsd.new-button`) for creating it from anywhere.
 # ''Inheritance'' — only if the type needs a rule at creation time (see the
   [[Inheritance docs|Inheritance]]).
   Tag inheritance is core and free (Settings → Behaviour carries the

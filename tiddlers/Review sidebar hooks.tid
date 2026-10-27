@@ -1,0 +1,30 @@
+caption: $:/tags/hypergsd/Review
+title: Review sidebar hooks
+
+! Summary
+Add an entry to the Review sidebar — a link, a component, or any block-level content — placed in one of the numbered portions.
+
+! Detail
+Tag a tiddler with `$:/tags/hypergsd/Review` plus a `$:/tags/hypergsd/Review/Portion/<n>` claim:
+
+```
+title: $:/plugins/your-plugin/ui/sidebar/review/notes
+tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/6
+
+\whitespace trim
+\procedure lingo-base() $:/language/hypergsd/Sidebar/
+
+<$link to="GSD/Notes"><<lingo Review/Notes>></$link><br/>
+```
+
+* The portion number picks the slot (numbers only; an untagged member lands in Portion/1). Shipped portions: ''1'' realm selection, ''2'' the dashboard link, ''3'' action links, ''4'' project links, ''7'' references and ticklers, ''8'' contexts and contacts, ''9'' the cleanup pair — 7-9 ship deliberately, leaving 5-6 free for later additions. Portion numbers render in numeric order.
+* Within-portion order is the engine's tag-list order — the tag list's `list` field first, then member `list-before`/`list-after` pins, then engine order. The sub-plugin pairs in 7 and 8 ride engine registration order (no core anchor lives in those portions). A user-level `list` field (written by the Settings drag list) overrides it all.
+* The entry's body is the content, rendered block-mode inside the portion's `div`. Define your own `\procedure lingo-base()` if you use `<<lingo>>`.
+* A portion exists the moment a member claims it — claiming a free number opens a new slot; a portion whose members are all absent renders no gap.
+* An absent sub-plugin is simply a missing entry; nothing gates on plugin existence.
+* The gap between portions is one stylesheet rule (`.hgsd-sidebar-portions > div + div`); portions carry no other styling, so your entry inherits the sidebar's.
+
+Order and visibility are configured in Settings → Sidebar: one drag list for the whole tab, a numeric Portion picker on every row (pick a number in use, or the next-free number it offers to start a fresh portion), and the checkbox hides an entry — `$:/config/hypergsd/Review/visibility/<title>`, default show.
+
+! Best Practice
+Keep entries to one line of content plus a trailing `<br/>` to match the shipped rhythm; anything taller belongs on the page it links to.

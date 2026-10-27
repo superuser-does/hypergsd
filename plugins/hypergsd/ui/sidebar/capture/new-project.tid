@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Sidebar/Capture/NewProject/Label}}
 description: {{$:/language/hypergsd/Sidebar/Capture/NewProject/Hint}}
-tags: $:/tags/hypergsd/Capture/Block/2
+tags: $:/tags/hypergsd/Capture $:/tags/hypergsd/Capture/Portion/2
 title: $:/plugins/yan/hypergsd/ui/sidebar/capture/new-project
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

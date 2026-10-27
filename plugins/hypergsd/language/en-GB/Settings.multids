@@ -69,16 +69,6 @@ Sidebar/Caption: Sidebar
 Sidebar/Prompt: Reorder or hide the entries in the capture and review sidebars.
 Sidebar/CaptureHeading: Capture sidebar tab
 Sidebar/ReviewHeading: Review sidebar tab
-Sidebar/CaptureBlock/1: Capture defaults
-Sidebar/CaptureBlock/2: New action, project and reference
-Sidebar/CaptureBlock/3: New contact and context
-Sidebar/CaptureBlock/4: Realm note
-Sidebar/Block/1: Realm selection
-Sidebar/Block/2: Dashboard
-Sidebar/Block/3: Action links
-Sidebar/Block/4: Project links
-Sidebar/Block/5: Contexts and ticklers
-Sidebar/Block/6: References, contacts and cleanup
 
 # Fragments settings tab ($:/plugins/yan/hypergsd/ui/control-panel/fragments)
 Fragments/Caption: Fragments
@@ -149,3 +139,4 @@ Lists/NoNextAction/Hint: Active projects that have no next action
 Lists/IncompleteActionsUnderCompletedProjects/Caption: Incomplete actions under completed projects
 TagBasis/Prompt: Tiddlers tagged with
 TagBasis/Portions: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag
+TagBasis/Portions/Numbered: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as Portion/1, to this tag

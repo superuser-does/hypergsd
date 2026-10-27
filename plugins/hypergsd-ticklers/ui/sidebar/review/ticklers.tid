@@ -1,5 +1,5 @@
 caption: {{$:/language/hypergsd/Sidebar/Review/Ticklers}}
-tags: $:/tags/hypergsd/Review/5
+tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/7
 title: $:/plugins/yan/hypergsd-ticklers/ui/sidebar/review/ticklers
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

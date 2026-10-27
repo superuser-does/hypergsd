@@ -1,6 +1,5 @@
 caption: {{$:/language/hypergsd/Sidebar/Review/Contacts}}
-list-before: $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup
-tags: $:/tags/hypergsd/Review/6
+tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/8
 title: $:/plugins/yan/hypergsd-contacts/ui/sidebar/review/contacts
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

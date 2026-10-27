@@ -30,7 +30,6 @@ const fieldsOf = (rel) => {
 
 // the shipped pins (field, anchor core title) per member
 const PINS = [
-  ["ui/sidebar/review/contacts.tid", "list-before", "ui/sidebar/review/cleanup"],
   ["ui/lists/next-action-list-by-contact.tid", "list-before", "ui/lists/waiting-action-list"],
   ["ui/lists/waiting-action-list-by-contact.tid", "list-before", "ui/lists/waiting-action-list"],
   ["ui/lists/future-action-list-by-contact.tid", "list-after", "ui/lists/future-action-list"],

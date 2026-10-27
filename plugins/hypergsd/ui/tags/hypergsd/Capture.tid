@@ -1,0 +1,3 @@
+<!-- This list field orders the CORE members only (always present, so no absence hazard); sub-plugin members pin themselves via list-before/list-after against these anchors — an absent sub-plugin is an inert pin, and the natural fallback equals the old degraded order. -->
+list: $:/plugins/yan/hypergsd/ui/sidebar/capture/default-realm $:/plugins/yan/hypergsd/ui/sidebar/capture/new-action $:/plugins/yan/hypergsd/ui/sidebar/capture/new-project $:/plugins/yan/hypergsd/ui/sidebar/capture/realm-note
+title: $:/tags/hypergsd/Capture

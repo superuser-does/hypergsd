@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Sidebar/Capture/RealmNote/Caption}}
 description: {{$:/language/hypergsd/Sidebar/Capture/RealmNote/Hint}}
-tags: $:/tags/hypergsd/Capture/Block/4
+tags: $:/tags/hypergsd/Capture $:/tags/hypergsd/Capture/Portion/4
 title: $:/plugins/yan/hypergsd/ui/sidebar/capture/realm-note
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/

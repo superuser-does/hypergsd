@@ -6,20 +6,20 @@ tags: Documentation [[HyperGSD API]]
 Add an entry to the capture sidebar: a "new (thing)" button, a defaults control (a labelled line such as //Default context://), or any other line.
 
 ! Detail
-The capture sidebar renders numbered blocks — one per `$:/tags/hypergsd/Capture/Block/<n>` tag tiddler — and inside each block, one line per member:
+The capture sidebar renders its entries — the members of `$:/tags/hypergsd/Capture` — grouped into numbered portions, one line per member; a member's `Portion/<n>` tag names its portion (numbers only; an untagged member lands in Portion/1). The shipped portions:
 
-;`$:/tags/hypergsd/Capture/Block/1`
-:Capture defaults — the shipped members are the //Default context:// select and the //Default realm:// picker, each member owning both its label and its control.
-;`$:/tags/hypergsd/Capture/Block/2`
+;Portion/1
+:Capture defaults — the shipped members are the //Default realm:// picker (core) and the //Default context:// select, each member owning both its label and its control.
+;Portion/2
 :The common new-item buttons: new action, new project, new reference.
-;`$:/tags/hypergsd/Capture/Block/3`
+;Portion/3
 :The rarer new-item buttons: new contact, new context.
-;`$:/tags/hypergsd/Capture/Block/4`
+;Portion/4
 :The realm note.
 
-A button is usually a single `<$hgsd.new-button>` invocation with its own `lingo-base` (tooltip/aria via full-path transclusions in attribute position). The button for a type shipped by a sub-plugin must live in that sub-plugin: absence of the plugin removes the member (and its strings) structurally, with no existence gate needed. A block whose members are all absent renders no gap.
+A button is usually a single `<$hgsd.new-button>` invocation with its own `lingo-base` (tooltip/aria via full-path transclusions in attribute position). The button for a type shipped by a sub-plugin must live in that sub-plugin: absence of the plugin removes the member (and its strings) structurally, with no existence gate needed. A portion whose members are all absent renders no gap.
 
-Within-block order is the engine's tag-list order — member `list-before`/`list-after` pins (the new-reference button pins itself after the core new-project button), then alphabetical; no block tag tiddler ships a `list` field, but a user-level one (written by the drag list below) overrides the pins. Each block's `caption` labels the block's drag list in Settings → Sidebar. Order and visibility are configured per block there: drag and drop within a block, and the checkbox hides an entry — `$:/config/hypergsd/Capture/visibility/<title>`, default show.
+Within-portion order is the engine's tag-list order — the tag list's `list` field first, then member `list-before`/`list-after` pins (the new-reference button pins itself after the core new-project button), then engine order; a user-level `list` field (written by the drag list below) overrides the pins. Order and visibility are configured in Settings → Sidebar: one drag list for the whole tab, a numeric Portion picker on every row (pick a number in use, or the next-free number it offers to start a fresh portion), and the checkbox hides an entry — `$:/config/hypergsd/Capture/visibility/<title>`, default show. The review sidebar works the same way over `$:/tags/hypergsd/Review`.
 
 ! Best Practice
-Give a new-item button a `gsd-type` matching a `$:/tags/hypergsd/Type` tag-list member, and inherit the defaults by passing no `gsd-project`/`gsd-realm` — the capture sidebar's effective context/realm flow through `$hgsd.new-button`'s inheritance. Pick the block that matches how common the item is, or add a `Block/<n>` tiddler of your own.
+Give a new-item button a `gsd-type` matching a `$:/tags/hypergsd/Type` tag-list member, and inherit the defaults by passing no `gsd-project`/`gsd-realm` — the capture sidebar's effective context/realm flow through `$hgsd.new-button`'s inheritance. Pick the portion that matches how common the item is, or claim any free number of your own.

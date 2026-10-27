@@ -38,6 +38,6 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/behaviour
 <$radio tiddler="$:/config/hypergsd/close-on-complete" value="never" default="never"><span class="tc-tiny-gap-left"><<lingo Behaviour/CloseOnComplete/Never>></span></$radio>
 
 <$checkbox tiddler="$:/config/hypergsd/print-blank-fields"
-  field="text" checked="show" unchecked="hide" default="show"
+  field="text" checked="show" unchecked="hide" default="hide"
   class="tc-control-panel-item"
 ><$link to="$:/config/hypergsd/print-blank-fields" class="tc-tiny-gap-left"><<lingo Behaviour/PrintBlankFields>></$link></$checkbox>
