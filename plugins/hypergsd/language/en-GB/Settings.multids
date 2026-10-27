@@ -138,5 +138,5 @@ Lists/NoNextAction/Caption: No next action list
 Lists/NoNextAction/Hint: Active projects that have no next action
 Lists/IncompleteActionsUnderCompletedProjects/Caption: Incomplete actions under completed projects
 TagBasis/Prompt: Tiddlers tagged with
-TagBasis/Portions: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag
-TagBasis/Portions/Numbered: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as Portion/1, to this tag
+TagBasis/Portions: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `/Portion/1` or `/Portion/Top`, to this tag
+TagBasis/Portions/Numbered: Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `/Portion/1`, to this tag
