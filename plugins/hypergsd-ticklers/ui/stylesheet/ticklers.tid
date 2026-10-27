@@ -4,3 +4,10 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/stylesheet/ticklers
 .hgsd-tickler-repeat-input {
   width: 4.5em;
 }
+
+/* The date-shift buttons are pure interaction — hidden on paper, the date itself is the data (the plain selector needs no specificity: no other rule sets display on a button) */
+@media print {
+  .hgsd-tickler-shift {
+    display: none;
+  }
+}

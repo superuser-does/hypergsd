@@ -122,6 +122,10 @@ t("pick-append add-rows carry the print hook (gated by the section class)", anyN
 t("print stylesheet gates the add-row behind the section hook and hides the unset date", printCss.indexOf(".hgsd-print-hide-blank .hgsd-pick-append-row") !== -1 && printCss.indexOf(".hgsd-print-hide-blank-input") !== -1);
 const unsetTickler = render('<$tiddler tiddler="ZZ blank host"><$let section-target="ZZ blank host" section-type="action" section-mode="panel"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let></$tiddler>');
 t("unset tickler date carries the unset-date hook", anyNodeHasClass(unsetTickler, "hgsd-print-hide-blank-input"));
+wiki.addTiddler({title: "ZZ dated host", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: "202601020304"});
+const datedTickler = render('<$tiddler tiddler="ZZ dated host"><$let section-target="ZZ dated host" section-type="action" section-mode="panel"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let></$tiddler>');
+t("date-shift buttons carry the ticklers print hook", anyNodeHasClass(datedTickler, "hgsd-tickler-shift"));
+t("ticklers stylesheet hides the shift buttons in print", /@media print[\s\S]*\.hgsd-tickler-shift/.test(textOf("$:/plugins/yan/hypergsd-ticklers/ui/stylesheet/ticklers")));
 wiki.deleteTiddler("$:/config/hypergsd/print-blank-fields");
 
 console.log(fails === 0 ? "ALL PRINT-HOOK CHECKS PASS" : fails + " PRINT-HOOK CHECK(S) FAILED");

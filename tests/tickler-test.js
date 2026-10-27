@@ -256,7 +256,7 @@ const widgetRender = render(`<$hgsd.tickler-shift target-tiddler="TK widget-targ
 const widgetButtons = shiftButtonsOf(widgetRender);
 t("widget renders one button from explicit parameters", widgetButtons.length === 1 && buttonLabel(widgetButtons[0]) === "plain label");
 t("widget resolves a plain tooltip through wikify", ((widgetButtons[0].domNodes||[])[0].attributes || {}).title === "plain tip");
-t("widget without a class stays classless (browser-default look)", ((widgetButtons[0].domNodes||[])[0].attributes || {}).class === "");
+t("widget without a class carries only the print-only shift hook (no screen styling)", ((widgetButtons[0].domNodes||[])[0].attributes || {}).class === "hgsd-tickler-shift");
 if (widgetButtons.length === 1) {
   widgetButtons[0].invokeActions(widgetButtons[0], {type: "tm-generic"});
   t("widget shifts the date by its days parameter", fields("TK widget-target").gsd_tickler_date === midnight(13));

@@ -8,7 +8,8 @@ title: $:/plugins/yan/hypergsd-ticklers/modules/widgets/hgsd-tickler-shift
 <$wikify name="resolved-tooltip" text=<<tooltip>> >
 <$let shift-milliseconds={{{ [<days>multiply[86400000]] }}}
   new-date={{{ [<base-date>format:date[TIMESTAMP]add<shift-milliseconds>format:timestamp[]] }}} >
-<$button tooltip=<<resolved-tooltip>> class=<<class>> actions=<<after-shift-actions>> >
+<!-- hgsd-tickler-shift is print-ONLY: the ticklers stylesheet hides every shift button on paper; nothing styles it on screen -->
+<$button tooltip=<<resolved-tooltip>> class={{{ [<class>addsuffix[ hgsd-tickler-shift]trim[]] }}} actions=<<after-shift-actions>> >
 <%if [<new-date>minlength[17]] %>
 <$action-setfield $tiddler=<<target-tiddler>> gsd_tickler_date=<<new-date>>/>
 <$action-listops $tiddler=<<target-tiddler>> $field="gsd_tickler_date_history" $subfilter="[<new-date>]"/>
