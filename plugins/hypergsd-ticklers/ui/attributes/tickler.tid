@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sections/
 
-<!-- due to browser limitations, the native date input offers no way to clear the date when it is used without confirmation, so there is an explicit action-deletefield to clear it easily -->
+<!-- due to browser limitations, the native date input offers no way to clear the date when it is used without confirmation, so there is an explicit action-deletefield to clear it easily. The button's hgsd-clear-button is print-ONLY: the main plugin's print stylesheet hides the value-clear × of every picker surface on paper, nothing styles it on screen — inside a button, core's button svg.tc-image-button rule already pins the × to 1em -->
 <%if [<section-type>match[action]] %>
 <label>
 <<lingo Tickler/Label>>
@@ -19,7 +19,7 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler
 <$hgsd.tickler-shift target-tiddler=<<section-target>> base-date={{{ [<section-target>get[gsd_tickler_date]] }}} days={{!!days}} label={{!!label}} tooltip={{!!tooltip}} class="tc-btn-invisible"/>&nbsp;
 </$tiddler>
 </$list>
-&nbsp;<$button class="tc-btn-invisible gsd-muted" tooltip={{$:/language/hypergsd/Sections/Tickler/Clear/Hint}}><$action-deletefield $tiddler=<<section-target>> $field="gsd_tickler_date"/>{{$:/core/images/delete-button}}</$button>
+&nbsp;<$button class="tc-btn-invisible gsd-muted hgsd-clear-button" tooltip={{$:/language/hypergsd/Sections/Tickler/Clear/Hint}}><$action-deletefield $tiddler=<<section-target>> $field="gsd_tickler_date"/>{{$:/core/images/delete-button}}</$button>
 <%endif%>
 <%endif%>
 </label>

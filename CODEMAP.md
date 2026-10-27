@@ -760,9 +760,11 @@ plugins/hypergsd/
     │                            ui/sidebar/review/ shipped by their owning
     │                            plugin, gaps via one adjacent-sibling margin
     │                            rule on .hgsd-review-block
-    ├── stylesheet/              6 stylesheets: base (shared utilities),
+    ├── stylesheet/              7 stylesheets: base (shared utilities),
     │                            sections, lists, pills, colour-manager,
-    │                            hgsd-status-colours (status→colour dictionary)
+    │                            hgsd-status-colours (status→colour dictionary),
+    │                            print (@media print — hides interactive
+    │                            controls on paper via the hook classes)
     └── tags/                    folder names MIRROR the two title namespaces:
                                  GSD/ holds tiddlers titled under $:/GSD/
                                  (Action, Project — the identity tags; Contact

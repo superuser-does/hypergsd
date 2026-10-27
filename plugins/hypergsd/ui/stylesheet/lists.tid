@@ -60,13 +60,6 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   display: none;
 }
 
-/* The value-clear × of every picker surface — pick-field's set state, the prereq rows, the contact chips: hosts without a gap row (the chips) carry their own spacing; the svg rides the text line at 1em on every host. */
-.hgsd-clear-button {
-  & svg {
-    height: 1em;
-  }
-}
-
 .hgsd-group-title {
   padding-block: 0.5em 0.2em;
   &:first-of-type {

@@ -74,3 +74,12 @@ title: $:/plugins/yan/hypergsd-priorities/ui/stylesheet/priorities
 table.hgsd-priority-config {
   width: auto;
 }
+
+/* The selected stop's clear ✕ is screen-only interaction — hidden on paper
+   (the main plugin's print stylesheet covers the shared value-clear hook;
+   this one is priorities-owned). */
+@media print {
+  .hgsd-priority-clear {
+    display: none;
+  }
+}
