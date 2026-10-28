@@ -30,6 +30,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
       <%endif%>
     <%endif%>
   </$list>
+  <!-- The realm globe is host-rendered infrastructure, not a fragment (ui/components/realm-warning): one indicator, one switch, no placement membership. -->
+  <$transclude $variable="hgsd-realm-warning" linked-tiddler=<<currentTiddler>>/>
 </div>
 </$let>
 </$refresh>

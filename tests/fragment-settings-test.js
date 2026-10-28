@@ -11,9 +11,9 @@ const render = makeRender(wiki, doc, $tw);
 
 const TAB = "$:/plugins/yan/hypergsd/ui/control-panel/fragments";
 const ROW_PREFIX = "$:/tags/hypergsd/Fragment/Row/Prefix", ROW_SUFFIX = "$:/tags/hypergsd/Fragment/Row/Suffix";
-const LINK_ACTION = "$:/tags/hypergsd/Fragment/Link/Action", LINK_PROJECT = "$:/tags/hypergsd/Fragment/Link/Project";
-const LINK_CONTACT = "$:/tags/hypergsd/Fragment/Link/Contact";
-const placements = () => wiki.filterTiddlers("[all[shadows+tiddlers]tags[]prefix[$:/tags/hypergsd/Fragment/]] +[unique[]sort[title]]");
+const PANEL = "$:/tags/hypergsd/Fragment/Panel";
+const PANEL_EXTRA = "$:/tags/hypergsd/Fragment/Panel/Extra";
+const placements = () => wiki.filterTiddlers("[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Fragment/]] +[sort[title]]");
 const membersOf = tag => wiki.filterTiddlers("[[" + tag + "]] :and[tagging[]]");
 const widget = (w, pred) => {
   const out = [];
@@ -22,17 +22,17 @@ const widget = (w, pred) => {
   return out;
 };
 
-// a third-party Link family, created as a user would: tag tiddler with caption + one member
-wiki.addTiddler({title: LINK_CONTACT, caption: "Contact links"});
-wiki.addTiddler({title: "ZZ contact badge", tags: [LINK_CONTACT], caption: "Contact badge"});
+// an exotic placement, created as a developer would: tag tiddler with caption (hosted via panel-tag)
+wiki.addTiddler({title: PANEL_EXTRA, caption: "Exotic host"});
+wiki.addTiddler({title: "ZZ exotic badge", tags: [PANEL_EXTRA], caption: "Exotic badge"});
 
 // ── 1. the merged block: one draggable per discovered placement, one prompt ──
 const shippedPlacements = placements();
 t("discovery finds the shipped placements plus the fixture family",
-  [shippedPlacements.indexOf(LINK_ACTION) !== -1, shippedPlacements.indexOf(LINK_PROJECT) !== -1,
+  [shippedPlacements.indexOf(PANEL) !== -1,
    shippedPlacements.indexOf(ROW_PREFIX) !== -1, shippedPlacements.indexOf(ROW_SUFFIX) !== -1,
-   shippedPlacements.indexOf(LINK_CONTACT) !== -1],
-  [true, true, true, true, true]);
+   shippedPlacements.indexOf(PANEL_EXTRA) !== -1],
+  [true, true, true, true]);
 const totalMembers = shippedPlacements.reduce((n, tag) => n + membersOf(tag).length, 0);
 const { w: tabw, c: tabc } = render(TAB, { mode: "block" });
 const allSelects = widget(tabw, n => n.parseTreeNode && n.parseTreeNode.tag === "$select");
@@ -49,8 +49,8 @@ t("every placement select offers every discovered placement",
 const inPlacement = (member, tag) => membersOf(tag).indexOf(member) !== -1;
 t("each select's default is the member's current placement",
   placementSelects.every(s => inPlacement(s.getVariable("currentTiddler"), s.getAttribute("default"))), true);
-t("fixture family's option label reads its caption",
-  textOf(tabc).indexOf("Contact links") !== -1, true);
+t("fixture placement's option label reads its caption",
+  textOf(tabc).indexOf("Exotic host") !== -1, true);
 t("the prompt names the drag, ordering and dropdown semantics", [textOf(tabc).indexOf("Choose which fragments are displayed") !== -1, textOf(tabc).indexOf("Drag and drop to change the ordering") !== -1, textOf(tabc).indexOf("Use the dropdown to move a fragment between rows and links") !== -1], [true, true, true]);
 
 // ── 2. type tick row: on the two Row placements only, one box per type ──
@@ -64,10 +64,6 @@ const typeBoxes = placementSelects.map(s => {
 const rowMembers = membersOf(ROW_PREFIX).concat(membersOf(ROW_SUFFIX));
 t("type boxes render on every row, one per type",
   typeBoxes.every(r => r.boxes.length === typeWords.length), true);
-const realmActionBoxes = typeBoxes.find(r => r.member === "$:/plugins/yan/hypergsd/ui/link-items/realm-action");
-t("realm-action ships only Contexts unticked (realms apply to everything but contexts)",
-  typeWords.map(w => realmActionBoxes.boxes.find(b => b.getAttribute("tiddler").endsWith("/" + w)).getValue())
-    .every((v, i) => v === (typeWords[i] === "context" ? false : true)), true);
 const compDateBoxes = typeBoxes.find(r => r.member === "$:/plugins/yan/hypergsd/ui/list-items/comp-date");
 t("comp-date ships Projects unticked (the seeded type-hide)",
   [compDateBoxes.boxes.find(b => b.getAttribute("tiddler").endsWith("/action")).getValue(),
@@ -123,9 +119,6 @@ resetFixtures(wiki);
     "$:/plugins/yan/hypergsd/ui/list-items/status": ["contact", "reference", "context"],
     "$:/plugins/yan/hypergsd/ui/list-items/comp-date": ["contact", "project", "reference", "context"],
     "$:/plugins/yan/hypergsd/ui/list-items/body-text": ["contact", "project", "reference", "context"],
-    "$:/plugins/yan/hypergsd/ui/list-items/realm": ["context"],
-    "$:/plugins/yan/hypergsd/ui/link-items/realm-action": ["context"],
-    "$:/plugins/yan/hypergsd/ui/link-items/realm-project": ["context"],
     "$:/plugins/yan/hypergsd/ui/list-items/project-link": ["contact", "context"],
     "$:/plugins/yan/hypergsd/ui/list-items/delete": ["contact", "project", "reference", "context"],
     "$:/plugins/yan/hypergsd-priorities/ui/list-items/priority": ["contact", "reference", "context"],
@@ -147,14 +140,14 @@ resetFixtures(wiki);
   t("shipped seeds match the defaults matrix (actions always shown)", wrong, []);
 }
 
-// ── 4c. link families gate on the link TARGET's type ──
+// ── 4c. the Panel placement gates on the link TARGET's type ──
 {
-  wiki.addTiddler({title: "ZZ probe badge", tags: [LINK_ACTION], text: "PROBE"});
+  wiki.addTiddler({title: "ZZ probe badge", tags: [PANEL], text: "PROBE"});
   wiki.addTiddler({title: "ZZ ctx target", tags: ["GSD/Contexts"]});
   wiki.addTiddler({title: "ZZ act target", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
   wiki.addTiddler({title: "$:/config/hypergsd/Fragment/type-hide/ZZ probe badge/context", text: "hide"});
   const probe = target => {
-    const { c } = render(null, { text: '<$transclude $variable="hgsd-link-items" linked-tiddler="' + target + '"/>' });
+    const { c } = render(null, { text: '<$transclude $variable="hgsd-panel-items" linked-tiddler="' + target + '"/>' });
     return textOf(c).indexOf("PROBE") !== -1;
   };
   t("hidden-for-context member skips a context target", probe("ZZ ctx target"), false);
@@ -164,15 +157,15 @@ resetFixtures(wiki);
 
 // ── 5. the placement select retags across placements — including into the fixture family ──
 {
-  wiki.addTiddler({title: LINK_CONTACT, caption: "Contact links"});
+  wiki.addTiddler({title: PANEL_EXTRA, caption: "Exotic host"});
   const { w } = render(TAB, { mode: "block" });
-  const globeSelect = widget(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$select" && n.getVariable("currentTiddler") === "$:/plugins/yan/hypergsd/ui/link-items/realm-action").pop();
-  globeSelect.getSelectDomNode().value = LINK_CONTACT;
-  globeSelect.handleChangeEvent({});
-  const tiddler = wiki.getTiddler("$:/plugins/yan/hypergsd/ui/link-items/realm-action");
+  const bodyTextSelect = widget(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$select" && n.getVariable("currentTiddler") === BODY_TEXT).pop();
+  bodyTextSelect.getSelectDomNode().value = PANEL_EXTRA;
+  bodyTextSelect.handleChangeEvent({});
+  const tiddler = wiki.getTiddler(BODY_TEXT);
   const tags = tiddler.fields.tags.slice().sort();
-  t("placement select moves a member into a third-party family",
-    [tags.indexOf(LINK_CONTACT) !== -1, tags.indexOf(LINK_ACTION) === -1],
+  t("placement select moves a member into another family",
+    [tags.indexOf(PANEL_EXTRA) !== -1, tags.indexOf(ROW_SUFFIX) === -1],
     [true, true]);
   t("the retag leaves fields alone", typeof tiddler.fields.caption === "string", true);
 }

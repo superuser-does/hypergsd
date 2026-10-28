@@ -27,7 +27,7 @@ One commit affordance per pick state: blank shows the new cluster alone, a typed
 |new-button |`show` |`hide` suppresses the plain new-button fallback (hosts that cannot stack modals); shown only while the box is blank — typed non-existent picks still get create-and-add |
 |clear-button |`show` |`hide` suppresses the set state's icon-only clear button (tooltip from core's `Buttons/Clear/Caption`; the direct field-blanking control added 2026-09-27, replacing the "open the editor, leave it empty, save" path) |
 |realm-scope |`[subfilter<hgsd-realm-selection>]` |Passed through to the inner picker — an evaluated filter expression; see [[$hgsd.pick|hgsd.pick widget]] for the contract (`""` = everything, composable) |
-|link-items |`$:/tags/hypergsd/Fragment/Link/Action` |names the [[Link family|Fragments]] rendered between the value link and the change button — any `Fragment/Link/*` tag title, or `hide` for none |
+|panel-items |`show` |renders the [[Panel placement|Fragments]] between the value link and the change button; `hide` for none |
 
 ! Example
 ```

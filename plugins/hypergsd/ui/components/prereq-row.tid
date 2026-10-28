@@ -3,7 +3,7 @@ title: $:/plugins/yan/hypergsd/ui/components/prereq-row
 
 \whitespace trim
 
-<!-- One row of the DependsOn/PrereqOf panels: checkbox (shared event-catcher completion), title link, link-item badges, × removal. The two panels are structural twins whose only difference is WHICH tiddler's gsd_prerequisites the × trims — direction picks it: "own" (DependsOn) strips the row item from the viewed action's list, "item" (PrereqOf) strips the viewed action from the row item's list. The same bit and vocabulary drive $hgsd.pick-append's add side, so both halves of both panels speak one word. The two $let derivations are the then/else variable idiom (section-portions); edit-tiddler and strip-title always swap together, never independently. -->
+<!-- One row of the DependsOn/PrereqOf panels: checkbox (shared event-catcher completion), title link, panel-item badges, × removal. The two panels are structural twins whose only difference is WHICH tiddler's gsd_prerequisites the × trims — direction picks it: "own" (DependsOn) strips the row item from the viewed action's list, "item" (PrereqOf) strips the viewed action from the row item's list. The same bit and vocabulary drive $hgsd.pick-append's add side, so both halves of both panels speak one word. The two $let derivations are the then/else variable idiom (section-portions); edit-tiddler and strip-title always swap together, never independently. -->
 \procedure hgsd-prereq-row(item, direction:"own")
 <$let edit-tiddler={{{ [<direction>match[item]then<item>else<currentTiddler>] }}}>
 <$let strip-title={{{ [<direction>match[item]then<currentTiddler>else<item>] }}}>
@@ -17,7 +17,9 @@ title: $:/plugins/yan/hypergsd/ui/components/prereq-row
   <div>
   <$link to=<<item>>><$view tiddler=<<item>> field="title"/></$link>
   </div>
-  <$transclude $variable="hgsd-link-items" linked-tiddler=<<item>>/>
+  <!-- The realm globe is host-rendered infrastructure, not a fragment (ui/components/realm-warning): one indicator, one switch, no family membership. -->
+  <$transclude $variable="hgsd-realm-warning" linked-tiddler=<<item>>/>
+  <$transclude $variable="hgsd-panel-items" linked-tiddler=<<item>>/>
   <$button class="tc-btn-invisible hgsd-clear-button">
     <!-- The subfilter stays unevaluated so strip-title resolves inside $action-listops at invoke time, keeping multi-word titles one operand. -->
     <$action-listops $tiddler=<<edit-tiddler>> $field="gsd_prerequisites" $subfilter="-[<strip-title>]"/>

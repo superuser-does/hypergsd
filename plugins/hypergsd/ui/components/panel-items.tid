@@ -1,0 +1,23 @@
+tags: $:/tags/Global
+title: $:/plugins/yan/hypergsd/ui/components/panel-items
+
+\whitespace trim
+
+<!-- The Panel placement of the Fragment root: fragments rendered after a VALUE LINK — a link showing a field or list value pointing at another item. Every host is a panel or modal surface: pick-field's set state (the project, contact and sub-project picks) and the pre-requisite/dependants rows. ONE placement; applicability rides the type tick boxes keyed on the link TARGET's hgsd-type (linked-type, derived once per call from the target's own tags through the Type tag list — the row engine's item-type shape; untyped targets match no config and show). panel-tag overrides the family for an exotic host; order via the tag tiddler's list field; per-member visibility $:/config/hypergsd/Fragment/Panel/visibility/<title>. The span is the centring container (stylesheet .hgsd-panel-items). Members transclude INLINE: block mode wraps a member's widget line in a <p>, and a gated-off member leaves that empty paragraph behind, defeating the container's :empty margin collapse. -->
+\procedure hgsd-panel-items(linked-tiddler, panel-tag:"$:/tags/hypergsd/Fragment/Panel")
+<%if [<linked-tiddler>!match[]] %>
+<$let linked-type={{{ [<linked-tiddler>tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
+<span class="hgsd-panel-items">
+<$list filter="[<panel-tag>] :and[tagging[]]" variable="link-item">
+  <%if [[$:/config/hypergsd/Fragment/Panel/visibility/]addsuffix<link-item>get[text]else[show]match[show]] %>
+    <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<link-item>addsuffix[/]addsuffix<linked-type>get[text]else[show]match[hide]] %>
+      <!-- suppressed for this link-target type -->
+    <%else%>
+      <$transclude $tiddler=<<link-item>> $mode="inline"/>
+    <%endif%>
+  <%endif%>
+</$list>
+</span>
+</$let>
+<%endif%>
+\end

@@ -17,7 +17,7 @@ HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when 
 |Dashboard or view list (an `$hgsd.list` instance via the list tag lists) |item edits and deletions, realm tag-tiddler edits, `$:/config/hypergsd/*`, per-list collapse states, Fragment tag-list edits, every fragment and strip declaration (your own included) |
 |Dashboard page chassis (`hgsd-dashboard-portions`) |tag list/membership edits, per-list visibility config, and the page's own `$hgsd.toggle` state writes (scoped `show-completed` prefix runs with a subtraction that drops other pages' toggles) — a member using a custom `state-prefix` on the toggle must declare the matching prefixes in its `hgsd-refresh-whitelist` field |
 |Row fragment (`$:/tags/hypergsd/Fragment/Row/Prefix` or `/Suffix`) |''the row's own item'' changing, Fragment tag-list edits, per-fragment visibility config — plus anything you declare yourself (below) |
-|Link fragment (any `$:/tags/hypergsd/Fragment/Link/*` family) |the link target changing and, since the root prefix rides every gate, family tag-list edits (renders inside the host's gates); the realm globe reads `$:/config/hypergsd/realm-warning`, already covered |
+|Panel fragment (`$:/tags/hypergsd/Fragment/Panel`) |the link target changing and, since the root prefix rides every gate, placement tag-list edits (renders inside the host's gates); the realm globe is host-rendered, not a fragment |
 |Portion placement |portions are ordinary tag-list members — no refresh implications beyond the row's own item |
 |Status vocabulary |replacing [[$:/plugins/yan/hypergsd/modules/status-sets]] (a same-title shadow — the only override surface) re-renders pills, rows, colours and modal validation live, via the type gate's `status-sets` prefix run |
 

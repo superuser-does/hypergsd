@@ -6,7 +6,7 @@ title: $:/plugins/yan/hypergsd/ui/attributes/project
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sections/
 
-<!-- One pick-field over section-target: the panel target is the open tiddler (immediate saves), the modal's is the data temp (drafting — submit copies; the inherited project arrives seeded on the temp by hgsd.new-button). Candidates exclude the target itself; the plain new-button fallback is suppressed in the modal (modals do not stack) while typed non-existent picks still offer create-and-add. link-items follows the host: project pages pass the project LinkItem family (the sub-project pick), every other host the action family. -->
+<!-- One pick-field over section-target: the panel target is the open tiddler (immediate saves), the modal's is the data temp (drafting — submit copies; the inherited project arrives seeded on the temp by hgsd.new-button). Candidates exclude the target itself; the plain new-button fallback is suppressed in the modal (modals do not stack) while typed non-existent picks still offer create-and-add. -->
 <%if [<section-type>match[action]] [<section-type>match[project]] [<section-type>match[reference]] %>
 <div>
   <!-- hgsd-print-hide-blank is the print stylesheet's blank-field hook, carried only while Behaviour is set to hide (the config prefix rides the view-body gate, so the toggle live-updates open pages) -->
@@ -21,7 +21,6 @@ title: $:/plugins/yan/hypergsd/ui/attributes/project
       new-type="project"
       new-status="active"
       new-button={{{ [<section-mode>match[modal]then[hide]else[show]] }}}
-      link-items={{{ [<section-type>match[project]then[$:/tags/hypergsd/Fragment/Link/Project]else[$:/tags/hypergsd/Fragment/Link/Action]] }}}
   />
   </div>
 </div>

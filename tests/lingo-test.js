@@ -49,7 +49,7 @@ const vp = render("$:/plugins/yan/hypergsd/ui/control-panel/view-placement");
 check("view-placement tab: prompt, member captions, radio pair", [vp.includes("above or below"), vp.includes("Action tiddlers") && vp.includes("Reference tiddlers"), vp.includes("Top"), vp.includes("Bottom")], [true, true, true, true]);
 check("panel-and-modal: fragment lists gone", [sections.includes("Link items"), sections.includes("Capture sidebar entries")], [false, false]);
 const fragments = render("$:/plugins/yan/hypergsd/ui/control-panel/fragments", "block");
-check("fragments tab: one merged block over the four families", [fragments.includes("Fragments are tiddlers tagged"), fragments.includes("Action links") && fragments.includes("Project links"), fragments.includes("Row, before title") && fragments.includes("Row, after title"), fragments.includes("Use the dropdown to move a fragment between rows and links"), fragments.includes("Actions") && fragments.includes("Projects"), fragments.includes("Top, full-width") === false], [true, true, true, true, true, true]);
+check("fragments tab: one merged block over the four families", [fragments.includes("Fragments are tiddlers tagged"), fragments.includes("Panel or modal, after link"), fragments.includes("Row, before title") && fragments.includes("Row, after title"), fragments.includes("Use the dropdown to move a fragment between rows and links"), fragments.includes("Actions") && fragments.includes("Projects"), fragments.includes("Top, full-width") === false], [true, true, true, true, true, true]);
 // (the preserve-action checkbox and its cleanup-link prose moved to the Cleanup page, which owns those controls)
 
 // 2b. Dashboards tab renders via <<lingo>> (moved out of Core 2026-09-04)
@@ -75,7 +75,7 @@ check("override removed", render("$:/plugins/yan/hypergsd/ui/control-panel/view-
 // 5. Every family ships its expected shadows (en-GB, main plugin)
 const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix + "]]").length;
 const fams = {
-  "$:/language/hypergsd/Settings/": 159, "$:/language/hypergsd/Sections/": 75,
+  "$:/language/hypergsd/Settings/": 153, "$:/language/hypergsd/Sections/": 75,
   "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 79,
   "$:/language/hypergsd/Dashboards/": 22, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 42, "$:/language/hypergsd/NewItem/": 5,

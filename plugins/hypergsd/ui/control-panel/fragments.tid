@@ -8,11 +8,11 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/fragments
 
 //<<lingo Fragments/Prompt>>//
 
-<!-- One merged block over the Fragment root: one draggable per placement tag — discovered from the index, so a third-party Link family joins the block the moment a member carries its tag, and the tab names no tag title itself. Drag reorders within a placement; the placement select on each row moves a member between placements. The tag-basis line names the discovered placements as pills. note="no" suppresses hgsd-visibility-list's per-list tag-basis line; each call derives its visibility base from the placement tag. -->
+<!-- One merged block over the Fragment root: one draggable per placement tag TIDDLER — enumerated by title prefix, so a family exists the moment its tag tiddler does (empty families stay visible as drag targets), and the tab names no tag title itself. Drag reorders within a placement; the placement select on each row moves a member between placements. The tag-basis line names the discovered placements as pills. note="no" suppresses hgsd-visibility-list's per-list tag-basis line; each call derives its visibility base from the placement tag. -->
 
-<p>//<<lingo Fragments/TagBasis>> <$list filter="[all[shadows+tiddlers]tags[]prefix[$:/tags/hypergsd/Fragment/]] +[unique[]sort[title]]" variable="placement-pill">&#32;<$macrocall $name="tag" tag=<<placement-pill>> /></$list>.//</p>
+<p>//<<lingo Fragments/TagBasis>> <$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Fragment/]] +[sort[title]]" variable="placement-pill">&#32;<$macrocall $name="tag" tag=<<placement-pill>> /></$list>.//</p>
 
-<$list filter="[all[shadows+tiddlers]tags[]prefix[$:/tags/hypergsd/Fragment/]] +[unique[]sort[title]]" variable="placement-tag">
+<$list filter="[all[shadows+tiddlers]prefix[$:/tags/hypergsd/Fragment/]] +[sort[title]]" variable="placement-tag">
   <$transclude
     $variable="hgsd-visibility-list"
     tag-list=<<placement-tag>>

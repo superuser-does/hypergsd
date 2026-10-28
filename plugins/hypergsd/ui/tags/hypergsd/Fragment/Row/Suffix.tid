@@ -1,3 +1,3 @@
 title: $:/tags/hypergsd/Fragment/Row/Suffix
 caption: {{$:/language/hypergsd/Settings/Fragments/Placement/RowAfter}}
-list: [[$:/plugins/yan/hypergsd/ui/list-items/comp-date]] [[$:/plugins/yan/hypergsd/ui/list-items/body-text]] [[$:/plugins/yan/hypergsd/ui/list-items/realm]] [[$:/plugins/yan/hypergsd/ui/list-items/project-link]] [[$:/plugins/yan/hypergsd/ui/list-items/delete]]
+list: [[$:/plugins/yan/hypergsd/ui/list-items/comp-date]] [[$:/plugins/yan/hypergsd/ui/list-items/body-text]] [[$:/plugins/yan/hypergsd/ui/list-items/project-link]] [[$:/plugins/yan/hypergsd/ui/list-items/delete]]
