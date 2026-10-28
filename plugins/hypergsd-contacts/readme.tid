@@ -3,17 +3,11 @@ type: text/vnd.tiddlywiki
 
 ''HyperGSD Contacts'' is a sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds the //Contact// type and easy ways to enter it. You can use contacts to track actions for companies, people and even animals.
 
-! What it ships
+While contacts are normally individuals, you can name a group of people, an organisation or even an animal as a contact. How you use it is up to you.
 
-* the `contact` type — the `$:/GSD/Contact` tag-list member, so contacts appear in the new-item modal's Type dropdown and are created with the right tag
-* the ''Contact'' panel section on actions (set the responsible contact) and the ''Contact'' modal section
-* the ''Contacts'' dashboard page: //Actions by contact// in the first portion column (always grouped by contact, with the multi-contact search — the picker in the list's strip ahead of Sort by; pick contacts and the list filters to them, empty selection shows every contacted action, the selection persists across sessions) plus the ''Contact list'' roster in the trailing full-width band
-* the contact list (heading //Contact list//) on the main dashboard
-* the contact view template (next/waiting/future/completed actions per contact, with quick-add buttons)
-* the ''Contact link'' row suffix (`$:/tags/hypergsd/ListItem/Suffix`) — a jump-to-contact icon on rows of delegated actions, hidden on the contact tiddler and in lists grouped by contact; the tooltip is the contact's title
-* the ''Waiting Actions By Contact'' list (the visible default on the Actions waiting page; the flat waiting list is the default when this sub-plugin is absent)
-* the contact-delegation after-creation rule (creating a contact from an action's picker assigns it to that action)
-* a convert-confirmation warning for contacts (see [[the Convert/Warning contract|Convert warnings]])
-* its own settings page (panel position + contacts dashboard list) under HyperGSD's settings
+Contacts are tagged with <<tag-pill $:/GSD/Contact>>. A single contact can be added to any action in the `gsd_contact` field, indicating that a contact is related to the action at hand.
+If you feel you need more than one contact for an action, consider breaking down the action into further actions.
 
-Everything attaches through HyperGSD's tag lists. If you were to remove this plugin, you would have `gsd_contact` fields left but nothing else.
+Contacts may be added to realms through the regular HyperGSD mechanism for that, to help you compartmentalise your life and work.
+
+The plugin also provides the [[GSD/Contacts]] dashboard which lets you easily add contacts, as well as filter by multiple contacts at the same time -- for example, if you have a meeting or gathering where you can progress different actions with your contacts.

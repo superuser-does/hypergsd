@@ -4,7 +4,7 @@
 // combined member in Portion/1 and the roster's Portion/Full band. Covers
 // strip placement, no placeholder, Group by withdrawn on the combined list,
 // popup and typing THROUGH the chassis and row gates (the freeze
-// regressions), instant commit, chip removal and the two-string tooltip.
+// regressions), instant commit, entry removal and the two-string tooltip.
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw.boot.startup();
 global.$tw = $tw;
@@ -147,16 +147,16 @@ setSelection(["ZZ Alice", "ZZ Bob Comp"]);
   t("alice+bob rows", actionRows(c), ["ZZ act future Bob", "ZZ act next Alice", "ZZ act next Bob", "ZZ act wait Alice"]);
 }
 
-// 6. Chips: one per selected contact, link text + two-string × tooltip.
+// 6. Entries: one per selected contact, link text + two-string × tooltip.
 {
   const {c, w} = renderPage();
-  const chips = byClass(c, "hgsd-contact-chip");
-  t("chip count", chips.length, 2);
+  const entries = byClass(c, "hgsd-contact-chip");
+  t("entry count", entries.length, 2);
   const tips = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && /Remove contact ZZ /.test((n.domNodes[0].attributes || {}).title || "")).map(n => n.domNodes[0].attributes.title).sort();
-  t("chip tooltips", tips, ["Remove contact ZZ Alice from search", "Remove contact ZZ Bob Comp from search"]);
+  t("entry tooltips", tips, ["Remove contact ZZ Alice from search", "Remove contact ZZ Bob Comp from search"]);
 }
 
-// 7. × removal strips exactly the chip's contact.
+// 7. × removal strips exactly the entry's contact.
 setSelection(["ZZ Alice", "ZZ Bob Comp"]);
 {
   const {w} = renderPage();
@@ -170,7 +170,7 @@ setSelection(["ZZ Alice", "ZZ Bob Comp"]);
 t("heading lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter"), "Actions by contact");
 t("roster heading lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/Contacts"), "Contact list");
 t("placeholder key removed", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Placeholder"), undefined);
-t("filter label lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Filter"), "Filter by contacts:&#x2004;");
+t("filter label lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Filter"), "Filter by contacts:");
 t("all-hint key removed", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/All"), undefined);
 t("hintA lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Remove/HintA"), "Remove contact");
 t("hintB lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Remove/HintB"), "from search");

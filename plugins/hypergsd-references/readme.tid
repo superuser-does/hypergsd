@@ -5,12 +5,6 @@ type: text/vnd.tiddlywiki
 
 References are supporting material for your projects. It is an easy way to create additional tiddlers that are in context of your project, and existing your realm(s) of interest.
 
-! What it ships
+Each reference is tagged with <<tag-pill $:/GSD/Reference>> and can be put under a project through the `gsd_project` field.
 
-* the `reference` type — the `$:/GSD/Reference` tag-list member, so references appear in the new-item modal's Type dropdown and are created with the right tag (references have no status and never complete; their only structured field is `gsd_project`)
-* the ''References'' dashboard page (`GSD/References`)
-* the ''References'' section in the project view (the project's own references, with quick-add pre-filling project and realm)
-* the "new reference" capture button in the sidebar
-* the reference panel position setting (top/bottom) under HyperGSD's settings
-
-Everything attaches through HyperGSD's tag-driven tag lists: remove this plugin and every surface above disappears without a trace, while existing reference tiddlers keep their `$:/GSD/Reference` tag and fields untouched.
+Your collected references can be viewed either in project panels, or all together in the [[GSD/References]] dashboard. As with most things in HyperGSD, you can filter the dashboard using your realm selector.

@@ -1,11 +1,17 @@
 tags: $:/tags/Stylesheet
 title: $:/plugins/yan/hypergsd-contacts/ui/stylesheet/contact-select
 
-/* The multi-contact search strip's chips: the link-items shape — inline-flex + middle + gap spaces the name from the × (the row-gap mechanism, because trim removes the inline whitespace and the chip is no gsd-list-item row); the margin spaces one chip from the next. */
+/* The multi-contact search cluster: the group-strip's spacing mechanism — flex + gap spaces the label, every picked contact, the picker and the Add button, because trim removes the inline whitespace and the host strip's gap cannot reach inside its single flex child. */
+.hgsd-contact-select {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3em 0.75em;
+}
+
+/* Each picked contact's entry (hgsd-contact-chip): the link-items shape — inline-flex + gap spaces the name from the × (the row-gap mechanism, because trim removes the inline whitespace and the entry is no gsd-list-item row). */
 .hgsd-contact-chip {
   display: inline-flex;
   align-items: center;
-  vertical-align: middle;
   gap: 0.3em;
-  margin-inline-end: 0.4em;
 }

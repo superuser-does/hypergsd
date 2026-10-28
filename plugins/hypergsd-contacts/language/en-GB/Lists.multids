@@ -2,7 +2,7 @@ title: $:/language/hypergsd/Lists/
 
 # Contacts additions to the shared Lists string namespace. The contact view
 # body reuses the main plugin's action-list headings and toggles. Remove/HintA
-# and Remove/HintB sandwich the contact title in the chip × tooltip (the
+# and Remove/HintB sandwich the contact title in the entry's × tooltip (the
 # CreateAdd two-string pattern).
 Contacts: Contact list
 NextByContact: Next actions by contact
@@ -10,7 +10,7 @@ WaitingByContact: Waiting actions by contact
 FutureByContact: Future actions by contact
 GroupBy/contact: Contacts
 ContactFilter: Actions by contact
-ContactFilter/Filter: Filter by contacts:&#x2004;
+ContactFilter/Filter: Filter by contacts:
 ContactFilter/Choose: -- pick a contact --
 ContactFilter/Remove/HintA: Remove contact
 ContactFilter/Remove/HintB: from search
