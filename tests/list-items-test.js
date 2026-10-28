@@ -102,8 +102,8 @@ const offenders = wiki.filterTiddlers("[all[shadows+tiddlers]prefix[$:/plugins/y
 t("no negative gsd_complete checks outside body-text.tid", offenders, []);
 wiki.deleteTiddler("C unseeded");
 // extension hooks: prefix before title, suffix after delete (appended after listed fragments)
-wiki.addTiddler({title: "ZZ ext prefix", tags: ["$:/tags/hypergsd/ListItem/Prefix"], text: "EXT-P"});
-wiki.addTiddler({title: "ZZ ext suffix", tags: ["$:/tags/hypergsd/ListItem/Suffix"], text: "EXT-S"});
+wiki.addTiddler({title: "ZZ ext prefix", tags: ["$:/tags/hypergsd/Fragment/Row/Prefix"], text: "EXT-P"});
+wiki.addTiddler({title: "ZZ ext suffix", tags: ["$:/tags/hypergsd/Fragment/Row/Suffix"], text: "EXT-S"});
 const withExt = render();
 t("prefix extension before title", withExt.done.indexOf("EXT-P") !== -1 && withExt.done.indexOf("EXT-P") < withExt.done.indexOf("title"), true);
 t("suffix extension after delete", withExt.done.indexOf("EXT-S") !== -1 && withExt.done.indexOf("EXT-S") > withExt.done.indexOf("delete"), true);
@@ -111,13 +111,13 @@ t("suffix extension after delete", withExt.done.indexOf("EXT-S") !== -1 && withE
 wiki.deleteTiddler("ZZ ext prefix"); wiki.deleteTiddler("ZZ ext suffix");
 t("extensions removed", render().done, ["checkbox", "title", "comp-date", "project-link", "delete"]);
 // user order override: create a user Suffix tag tiddler pinning an extension FIRST
-wiki.addTiddler({title: "ZZ ext first", tags: ["$:/tags/hypergsd/ListItem/Suffix"], text: "EXT-F"});
-wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix",
+wiki.addTiddler({title: "ZZ ext first", tags: ["$:/tags/hypergsd/Fragment/Row/Suffix"], text: "EXT-F"});
+wiki.addTiddler({title: "$:/tags/hypergsd/Fragment/Row/Suffix",
   list: "[[ZZ ext first]] [[$:/plugins/yan/hypergsd/ui/list-items/comp-date]] [[$:/plugins/yan/hypergsd/ui/list-items/note]] [[$:/plugins/yan/hypergsd/ui/list-items/delete]]"});
 const reordered = render().done;
 t("user list-field reorder honored (unlisted project-link appends after)", reordered, ["checkbox", "title", "EXT-F", "comp-date", "delete", "project-link"]);
 wiki.deleteTiddler("ZZ ext first");
-wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix"});
+wiki.addTiddler({title: "$:/tags/hypergsd/Fragment/Row/Suffix"});
 
 // ROW FREEZE: an unrelated item edit must not rebuild unchanged rows (node
 // identity survives); the row's own item edit must reach it (node replaced)
@@ -151,7 +151,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix"});
 // WHITELIST COMPOSITION: a fragment's refresh-whitelist field joins the
 // row gate's subfilter (tag list-driven extensibility, not main-plugin edits)
 {
-  wiki.addTiddler({title: "ZZ wl test", tags: ["$:/tags/hypergsd/ListItem/Suffix"], text: "EXT-W", "hgsd-refresh-whitelist": "[prefix[$:/state/hypergsd/ext-feature]]"});
+  wiki.addTiddler({title: "ZZ wl test", tags: ["$:/tags/hypergsd/Fragment/Row/Suffix"], text: "EXT-W", "hgsd-refresh-whitelist": "[prefix[$:/state/hypergsd/ext-feature]]"});
   const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});

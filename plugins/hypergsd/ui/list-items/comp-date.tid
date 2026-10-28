@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Settings/Fragments/CompletionDate/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/CompletionDate/Hint}}
-tags: $:/tags/hypergsd/ListItem/Suffix
+tags: $:/tags/hypergsd/Fragment/Row/Suffix
 title: $:/plugins/yan/hypergsd/ui/list-items/comp-date
 
 \whitespace trim

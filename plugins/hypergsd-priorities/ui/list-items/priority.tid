@@ -2,7 +2,7 @@ caption: {{$:/language/hypergsd/Settings/Fragments/Priority/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/Priority/Hint}}
 hgsd-refresh-whitelist: [prefix[$:/plugins/yan/hypergsd-priorities/ui/config]] [prefix[$:/language/hypergsd/Lists]]
 list-after: $:/plugins/yan/hypergsd/ui/list-items/status
-tags: $:/tags/hypergsd/ListItem/Prefix
+tags: $:/tags/hypergsd/Fragment/Row/Prefix
 title: $:/plugins/yan/hypergsd-priorities/ui/list-items/priority
 
 \whitespace trim

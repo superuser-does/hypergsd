@@ -65,7 +65,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 \end
 
 \function hgsd-chassis-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [!is[tiddler]] [match<tag-list>] [tag<tag-list>] [prefix<visibility-base>] [prefix[$:/config/hypergsd]] [prefix[$:/state/hypergsd/show-completed/]] -[prefix[$:/state/hypergsd/show-completed/]!suffix<currentTiddler>]")
-[function[hgsd-listitem-feature-runs]] [function[hgsd-member-feature-runs]] [function[hgsd-chassis-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
+[function[hgsd-row-feature-runs]] [function[hgsd-member-feature-runs]] [function[hgsd-chassis-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
 \procedure hgsd-dashboard-portions(tag-list, visibility-base)
@@ -73,7 +73,7 @@ title: $:/plugins/yan/hypergsd/modules/section-portions
 <!-- View folding: the whole chassis (bands + portions row, lists and all) sits inside a reveal keyed on the HOST's core fold state — the same tiddler, same orientation as the body's reveal and the panel's section reveals, so the built-in fold bar/toolbar button folds body, panel sections and lists together. GENERIC by construction: every host folds — dashboard pages, the project view, the contact view — with zero per-host wiring, the state title being $:/state/folded/<currentTiddler> at chassis scope (procedures do not rebind currentTiddler; the member transclusions below it do, but they sit deeper). The reveal sits OUTSIDE/ABOVE this gate on purpose: a fold toggle flips the state without touching the lists' own refresh (unrelated changes pass through reveal.refreshChildren into the gate untouched — the gate's whitelist needs no folded prefix), and on cores with lazy reveals (>=5.5) a folded chassis constructs no children at all, gate included — the whole view costs one hidden div while folded. Host views that wrap this chassis in their OWN gates (view-body-project, view-body-contact) admit the prefix themselves. -->
 <$let strip-hosts-regex={{{ [<tag-list>] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
 <$reveal tag="div" class="hgsd-fold-slot hgsd-fold-view" type="nomatch" stateTitle={{{ [[$:/state/folded/]addsuffix<currentTiddler>] }}} text="hide" default="show" retain="yes" animate="yes">
-<$refresh subfilter={{{ [function[hgsd-chassis-whitelist]] }}} subfilter-tag-inputs={{{ [<tag-list>] [[$:/tags/hypergsd/ListItem/Prefix]] [[$:/tags/hypergsd/ListItem/Suffix]] [[$:/tags/hypergsd/Strip]] +[join[ ]] }}}>
+<$refresh subfilter={{{ [function[hgsd-chassis-whitelist]] }}} subfilter-tag-inputs={{{ [<tag-list>] [[$:/tags/hypergsd/Fragment/Row/Prefix]] [[$:/tags/hypergsd/Fragment/Row/Suffix]] [[$:/tags/hypergsd/Strip]] +[join[ ]] }}}>
 <$transclude $variable="hgsd-portions-core" tag-list=<<tag-list>> visibility-base=<<visibility-base>> columns-class="hgsd-portion-columns"/>
 </$refresh>
 </$reveal>

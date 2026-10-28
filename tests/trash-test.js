@@ -1,4 +1,4 @@
-// Trashbin sub-plugin: alternative ListItem/Suffix fragment that trashes completed
+// Trashbin sub-plugin: alternative Row/Suffix fragment that trashes completed
 // items via kookma Trashbin instead of deleting. Fake in-memory data only.
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw.boot.startup();
@@ -59,7 +59,7 @@ t("default: completed rows carry delete + trash buttons", [btns.deleteBtn > 0, b
 // 2. User override (the wiki's config, BOTH tiddlers): the list field alone only
 // reorders — still-tagged members append alphabetically — so the built-in delete
 // is also untagged via an empty override of its own tiddler
-wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix",
+wiki.addTiddler({title: "$:/tags/hypergsd/Fragment/Row/Suffix",
   list: ["$:/plugins/yan/hypergsd/ui/list-items/comp-date", "$:/plugins/yan/hypergsd/ui/list-items/note", "$:/plugins/yan/hypergsd-trashbin/ui/list-items/trash"]});
 wiki.addTiddler({title: "$:/plugins/yan/hypergsd/ui/list-items/delete", text: "", tags: []});
 r = renderRows();

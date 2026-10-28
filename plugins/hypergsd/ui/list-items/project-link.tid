@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Settings/Fragments/ProjectLink/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/ProjectLink/Hint}}
-tags: $:/tags/hypergsd/ListItem/Suffix
+tags: $:/tags/hypergsd/Fragment/Row/Suffix
 title: $:/plugins/yan/hypergsd/ui/list-items/project-link
 
 \whitespace trim

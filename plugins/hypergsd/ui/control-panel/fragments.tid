@@ -4,25 +4,19 @@ tags: $:/tags/hypergsd/Settings/Lists
 title: $:/plugins/yan/hypergsd/ui/control-panel/fragments
 
 \whitespace trim
-
 \procedure lingo-base() $:/language/hypergsd/Settings/
 
 //<<lingo Fragments/Prompt>>//
 
-''<<lingo Fragments/LinkItems/Label>>''
-<$transclude
-  $variable="hgsd-visibility-list"
-  tag-list="$:/tags/hypergsd/LinkItem"
-  visibility-base="$:/config/hypergsd/LinkItem/visibility/"/>
+<!-- One merged block over the Fragment root: one draggable per placement tag — discovered from the index, so a third-party Link family joins the block the moment a member carries its tag, and the tab names no tag title itself. Drag reorders within a placement; the placement select on each row moves a member between placements. The tag-basis line names the discovered placements as pills. note="no" suppresses hgsd-visibility-list's per-list tag-basis line; each call derives its visibility base from the placement tag. -->
 
-''<<lingo Fragments/RowBefore/Label>>''
-<$transclude
-  $variable="hgsd-visibility-list"
-  tag-list="$:/tags/hypergsd/ListItem/Prefix"
-  visibility-base="$:/config/hypergsd/ListItem/visibility/"/>
+<p>//<<lingo Fragments/TagBasis>> <$list filter="[all[shadows+tiddlers]tags[]prefix[$:/tags/hypergsd/Fragment/]] +[unique[]sort[title]]" variable="placement-pill">&#32;<$macrocall $name="tag" tag=<<placement-pill>> /></$list>.//</p>
 
-''<<lingo Fragments/RowAfter/Label>>''
-<$transclude
-  $variable="hgsd-visibility-list"
-  tag-list="$:/tags/hypergsd/ListItem/Suffix"
-  visibility-base="$:/config/hypergsd/ListItem/visibility/"/>
+<$list filter="[all[shadows+tiddlers]tags[]prefix[$:/tags/hypergsd/Fragment/]] +[unique[]sort[title]]" variable="placement-tag">
+  <$transclude
+    $variable="hgsd-visibility-list"
+    tag-list=<<placement-tag>>
+    visibility-base={{{ [<placement-tag>removeprefix[$:/tags/hypergsd/]addprefix[$:/config/hypergsd/]addsuffix[/visibility/]] }}}
+    item-template="$:/plugins/yan/hypergsd/ui/components/fragment-item-template"
+    note="no"/>
+</$list>

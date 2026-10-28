@@ -1,7 +1,7 @@
 caption: {{$:/language/hypergsd/Settings/Fragments/Tickler/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/Tickler/Hint}}
 hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-]]
-tags: $:/tags/hypergsd/ListItem/Suffix
+tags: $:/tags/hypergsd/Fragment/Row/Suffix
 title: $:/plugins/yan/hypergsd-ticklers/ui/list-items/tickler
 
 \whitespace trim

@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Settings/Fragments/Complete/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/Complete/Hint}}
-tags: $:/tags/hypergsd/ListItem/Prefix
+tags: $:/tags/hypergsd/Fragment/Row/Prefix
 title: $:/plugins/yan/hypergsd/ui/list-items/complete
 
 \whitespace trim

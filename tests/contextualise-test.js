@@ -12,12 +12,15 @@ wiki.addTiddler({title: "@out and about", tags: ["GSD/Contexts"]});
 wiki.addTiddler({title: "A done", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "true", gsd_comp_date: "20260820120000000"});
 wiki.addTiddler({title: "B open", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
 wiki.addTiddler({title: "P one", tags: ["$:/GSD/Project"], gsd_status: "active"});
+wiki.addTiddler({title: "P two done", tags: ["$:/GSD/Project"], gsd_status: "active", gsd_complete: "true"});
 wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 wiki.addTiddler({title: "$:/state/hypergsd/current-realm", text: "NoRealm"});
 
 const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
 // one flat list of actions + projects + references so every row type renders
 const LIST_FILTER = "[all[tiddlers]tag[$:/GSD/Action]] [all[tiddlers]tag[$:/GSD/Project]] [all[tiddlers]tag[$:/GSD/Reference]] +[sort[title]]";
+// projects join the list so their rows exercise the same gate
+wiki.addTiddler({title: "P open prj", tags: ["$:/GSD/Project"], gsd_status: "active", gsd_complete: "false"});
 
 let fails = 0;
 const t = (name, got, exp) => {
@@ -97,7 +100,7 @@ const renderOpen = (host, listFilter, heading) => {
   const c = doc.createElement("div");
   w.render(c);
   const toggle = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" &&
-    typeof n.set === "string" && n.set.indexOf("$:/state/hypergsd/contextualise") === 0).pop();
+    typeof n.set === "string" && n.set.indexOf("$:/state/hypergsd/contextualise") === 0 && n.set.indexOf("-B open-") !== -1).pop();
   const state = toggle && toggle.set;
   wiki.addTiddler({title: state, text: "open"});
   w.refresh({[state]: {modified: true}});
@@ -110,7 +113,7 @@ const renderOpen = (host, listFilter, heading) => {
   return {w, c, state, pop, temp};
 };
 
-// --- 1. gating: icon renders on incomplete actions only ---
+// --- 1. gating: icon renders on incomplete actions and projects only ---
 {
   const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false"/>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
@@ -120,7 +123,8 @@ const renderOpen = (host, listFilter, heading) => {
   const btns = rowCtxButtons(c);
   t("icon on incomplete action", btns["B open"] >= 1, true);
   t("no icon on completed action", btns["A done"], undefined);
-  t("no icon on project row", btns["P one"], undefined);
+  t("icon on incomplete project", btns["P open prj"] >= 1, true);
+  t("no icon on completed project", btns["P two done"], undefined);
   t("no icon on reference row", btns["R one"], undefined);
 }
 
@@ -156,7 +160,7 @@ const renderOpen = (host, listFilter, heading) => {
   w.render(c);
   t("chassis renders member rows", collect(c).rows["B open"] !== undefined, true);
   const toggle = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" &&
-    typeof n.set === "string" && n.set.indexOf("$:/state/hypergsd/contextualise") === 0).pop();
+    typeof n.set === "string" && n.set.indexOf("$:/state/hypergsd/contextualise") === 0 && n.set.indexOf("-B open-") !== -1).pop();
   wiki.addTiddler({title: toggle.set, text: "open"});
   w.refresh({[toggle.set]: {modified: true}});
   const et = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$edit-text" &&

@@ -5,34 +5,44 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 
 <!-- Scope: $:/tags/Global/View — every consumer renders inside a ViewTemplate (dashboards-in-story, view bodies, panels) — no modal/sidebar/chrome use. -->
 
-<!-- ROW COMPOSITION: Prefix fragments, title link, Suffix fragments. The literal-input tag list form makes sortByList honour the tag tiddler's list field first and member list-before/list-after pins after (Suffix pins comp-date/note/realm/delete via the core-only list field; Prefix members self-pin — complete checkbox, status pills, then the priorities select). Fragments must self-gate and render with currentTiddler = the row item (plain transclusion inherits the caller's scope); unlisted ones append alphabetically. -->
+<!-- ROW COMPOSITION: Prefix fragments, title link, Suffix fragments — the closed row pair of the Fragment root (ui/tags/hypergsd/Fragment/Row/*). The literal-input tag list form makes sortByList honour the tag tiddler's list field first and member list-before/list-after pins after (Suffix pins comp-date/note/realm/delete via the core-only list field; Prefix members self-pin — complete checkbox, status pills, then the priorities select). Fragments must self-gate and render with currentTiddler = the row item (plain transclusion inherits the caller's scope); unlisted ones append alphabetically. Visibility is per placement ($:/config/hypergsd/Fragment/Row/<placement>/visibility/<title>). Type suppression is engine-owned: a fragment hidden for a type via $:/config/hypergsd/Fragment/type-hide/<title>/<type> reading hide (absent = show) renders nowhere on those rows; the config prefix rides every gate, so box writes in Settings live-update. item-type is derived once per row above the loops and flows ambiently into fragments. -->
 \procedure hgsd-item()
-<!-- ROW FREEZE: one membership check at the row door — the whitelist is composed per list (hgsd-row-whitelist-expression, the file-top function, retrieved by hgsd-render-inner): the engine's base runs plus every ListItem fragment's refresh-whitelist field, so a stateful fragment declares its own dependencies instead of the main plugin hardcoding them (the base's [match<currentTiddler>] is input-driven: a changed title passes only if it IS this row's item). An unrelated item edit stops here instead of descending the row's fragment tree. Membership (row added/removed) stays with the outer list patching. subfilter-tag-inputs caches the derivation (refresh.js): the two tag lists' membership and member fields are its only tiddler inputs, so the subfilter re-derives only when those change — not per row per admitted pass. -->
-<$refresh subfilter={{{ [function[hgsd-row-whitelist-expression]] }}} subfilter-tag-inputs="$:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix">
+<!-- ROW FREEZE: one membership check at the row door — the whitelist is composed per list (hgsd-row-whitelist-expression, the file-top function, retrieved by hgsd-render-inner): the engine's base runs plus every row fragment's refresh-whitelist field, so a stateful fragment declares its own dependencies instead of the main plugin hardcoding them (the base's [match<currentTiddler>] is input-driven: a changed title passes only if it IS this row's item). An unrelated item edit stops here instead of descending the row's fragment tree. Membership (row added/removed) stays with the outer list patching. subfilter-tag-inputs caches the derivation (refresh.js): the two row tag lists' membership and member fields are its only tiddler inputs, so the subfilter re-derives only when those change — not per row per admitted pass. -->
+<$refresh subfilter={{{ [function[hgsd-row-whitelist-expression]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix">
+<$let item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
 <div class="gsd-list-item">
-  <$list filter="[[$:/tags/hypergsd/ListItem/Prefix]] :and[tagging[]]" variable="list-item">
-    <%if [[$:/config/hypergsd/ListItem/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
-      <$transclude $tiddler=<<list-item>> />
+  <$list filter="[[$:/tags/hypergsd/Fragment/Row/Prefix]] :and[tagging[]]" variable="list-item">
+    <%if [[$:/config/hypergsd/Fragment/Row/Prefix/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
+      <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<list-item>addsuffix[/]addsuffix<item-type>get[text]else[show]match[hide]] %>
+        <!-- suppressed for this row type -->
+      <%else%>
+        <$transclude $tiddler=<<list-item>> />
+      <%endif%>
     <%endif%>
   </$list>
   <$link class="gsd-list-item-title" to=<<currentTiddler>>><$view field="title"/></$link>
-  <$list filter="[[$:/tags/hypergsd/ListItem/Suffix]] :and[tagging[]]" variable="list-item">
-    <%if [[$:/config/hypergsd/ListItem/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
-      <$transclude $tiddler=<<list-item>> />
+  <$list filter="[[$:/tags/hypergsd/Fragment/Row/Suffix]] :and[tagging[]]" variable="list-item">
+    <%if [[$:/config/hypergsd/Fragment/Row/Suffix/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
+      <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<list-item>addsuffix[/]addsuffix<item-type>get[text]else[show]match[hide]] %>
+        <!-- suppressed for this row type -->
+      <%else%>
+        <$transclude $tiddler=<<list-item>> />
+      <%endif%>
     <%endif%>
   </$list>
 </div>
+</$let>
 </$refresh>
 \end
 
 <!-- Row-freeze whitelist derivation, the ONE source for both consumers: render-inner's per-list $let (inside the engine) and hgsd-item's refresh attribute (the view-body alias path outside it — without a default the alias rows' subfilter was undefined and refresh.js inhibited them permanently). A \function, not a procedure: the engine side must retrieve the JOINED STRING inside a filter expression, and [function[...]] is the sanctioned transport (an attribute-position macrocall of a procedure injects body markup, not its output). The base runs ride as the param DEFAULT: they stay unevaluated data until the $refresh subfilter runs with row scope (match<currentTiddler> is input-driven per row; run strings ending in ]] cannot be [[literals]]). -->
-\function hgsd-row-whitelist-expression(base-whitelist:"[match<currentTiddler>] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] -[is[draft]]")
-[function[hgsd-listitem-feature-runs]] [<base-whitelist>] +[join[ ]]
+\function hgsd-row-whitelist-expression(base-whitelist:"[match<currentTiddler>] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/Fragment]] [tags[]prefix[$:/tags/hypergsd/Fragment]] -[is[draft]]")
+[function[hgsd-row-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
-<!-- Feature-run derivations shared by every gate with fragments or strips below it. Contract: a stateful member carries its prefixes in an hgsd-refresh-whitelist field — space-separated single bracketed runs, no bare spaces inside (the same field the row freeze composes). hgsd-listitem-feature-runs unions the ListItem Prefix/Suffix members' runs (row-fragment state must pass every gate above the rows); hgsd-strip-feature-runs adds the Strip members bound to THIS list (hgsd-strip-host = the heading text; hostless members render nowhere and stay out). The joined runs are literal data until the consuming gate's subfilter evaluates them over a change set. -->
-\function hgsd-listitem-feature-runs()
-[[$:/tags/hypergsd/ListItem/Prefix]] [[$:/tags/hypergsd/ListItem/Suffix]] :and[tagging[]] :and[get[hgsd-refresh-whitelist]split[ ]] +[join[ ]]
+<!-- Feature-run derivations shared by every gate with fragments or strips below it. Contract: a stateful member carries its prefixes in an hgsd-refresh-whitelist field — space-separated single bracketed runs, no bare spaces inside (the same field the row freeze composes). hgsd-row-feature-runs unions the two row placements' members' runs (row-fragment state must pass every gate above the rows); link-family members are read-only adornments and keep state under gate-admitted prefixes instead. hgsd-strip-feature-runs adds the Strip members bound to THIS list (hgsd-strip-host = the heading text; hostless members render nowhere and stay out). The joined runs are literal data until the consuming gate's subfilter evaluates them over a change set. -->
+\function hgsd-row-feature-runs()
+[[$:/tags/hypergsd/Fragment/Row/Prefix]] [[$:/tags/hypergsd/Fragment/Row/Suffix]] :and[tagging[]] :and[get[hgsd-refresh-whitelist]split[ ]] +[join[ ]]
 \end
 
 \function hgsd-strip-feature-runs()
@@ -40,12 +50,12 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 \end
 
 <!-- Gate compositions: base runs (engine-owned, unevaluated data until the subfilter runs) plus the derivations above; subfilter-tag-inputs fingerprints the three tag lists so the joined string re-derives only on membership or member-field changes. -->
-\function hgsd-list-inner-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [!is[tiddler]] [match<listState>] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] -[is[draft]]")
-[function[hgsd-listitem-feature-runs]] [function[hgsd-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
+\function hgsd-list-inner-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [!is[tiddler]] [match<listState>] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/Fragment]] [tags[]prefix[$:/tags/hypergsd/Fragment]] -[is[draft]]")
+[function[hgsd-row-feature-runs]] [function[hgsd-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
 \function hgsd-list-outer-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [prefix[$:/GSD/Realm/]] [prefix[$:/config/hypergsd]] [!is[tiddler]] -[is[draft]]")
-[function[hgsd-listitem-feature-runs]] [function[hgsd-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
+[function[hgsd-row-feature-runs]] [function[hgsd-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
 <!-- One grouping-strip radio. The label resolves via lingo with the raw key as fallback, so third-party members need no language tiddlers. Reads view-state-title from its invocation scope (render-inner). -->
@@ -142,7 +152,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
     <!-- Freezes this list against the global refresh cycle. No broad $:/state/hypergsd run: a changed hgsd-titles string busts the gate via hgsd-filter-buster, so a state run would only add cross-list amplification. Feature-owned state prefixes are DERIVED — the row fragments' and this heading's Strip members' hgsd-refresh-whitelist fields, composed by hgsd-list-inner-whitelist (file top) with the fingerprint cache on the three tag lists. The view strip below reads its config tiddler inside this gate — the config prefix run already carries those writes. -->
     <$refresh
       subfilter={{{ [function[hgsd-list-inner-whitelist]] }}}
-      subfilter-tag-inputs="$:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix $:/tags/hypergsd/Strip"
+      subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip"
       hgsd-group-buster=<<group-state>>
       hgsd-filter-buster=<<hgsd-titles>> >
     <!-- Performance note: Centralised O(1) event listener for all checkboxes and buttons in this list. -->
@@ -256,7 +266,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
   effective-sort-member={{{ [<sort-view-choice>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]then<sort-view-choice>] [<effective-sort-default>addprefix[$:/config/hypergsd/SortBy/hidden/]get[text]else[show]match[show]then<effective-sort-default>] +[first[1]] }}}
   sort-lookup={{{ [<effective-sort-member>get[hgsd-sort-filter]else[]] }}}
   sort-expression={{{ [<sort-select>match[yes]then<sort-lookup>else[]] }}}>
-<$refresh subfilter={{{ [function[hgsd-list-outer-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix $:/tags/hypergsd/Strip">
+<$refresh subfilter={{{ [function[hgsd-list-outer-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip">
 <!-- all-titles is the single draft gate: drafts inherit the base tiddler's fields and tags, so every list-filter would otherwise match them mid-edit. Inline on the candidates only — a per-list -[is[draft]] run sweeps the whole wiki per evaluation. -->
 <$let future-items-visibility={{{ [[$:/config/hypergsd/dashboard-future-project-items]get[text]else[hide]] }}}
   all-titles={{{ [subfilter<list-filter>!is[draft]format:titlelist[]join[ ]] }}}>

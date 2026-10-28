@@ -121,7 +121,7 @@ t("sidebar tab: both tag-basis notes render with their tag pills",
    flat9.indexOf("Tiddlers tagged with $:/tags/hypergsd/Review") !== -1],
   [true, true]);
 t("sidebar tab: the numbered portion sentence renders (no Top/Full slots)",
-  [flat9.indexOf("such as Portion/1, to this tag") !== -1,
+  [flat9.indexOf("such as /Portion/1, to this tag") !== -1,
    flat9.indexOf("Top, full-width"), flat9.indexOf("Bottom, full-width")],
   [true, -1, -1]);
 t("sidebar tab: capture heading precedes review heading, member rows render",

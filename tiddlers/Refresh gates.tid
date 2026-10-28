@@ -13,21 +13,21 @@ HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when 
 ! What is already covered
 
 | !Surface you add | !Wakes on (no action needed for these) |
-|Panel or modal section (`$:/tags/hypergsd/PanelTemplate` / `ModalTemplate`) |your section tiddler's edits, the item's edits (type gate), the type tag list, `$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/state/folded/*` (the core fold state — panel sections render fold reveals keyed on it), `$:/config/hypergsd/*`, the picker temps `$:/temp/hypergsd/add-<id>-<target>` (scoped per host), the modal's own temp/state tiddlers, ListItem tag-list edits |
-|Dashboard or view list (an `$hgsd.list` instance via the list tag lists) |item edits and deletions, realm tag-tiddler edits, `$:/config/hypergsd/*`, per-list collapse states, ListItem tag-list edits, every fragment and strip declaration (your own included) |
+|Panel or modal section (`$:/tags/hypergsd/PanelTemplate` / `ModalTemplate`) |your section tiddler's edits, the item's edits (type gate), the type tag list, `$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/state/folded/*` (the core fold state — panel sections render fold reveals keyed on it), `$:/config/hypergsd/*`, the picker temps `$:/temp/hypergsd/add-<id>-<target>` (scoped per host), the modal's own temp/state tiddlers, Fragment tag-list edits |
+|Dashboard or view list (an `$hgsd.list` instance via the list tag lists) |item edits and deletions, realm tag-tiddler edits, `$:/config/hypergsd/*`, per-list collapse states, Fragment tag-list edits, every fragment and strip declaration (your own included) |
 |Dashboard page chassis (`hgsd-dashboard-portions`) |tag list/membership edits, per-list visibility config, and the page's own `$hgsd.toggle` state writes (scoped `show-completed` prefix runs with a subtraction that drops other pages' toggles) — a member using a custom `state-prefix` on the toggle must declare the matching prefixes in its `hgsd-refresh-whitelist` field |
-|Row fragment (`$:/tags/hypergsd/ListItem/Prefix` or `/Suffix`) |''the row's own item'' changing, ListItem tag-list edits, per-fragment visibility config — plus anything you declare yourself (below) |
-|Link fragment (`$:/tags/hypergsd/LinkItem`) |the link target changing (renders inside the host's gates); the realm globe reads `$:/config/hypergsd/realm-selection`, already covered |
+|Row fragment (`$:/tags/hypergsd/Fragment/Row/Prefix` or `/Suffix`) |''the row's own item'' changing, Fragment tag-list edits, per-fragment visibility config — plus anything you declare yourself (below) |
+|Link fragment (any `$:/tags/hypergsd/Fragment/Link/*` family) |the link target changing and, since the root prefix rides every gate, family tag-list edits (renders inside the host's gates); the realm globe reads `$:/config/hypergsd/realm-warning`, already covered |
 |Portion placement |portions are ordinary tag-list members — no refresh implications beyond the row's own item |
 |Status vocabulary |replacing [[$:/plugins/yan/hypergsd/modules/status-sets]] (a same-title shadow — the only override surface) re-renders pills, rows, colours and modal validation live, via the type gate's `status-sets` prefix run |
 
 ! The one thing you may need: a `hgsd-refresh-whitelist` field
 
-If anything you ship renders state tiddlers ''of its own'' (a reveal, a picker, a feature toggle), declare them in an `hgsd-refresh-whitelist` field on the member tiddler — the same contract whatever you are adding: a row fragment (`$:/tags/hypergsd/ListItem/Prefix` or `/Suffix`), a Strip member, a dashboard Lists member, or a ViewPlacement body. Every gate that renders the member composes your field: the row freeze, the list engine's outer and per-list gates, the dashboard chassis, the view gates and the placement slot. A Lists member hosting a strip control carries `hgsd-heading` (the chassis resolves it to find the strip). Scoped `:and` pairs (per-host temps like the modal's `add-` pair) stay hand-written in the host gates.
+If anything you ship renders state tiddlers ''of its own'' (a reveal, a picker, a feature toggle), declare them in an `hgsd-refresh-whitelist` field on the member tiddler — the same contract whatever you are adding: a row fragment (`$:/tags/hypergsd/Fragment/Row/Prefix` or `/Suffix`), a Strip member, a dashboard Lists member, or a ViewPlacement body. Every gate that renders the member composes your field: the row freeze, the list engine's outer and per-list gates, the dashboard chassis, the view gates and the placement slot. A Lists member hosting a strip control carries `hgsd-heading` (the chassis resolves it to find the strip). Scoped `:and` pairs (per-host temps like the modal's `add-` pair) stay hand-written in the host gates.
 
 ```
 title: $:/plugins/MyPlugin/ui/list-items/due-date
-tags: $:/tags/hypergsd/ListItem/Suffix
+tags: $:/tags/hypergsd/Fragment/Row/Suffix
 hgsd-refresh-whitelist: [prefix[$:/state/MyPlugin/due]] [prefix[$:/temp/MyPlugin/due]]
 ```
 

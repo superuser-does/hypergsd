@@ -97,7 +97,7 @@ t("modal sections have no tickler", wiki.filterTiddlers("[all[shadows+tiddlers]t
   .every(x => x.indexOf("hypergsd-ticklers") === -1));
 t("panel sections have no tickler", wiki.filterTiddlers("[all[shadows+tiddlers]tag[$:/tags/hypergsd/PanelTemplate]]")
   .every(x => x.indexOf("hypergsd-ticklers") === -1));
-t("row suffixes have no tickler", wiki.filterTiddlers("[all[shadows+tiddlers]tag[$:/tags/hypergsd/ListItem/Suffix]]")
+t("row suffixes have no tickler", wiki.filterTiddlers("[all[shadows+tiddlers]tag[$:/tags/hypergsd/Fragment/Row/Suffix]]")
   .every(x => x.indexOf("hypergsd-ticklers") === -1));
 t("GSD/Ticklers page absent", !wiki.getTiddler("GSD/Ticklers"));
 const reviewTk = render('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/sidebar/review-sidebar"/>');

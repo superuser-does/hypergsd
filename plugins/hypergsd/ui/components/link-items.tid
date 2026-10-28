@@ -3,15 +3,22 @@ title: $:/plugins/yan/hypergsd/ui/components/link-items
 
 \whitespace trim
 
-<!-- LinkItem tag list: fragments rendered after a GSD link — the link-target counterpart of the ListItem row tag list. Members render with linked-tiddler = the target title and the ambient scope intact; order via the tag tiddler's list field. The span is the centring container (stylesheet .hgsd-link-items). Members transclude INLINE: block mode wraps a member's widget line in a <p>, and a gated-off member leaves that empty paragraph behind, defeating the container's :empty margin collapse. -->
-\procedure hgsd-link-items(linked-tiddler)
+<!-- The Link families of the Fragment root: fragments rendered after a GSD link — the link-target counterpart of the Row placements. Every family is a tag list under $:/tags/hypergsd/Fragment/Link/* (an open set — a family exists the moment a caller hosts it): link-tag names the family, Action by default (the project and contact picks, the pre-requisite rows); the sub-project pick on project panels passes Project. The visibility base derives from the tag ($:/config/hypergsd/Fragment/Link/<family>/visibility/<title>), and type suppression uses the SAME vocabulary as rows, keyed on the link TARGET's hgsd-type (linked-type, derived once per call from the target's own tags through the Type tag list — the row engine's item-type shape; a member hidden for a type renders beside no link to that type; untyped targets match no config and show). Members render with linked-tiddler = the target title and the ambient scope intact; order via each tag tiddler's list field. A member adorning several families ships as one member tiddler per family, so the Fragments tab's placement select stays single-valued. The span is the centring container (stylesheet .hgsd-link-items). Members transclude INLINE: block mode wraps a member's widget line in a <p>, and a gated-off member leaves that empty paragraph behind, defeating the container's :empty margin collapse. -->
+\procedure hgsd-link-items(linked-tiddler, link-tag:"$:/tags/hypergsd/Fragment/Link/Action")
 <%if [<linked-tiddler>!match[]] %>
+<$let visibility-base={{{ [<link-tag>removeprefix[$:/tags/hypergsd/]addprefix[$:/config/hypergsd/]addsuffix[/visibility/]] }}}
+  linked-type={{{ [<linked-tiddler>tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
 <span class="hgsd-link-items">
-<$list filter="[[$:/tags/hypergsd/LinkItem]] :and[tagging[]]" variable="link-item">
-  <%if [[$:/config/hypergsd/LinkItem/visibility/]addsuffix<link-item>get[text]else[show]match[show]] %>
-    <$transclude $tiddler=<<link-item>> $mode="inline"/>
+<$list filter="[<link-tag>] :and[tagging[]]" variable="link-item">
+  <%if [<visibility-base>addsuffix<link-item>get[text]else[show]match[show]] %>
+    <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<link-item>addsuffix[/]addsuffix<linked-type>get[text]else[show]match[hide]] %>
+      <!-- suppressed for this link-target type -->
+    <%else%>
+      <$transclude $tiddler=<<link-item>> $mode="inline"/>
+    <%endif%>
   <%endif%>
 </$list>
 </span>
+</$let>
 <%endif%>
 \end

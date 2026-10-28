@@ -17,7 +17,7 @@ Contacts accept realm tags like any item.
 !! UI Controls
 The contact view template shows the contact's Next/Waiting/Future actions and a lazy Completed section. Creating a contact ''from'' an action (the action's new-contact flow) automatically assigns `gsd_contact` and sets the caller to `waiting` — implemented as an [[AfterCreation|AfterCreation]] rule (`$:/plugins/yan/hypergsd/modules/after-create/contact-delegation`).
 
-Elsewhere, rows of delegated actions carry the ''Contact link'' suffix (`ui/list-items/contact-link`, tagged `$:/tags/hypergsd/ListItem/Suffix`): a jump-to-contact icon with the contact's title as tooltip, hidden on the contact tiddler and in lists grouped by contact (the same `storyTiddler`/`current-group` suppression the core project link uses).
+Elsewhere, rows of delegated actions carry the ''Contact link'' suffix (`ui/list-items/contact-link`, tagged `$:/tags/hypergsd/Fragment/Row/Suffix`): a jump-to-contact icon with the contact's title as tooltip, hidden on the contact tiddler and in lists grouped by contact (the same `storyTiddler`/`current-group` suppression the core project link uses).
 
 ! Best Practice
 Use the delegation flow rather than setting `gsd_contact` by hand: it keeps status and back-references consistent.

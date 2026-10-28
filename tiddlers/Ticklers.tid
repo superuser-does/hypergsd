@@ -17,7 +17,7 @@ A repeating tickler marked complete stays complete — on each due date it raise
 
 * Modal section (`$:/tags/hypergsd/ModalTemplate` + `Column/2`) — writes both fields to the data temp at creation
 * Panel section (`$:/tags/hypergsd/PanelTemplate` + `Column/2`) — edits both fields on actions; the tickler date carries the shared shift buttons (tag-list members below; each shift recorded on the date history; shown while a date exists, panel-only — the modal keeps deliberate date picking)
-* Row suffix (`$:/tags/hypergsd/ListItem/Suffix`) — an always-visible date input in place in the row (centring comes from the row itself)
+* Row suffix (`$:/tags/hypergsd/Fragment/Row/Suffix`) — an always-visible date input in place in the row (centring comes from the row itself)
 * `GSD/Ticklers` dashboard page — three sections split on today: ''Ticklers requiring action'' (due today or overdue), ''Upcoming ticklers'' (dated in the future) and ''Old ticklers'' (completed actions with past ticklers, behind a show/hide toggle)
 
 !! The alert body

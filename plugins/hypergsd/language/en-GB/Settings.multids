@@ -72,10 +72,14 @@ Sidebar/ReviewHeading: Review sidebar tab
 
 # Fragments settings tab ($:/plugins/yan/hypergsd/ui/control-panel/fragments)
 Fragments/Caption: Fragments
-Fragments/Prompt: Reorder or hide the fragments rendered in list rows and beside links.
-Fragments/LinkItems/Label: Link items
-Fragments/RowBefore/Label: List row items, before the tiddler title
-Fragments/RowAfter/Label: List row items, after the tiddler title
+Fragments/Prompt: Choose which fragments are displayed in list rows and beside links. Drag and drop to change the ordering. Use the dropdown to move a fragment between rows and links.
+Fragments/TagBasis: Fragments are tiddlers tagged with one of
+Fragments/Placement/Hint: The surfaces the fragment renders on. Drag reorders within one placement.
+Fragments/Placement/ActionLink: Action links
+Fragments/Placement/ProjectLink: Project links
+Fragments/Placement/RowBefore: Row, before title
+Fragments/Placement/RowAfter: Row, after title
+Fragments/Types/Hint: Untick a type to keep the fragment off those rows
 Fragments/Complete/Caption: Completion checkbox
 Fragments/Complete/Hint: Tick to complete the item; stamps the completion date and promotes dependants
 Fragments/Status/Caption: Status selector
@@ -88,8 +92,9 @@ Fragments/Delete/Caption: Delete button
 Fragments/Delete/Hint: Sends completed items to the trash bin
 Fragments/RealmGlobe/Caption: Other realm indicator
 Fragments/RealmGlobe/Hint: Marks rows that fall outside the current realm selection
-Fragments/LinkRealmGlobe/Caption: Other realm indicator
+Fragments/LinkRealmGlobe/Caption: Other realm indicator, action links
 Fragments/LinkRealmGlobe/Hint: Marks links whose target falls outside the current realm selection
+Fragments/LinkRealmGlobeProject/Caption: Other realm indicator, project links
 Fragments/ProjectLink/Caption: Project link
 Fragments/ProjectLink/Hint: Icon jumping to the item's project, hidden on the project tiddler and in lists grouped by project
 

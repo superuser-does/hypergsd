@@ -8,8 +8,8 @@ const wiki = $tw.wiki, doc = fd.fakeDocument;
 
 // Mirror the live global import chain (PageMacros + Macro + Global) so <<lingo>> resolves.
 const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
-const render = (title) => {
-  const body = G + '\n\n<$transclude $tiddler="' + title + '"/>\n\n</$importvariables>';
+const render = (title, mode) => {
+  const body = G + '\n\n<$transclude $tiddler="' + title + '"' + (mode ? ' $mode="' + mode + '"' : "") + '/>\n\n</$importvariables>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", body);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -48,8 +48,8 @@ check("panel-and-modal: placement section gone", [sections.includes("View placem
 const vp = render("$:/plugins/yan/hypergsd/ui/control-panel/view-placement");
 check("view-placement tab: prompt, member captions, radio pair", [vp.includes("above or below"), vp.includes("Action tiddlers") && vp.includes("Reference tiddlers"), vp.includes("Top"), vp.includes("Bottom")], [true, true, true, true]);
 check("panel-and-modal: fragment lists gone", [sections.includes("Link items"), sections.includes("Capture sidebar entries")], [false, false]);
-const fragments = render("$:/plugins/yan/hypergsd/ui/control-panel/fragments");
-check("fragments tab: all three lists", [fragments.includes("Link items"), fragments.includes("List row items, before the tiddler title"), fragments.includes("List row items, after the tiddler title"), fragments.includes("new action") === false && fragments.includes("Capture sidebar entries") === false], [true, true, true, true]);
+const fragments = render("$:/plugins/yan/hypergsd/ui/control-panel/fragments", "block");
+check("fragments tab: one merged block over the four families", [fragments.includes("Fragments are tiddlers tagged"), fragments.includes("Action links") && fragments.includes("Project links"), fragments.includes("Row, before title") && fragments.includes("Row, after title"), fragments.includes("Use the dropdown to move a fragment between rows and links"), fragments.includes("Actions") && fragments.includes("Projects"), fragments.includes("Top, full-width") === false], [true, true, true, true, true, true]);
 // (the preserve-action checkbox and its cleanup-link prose moved to the Cleanup page, which owns those controls)
 
 // 2b. Dashboards tab renders via <<lingo>> (moved out of Core 2026-09-04)
@@ -75,7 +75,7 @@ check("override removed", render("$:/plugins/yan/hypergsd/ui/control-panel/view-
 // 5. Every family ships its expected shadows (en-GB, main plugin)
 const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix + "]]").length;
 const fams = {
-  "$:/language/hypergsd/Settings/": 154, "$:/language/hypergsd/Sections/": 75,
+  "$:/language/hypergsd/Settings/": 159, "$:/language/hypergsd/Sections/": 75,
   "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 79,
   "$:/language/hypergsd/Dashboards/": 22, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 42, "$:/language/hypergsd/NewItem/": 5,
@@ -98,7 +98,7 @@ check("references Settings keys", wiki.getTiddlerText("$:/language/hypergsd/Sett
 check("references Lists keys", wiki.getTiddlerText("$:/language/hypergsd/Lists/Add/Reference"), "add new reference");
 check("references Sidebar keys", wiki.getTiddlerText("$:/language/hypergsd/Sidebar/Capture/NewReference/Label"), "new reference");
 check("portion band labels", [wiki.getTiddlerText("$:/language/hypergsd/Settings/PanelModal/PortionTop"), wiki.getTiddlerText("$:/language/hypergsd/Settings/PanelModal/PortionFull")], ["Top, full-width", "Bottom, full-width"]);
-check("tag-basis note lingo", [wiki.getTiddlerText("$:/language/hypergsd/Settings/TagBasis/Prompt"), wiki.getTiddlerText("$:/language/hypergsd/Settings/TagBasis/Portions")], ["Tiddlers tagged with", "Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `Portion/1` or `Portion/Top`, to this tag"]);
+check("tag-basis note lingo", [wiki.getTiddlerText("$:/language/hypergsd/Settings/TagBasis/Prompt"), wiki.getTiddlerText("$:/language/hypergsd/Settings/TagBasis/Portions")], ["Tiddlers tagged with", "Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `/Portion/1` or `/Portion/Top`, to this tag"]);
 check("picker instant-commit labels present", [/instantly/i.test(wiki.getTiddlerText("$:/language/hypergsd/Settings/Behaviour/PickerInstantCommit") || ""), /fine pointers/i.test(wiki.getTiddlerText("$:/language/hypergsd/Settings/Behaviour/PickerInstantCommit/Fine") || ""), /coarse pointers/i.test(wiki.getTiddlerText("$:/language/hypergsd/Settings/Behaviour/PickerInstantCommit/Coarse") || "")], [true, true, true]);
 
 // 7. Fragment warning fields hold keys, not prose

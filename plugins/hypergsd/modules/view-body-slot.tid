@@ -10,13 +10,13 @@ title: $:/plugins/yan/hypergsd/modules/view-body-slot
 [[$:/tags/hypergsd/ViewPlacement]] :and[tagging[]] :and[get[list]enlist-input[]] :and[get[hgsd-refresh-whitelist]split[ ]] +[join[ ]]
 \end
 
-\function hgsd-view-slot-whitelist(base-whitelist:"[prefix[$:/temp/hypergsd/add-]] :and[suffix<currentTiddler>] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/ViewPlacement]] [prefix[$:/tags/hypergsd/ViewPlacement]] [tag[$:/tags/hypergsd/Type]] [prefix[$:/state/hypergsd]] [prefix[$:/state/folded/]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]] [!is[tiddler]] -[is[draft]]")
-[function[hgsd-listitem-feature-runs]] [function[hgsd-placement-body-feature-runs]] [<base-whitelist>] +[join[ ]]
+\function hgsd-view-slot-whitelist(base-whitelist:"[prefix[$:/temp/hypergsd/add-]] :and[suffix<currentTiddler>] [subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/ViewPlacement]] [prefix[$:/tags/hypergsd/ViewPlacement]] [tag[$:/tags/hypergsd/Type]] [prefix[$:/state/hypergsd]] [prefix[$:/state/folded/]] [prefix[$:/temp/gsd-list]] [prefix[$:/state/popup/pick-]] [prefix[$:/config/hypergsd]] [prefix[$:/tags/hypergsd/Fragment]] [tags[]prefix[$:/tags/hypergsd/Fragment]] [!is[tiddler]] -[is[draft]]")
+[function[hgsd-row-feature-runs]] [function[hgsd-placement-body-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
 \procedure hgsd-view-body-slot(side)
 <!-- Refresh gate: without it every open page re-evaluated every placement member's type condition and side/config derivations on every global cycle (typing anywhere = pages × members × filters). The admission set is the panel gate's proven set (type-gate, state/config/popup/temp prefixes — including the core $:/state/folded/ prefix the panel's per-section folding reveals read, so the built-in fold toggle reaches them through this gate too — ListItem runs, drafts out) plus what this slot uniquely reads (ViewPlacement tag/prefix runs) and what lives BELOW it: feature-owned runs are DERIVED — ListItem fragments' fields, and the placement bodies' own hgsd-refresh-whitelist fields (hgsd-view-slot-whitelist, file top) — so the contexts fragment's pick temp (a row id suffix the scoped add- pair cannot catch) arrives via its declaration instead of a hand-copied run; deletions must pass because the chassis/list machinery below catches removed rows only via !is[tiddler]. -->
-<$refresh subfilter={{{ [function[hgsd-view-slot-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/ViewPlacement $:/tags/hypergsd/ListItem/Prefix $:/tags/hypergsd/ListItem/Suffix">
+<$refresh subfilter={{{ [function[hgsd-view-slot-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/ViewPlacement $:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix">
 <$list filter="[all[shadows+tiddlers]tag[$:/tags/hypergsd/ViewPlacement]]" variable="position-member">
 <$let member-config={{{ [<position-member>get[hgsd-config]addprefix[$:/config/hypergsd/Placement/]] }}}
   member-default={{{ [<position-member>get[hgsd-default]] }}}

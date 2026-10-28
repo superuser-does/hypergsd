@@ -411,10 +411,10 @@ plugins/hypergsd/
 │   tag lists are open dashboard tags) member, GSD/Contexts page, context
 │   view template (ContextAction list blocks + their tag tiddler,
 │   visibility multids and Settings tab), modal context section, capture
-│   default + entry button, and the contextualise ListItem/Suffix row
+│   default + entry button, and the contextualise Row/Suffix row
 │   fragment (ui/list-items/context: contexts-icon toggle opens an inline
 │   reveal holding an unmodified $hgsd.pick + Add/Create buttons on
-│   incomplete action rows; the pick temp is deterministic per row title,
+│   incomplete action and project rows; the pick temp is deterministic per row title,
 │   a typed unknown name creates the tiddler tagged GSD/Contexts and
 │   applies it; the cluster sits outside hgsd-interactive so the
 │   eventcatcher leaves its buttons alone — the three chassis gate runs it
@@ -489,7 +489,7 @@ plugins/hypergsd/
 │   dated, moving the date 1/7/30/365 days through the same core-filter
 │   arithmetic and recording each push on the history list; the repeat
 │   hidden until a date exists on the temp/current tiddler), the
-│   ListItem/Suffix row fragment (an always-visible in-place date input
+│   Row/Suffix row fragment (an always-visible in-place date input
 │   in the row's centred flex layout — no popup), the alert body (title
 │   link; core-contract Complete checkbox; Alert-tag list shift members
 │   through the shared $hgsd.tickler-shift widget, base = now),
@@ -544,7 +544,7 @@ plugins/hypergsd/
 │   (synthetic keys — plain headings from the Name/ language strings;
 │   A/B/C alphabetical = High→Low for free; not-set items land in the
 │   engine's keyless No group) — both typed action+project; a list-row
-│   select (ui/list-items/priority, a ListItem/Prefix member pinned after
+│   select (ui/list-items/priority, a Row/Prefix member pinned after
 │   the status pills via its own list-after member pin — native $select,
 │   the closed box painted by the letter hook class, dropdown options
 │   coloured by generated rules straight from the colours dict, Short/
@@ -580,13 +580,13 @@ plugins/hypergsd/
 │   where Global/View does not resolve (consumer greps must exclude by
 │   exact file, not substring — a filename-prefix filter hides this exact
 │   dependency). A fourth sibling, plugins/hypergsd-trashbin, ships ONE
-│   ListItem/Suffix member (ui/list-items/trash) — the alternative to the
+│   Row/Suffix member (ui/list-items/trash) — the alternative to the
 │   built-in delete button on completed rows, trashing via kookma Trashbin
 │   ($:/plugins/kookma/trashbin, SOFT dependency: the fragment self-gates
 │   on the macro's has[title], reuses kookma's icon + hint string,
 │   invokes move-to-trashbin as a <$button> action child, carries no
 │   data-hgsd-action so the central handler ignores it; ships no lingo).
-│   The user's wiki swaps buttons via a $:/tags/hypergsd/ListItem/Suffix
+│   The user's wiki swaps buttons via a $:/tags/hypergsd/Fragment/Row/Suffix
 │   list override (drops the built-in delete, keeps trash).
 ├── images/                      6 SVG tiddlers ($:/tags/Image; globe = the
 │                                realm-warning icon (GSD5's realm glyph);
@@ -634,13 +634,20 @@ plugins/hypergsd/
     │                            tag macro; portions="no" (the sidebar blocks,
     │                            Group by / Sort by) drops the portion clause;
     │                            Global because the control panel renders at page
-    │                            level), link-items (Global — the LinkItem tag-list
-    │                            loop: hgsd-link-items(linked-tiddler) transcludes
-    │                            every $:/tags/hypergsd/LinkItem member after a GSD
-    │                            link; membership is the switch, order via the tag
-    │                            list field; panel and modal share one tag list,
-    │                            members self-gate on section-mode; pick-field hides
-    │                            them with link-items="hide"), prereq-row (Global
+    │                            level), link-items (Global — the Link families of
+    │                            the Fragment root: hgsd-link-items(linked-tiddler,
+    │                            link-tag:"$:/tags/hypergsd/Fragment/Link/Action")
+    │                            transcludes every member of the named family after
+    │                            a GSD link — Link/Action for action surfaces
+    │                            (pick-field's project/contact picks, the prereq
+    │                            rows), Link/Project for the sub-project pick on
+    │                            project panels, any Link/<family> for a hosted
+    │                            third-party family; membership is the switch,
+    │                            order via each tag list's list field; the
+    │                            visibility base derives from the tag
+    │                            ($:/config/hypergsd/Fragment/Link/<family>/
+    │                            visibility/<title>); pick-field takes the family
+    │                            tag title in link-items, or "hide"), prereq-row (Global
     │                            \procedure hgsd-prereq-row(item, direction:"own"):
     │                            one row of the prereq/dependants twins; direction
     │                            "own"/"item" swaps which tiddler's list the ×
@@ -649,12 +656,14 @@ plugins/hypergsd/
     │                            whose target falls OUTSIDE the current realm
     │                            selection, and on list rows whose ITEM does (same
     │                            hgsd-realm-selection scope as the list engine;
-    │                            consumers: every GSD LINK via the LinkItem tag
-    │                            list (hgsd-link-items after pick-field's value
-    │                            link, between it and the change button;
-    │                            prereq/dependants rows; the link-items member:
-    │                            ui/link-items/realm), and rows via
-    │                            ui/list-items/realm, a ListItem/Suffix fragment
+    │                            consumers: GSD LINKS via the Link families
+    │                            (hgsd-link-items after pick-field's value link,
+    │                            between it and the change button; prereq/
+    │                            dependants rows; the globe members:
+    │                            ui/link-items/realm-action + realm-project — one
+    │                            placement tag per member keeps the Fragments
+    │                            placement select single-valued), and rows via
+    │                            ui/list-items/realm, a Row/Suffix fragment
     │                            firing on unscoped surfaces such as project pages'
     │                            local lists — scoped dashboards never show it,
     │                            outside rows are invisible by construction; one
@@ -749,8 +758,9 @@ plugins/hypergsd/
     │                            contact-link)
     ├── lists/                   11 reusable list blocks ($hgsd.list invocations;
     │                            references-list ships from References)
-    ├── link-items/              the shipped LinkItem member (realm.tid — the
-    │                            cross-realm globe)
+    ├── link-items/              the shipped Link family members (realm-action +
+    │                            realm-project — the cross-realm globe, one
+    │                            member per family)
     ├── shortcuts/               2 KeyboardShortcut triggers (modal openers)
     ├── sidebar/                 Capture + Review tabs ($:/tags/SideBar). capture/
     │                            holds the tab chassis + $:/tags/hypergsd/Capture
@@ -786,7 +796,7 @@ plugins/hypergsd/
                                  HyperGSD/ holds those titled under
                                  $:/tags/hypergsd/ (AfterCreation,
                                  Capture, Complete/Warning, GroupBy,
-                                 Inheritance, LinkItem, ListItem/Prefix,
+                                 Inheritance, the Fragment placements,
                                  ListItemSuffix, Lists/{Action,Dashboard,Project},
                                  ModalTemplate, PanelTemplate, ProjectView,
                                  Review, SortBy, Strip, Type, ViewPlacement
@@ -903,7 +913,7 @@ amplification — the buster (below) covers what matters. The CONTEXTUALISE runs
 (three narrow prefixes — `$:/state/hypergsd/contextualise`, `$:/state/popup/pick-contextualise`,
 `$:/temp/hypergsd/add-context-` — in BOTH list-engine gates, view-body-project and
 view-body-contact) are the one sanctioned exception: the contexts sub-plugin's row
-fragment (its ListItem/Suffix contextualise button) holds an inline $hgsd.pick
+fragment (its Row/Suffix contextualise button) holds an inline $hgsd.pick
 cluster behind an inline reveal INSIDE the freeze, so its state/temps must be able
 to open and live-filter there; feature-owned prefixes, no other writers, so the no
 cross-list amplification property holds (typing in one picker descends every frozen
@@ -1090,7 +1100,7 @@ Widgets (`$:/tags/Global` unless noted):
 | `$hgsd.list` | list-heading, list-filter, group-by, group-state, group-select:"no", group-members:"", sort-select:"no", sort-default (the modified-desc member), group-default:"", add-button, future-items-sweep:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | realm-filtered, frozen, delegated list (core engine); future-items-sweep="yes" hides items whose parent project is not active when the config says hide (parentless items always pass). all-titles is the draft gate (inline `!is[draft]`); list-filters start with `tag[]` to ride the tag index |
 | `$hgsd.new-button` | gsd-type, gsd-status, gsd-complete, gsd-project, gsd-contact, gsd-realm, gsd-update-status, gsd-calling-tiddler, class/style/aria-label/role/tooltip/disabled | seeds temp tiddler + opens creation modal |
 | `$hgsd.pick` | tiddler, field:"pick", list-filter, placeholder, none-label:"-- none --", none-value, group-by (any field), none-group-label:"(none)", initial, id, search-mode:"title"\|"extended", focus:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | searchable popup select w/ generic optgroups; realm-scope = always-evaluated filter (scope list: realm tags + no-realm sentinel; "" = everything via hgsd-realm-all). Display-neutral (no root wrapper): native inline handle; flex hosts stretch it via hgsd-sizer-select on the input |
-| `$hgsd.pick-field` | field, tiddler:"" (write target, blank=currentTiddler — the modal's drafting editor), new-button:"show" ("hide" suppresses the plain new-button fallback — modals do not stack), list-filter, id, label, group-by, none-label, none-group-label, new-type (blank=omit), new-status:"next", new-update-status:"no", search-mode, placeholder, realm-scope:"[subfilter<hgsd-realm-selection>]", link-items:"show" ("hide" — no LinkItem adornments in the set state) | 3-state field editor (empty/set/editing) wrapping `$hgsd.pick` |
+| `$hgsd.pick-field` | field, tiddler:"" (write target, blank=currentTiddler — the modal's drafting editor), new-button:"show" ("hide" suppresses the plain new-button fallback — modals do not stack), list-filter, id, label, group-by, none-label, none-group-label, new-type (blank=omit), new-status:"next", new-update-status:"no", search-mode, placeholder, realm-scope:"[subfilter<hgsd-realm-selection>]", link-items:"$:/tags/hypergsd/Fragment/Link/Action" (any Link family tag title, or "hide" — no adornments in the set state) | 3-state field editor (empty/set/editing) wrapping `$hgsd.pick` |
 | create-gsd-tiddler | gsd-type,gsd-status,gsd-complete,gsd-update-status,gsd-calling-tiddler,new-title,gsd-realm-tags,gsd-context-tags | modal create procedure. Grade-2 temp SPLIT: $:/temp/gsd-new-temp = DATA fields only (pass-through loop copies every field onto the created tiddler, blanks skipped via hgsd-set-field-if-present — structural exclusions as negated title runs; -enlist[...] negated runs DO NOT parse); $:/temp/gsd-new-state = internal (hgsd-type, gsd_status pick, per-type memory, gsd_context, inherited contexts). gsd_status/gsd_complete written explicitly (resolution-owned); gsd_project/gsd_contact validated in submit then written back to the data temp for the loop. Both temps deleted on submit only (cancel keeps entries by design). A sub-plugin modal section writes gsd_whatever to the data temp — zero main-plugin changes |
 | `$hgsd.realm-picker` | state-tiddler:"$:/state/hypergsd/effective-realm" | plain realm `<$select>` bound to a state tiddler; public sub-plugin surface (single internal caller: capture default-realm) |
 | `$hgsd.convert` | current-status, class/style/aria-label/role/tooltip | action→project (next→active else future, clears prereqs, retags) |
@@ -1207,8 +1217,19 @@ core's `list-tagged-draggable` + `$:/core/ui/ControlPanel/Toolbars/ItemTemplate`
 in the `$set config-base` the ItemTemplate reads, so the checkbox writes
 `<visibility-base><item-title>` as show/hide and drag-reorder writes the
 tag's `list` field; items carry `description` fields shown as the
-muted hint line. Lists → Fragments tab (four draggable blocks — link items,
-row prefix/suffix fragments, capture buttons); Panel and modal tab (same
+muted hint line. Lists → Fragments tab (data-driven over the
+$:/tags/hypergsd/Fragment/ root: ONE draggable per placement tag discovered
+in the index — the closed Row pair plus every hosted Link family — under one
+prompt and a dynamic tag-basis line; drag reorders within a placement, the
+per-row placement select retags across placements (portion-picker mechanism,
+one-prefix strip), every row carries a native tick box per type in the type
+vocabulary writing $:/config/hypergsd/Fragment/type-hide/<member>/<type>
+show/hide tiddlers (rows key on the item's type, Link families on the link
+target's — hgsd-link-items derives linked-type per call), the plugin ships
+the default matrix as seeds (all on Actions; none on Contacts/Contexts;
+status/project-link/priority/trash/contextualise on Projects; project-link
+on References; the realm indicators everywhere but Contexts), and no
+Portion picker renders there); Panel and modal tab (same
 mechanism over `$:/tags/hypergsd/PanelTemplate` +
 `$:/tags/hypergsd/ModalTemplate` — visibility + drag-order for panel/modal
 sections, under the panel position/layout radios); the Colours tab (own
@@ -1557,8 +1578,8 @@ tiddlers plus both codebases.
 | Status controls | `<$radio>` widgets | pure HTML radios (`input:checked + span` CSS), conditional `checked` attr |
 | Completed items | always rendered | lazy "show completed" toggles (Dashboard, project/contact view templates) |
 | Comments | terse What-one-liners | fully rewritten; Why-only convention (engine gotchas and design decisions survive, narration and change-log residue are gone — history lives in this map) |
-| Item-row hooks | `$:/tags/GSD5ListItemPrefix/Suffix` (11+ tag system) | `$:/tags/hypergsd/ListItem/Prefix`+`/Suffix` via `\procedure hgsd-item()`; fragments are ordinary tagged tiddlers (complete/status → Prefix; comp-date/note/realm/delete → Suffix — realm is the outside-selection globe fragment); ordering = tag-tiddler `list` field first (Suffix ships one pinning comp-date→note→realm→project-link→delete), per-member visibility $:/config/hypergsd/ListItem/visibility/<title> (hgsd-item's loops gate on it; the Settings → Fragments draggable edits Prefix+Suffix; Prefix ships none — alphabetical is already complete,status), unlisted append alphabetically; the four row-rendering refresh gates carry `[prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]]` so fragment/tag-tiddler ADDITIONS and edits re-render frozen views live (removals ghost until next refresh — a deleted tiddler matches no whitelist run, same as item deletion, §7); row alignment is container-owned (`.gsd-list-item` and `.hgsd-sizer-droplist` both `align-items: center`, so combined rows — prereq/dependants, panel value lines — never stretch; fragments carry no alignment CSS) |
-| `$:/tags/hypergsd/LinkItem` + members | **link-adornment tag list** — fragments rendered after a GSD link to ANOTHER tiddler (the link-target counterpart of ListItem's own-item tag lists); `hgsd-link-items(linked-tiddler)` (ui/components/link-items, Global) is placed after the link by every host — pick-field's set state between value link and change button (`link-items="hide"` suppresses), prereq/dependants rows; members get `linked-tiddler` with ambient scope intact; membership = the switch, order via list field, per-member visibility $:/config/hypergsd/LinkItem/visibility/<title> (the Settings → Fragments draggable; hgsd-link-items gates on it); ONE tag list for panel and modal (read-only adornments self-gate on section-mode); members render inside the `span.hgsd-link-items` container (stylesheet: inline-flex, centred, `vertical-align: middle` — the centring mechanism for every host, so members carry no alignment CSS); ships one member: ui/link-items/realm (the cross-realm globe, gating in hgsd-realm-warning) |
+| Item-row hooks | `$:/tags/GSD5ListItemPrefix/Suffix` (11+ tag system) | `$:/tags/hypergsd/ListItem/Prefix`+`/Suffix` via `\procedure hgsd-item()`; fragments are ordinary tagged tiddlers (complete/status → Prefix; comp-date/note/realm/delete → Suffix — realm is the outside-selection globe fragment); ordering = tag-tiddler `list` field first (Suffix ships one pinning comp-date→note→realm→project-link→delete), per-placement visibility $:/config/hypergsd/Fragment/Row/<placement>/visibility/<title> plus ENGINE type suppression — $:/config/hypergsd/Fragment/type-hide/<full member title>/<type> reading hide skips the fragment on that type's rows (hgsd-item's loops gate on both; the Settings → Fragments block is data-driven over the root, with a placement select and one native tick box per type), unlisted append alphabetically; the four row-rendering refresh gates carry `[prefix[$:/tags/hypergsd/ListItem]] [tags[]prefix[$:/tags/hypergsd/ListItem]]` so fragment/tag-tiddler ADDITIONS and edits re-render frozen views live (removals ghost until next refresh — a deleted tiddler matches no whitelist run, same as item deletion, §7); row alignment is container-owned (`.gsd-list-item` and `.hgsd-sizer-droplist` both `align-items: center`, so combined rows — prereq/dependants, panel value lines — never stretch; fragments carry no alignment CSS) |
+| `$:/tags/hypergsd/Fragment/` placements + members | **the fragment root** — every placement is a tag list under it: the closed Row pair (Row/Prefix, Row/Suffix — hgsd-item's loops around the title link) and the open Link set (Link/Action, Link/Project, any hosted Link/<family> — `hgsd-link-items(linked-tiddler, link-tag)` placed after the link by every host: pick-field's set state between value link and change button, the prereq/dependants rows, the sub-project pick); members get their placement scope intact (rows: currentTiddler = the item; links: linked-tiddler = the target); membership = the switch, order via each tag list's list field, per-member visibility $:/config/hypergsd/Fragment/<family>/<placement>/visibility/<title> (derived from the tag); every gate carries `[prefix[$:/tags/hypergsd/Fragment]] [tags[]prefix[$:/tags/hypergsd/Fragment]]`, so family tag-list edits live-refresh everywhere rows already did; ships the realm globe as TWO members (ui/link-items/realm-action + realm-project, gating in hgsd-realm-warning — one placement tag per member) |
 | Panel | two columns (GSD5PanelCore + GSD5PanelPlugin hook) | Portion/N + Top/Full bands, one shared chassis (modules/section-portions) across panel/modal/dashboards; placement toggle above/below per type; orientation toggle stacked/flowing via stylesheet-transcluded `$:/config/hypergsd/panel-layout`; Settings Portion picker; prereq/dependants sections |
 | New-item flow | modal with type+title (status side-effects) | modal + type/status/project/contact/context/realm pickers, per-type status memory, keyboard submit/cancel, cancel-preserves-temp; inheritance = `$:/tags/hypergsd/Inheritance` rules at creation (informal-tags default, realm, contexts' context-tags; field values are the sections' — the temp pass-through copies render-time fields, mid-submit mutation never reaches it) |
 | Pickers | flat `<$select>` dropdowns w/ dynamic filters | `$hgsd.pick` searchable popup (optgroups, current-project-first, extended search); cacheable static filters; blank-on-broken-link tradeoff |

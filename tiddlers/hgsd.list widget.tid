@@ -2,7 +2,7 @@ caption: HyperGSD List Widget
 tags: Documentation [[HyperGSD API]]
 title: hgsd.list widget
 
-The `$hgsd.list` widget is the single list engine behind every dashboard and reusable list block. It takes an arbitrary filter, applies the realm system's four-case set arithmetic, freezes itself against the global refresh cycle, and renders rows composed from the [[ListItem|ListItem Prefix and Suffix]] tags. Start filters with `tag[]` rather than an explicit `all[tiddlers]` — the default source carries the tag index, so a leading `tag[]` reads it directly, while an explicit prefix forces a full-wiki scan per evaluation.
+The `$hgsd.list` widget is the single list engine behind every dashboard and reusable list block. It takes an arbitrary filter, applies the realm system's four-case set arithmetic, freezes itself against the global refresh cycle, and renders rows composed from the [[Row placements|Fragments]] tags. Start filters with `tag[]` rather than an explicit `all[tiddlers]` — the default source carries the tag index, so a leading `tag[]` reads it directly, while an explicit prefix forces a full-wiki scan per evaluation.
 
 ! Content and Attributes
 
@@ -36,7 +36,7 @@ The `realm-scope` attribute is always evaluated as a filter producing the scope 
 
 !! Row composition
 
-Rows come from `\procedure hgsd-item()`: tiddlers tagged `$:/tags/hypergsd/ListItem/Prefix` render before the title link, tiddlers tagged `$:/tags/hypergsd/ListItem/Suffix` after it. See [[ListItem Prefix/Suffix|ListItem Prefix and Suffix]].
+Rows come from `\procedure hgsd-item()`: tiddlers tagged `$:/tags/hypergsd/Fragment/Row/Prefix` render before the title link, tiddlers tagged `$:/tags/hypergsd/Fragment/Row/Suffix` after it. See [[the Row placements|Fragments]].
 
 ! Examples
 

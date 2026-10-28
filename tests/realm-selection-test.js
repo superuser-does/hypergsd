@@ -123,7 +123,7 @@ wiki.deleteTiddler("R ref");
 wiki.deleteTiddler("P out");
 setSel(undefined);
 
-// ── Row globes via hgsd-item (ListItem/Suffix fragment; spans counted, rows carry other svgs) ──
+// ── Row globes via hgsd-item (Row/Suffix fragment; spans counted, rows carry other svgs) ──
 const rowGlobes = title => {
   const src = '<$tiddler tiddler="' + title + '"><<hgsd-item>></$tiddler>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + src + "\n\n</$importvariables>");
@@ -146,7 +146,7 @@ t("row globe: config hide removes it", rowGlobes("N item"), 0);
 wiki.deleteTiddler("$:/config/hypergsd/realm-warning");
 setSel(undefined);
 t("row globe: pristine selection has none", rowGlobes("N item"), 0);
-t("realm fragment pinned in the Suffix order", wiki.filterTiddlers("[[$:/tags/hypergsd/ListItem/Suffix]] :and[tagging[]]").indexOf("$:/plugins/yan/hypergsd/ui/list-items/realm"), 2);
+t("realm fragment pinned in the Suffix order", wiki.filterTiddlers("[[$:/tags/hypergsd/Fragment/Row/Suffix]] :and[tagging[]]").indexOf("$:/plugins/yan/hypergsd/ui/list-items/realm"), 2);
 
 // ── Panel pick-field placement: globe between the value link and the change button ──
 wiki.addTiddler({title: "P ord", tags: ["$:/GSD/Project"], gsd_status: "active"});
@@ -170,13 +170,15 @@ wiki.deleteTiddler("A ord");
 wiki.deleteTiddler("P ord");
 setSel(undefined);
 
-// ── LinkItem tag list: membership is the switch, hide hatch, empty target ──
-const MEMBER = "$:/plugins/yan/hypergsd/ui/link-items/realm";
+// ── LinkItem tag lists: membership is the switch, hide hatch, empty target ──
+const MEMBER = "$:/plugins/yan/hypergsd/ui/link-items/realm-action";
+const MEMBER_PROJECT = "$:/plugins/yan/hypergsd/ui/link-items/realm-project";
 setSel(["Work"]);
-t("tag list lists the globe member", wiki.filterTiddlers("[[$:/tags/hypergsd/LinkItem]] :and[tagging[]]"), [MEMBER]);
+t("tag list lists the globe member", wiki.filterTiddlers("[[$:/tags/hypergsd/Fragment/Link/Action]] :and[tagging[]]"), [MEMBER]);
+t("project tag list lists its globe member", wiki.filterTiddlers("[[$:/tags/hypergsd/Fragment/Link/Project]] :and[tagging[]]"), [MEMBER_PROJECT]);
 t("tag list: empty linked target renders nothing", warnSvg(""), 0);
-const linkItemsGlobes = title => {
-  const parser = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $variable="hgsd-link-items" linked-tiddler="' + title + '"/>\n\n</$importvariables>');
+const linkItemsGlobes = (title, linkTag) => {
+  const parser = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $variable="hgsd-link-items" linked-tiddler="' + title + '"' + (linkTag ? ' link-tag="' + linkTag + '"' : '') + '/>\n\n</$importvariables>');
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let n = 0; (function f(x){ if(!x||typeof x!=="object")return; if(Array.isArray(x))return x.forEach(f);
@@ -184,10 +186,17 @@ const linkItemsGlobes = title => {
   return n;
 };
 t("tag list: link surface renders the globe member", linkItemsGlobes("H item"), 1);
+t("project tag list: project surface renders its globe member", linkItemsGlobes("H item", "$:/tags/hypergsd/Fragment/Link/Project"), 1);
+t("host typing: an action-surface pick renders no project-list members", (() => {
+  wiki.addTiddler({title: "$:/config/hypergsd/Fragment/Link/Action/visibility/" + MEMBER, text: "hide"});
+  const n = linkItemsGlobes("H item");
+  wiki.deleteTiddler("$:/config/hypergsd/Fragment/Link/Action/visibility/" + MEMBER);
+  return n;
+})(), 0);
 wiki.addTiddler({title: MEMBER, text: ""});  // shadow override without the tag = untagged
 t("tag list: untagging the member removes globes from link surfaces", linkItemsGlobes("H item"), 0);
 wiki.deleteTiddler(MEMBER);  // restore the shadow member
-t("tag list: member restored, globes back", warnSvg("H item"), 1);
+t("tag list: member restored, globes back", linkItemsGlobes("H item"), 1);
 // hide hatch on pick-field
 wiki.addTiddler({title: "P ord3", tags: ["$:/GSD/Project"], gsd_status: "active"});
 wiki.addTiddler({title: "A ord3", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_project: "P ord3"});
@@ -205,21 +214,25 @@ wiki.deleteTiddler("A ord3");
 wiki.deleteTiddler("P ord3");
 setSel(undefined);
 
-// ── Settings visibility gates (the Capturing tab's fragment draggables) ──
+// ── Settings visibility gates (the Fragments tab's draggables) ──
 setSel(["Work"]);
-wiki.addTiddler({title: "$:/config/hypergsd/LinkItem/visibility/" + MEMBER, text: "hide"});
-t("settings: LinkItem visibility hides link globes", linkItemsGlobes("H item"), 0);
-wiki.deleteTiddler("$:/config/hypergsd/LinkItem/visibility/" + MEMBER);
-t("settings: LinkItem visibility default is show", linkItemsGlobes("H item"), 1);
+wiki.addTiddler({title: "$:/config/hypergsd/Fragment/Link/Action/visibility/" + MEMBER, text: "hide"});
+t("settings: Action link visibility hides link globes", linkItemsGlobes("H item"), 0);
+wiki.deleteTiddler("$:/config/hypergsd/Fragment/Link/Action/visibility/" + MEMBER);
+t("settings: Action link visibility default is show", linkItemsGlobes("H item"), 1);
+wiki.addTiddler({title: "$:/config/hypergsd/Fragment/Link/Project/visibility/" + MEMBER_PROJECT, text: "hide"});
+t("settings: Project link visibility hides project-surface globes", linkItemsGlobes("H item", "$:/tags/hypergsd/Fragment/Link/Project"), 0);
+wiki.deleteTiddler("$:/config/hypergsd/Fragment/Link/Project/visibility/" + MEMBER_PROJECT);
+t("settings: Project link visibility default is show", linkItemsGlobes("H item", "$:/tags/hypergsd/Fragment/Link/Project"), 1);
 const ROWFRAG = "$:/plugins/yan/hypergsd/ui/list-items/realm";
-wiki.addTiddler({title: "$:/config/hypergsd/ListItem/visibility/" + ROWFRAG, text: "hide"});
+wiki.addTiddler({title: "$:/config/hypergsd/Fragment/Row/Suffix/visibility/" + ROWFRAG, text: "hide"});
 t("settings: ListItem visibility hides row globes", rowGlobes("N item"), 0);
-wiki.deleteTiddler("$:/config/hypergsd/ListItem/visibility/" + ROWFRAG);
+wiki.deleteTiddler("$:/config/hypergsd/Fragment/Row/Suffix/visibility/" + ROWFRAG);
 t("settings: ListItem visibility default is show", rowGlobes("N item"), 1);
 const tabSrc = wiki.getTiddlerText("$:/plugins/yan/hypergsd/ui/control-panel/fragments") || "";
-t("settings: Fragments tab edits all three fragment tag lists",
-  ["$:/tags/hypergsd/LinkItem", "$:/tags/hypergsd/ListItem/Prefix", "$:/tags/hypergsd/ListItem/Suffix"]
-    .every(tag => tabSrc.indexOf(tag) !== -1 && tabSrc.indexOf(tag.replace("HyperGSD/", "HyperGSD/") + '"') !== -1), true);
+t("settings: Fragments tab edits all four fragment tag lists",
+  ["$:/tags/hypergsd/Fragment/Link/Action", "$:/tags/hypergsd/Fragment/Link/Project", "$:/tags/hypergsd/Fragment/Row/Prefix", "$:/tags/hypergsd/Fragment/Row/Suffix"]
+    .every(tag => tabSrc.indexOf(tag) !== -1), true);
 setSel(undefined);
 
 console.log(fails === 0 ? "ALL REALM-SELECTION CASES PASS" : fails + " FAILURE(S)");

@@ -96,7 +96,7 @@ wiki.addTiddler({title: "ZZ project host", tags: "$:/GSD/Action", gsd_complete: 
 const attrHost = (member, title) => render('<$tiddler tiddler="' + title + '"><$let section-target="' + title + '" section-type="action" section-mode="panel"><$transclude $tiddler="' + member + '" $mode="block"/></$let></$tiddler>');
 const hasLink = r => { let hit = false; (function f(n){ if(!n||hit||typeof n!=='object')return; if(Array.isArray(n))return n.forEach(f);
 	if(n.isTiddlyWikiFakeDom && n.tag === 'a') { hit = true; return; } (n.children||[]).forEach(f); })(r.c); return hit; };
-t("blank-field hook absent by default (show)", !anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact", "ZZ blank host"), "hgsd-print-hide-blank"));
+t("blank-field hook present by default (the plugin ships hide)", anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact", "ZZ blank host"), "hgsd-print-hide-blank"));
 wiki.addTiddler({title: "$:/config/hypergsd/print-blank-fields", text: "hide"});
 t("hook on an unset host when set to hide (contact)", anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd-contacts/ui/attributes/contact", "ZZ blank host"), "hgsd-print-hide-blank"));
 t("hook on an unset host when set to hide (of project)", anyNodeHasClass(attrHost("$:/plugins/yan/hypergsd/ui/attributes/project", "ZZ blank host"), "hgsd-print-hide-blank"));

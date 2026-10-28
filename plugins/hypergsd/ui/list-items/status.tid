@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Settings/Fragments/Status/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/Status/Hint}}
-tags: $:/tags/hypergsd/ListItem/Prefix
+tags: $:/tags/hypergsd/Fragment/Row/Prefix
 title: $:/plugins/yan/hypergsd/ui/list-items/status
 
 \whitespace trim

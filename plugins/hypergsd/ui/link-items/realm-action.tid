@@ -1,0 +1,7 @@
+caption: {{$:/language/hypergsd/Settings/Fragments/LinkRealmGlobe/Caption}}
+description: {{$:/language/hypergsd/Settings/Fragments/LinkRealmGlobe/Hint}}
+tags: $:/tags/hypergsd/Fragment/Link/Action
+title: $:/plugins/yan/hypergsd/ui/link-items/realm-action
+
+<!-- The cross-realm globe for links on action surfaces (the project and contact picks, the pre-requisite rows): fires when the link target falls outside the review sidebar's current realm selection. The gate (the $:/config/hypergsd/realm-warning switch + the scope test) lives in hgsd-realm-warning; the project-surface twin is ui/link-items/realm-project — one placement tag per member keeps the Fragments tab's placement select single-valued. Untag this member to remove the globe from every action-surface link at once. -->
+<$transclude $variable="hgsd-realm-warning" linked-tiddler=<<linked-tiddler>>/>

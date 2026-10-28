@@ -1,0 +1,56 @@
+caption: Fragments
+title: Fragments
+tags: Documentation [[HyperGSD API]]
+
+! Summary
+Add a fragment to HyperGSD by tagging a tiddler with a placement tag under the `$:/tags/hypergsd/Fragment/` root.
+
+! Detail
+A placement is a tag list under one of two families:
+
+* `$:/tags/hypergsd/Fragment/Row/Prefix` and `/Row/Suffix` — the closed row pair: fragments render before or after the title link in every list row (dashboards, project and contact views)
+* `$:/tags/hypergsd/Fragment/Link/<family>` — the open link set: fragments render after a GSD link on the surfaces that host the family (`Link/Action` covers the project and contact picks and the pre-requisites/dependants rows; `Link/Project` covers the sub-project pick on project panels). A new family exists the moment a caller hosts it: create the tag tiddler, tag a member, and transclude `hgsd-link-items(linked-tiddler, link-tag)` after your link.
+
+```
+title: My due-date fragment
+tags: Documentation [[HyperGSD API]]
+
+<%if [is[current]tag[$:/GSD/Action]!field:due[]] %>
+<span class="gsd-muted">due {{!!due}}</span>
+<%endif%>
+```
+
+!! Row fragments
+
+* `currentTiddler` inside a fragment is the row's item.
+* ''Suppression signals'': `storyTiddler` holds the tiddler whose view the row renders inside (snapshotted by the core ViewTemplate before any list loop redefines `currentTiddler`; unset outside the story river) — a match with a row-item field means "this row already lives on that tiddler's page". `current-group` holds the grouped list's heading value (ambient only in the grouped branch; every shipped grouping is by `gsd_project` or `gsd_contact`) — a match means the heading already links there. The built-in jump links (`project-link`, and the contacts sub-plugin's `contact-link`) use both to hide exactly where the target is already on screen; their tooltip is the target tiddler's title.
+* Fragments must ''self-gate'' — render nothing when they do not apply, like the built-in fragments in `$:/plugins/yan/hypergsd/ui/list-items/`.
+* ''Ordering'': the engine's tag-list order — any tag-tiddler `list` first, then member `list-before`/`list-after` pins, unlisted fragments appending alphabetically. The plugin ships a `list` on the Row/Suffix tag tiddler pinning `comp-date → body-text → realm → project-link → delete`; the priorities sub-plugin's select pins itself after the status pills with a `list-after` on the fragment. A user-level `list` field on either tag tiddler overrides both.
+* ''Type suppression is engine-owned'': `$:/config/hypergsd/Fragment/type-hide/<full member title>/<type>` reading `hide` keeps the fragment off that item type's rows — and, on Link families, beside links whose ''target'' is of that type (the same tiddlers govern both). Absent = show. The Fragments tab's tick boxes — one per type in the vocabulary, on every row — write these tiddlers directly; a fragment may still self-gate on top. The plugin ships a default matrix: everything shows on Actions; Contacts and Contexts show nothing; Projects show the status selector, project link, priority, trash and the contextualise button; References show the project link; the realm indicators show everywhere but Contexts.
+* Adding or editing a fragment updates open views immediately; ''removing'' one takes effect on the next view refresh (frozen views cannot match a tiddler that no longer exists).
+* ''Interactive fragments'' (a `<$reveal>`, a picker) declare their state and temp tiddlers in a `hgsd-refresh-whitelist` field on the fragment tiddler — single bracketed runs, space-separated — and the engine composes them into the row's freeze gate and every gate above the rows, so one field covers dashboards, views and the placement slot (see [[Refresh gates|Refresh gates]]). Alternatively, keep state under prefixes the chassis gates already admit (`$:/state/hypergsd/*`, `$:/state/popup/pick-*`, `$:/config/hypergsd/*`). Prefix runs only, never a literal `[[title]]` run (it emits unconditionally and defeats the gate). The worked examples are the contexts sub-plugin's contextualise fragment (`$:/plugins/yan/hypergsd-contexts/ui/list-items/context`) and, for a Strip member, the contacts sub-plugin's filter picker (`$:/plugins/yan/hypergsd-contacts/ui/components/contact-select`).
+
+!! Link fragments
+
+Members receive `linked-tiddler` (the link target's title) with the ambient scope intact.
+
+| !Member | !Adornment |
+|`ui/link-items/realm-action` |the cross-realm globe on action surfaces — the target falls outside the review sidebar's current realm selection (gated by `$:/config/hypergsd/realm-warning`) |
+|`ui/link-items/realm-project` |the same globe on project surfaces |
+
+* ''One placement tag per member'': a member adorning several families ships as one member tiddler per family, so the Fragments tab's placement select stays single-valued.
+* ''Order'': each tag tiddler's `list` field pins members; unlisted members append alphabetically.
+* ''Layout'': every host renders members inside the `hgsd-link-items` container (stylesheet `.hgsd-link-items` — inline-flex, centred, `vertical-align: middle`), so a member is vertically centred in text flow and flex hosts alike; carry no alignment CSS of your own.
+* ''Type suppression'' rides the link TARGET's type through the same tick boxes and config tiddlers as rows.
+* ''Escape hatch'': `$hgsd.pick-field` accepts `link-items="hide"` for hosts that want no adornments, or any family tag title to name one directly.
+
+!! Settings
+
+The Fragments tab is data-driven over the root: one draggable per placement tag discovered in the index, so a third-party `Link/<family>` joins the block the moment a member carries its tag. Drag reorders within a placement; the placement select moves a fragment between placements (its label is the placement tag tiddler's `caption` field, falling back to the path's last segment); the type tick boxes govern the row types. Per-member visibility lives at `$:/config/hypergsd/Fragment/<family>/<placement>/visibility/<title>`, derived from the tag.
+
+! Best Practice
+Keep fragments cheap: they render once per row per list, so avoid filters over the whole wiki inside them.
+
+!! Fragment layout contract
+
+The row (`.gsd-list-item`) is a centred flex container: a fragment's content is vertically centred automatically — no wrapper class is needed. Root your fragment in a ''div'' or ''span'' so it receives the row's shrink protection (the title link is the only row child that flexes). Use `align-self` on your root element if you need a different alignment.

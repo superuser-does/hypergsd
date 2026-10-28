@@ -4,5 +4,5 @@ title: $:/language/hypergsd/Settings/
 # as the main plugin; the sub-plugin owns only these keys).
 Pages/Context/Caption: Context page
 Fragments/Contextualise/Caption: Contextualise button
-Fragments/Contextualise/Hint: Tagged contexts are linked, plus a button that lets you apply more contexts
+Fragments/Contextualise/Hint: A button that lets you apply contexts, plus pills for each tagged context
 Fragments/Contextualise/ShowApplied: Show tagged contexts with links

@@ -16,10 +16,10 @@ System tags are the integration surface: tag your tiddler and the framework pick
 :Add a section to the attributes panel.
 ;[[$:/tags/hypergsd/ModalTemplate|ModalTemplate]]
 :Add a section to the new-item modal.
-;[[$:/tags/hypergsd/ListItem/Prefix|ListItem Prefix and Suffix]] and [[$:/tags/hypergsd/ListItem/Suffix|ListItem Prefix and Suffix]]
+;[[$:/tags/hypergsd/Fragment/Row/Prefix|Fragments]] and [[$:/tags/hypergsd/Fragment/Row/Suffix|Fragments]]
 :Add a fragment to every list row, before or after the title.
-;[[$:/tags/hypergsd/LinkItem|LinkItem]]
-:Add a read-only adornment after any GSD link to another tiddler (the link-target counterpart of the ListItem tag lists).
+;`$:/tags/hypergsd/Fragment/Link/<family>` (open set — shipped: `Link/Action`, `Link/Project`)
+:Add a read-only adornment after GSD links on the surfaces that host the family (the link-target counterpart of the Row placements).
 ;[[$:/tags/hypergsd/GroupBy|Grouping dimensions]] and [[$:/tags/hypergsd/SortBy|Sorting dimensions]]
 :Contribute a grouping dimension or sort expression to `$hgsd.list`'s view strip.
 ;[[$:/tags/hypergsd/Lists/Dashboard|Dashboard tag lists]] and friends
@@ -37,4 +37,4 @@ System tags are the integration surface: tag your tiddler and the framework pick
 ;[[$:/tags/KeyboardShortcut|Keyboard shortcuts]]
 :Bind a keyboard shortcut (core tag; HyperGSD ships four triggers).
 
-Ordering within a hook is alphabetical by default; create or edit the tag tiddler and set its `list` field to control it (the tag list and the Suffix ListItem tags ship with `list` fields).
+Ordering within a hook is alphabetical by default; create or edit the tag tiddler and set its `list` field to control it (the tag list and the Row/Suffix placement tags ship with `list` fields).

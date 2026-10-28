@@ -1,6 +1,6 @@
 caption: {{$:/language/hypergsd/Settings/Fragments/ContactLink/Caption}}
 description: {{$:/language/hypergsd/Settings/Fragments/ContactLink/Hint}}
-tags: $:/tags/hypergsd/ListItem/Suffix
+tags: $:/tags/hypergsd/Fragment/Row/Suffix
 title: $:/plugins/yan/hypergsd-contacts/ui/list-items/contact-link
 
 \whitespace trim

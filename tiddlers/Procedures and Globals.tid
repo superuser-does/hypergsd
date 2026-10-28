@@ -7,7 +7,7 @@ Besides widgets, HyperGSD exports procedures on the `$:/tags/Global` tag (plus s
 ! Globals
 
 ;`hgsd-item()`
-:Row composer used by every list row: ListItem/Prefix fragments → title link → ListItem/Suffix fragments. See [[ListItem Prefix/Suffix|ListItem Prefix and Suffix]].
+:Row composer used by every list row: Row/Prefix fragments → title link → Row/Suffix fragments. See [[the Row placements|Fragments]].
 
 ;`hgsd-render-inner(hgsd-titles)`
 :Rendering half of `$hgsd.list` (collapsible block, refresh freeze, eventcatcher, flat/grouped branches). `hgsd-titles` must be a pre-formatted titlelist string.

@@ -31,7 +31,7 @@ The compat widgets (`<$hgsd.complete>`, `<$hgsd.toggle>`, legacy `$gsd5.*` alias
 ! Extension tags
 
 | !GSD5 | !HyperGSD |
-|`$:/tags/GSD5ListItemPrefix` / `Suffix` |`$:/tags/hypergsd/ListItem/Prefix` / `/Suffix` (restored; ordering opt-in via tag-tiddler `list`) |
+|`$:/tags/GSD5ListItemPrefix` / `Suffix` |`$:/tags/hypergsd/Fragment/Row/Prefix` / `/Suffix` (restored; ordering opt-in via tag-tiddler `list`) |
 |`$:/tags/GSD5DashboardLists` + per-dashboard tags |`$:/tags/hypergsd/Lists/Dashboard` + family |
 |`GSD5PanelCore` + hardcoded panel doodads |`$:/tags/hypergsd/PanelTemplate` + `Group/*` (tag-driven, ordered) |
 |— |`$:/tags/hypergsd/ModalTemplate` + `Group/*` |
