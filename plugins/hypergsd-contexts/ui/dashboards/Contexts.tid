@@ -16,15 +16,18 @@ title: GSD/Contexts
 </$let>
 \end
 
-<div>
-  <$let newContextState="$:/temp/hypergsd/NewContextName">
-    <$keyboard key="enter" actions=<<add-context-actions>>>
-      <$edit-text tiddler=<<newContextState>> field="text" placeholder={{$:/language/hypergsd/Dashboards/Contexts/NewContext/Placeholder}} tag="input" />
-    </$keyboard>
-    <$button actions=<<add-context-actions>>>
-      {{$:/language/EditTemplate/Fields/Add/Button}}
-    </$button>
-  </$let>
+<!-- The add row: gsd-list-item's gap spaces the input and the Add button (trim removes their inter-widget whitespace), and the wrapper div carries the print hook on an element with no display rule of its own — the pick-append pattern, so the print hide never needs a specificity escalation. -->
+<div class="hgsd-pick-append-row">
+  <div class="gsd-list-item">
+    <$let newContextState="$:/temp/hypergsd/NewContextName">
+      <$keyboard key="enter" actions=<<add-context-actions>>>
+        <$edit-text tiddler=<<newContextState>> field="text" placeholder={{$:/language/hypergsd/Dashboards/Contexts/NewContext/Placeholder}} tag="input" />
+      </$keyboard>
+      <$button actions=<<add-context-actions>>>
+        {{$:/language/EditTemplate/Fields/Add/Button}}
+      </$button>
+    </$let>
+  </div>
 </div>
 
 <ul>
