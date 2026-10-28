@@ -31,7 +31,7 @@ tags: $:/tags/hypergsd/ListItem/Suffix
 hgsd-refresh-whitelist: [prefix[$:/state/MyPlugin/due]] [prefix[$:/temp/MyPlugin/due]]
 ```
 
-Rules: each entry is a single bracketed filter run, entries separated by spaces (no bare spaces inside a run). The row's own item, the tag lists and visibility config are already in the engine's base — do not repeat them. Each gate composes the field when it derives its whitelist, and member fields are fingerprinted, so editing it takes effect immediately. The same applies to feature configs: any tiddler titled under `$:/config/hypergsd/…` (the contextualise chips' `$:/config/hypergsd/Contexts/show-contexts`, for example) is admitted by every gate's base prefix run, so a fragment gated on such a config needs no whitelist entry at all.
+Rules: each entry is a single bracketed filter run, entries separated by spaces (no bare spaces inside a run). The row's own item, the tag lists and visibility config are already in the engine's base — do not repeat them. Each gate composes the field when it derives its whitelist, and member fields are fingerprinted, so editing it takes effect immediately. The same applies to feature configs: any tiddler titled under `$:/config/hypergsd/…` (the contextualise pills' `$:/config/hypergsd/Contexts/show-contexts`, for example) is admitted by every gate's base prefix run, so a fragment gated on such a config needs no whitelist entry at all.
 
 ! Worked examples from the shipped sub-plugins
 

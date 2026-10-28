@@ -379,7 +379,7 @@ const renderRefs = () => {
   const body = G + '\n\n<$transclude $tiddler="GSD/References"/>\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
-  const out = {options: [], optionLabels: [], groups: [], chips: [], rows: [], strip: [], stripPrompt: null, emptyContainers: 0, stripGapCount: 0, stripChildren: [], stripMutedTexts: [], stripSelectClass: undefined};
+  const out = {options: [], optionLabels: [], groups: [], rows: [], strip: [], stripPrompt: null, emptyContainers: 0, stripGapCount: 0, stripChildren: [], stripMutedTexts: [], stripSelectClass: undefined};
   (function f(n) {
     if (!n || typeof n !== "object") return;
     if (Array.isArray(n)) return n.forEach(f);
@@ -391,7 +391,6 @@ const renderRefs = () => {
       const a = (n.children || []).find(x => x.tag === "a");
       out.groups.push(((n.children || []).map(x => x.textContent || "").join("") || "").trim() + (a ? "|link" : "|plain"));
     }
-    if (cls.indexOf("gsd-project-chip") !== -1) out.chips.push((n.children || []).map(x => x.textContent || "").join("").trim());
     if (cls.indexOf("gsd-list-item-title") !== -1) out.rows.push((n.children || []).map(x => x.textContent || "").join("").trim());
     if (cls.indexOf("hgsd-strip-gap") !== -1) out.stripGapCount++;
     if (cls.indexOf("hgsd-group-strip") !== -1) {
@@ -439,13 +438,12 @@ check("strip flat default: no groups, type-relevant dimensions only",
   [refs.groups.length, refs.strip], [0, ["None", "Projects", "Realms"]]);
 check("strip carries Sort by: then Group by: prompts",
   renderRefs().stripPrompt, "Sort by:");
-check("flat default: no project chip text (the jump icon covers it)", refs.chips, []);
 
-// 11. Tick Projects: linked headings, No group plain and last, no chips, ungrouped toggle appears
+// 11. Tick Projects: linked headings, No group plain and last, ungrouped toggle appears
 wiki.addTiddler({title: GST, "hgsd-group": GBT + "project"});
 refs = renderRefs();
 check("grouped headings", refs.groups, ["P one|link", "P two|link", "No group|plain"]);
-check("grouped: no chips, no empty containers", [refs.chips.length, refs.emptyContainers], [0, 0]);
+check("grouped: no empty containers", refs.emptyContainers, 0);
 check("strip with active dimension gains the ungrouped toggle",
   refs.strip, ["None", "Projects", "Realms", "include ungrouped"]);
 

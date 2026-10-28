@@ -150,7 +150,7 @@ setSelection(["ZZ Alice", "ZZ Bob Comp"]);
 // 6. Entries: one per selected contact, link text + two-string × tooltip.
 {
   const {c, w} = renderPage();
-  const entries = byClass(c, "hgsd-contact-chip");
+  const entries = byClass(c, "hgsd-contact-entry");
   t("entry count", entries.length, 2);
   const tips = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && /Remove contact ZZ /.test((n.domNodes[0].attributes || {}).title || "")).map(n => n.domNodes[0].attributes.title).sort();
   t("entry tooltips", tips, ["Remove contact ZZ Alice from search", "Remove contact ZZ Bob Comp from search"]);

@@ -88,7 +88,7 @@ build hit the browser's raw "maximum call stack size exceeded" after
 widening `$refresh` whitelists; the raw RangeError is estimated to fire
 at a widget depth of roughly 150–400, before the engine's own friendly
 recursion error can trip — hence the advisory budget of 150. Rows
-carrying a context tag run deeper than plain rows (the context chip's
+carrying a context tag run deeper than plain rows (the context pill's
 macrocall/transclude chain), so expect the dashboard's deepest path to
 run through a context-tagged row. The shape to refuse: an engine list
 rendered from INSIDE a row fragment (row tip ~95 + engine stack ≈
@@ -97,7 +97,7 @@ for a link. The shipped one-level nesting (a context page — the inline
 lists mount at a view-template slot BESIDE the panel body, so the full
 panel stack does not sit above them) is the approved shape.
 
-### Context chips via tag-pill-body
+### Context pills via tag-pill-body
 
 The contexts fragment invokes core's tag-pill-BODY directly instead of
 the outer tag-pill macro. The ladder's middle hop is load-bearing —
@@ -106,6 +106,6 @@ macro-parameter text position, not in attribute position, so any
 parity-preserving pill needs two define hops; dropping the OUTER hop
 (wrap + currentTiddler rebind only) is the whole available saving, with
 cascades (colour/icon) and the palette pointer moving to the call-site
-attributes. The bench asserts chip presence on the context page
+attributes. The bench asserts pill presence on the context page
 (tag-pill-body is a core-internal macro name — a core rename would
-otherwise break the chips silently).
+otherwise break the pills silently).

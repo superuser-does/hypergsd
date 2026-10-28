@@ -248,10 +248,10 @@ const findButtonByTooltip = (w, tooltip) => findWidgets(w,
   t("no create button for existing title", findButtonByTooltip(w, "Create a new context and add it").length, 0);
 }
 
-// --- 6. applied-context chips: contexts already on the row item render as
-// linked chips before the button; the chip for the enclosing view's tiddler
-// (storyTiddler) is suppressed; no contexts -> no chips ---
-const chips = (vars) => {
+// --- 6. applied-context pills: contexts already on the row item render as
+// linked pills before the button; the pill for the enclosing view's tiddler
+// (storyTiddler) is suppressed; no contexts -> no pills ---
+const pills = (vars) => {
   const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false"/>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: Object.assign({currentTiddler: "GSD/Test"}, vars || {})});
@@ -275,9 +275,9 @@ const chips = (vars) => {
 {
   wiki.addTiddler({title: "C open tagged", tags: ["$:/GSD/Action", "@Phone", "@out and about"], gsd_status: "next", gsd_complete: "false"});
   wiki.addTiddler({title: "C bare", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
-  t("applied contexts chip on the row, sorted", chips()["C open tagged"], ["@out and about", "@Phone"]);
-  t("context-less row has no chips", chips()["C bare"], undefined);
-  t("chip for the enclosing view's context suppressed", chips({storyTiddler: "@Phone"})["C open tagged"], ["@out and about"]);
+  t("applied contexts pill on the row, sorted", pills()["C open tagged"], ["@out and about", "@Phone"]);
+  t("context-less row has no pills", pills()["C bare"], undefined);
+  t("pill for the enclosing view's context suppressed", pills({storyTiddler: "@Phone"})["C open tagged"], ["@out and about"]);
   wiki.deleteTiddler("C open tagged");
   wiki.deleteTiddler("C bare");
 }
@@ -313,13 +313,13 @@ const chips = (vars) => {
   wiki.deleteTiddler(et.getAttribute("tiddler"));
 }
 
-// --- 8. show-contexts config: absent = chips show (sections 1-6 prove it);
-// text "no" hides ONLY the chips (button remains); deleting restores ---
+// --- 8. show-contexts config: absent = pills show (sections 1-6 prove it);
+// text "no" hides ONLY the pills (button remains); deleting restores ---
 {
   wiki.addTiddler({title: "C gate2", tags: ["$:/GSD/Action", "@Phone"], gsd_status: "next", gsd_complete: "false"});
   wiki.addTiddler({title: "$:/config/hypergsd/Contexts/show-contexts", text: "no"});
-  const out = chips();
-  t("config no: chips hidden", out["C gate2"], undefined);
+  const out = pills();
+  t("config no: pills hidden", out["C gate2"], undefined);
   t("config no: contextualise button remains", rowCtxButtons((() => {
     const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false"/>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
@@ -328,7 +328,7 @@ const chips = (vars) => {
     return c;
   })())["C gate2"], 1);
   wiki.deleteTiddler("$:/config/hypergsd/Contexts/show-contexts");
-  t("config deleted: chips return", chips()["C gate2"], ["@Phone"]);
+  t("config deleted: pills return", pills()["C gate2"], ["@Phone"]);
   wiki.deleteTiddler("C gate2");
   // the Settings tab renders the core-styled checkbox with its label
   const tab = '<$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/control-panel/context-list" $mode="block"/>';

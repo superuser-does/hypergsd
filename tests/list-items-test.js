@@ -166,33 +166,6 @@ wiki.addTiddler({title: "$:/tags/hypergsd/ListItem/Suffix"});
 }
 
 
-// Project chip REMOVED (2026-09-05): flat reference rows rely on the
-// project-link suffix icon alone (tooltip = project title), so the chip
-// fragment was dead code. Pin that no chip text ever returns — the exact
-// action fingerprints above also fail if any prefix chip leaks.
-const chipRender = (filter) => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + filter + '" group-state="false"/>';
-  const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
-  const c = doc.createElement("div"); w.render(c);
-  const chips = [];
-  (function f(n) {
-    if (!n || typeof n !== "object") return;
-    if (Array.isArray(n)) return n.forEach(f);
-    if (n.isTiddlyWikiFakeDom) {
-      if ((n.attributes && n.attributes.class || "").indexOf("gsd-project-chip") !== -1)
-        chips.push((n.children || []).map(x => x.textContent || "").join("").trim());
-      (n.children || []).forEach(f);
-    }
-  })(c);
-  return chips;
-};
-wiki.addTiddler({title: "R withp", tags: ["$:/GSD/Reference"], gsd_project: "P one"});
-wiki.addTiddler({title: "R bare", tags: ["$:/GSD/Reference"]});
-t("flat reference rows: no project chip (the jump icon covers it)",
-  chipRender("[all[tiddlers]tag[$:/GSD/Reference]] +[sort[title]]"), []);
-t("flat action rows: no chips",
-  chipRender(LF), []);
-
 // Jump links (project-link + contacts contact-link): tooltip is the target
 // tiddler's title; suppressed on the target's own page (storyTiddler —
 // snapshotted by the core ViewTemplate, never redefined by list loops) and

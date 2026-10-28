@@ -9,8 +9,8 @@ title: $:/plugins/yan/hypergsd-contacts/ui/stylesheet/contact-select
   gap: 0.3em 0.75em;
 }
 
-/* Each picked contact's entry (hgsd-contact-chip): the link-items shape — inline-flex + gap spaces the name from the × (the row-gap mechanism, because trim removes the inline whitespace and the entry is no gsd-list-item row). */
-.hgsd-contact-chip {
+/* Each picked contact's entry (hgsd-contact-entry): the link-items shape — inline-flex + gap spaces the name from the × (the row-gap mechanism, because trim removes the inline whitespace and the entry is no gsd-list-item row). */
+.hgsd-contact-entry {
   display: inline-flex;
   align-items: center;
   gap: 0.3em;

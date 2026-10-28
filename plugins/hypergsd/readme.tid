@@ -74,7 +74,7 @@ A type in the Type tag list automatically: refreshes all GSD views when its item
 Every list row (dashboards, project and contact views) renders the tiddlers tagged `$:/tags/hypergsd/ListItem/Prefix`, then the title link, then those tagged `$:/tags/hypergsd/ListItem/Suffix`. Tag any tiddler to hook a fragment into every row:
 
 ```
-title: My due-date chip
+title: My due-date fragment
 tags: $:/tags/hypergsd/ListItem/Suffix
 ```
 

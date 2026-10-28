@@ -1,7 +1,7 @@
 tags: $:/tags/Stylesheet
 title: $:/plugins/yan/hypergsd-contexts/ui/stylesheet/context
 
-/* The contextualise cluster (list-items/context): inline-flex + gap spaces the context pills, the button and an open picker uniformly — trim removed the inline whitespace and the pills' padding sits inside their coloured boxes, so the boxes would otherwise meet edge-to-edge (the contact-chip shape; pills no longer touch — the family's row-chip convention). */
+/* The contextualise cluster (list-items/context): inline-flex + gap spaces the context pills, the button and an open picker uniformly — trim removed the inline whitespace and the pills' padding sits inside their coloured boxes, so the boxes would otherwise meet edge-to-edge (the picked-contact entry's shape — the family's inline-entry gap convention). */
 .hgsd-contextualise {
   display: inline-flex;
   align-items: center;

@@ -248,23 +248,23 @@ const depthResults = {};
     }],
   ];
   for (const [name, render] of surfaces) depthResults[name] = depthProbe(render());
-  // Chip-presence guard: the contexts fragment renders its applied-context
+  // Pill-presence guard: the contexts fragment renders its applied-context
   // pills via core's tag-pill-body — an internal macro name, so a core rename
-  // or restructure breaks the chips silently. The context page above renders
+  // or restructure breaks the pills silently. The context page above renders
   // AC rows tagged Ctx Bench; assert the pill buttons actually appear.
   {
     const c = doc.createElement("div");
     const src = '<$tiddler tiddler="Ctx Bench"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block"/></$tiddler>';
     const w = makeWidget(src, {currentTiddler: "Ctx Bench"});
     w.render(c);
-    let chips = 0;
+    let pills = 0;
     (function f(n) {
       if (!n || typeof n !== "object") return;
       if (Array.isArray(n)) return n.forEach(f);
-      if (n.isTiddlyWikiFakeDom && n.tag === "button" && String((n.attributes || {}).class || "").includes("tc-tag-label")) chips++;
+      if (n.isTiddlyWikiFakeDom && n.tag === "button" && String((n.attributes || {}).class || "").includes("tc-tag-label")) pills++;
       (n.children || []).forEach(f);
     })(c.children);
-    if (!chips) throw new Error("context chips missing on the context page — tag-pill-body invocation broken (core macro rename?)");
+    if (!pills) throw new Error("context pills missing on the context page — tag-pill-body invocation broken (core macro rename?)");
   }
 }
 

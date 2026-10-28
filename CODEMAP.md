@@ -1343,13 +1343,13 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   widget depths of roughly 150–400, before the engine's friendly recursion
   error can trip. Measured (heavy-dashboard-bench, §7 of the bench script):
   dashboard chassis 100 deep / 4 gates on the deepest path (rows carrying a
-  context tag run ~7 deeper than plain rows: the context chip is core's
+  context tag run ~7 deeper than plain rows: the context pill is core's
   tag-pill invoked at tag-pill-BODY level — colour/icon cascades and the
   palette pointer ride call-site attributes; the body hop is load-bearing,
   it resolves palette sections into plain params, which attribute position
   cannot do, so two hops is the floor for a parity pill and the outer
   tag-pill hop was the only one spare; a core rename of the internal macro
-  is caught by the bench's chip assertion),
+  is caught by the bench's pill assertion),
   context page
   98 / 4 (the inline lists mount at a view-template slot BESIDE the panel
   body, so the panel stack does not sit above them), panel 67 / 1 — ≤67% of

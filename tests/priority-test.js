@@ -281,15 +281,15 @@ t("a pre-set priority is never overwritten", (() => {
 		const c = doc.createElement("div"); w.render(c); return c; }
 	function textAll(n) { return (function textOf(n) { if (!n || typeof n !== "object") return ""; if (Array.isArray(n)) return n.map(textOf).join("");
 		if (n.tag === undefined && typeof n.textContent === "string") return n.textContent; return textOf(n.children); })(n); }
-	// the editor: a table — one row per priority: letter chip in its colour, Name edit, Short edit (inputs bound to the lingo tiddlers)
+	// the editor: a table — one row per priority: letter cell in its colour, Name edit, Short edit (inputs bound to the lingo tiddlers)
 	const ed = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block"/>');
 	const rowsEls = (function g(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => g(x, acc)); return acc; }
 		if (n.tag === "tr" && n.children && n.children.some(x => x.tag === "td" || x.tag === "th")) acc.push(n); if (n.children) g(n.children, acc); return acc; })(ed.children, []);
 	const cellTag = (x) => x.tag === "td" || x.tag === "th";
 	const bodyRows = rowsEls.filter(r => r.children.some(x => cellTag(x) && (function g(n) { if (!n || typeof n !== "object") return false; if (Array.isArray(n)) { for (const y of n) { if (g(y)) return true; } return false; } if (n.tag === "input") return true; return g(n.children); })(x.children)));
 	t("names table renders one row per priority", bodyRows.length === 3, bodyRows.length);
-	const chips = bodyRows.map(r => { const td0 = r.children.find(x => cellTag(x)); return td0 ? textAll(td0.children).trim() : "?"; });
-	t("column 1 shows the bare letters", JSON.stringify(chips) === JSON.stringify(["A", "B", "C"]), JSON.stringify(chips));
+	const letters = bodyRows.map(r => { const td0 = r.children.find(x => cellTag(x)); return td0 ? textAll(td0.children).trim() : "?"; });
+	t("column 1 shows the bare letters", JSON.stringify(letters) === JSON.stringify(["A", "B", "C"]), JSON.stringify(letters));
 	// the colour columns: fill, ink and line pickers (the core palette-manager input pattern) bound to the colours dictionary
 	const colourInputs = bodyRows.map(r => (function g(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => g(x, acc)); return acc; }
 		if (n.tag === "input" && n.attributes.type === "color") acc.push(n); return g(n.children, acc); })(r, []));

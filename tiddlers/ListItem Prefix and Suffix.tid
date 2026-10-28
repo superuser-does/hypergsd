@@ -8,7 +8,7 @@ Add a fragment to ''every'' list row — before the title (Prefix) or after it (
 Tag any tiddler with `$:/tags/hypergsd/ListItem/Prefix` or `$:/tags/hypergsd/ListItem/Suffix`. Its body renders in every row of every `$hgsd.list`, project view and contact view:
 
 ```
-title: My due-date chip
+title: My due-date fragment
 tags: Documentation [[HyperGSD API]]
 
 <%if [is[current]tag[$:/GSD/Action]!field:due[]] %>

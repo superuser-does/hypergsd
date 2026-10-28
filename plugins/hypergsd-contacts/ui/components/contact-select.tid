@@ -19,7 +19,7 @@ hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/
   <span class="hgsd-contact-select">
     <span class="gsd-muted">{{$:/language/hypergsd/Lists/ContactFilter/Filter}}</span>
     <$list filter="[<selection-title>get[list]enlist-input[]] +[unique[]sort[title]]" variable="contact-item">
-      <span class="hgsd-contact-chip">
+      <span class="hgsd-contact-entry">
         <$link to=<<contact-item>>><$view tiddler=<<contact-item>> field="title"/></$link>
         <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{{ [[$:/language/hypergsd/Lists/ContactFilter/Remove/HintA]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<contact-item>] +[addsuffix[ ]] +[addsuffix{$:/language/hypergsd/Lists/ContactFilter/Remove/HintB}] }}}>
           <$action-listops $tiddler=<<selection-title>> $field="list" $subfilter="-[<contact-item>]"/>

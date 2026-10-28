@@ -118,8 +118,6 @@ wiki.addTiddler({title: "$:/config/hypergsd/realm-warning", text: "hide"});
 t("warning: config hide turns every surface off", warnSvg("H item"), 0);
 wiki.deleteTiddler("$:/config/hypergsd/realm-warning");
 t("warning: empty linked renders nothing", warnSvg(""), 0);
-// (the old reference-chip globe case is gone: ui/list-items/project was
-// replaced by project-link in the flat-list redesign — no chip, no globe)
 setSel(undefined);
 wiki.deleteTiddler("R ref");
 wiki.deleteTiddler("P out");
