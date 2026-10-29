@@ -14,11 +14,11 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
 <$let tag-list="$:/tags/hypergsd/Lists/ContextAction" strip-hosts-regex={{{ [[$:/tags/hypergsd/Lists/ContextAction]] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
 <$refresh subfilter={{{ [function[hgsd-view-body-context-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Lists/ContextAction $:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip">
 <%if [is[current]tag[GSD/Contexts]] %>
-<!-- View folding: the hand-rolled context block (heading + group-by toggle + lists — this view predates the dashboard chassis) folds on the host's core fold state like every chassis-hosted view; the reveal sits INSIDE this view's gate, so the gate's whitelist carries the folded prefix above. -->
+<!-- View folding: the view's own reveal wraps heading, toggle and chassis together, so a folded tiddler hides the whole context block; the chassis nests its own reveal on the same state title inside, and both flip together. The reveal sits INSIDE this view's gate, so the gate's whitelist carries the folded prefix above. -->
 <$reveal tag="div" class="hgsd-fold-slot hgsd-fold-view" type="nomatch" stateTitle={{{ [[$:/state/folded/]addsuffix<currentTiddler>] }}} text="hide" default="show" retain="yes" animate="yes">
 <div class="context-view-template">
   <h3><<lingo Context/Heading>></h3>
-  <!-- Group-by-project toggle shared by every block (each reads the state itself; default grouped). -->
+  <!-- Group-by-project toggle shared by every action block (each reads the state itself; default grouped). -->
   <div class="hgsd-context-controls">
     <$checkbox
       tiddler="$:/state/hypergsd/context-group"
@@ -30,12 +30,12 @@ title: $:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context
     </$checkbox>
   </div>
 
-  <!-- Every block is a $hgsd.list invocation filtering actions TAGGED with this context (currentTiddler survives the loop via the list variable), so realm scoping, grouping support and the shared row composer all apply. -->
-  <$list filter="[[$:/tags/hypergsd/Lists/ContextAction]] :and[tagging[]]" variable="context-list">
-    <%if [[$:/config/hypergsd/Lists/ContextAction/visibility/]addsuffix<context-list>get[text]else[show]match[show]] %>
-      <$transclude $tiddler=<<context-list>> $mode="block"/>
-    <%endif%>
-  </$list>
+  <!-- The shared dashboard chassis over the ContextAction blocks (the contact view's shape): the three action blocks are untagged, so they stack in Portion/1 exactly as before; the projects block claims Portion/Full, the band below the actions. Member visibility, drag-reorder and Portion claims are the chassis's own. section-target carries the context past the chassis's block-mode transclusion. -->
+  <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+    <$set name="section-target" value=<<currentTiddler>>>
+      <$transclude $variable="hgsd-dashboard-portions" tag-list=<<tag-list>> visibility-base="$:/config/hypergsd/Lists/ContextAction/visibility/"/>
+    </$set>
+  </$eventcatcher>
 </div>
 </$reveal>
 <%endif%>

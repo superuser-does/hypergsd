@@ -121,7 +121,8 @@ t("settings row: no select where the host list passes no fold base", findAll(bar
 // The generic route: hgsd-dashboard-portions wraps itself in a fold reveal on
 // $:/state/folded/<host>, so every host folds — verified through the REAL
 // placement chain (slot → body, block mode) for the project view, plus the
-// contact view, the hand-rolled context view, and a dashboard page.
+// contact view, the context view (whose own reveal nests a second one around
+// heading and toggle), and a dashboard page.
 const viewFoldReveals = (w, host) => {
   const out = [];
   (function f(n) {

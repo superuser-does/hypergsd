@@ -1,7 +1,8 @@
 title: $:/language/hypergsd/Lists/
 
-# Contexts additions to the shared Lists namespace (context view heading + row suffix).
+# Contexts additions to the shared Lists namespace (context view heading, context projects list + row suffix).
 Context/Heading: HyperGSD context
+Context/Projects: Projects
 Contextualise/Hint: Add a context
 Contextualise/Choose: Choose a context
 Contextualise/Add: Add

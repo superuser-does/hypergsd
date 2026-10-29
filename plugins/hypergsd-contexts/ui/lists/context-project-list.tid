@@ -1,0 +1,11 @@
+caption: {{$:/language/hypergsd/Settings/Lists/ContextProjects/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/ContextProjects/Hint}}
+tags: $:/tags/hypergsd/Lists/ContextAction $:/tags/hypergsd/Lists/ContextAction/Portion/Full
+title: $:/plugins/yan/hypergsd-contexts/ui/lists/context-project-list
+
+\whitespace trim
+
+<!-- Portion/Full member: renders in the band below the action lists. Every project tagged with this context, the subprojects sort (active before future, completed last); !is[system] keeps archived rows out ($:/GSD/-prefixed renames keep the context tag). No group-by: grouping by project is meaningless in a project list, so the view's group-by-project toggle does not reach it. -->
+<$hgsd.list
+  list-heading={{$:/language/hypergsd/Lists/Context/Projects}}
+  list-filter="[tag[$:/GSD/Project]tag<currentTiddler>!is[system]sort[gsd_status]sort[gsd_complete]]"/>

@@ -935,6 +935,8 @@ wiki.deleteTiddler("A delegated");
 wiki.addTiddler({title: "Ctx one", tags: "GSD/Contexts", text: "ctx body"});
 wiki.addTiddler({title: "CA next", tags: ["$:/GSD/Action", "Ctx one"], gsd_status: "next", gsd_complete: "false"});
 wiki.addTiddler({title: "CA waiting", tags: ["$:/GSD/Action", "Ctx one"], gsd_status: "waiting", gsd_complete: "false"});
+wiki.addTiddler({title: "CP open", tags: ["$:/GSD/Project", "Ctx one"], gsd_status: "active", gsd_complete: "false"});
+wiki.addTiddler({title: "CP done", tags: ["$:/GSD/Project", "Ctx one"], gsd_status: "active", gsd_complete: "true"});
 const ctxSrc = '<$tiddler tiddler="Ctx one"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block"/></$tiddler>';
 const ctxRender = () => {
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + ctxSrc + "\n\n</$importvariables>");
@@ -948,11 +950,25 @@ const ctxText = ctxRender();
 check("context view: next and waiting rows render", ["CA next", "CA waiting"].every(x => ctxText.indexOf(x) !== -1), true);
 check("context view: pinned order next before waiting", ctxText.indexOf("CA next") < ctxText.indexOf("CA waiting"), true);
 check("context view: future block titled", ctxText.indexOf("Future") !== -1, true);
+check("context view: projects render, open before completed", [ctxText.indexOf("CP open") !== -1, ctxText.indexOf("CP open") < ctxText.indexOf("CP done")], [true, true]);
+check("context view: projects block titled", ctxText.indexOf("Projects") !== -1, true);
+check("context view: projects below the actions", ctxText.indexOf("CP open") > ctxText.indexOf("CA waiting"), true);
+// structural: the projects member renders in the chassis's Portion/Full band, after the columns row holding the action lists
+{
+  const ctxDivText = d => { let s = ""; (function g(x){ if(!x||typeof x!=="object")return; if(Array.isArray(x))return x.forEach(g); if(x.isTiddlyWikiFakeDom)return (x.children||[]).forEach(g); s += (x.textContent||""); })(d); return s; };
+  const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + ctxSrc + "\n\n</$importvariables>");
+  const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
+  const cc = doc.createElement("div"); w.render(cc);
+  let fullBand = null, columnsSeen = false;
+  (function f(n){ if(!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
+    if(n.isTiddlyWikiFakeDom){ const cls = (n.attributes||{}).class||""; if(cls.includes("hgsd-portion-columns")) columnsSeen = true; if(cls.includes("hgsd-portion-full")) fullBand = n; (n.children||[]).forEach(f); } })(cc);
+  check("context view: projects sit in the Portion/Full band below the columns", [!!fullBand, fullBand ? ctxDivText(fullBand).includes("CP open") : false, fullBand ? !ctxDivText(fullBand).includes("CA next") : false, columnsSeen], [true, true, true, true]);
+}
 wiki.addTiddler({title: "$:/config/hypergsd/Lists/ContextAction/visibility/$:/plugins/yan/hypergsd-contexts/ui/lists/context-waiting-action-list", text: "hide"});
 check("context view: visibility hides the waiting block", ctxRender().indexOf("CA waiting") === -1, true);
 wiki.deleteTiddler("$:/config/hypergsd/Lists/ContextAction/visibility/$:/plugins/yan/hypergsd-contexts/ui/lists/context-waiting-action-list");
-check("context tag list pins three blocks", wiki.filterTiddlers("[[$:/tags/hypergsd/Lists/ContextAction]] :and[tagging[]]").length, 3);
-wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTiddler("Ctx one");
+check("context tag list pins four blocks", wiki.filterTiddlers("[[$:/tags/hypergsd/Lists/ContextAction]] :and[tagging[]]").length, 4);
+wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTiddler("CP open"); wiki.deleteTiddler("CP done"); wiki.deleteTiddler("Ctx one");
 
 // portion routing (modules/section-portions): Portion/2 members land in the
 // second column div; Portion/Full members render only in the Full region

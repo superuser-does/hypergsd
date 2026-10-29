@@ -104,9 +104,9 @@ plugins/hypergsd/
 │   │                            default hide; Status/Complete ship show);
 │   │                            hgsd-dashboard-portions self-wraps in the
 │   │                            same reveal above its gate, so every host
-│   │                            (dashboard pages, the project and contact
-│   │                            views) folds with its tiddler — host gates
-│   │                            (view-body-project/-contact/-context)
+│   │                            (dashboard pages, the project, contact and
+│   │                            context views) folds with its tiddler — host
+│   │                            gates (view-body-project/-contact/-context)
 │   │                            admit the folded prefix
 │   ├── view-body-slot.tid       Global/View \procedure hgsd-view-body-slot(side)
 │   │                            — the ViewPlacement placement engine behind
@@ -409,8 +409,10 @@ plugins/hypergsd/
 │   context — the dashboard, the tag and the type anchor are one open
 │   GSD/* tiddler; extension tag lists stay $:/tags/hypergsd/*, user-data
 │   tag lists are open dashboard tags) member, GSD/Contexts page, context
-│   view template (ContextAction list blocks + their tag tiddler,
-│   visibility multids and Settings tab), modal context section, capture
+│   view template (the dashboard chassis over the ContextAction list blocks
+│   — next/waiting/future actions plus the Portion/Full projects member —
+│   their tag tiddler, visibility multids and Settings tab), modal context
+│   section, capture
 │   default + entry button, and the contextualise Row/Suffix row
 │   fragment (ui/list-items/context: contexts-icon toggle opens an inline
 │   reveal holding an unmodified $hgsd.pick + Add/Create buttons on
@@ -846,12 +848,16 @@ hgsd-dashboard-portions chassis as view-body-project over the
 $:/tags/hypergsd/Lists/ContactAction tag list and visibility base — the
 completed list is a Portion/Full member self-toggling via $hgsd.toggle) +
 `view-body-context` (per-context dashboard for `GSD/Contexts`-tagged
-tiddlers; its lists are $:/tags/hypergsd/Lists/ContextAction-
-tagged `$hgsd.list` blocks — next/waiting/future for the context, pinned by
+tiddlers; the same hgsd-dashboard-portions chassis over the
+$:/tags/hypergsd/Lists/ContextAction tag list and visibility base — its
+lists are `$hgsd.list` blocks: next/waiting/future for the context plus the
+Portion/Full projects member (every project tagged with the context, the
+subprojects sort, !is[system] keeps archived renames out), pinned by
 the tag tiddler's list field, per-block visibility
 `$:/config/hypergsd/Lists/ContextAction/visibility/*`, Settings → Context page
-drag tab, group-by-project via the shared $:/state/hypergsd/context-group
-toggle).
+drag tab; group-by-project via the shared $:/state/hypergsd/context-group
+toggle — the view's own fold reveal nests a second one around heading and
+toggle, so folding hides the whole context block).
 
 Creation path: `$hgsd.new-button` → seeds `$:/temp/gsd-new-temp`
 (gsd_project, gsd_contact) + `$:/temp/gsd-new-state`
