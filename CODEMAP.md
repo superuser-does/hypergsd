@@ -1330,7 +1330,7 @@ list), `view-status`, `item-status`,
   (a cramped group drops below, never hugs the right edge); panel and
   modal),
 `gsd-list-item(-vertical|-title)`, `hgsd-sizer-select`,
-`hgsd-edit-fieldset`; colours: the `hgsd-status-colours` dictionary (keys
+`hgsd-plain-fieldset`; colours: the `hgsd-status-colours` dictionary (keys
 `action-next|waiting|future`, `project-active|future`, each with `-border`)
 is read DIRECTLY by the stylesheet's generated per-status rules (a `$list`
 over the type tag's status sets emits one `.<type>-<status>` rule each,

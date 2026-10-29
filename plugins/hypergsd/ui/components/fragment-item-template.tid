@@ -2,7 +2,9 @@ title: $:/plugins/yan/hypergsd/ui/components/fragment-item-template
 
 \whitespace trim
 
-<!-- Item template for the Fragments tab's draggables (ui/control-panel/fragments): the core row (caption/description + visibility checkbox + drag handle) plus the placement select (ui/components/placement-picker) and the type tick row (ui/components/type-picker) on EVERY row — the ambient tag-list carries the placement, and the boxes govern row items' types on the Row placements and link-target types on Link families (the same config vocabulary; the engine at each site reads it). -->
+<!-- Item template for the Fragments tab's draggables (ui/control-panel/fragments): the core row (caption/description + visibility checkbox + drag handle), then ONE configuration strip — a naked fieldset that is also the gsd-list-item line (the shared row class supplies the flex gaps between the inline placement label and every type box, and the small space beneath; the fieldset reset is the field editors' own hgsd-plain-fieldset rule). The ambient tag-list carries the placement; the boxes govern row items' types on the Row placements and link-target types on the Panel placement (the same config vocabulary; the engine at each site reads it). -->
 <$transclude $tiddler="$:/core/ui/ControlPanel/Toolbars/ItemTemplate"/>
-<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/placement-picker"/>
-<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/type-picker"/>
+<fieldset class="hgsd-plain-fieldset gsd-list-item">
+  <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/placement-picker"/>
+  <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/type-picker"/>
+</fieldset>

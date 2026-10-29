@@ -74,7 +74,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
   </$reveal>
   <!-- State 3: field set, editing -->
   <$reveal type="match" state=<<edit-state-title>> text="yes">
-    <fieldset class="hgsd-edit-fieldset">
+    <fieldset class="hgsd-plain-fieldset">
       <legend><$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link></legend>
       <div class="gsd-list-item">
       <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit" close-state={{{ [<edit-state-title>] }}}/>""">

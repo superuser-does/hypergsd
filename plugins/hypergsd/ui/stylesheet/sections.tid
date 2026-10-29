@@ -140,9 +140,10 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
   }
 }
 
-/* Edit-state fieldset in the project/contact field editors: strip the
-   browser's default border box and let it fill the flex row. */
-.hgsd-edit-fieldset {
+/* Naked fieldset: strips the browser's default border box. Two surfaces group
+   controls this way — the field editors' edit state (fills the flex row) and
+   the Fragments tab's per-row configuration strip (stacks its lines). */
+.hgsd-plain-fieldset {
   border: none;
   padding: 0;
   margin: 0;
