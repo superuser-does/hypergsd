@@ -8,6 +8,6 @@
     "bench": "node tests/run-bench.js"
   },
   "devDependencies": {
-    "tiddlywiki": "^5.4.1"
+    "tiddlywiki": "5.4.1"
   }
 }
