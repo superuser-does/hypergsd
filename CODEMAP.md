@@ -541,7 +541,14 @@ plugins/hypergsd/
 │   logical properties throughout, RTL mirrors for free) — a generated-block
 │   stylesheet, no JS,
 │   no state of its own (the write re-renders the panel through the type
-│   gate); plus the SortBy priority member (:sort[get[gsd_priority]
+│   gate); the three stops are written out literally (no loop) and the panel
+│   decides its own fold response from the host's core fold state
+│   ($:/state/folded/<title>, read fresh — the view-body gate admits the
+│   prefix): folded, only the selected block stays (checked, ✕ withheld —
+│   the folded view reads but does not edit) and a tiddler with no priority
+│   folds the section away entirely (an outer gate renders nothing, the
+│   chassis collapse guard drops the empty column; the modal's hosts never
+│   carry a fold state, so the panel stays open there); plus the SortBy priority member (:sort[get[gsd_priority]
 │   else[zz]] — A,B,C, unset last) and the GroupBy priority member
 │   (synthetic keys — plain headings from the Name/ language strings;
 │   A/B/C alphabetical = High→Low for free; not-set items land in the

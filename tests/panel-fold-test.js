@@ -104,6 +104,37 @@ wiki.addTiddler({ title: CFG + PROJECT, text: "show" });
 const overridden = render(VIEW_BODY, { variables: { currentTiddler: "Host action" } });
 t("config override: a section set Shown drops out of the fold set", foldReveals(overridden.w).length, foldableExpected - 1);
 
+// ── the priorities panel folds itself to the selected stop (in-member) ───────
+// The section ships Shown-when-folded and owns its fold response: folded, only
+// the selected block renders (checked, no ✕ — clearing needs the open panel);
+// with no priority set the whole section renders nothing. The B-set fixture
+// covers selection, the bare one the fold-all case, plus the open three-row
+// render for the ✕ placement.
+resetFixtures();
+wiki.addTiddler({ title: "Prio action", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_priority: "B" });
+const prioRowClasses = c => findAll(c, n => n.tag === "div" && /\bhgsd-priority-row\b/.test((n.attributes || {}).class || "")).map(n => n.attributes.class);
+const prioClears = c => findAll(c, n => n.tag === "button" && /\bhgsd-priority-clear\b/.test((n.attributes || {}).class || "")).length;
+const prioChecked = c => findAll(c, n => n.tag === "input" && (n.attributes || {}).type === "radio" && (n.attributes || {})["data-priority"] && n.attributes.checked !== undefined).map(n => n.attributes["data-priority"]);
+const prioOpen = render(VIEW_BODY, { variables: { currentTiddler: "Prio action" } });
+t("priorities open: three letter rows, checked B, ✕ on the selected row only", [
+  prioRowClasses(prioOpen.c), prioClears(prioOpen.c), prioChecked(prioOpen.c)],
+  [["hgsd-priority-row hgsd-priority-A", "hgsd-priority-row hgsd-priority-B", "hgsd-priority-row hgsd-priority-C"], 1, ["B"]]);
+wiki.addTiddler({ title: "$:/state/folded/Prio action", text: "hide" });
+const prioFolded = render(VIEW_BODY, { variables: { currentTiddler: "Prio action" } });
+t("priorities folded: only the selected block survives, checked, no ✕", [
+  prioRowClasses(prioFolded.c), prioClears(prioFolded.c), prioChecked(prioFolded.c)],
+  [["hgsd-priority-row hgsd-priority-B"], 0, ["B"]]);
+t("priorities folded: the section label stays beside the surviving block", textOf(prioFolded.c).indexOf("Priority") !== -1, true);
+resetFixtures();
+wiki.addTiddler({ title: "Bare action", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false" });
+wiki.addTiddler({ title: "$:/state/folded/Bare action", text: "hide" });
+const bareFolded = render(VIEW_BODY, { variables: { currentTiddler: "Bare action" } });
+t("priorities folded with no priority: the section renders nothing at all", [
+  prioRowClasses(bareFolded.c).length, prioClears(bareFolded.c),
+  findAll(bareFolded.c, n => n.tag === "input" && (n.attributes || {})["data-priority"]).length,
+  textOf(bareFolded.c).indexOf("Priority") === -1],
+  [0, 0, 0, true]);
+
 // ── the Settings row select ──────────────────────────────────────────────────
 resetFixtures();
 const row = render("$:/plugins/yan/hypergsd/ui/components/portion-item-template", {

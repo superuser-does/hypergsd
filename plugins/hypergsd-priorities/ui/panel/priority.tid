@@ -1,3 +1,4 @@
+---
 caption: {{$:/language/hypergsd/Sections/Priority/Caption}}
 description: {{$:/language/hypergsd/Sections/Priority/Description}}
 tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/0
@@ -6,32 +7,95 @@ title: $:/plugins/yan/hypergsd-priorities/ui/panel/priority
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sections/
 
-<!-- Hairline option blocks over raw radios behind the section's own eventcatcher (the status-pill architecture: the catcher receives the label-forwarded click and hgsd-priority-click writes through the shared hgsd-priority-set). Each row carries its letter as a hook class; the stylesheet's generated rules hang the --priority-* custom properties on it, and the selected block fills via :has(input:checked) — no colour lives in this template, the colours dictionary is the single source. Every block reserves end space for the clear ✕ (so widths never change and translated labels of any width cannot collide with it); the ✕ renders in that slot on the selected row only, its ink riding the same --priority-ink variable. Portion/0 places the column before every other portion; the write re-renders the panel through the type gate, so the section keeps no state of its own. -->
+<!-- Hairline option blocks over raw radios behind the section's own eventcatcher (the status-pill architecture: the catcher receives the label-forwarded click and hgsd-priority-click writes through the shared hgsd-priority-set). Each row carries its letter as a hook class; the stylesheet's generated rules hang the --priority-* custom properties on it, and the selected block fills via :has(input:checked) — no colour lives in this template, the colours dictionary is the single source. Every block reserves end space for the clear ✕ (so widths never change and translated labels of any width cannot collide with it); the ✕ renders in that slot on the selected row only, its ink riding the same --priority-ink variable. Portion/0 places the column before every other portion; the write re-renders the panel through the type gate, so the section keeps no state of its own. The three stops are written out literally rather than looped — every letter, hook class and label is read directly where it is used. -->
 <%if [is[current]tag[$:/GSD/Action]] [is[current]tag[$:/GSD/Project]] %>
 <$let priority-letter={{{ [all[current]get[gsd_priority]] }}}
-  radio-name={{{ [<currentTiddler>addsuffix[-priority]] }}}>
+  radio-name={{{ [<currentTiddler>addsuffix[-priority]] }}}
+  priority-fold-state={{{ [[$:/state/folded/]addsuffix<currentTiddler>] }}}
+  stop-label-a={{{ [[$:/language/hypergsd/Lists/Priorities/Name/A]get[text]else[]trim[]minlength[1]] [[A]] +[limit[1]] }}}
+  stop-label-b={{{ [[$:/language/hypergsd/Lists/Priorities/Name/B]get[text]else[]trim[]minlength[1]] [[B]] +[limit[1]] }}}
+  stop-label-c={{{ [[$:/language/hypergsd/Lists/Priorities/Name/C]get[text]else[]trim[]minlength[1]] [[C]] +[limit[1]] }}}>
+
+<!-- Panel folding, decided in-member: the section ships Shown-when-folded and reads the host's core fold state itself ($:/state/folded/<title> — the same state the body and the section slots key on; the view-body gate admits the prefix, so the frozen panel re-renders on the toggle). A folded tiddler keeps only the selected block, checked and read-only (the ✕ is an open-panel control — clearing needs the tiddler unfolded); a tiddler with no priority folds the whole section away, the outer gate rendering nothing so the chassis collapse guard drops the empty column. The modal needs no case of its own: its hosts never carry a fold state, the else[show] default holds the panel open. -->
+<%if [<priority-letter>!match[]] [<priority-fold-state>get[text]else[show]match[show]] :and[limit[1]] %>
 <span><<lingo Priority/Label>></span>
 <$eventcatcher tag="div" selector=".hgsd-priority-option input" $click=<<hgsd-priority-click>>>
-<$list filter="[enlist[A B C]]" variable="priority-stop">
-  <$let stop-label={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}}>
-  <div class={{{ [[hgsd-priority-row hgsd-priority-]addsuffix<priority-stop>] }}}>
-    <label class="hgsd-priority-option">
-      <%if [<priority-stop>match<priority-letter>] %>
-      <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority=<<priority-stop>> checked>
-      <%else%>
-      <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority=<<priority-stop>>>
-      <%endif%>
-      <span><$text text=<<stop-label>>/></span>
-    </label>
-    <%if [<priority-stop>match<priority-letter>] %>
-      <$button class="tc-btn-invisible hgsd-priority-clear" tooltip={{$:/language/hypergsd/Sections/Priority/Clear/Hint}}>
-        <$transclude $variable="hgsd-priority-set" item-title=<<currentTiddler>> priority-value=""/>
-        {{$:/core/images/close-button}}
-      </$button>
+<%if [<priority-fold-state>get[text]else[show]match[show]] %>
+<div class="hgsd-priority-row hgsd-priority-A">
+  <label class="hgsd-priority-option">
+    <%if [<priority-letter>match[A]] %>
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="A" checked>
+    <%else%>
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="A">
     <%endif%>
-  </div>
-  </$let>
-</$list>
+    <span><$text text=<<stop-label-a>>/></span>
+  </label>
+  <%if [<priority-letter>match[A]] %>
+  <$button class="tc-btn-invisible hgsd-priority-clear" tooltip={{$:/language/hypergsd/Sections/Priority/Clear/Hint}}>
+    <$transclude $variable="hgsd-priority-set" item-title=<<currentTiddler>> priority-value=""/>
+    {{$:/core/images/close-button}}
+  </$button>
+  <%endif%>
+</div>
+<div class="hgsd-priority-row hgsd-priority-B">
+  <label class="hgsd-priority-option">
+    <%if [<priority-letter>match[B]] %>
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="B" checked>
+    <%else%>
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="B">
+    <%endif%>
+    <span><$text text=<<stop-label-b>>/></span>
+  </label>
+  <%if [<priority-letter>match[B]] %>
+  <$button class="tc-btn-invisible hgsd-priority-clear" tooltip={{$:/language/hypergsd/Sections/Priority/Clear/Hint}}>
+    <$transclude $variable="hgsd-priority-set" item-title=<<currentTiddler>> priority-value=""/>
+    {{$:/core/images/close-button}}
+  </$button>
+  <%endif%>
+</div>
+<div class="hgsd-priority-row hgsd-priority-C">
+  <label class="hgsd-priority-option">
+    <%if [<priority-letter>match[C]] %>
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="C" checked>
+    <%else%>
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="C">
+    <%endif%>
+    <span><$text text=<<stop-label-c>>/></span>
+  </label>
+  <%if [<priority-letter>match[C]] %>
+  <$button class="tc-btn-invisible hgsd-priority-clear" tooltip={{$:/language/hypergsd/Sections/Priority/Clear/Hint}}>
+    <$transclude $variable="hgsd-priority-set" item-title=<<currentTiddler>> priority-value=""/>
+    {{$:/core/images/close-button}}
+  </$button>
+  <%endif%>
+</div>
+<%else%>
+<%if [<priority-letter>match[A]] %>
+<div class="hgsd-priority-row hgsd-priority-A">
+  <label class="hgsd-priority-option">
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="A" checked>
+    <span><$text text=<<stop-label-a>>/></span>
+  </label>
+</div>
+<%endif%>
+<%if [<priority-letter>match[B]] %>
+<div class="hgsd-priority-row hgsd-priority-B">
+  <label class="hgsd-priority-option">
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="B" checked>
+    <span><$text text=<<stop-label-b>>/></span>
+  </label>
+</div>
+<%endif%>
+<%if [<priority-letter>match[C]] %>
+<div class="hgsd-priority-row hgsd-priority-C">
+  <label class="hgsd-priority-option">
+    <input type="radio" name=<<radio-name>> data-tiddler=<<currentTiddler>> data-priority="C" checked>
+    <span><$text text=<<stop-label-c>>/></span>
+  </label>
+</div>
+<%endif%>
+<%endif%>
 </$eventcatcher>
+<%endif%>
 </$let>
 <%endif%>
