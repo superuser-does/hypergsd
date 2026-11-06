@@ -469,8 +469,8 @@ plugins/hypergsd/
 │   shared $hgsd.tickler-shift Global widget: panel binds the stored
 │   date, alert binds now + binds the widget's after-shift-actions so
 │   shifts dismiss), dismissing itself on completion or shift (a
-│   toolbar-closed banner re-raises at the top of the next hour while due
-│   and incomplete); then phase-preserving rollover via range/multiply/
+│   toolbar-closed banner re-raises at the next day's first check while
+│   due and incomplete); then phase-preserving rollover via range/multiply/
 │   TIMESTAMP/add/compare chains at any overdue age, revival a day before
 │   due); ALL date arithmetic is core filters (format:date[TIMESTAMP]
 │   reads epoch milliseconds, add shifts, format:timestamp canonicalises

@@ -1,5 +1,5 @@
 // Ticklers sub-plugin: the wikitext check procedure (NaN regression, rollover,
-// the completed-repeating due-day raise), the date-input procedure, the clear-date button, the core-filter date
+// the completed-repeating due-day raise, the once-per-day alert gate), the date-input procedure, the clear-date button, the core-filter date
 // arithmetic, the date-history ledger, tag list placement, the alert body actions,
 // the manual check button, and Field Editor Cascade.
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
@@ -40,6 +40,10 @@ const runCheck = () => {
   const c = doc.createElement("div"); tree.render(c);
   return tree.invokeActions(tree, {type: "tm-generic"});
 };
+// The raise passes run only on a day's first check (gated on the temp marker
+// $:/temp/hypergsd/Ticklers/AlertDay); a section exercising a raise simulates
+// that first check by clearing the marker.
+const openAlertDay = () => wiki.deleteTiddler("$:/temp/hypergsd/Ticklers/AlertDay");
 
 // ── Check: the GSD5 NaN regression (GitLab work item 14) ─────────────────────
 wiki.addTiddler({title: "TK one-shot", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: past});
@@ -53,6 +57,7 @@ wiki.addTiddler({title: "TK due-now-done", tags: "$:/GSD/Action", gsd_status: "n
 wiki.addTiddler({title: "TK due-now-repeat", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: todayAlert, gsd_tickler_repeat_days: "7"});
 wiki.addTiddler({title: "TK done-past", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "true", gsd_tickler_date: past});
 t("check procedure fires", runCheck());
+t("raise pass writes the day marker", fields("$:/temp/hypergsd/Ticklers/AlertDay").text === todayAlert.substring(0, 8));
 t("one-shot past-due: date retained", fields("TK one-shot").gsd_tickler_date === past);
 t("repeat zero past-due: date retained", fields("TK zero").gsd_tickler_date === past);
 t("non-numeric repeat past-due: date retained", fields("TK garbage-days").gsd_tickler_date === past);
@@ -77,6 +82,7 @@ t("recurring: phase preserved (same weekday)", rolledDate && rolledDate.getUTCDa
 t("recurring: the rolled date joins the history", JSON.stringify(historyOf("TK recurring")) === JSON.stringify([rolled]));
 t("recurring: one overdue banner for the missed occurrence", (() => { const a = wiki.getTiddler("$:/temp/alert/TK recurring"); return a && a.fields.component === "Tickler overdue"; })());
 wiki.deleteTiddler("$:/temp/alert/TK recurring");
+openAlertDay();
 runCheck();
 t("recurring: no second overdue banner after the roll", !wiki.getTiddler("$:/temp/alert/TK recurring"));
 
@@ -86,6 +92,7 @@ wiki.addTiddler({title: "TK stays-done", tags: "$:/GSD/Action", gsd_status: "nex
 wiki.addTiddler({title: "TK far-future", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "true", gsd_tickler_date: midnight(2), gsd_tickler_repeat_days: "30"});
 wiki.addTiddler({title: "TK done-due", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "true", gsd_tickler_date: todayAlert, gsd_tickler_repeat_days: "3"});
 wiki.addTiddler({title: "TK zero-done", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "true", gsd_tickler_date: todayAlert, gsd_tickler_repeat_days: "0"});
+openAlertDay();
 runCheck();
 t("completed repeating tickler near due stays complete (no revival)", fields("TK revive").gsd_complete === "true");
 t("completed one-shot stays complete", fields("TK stays-done").gsd_complete === "true");
@@ -354,6 +361,7 @@ if (catcher) {
   t("complete click completes the target through the shared handler",
     fields("TK al-target").gsd_complete === "true" && !!fields("TK al-target").gsd_comp_date);
   t("complete click dismisses the alert", !wiki.getTiddler("$:/temp/alert/TK al-target"));
+  openAlertDay();
   runCheck();
   t("completed target is not re-raised", !wiki.getTiddler("$:/temp/alert/TK al-target"));
   // The pre-state branch: a click on an already-complete target uncompletes it and the alert stays
@@ -377,7 +385,14 @@ if (catcher) {
 }
 wiki.deleteTiddler("$:/temp/alert/TK due-now");
 runCheck();
-t("toolbar-closed banner re-raises while due and incomplete", !!wiki.getTiddler("$:/temp/alert/TK due-now"));
+t("toolbar-closed banner stays dismissed for the rest of the day", !wiki.getTiddler("$:/temp/alert/TK due-now"));
+wiki.addTiddler({title: "TK late-add", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: todayAlert});
+runCheck();
+t("a same-day addition dated today raises nothing", !wiki.getTiddler("$:/temp/alert/TK late-add"));
+wiki.addTiddler({title: "$:/temp/hypergsd/Ticklers/AlertDay", text: midnightLocal(-1).substring(0, 8)});
+runCheck();
+t("the next day's first check re-raises the unhandled tickler", !!wiki.getTiddler("$:/temp/alert/TK due-now"));
+t("...and the same-day addition with it", !!wiki.getTiddler("$:/temp/alert/TK late-add"));
 // ── Dashboard: three date-split sections, old ticklers behind the toggle ─────
 // Fresh TKD fixtures (unique non-prefix titles, untouched by the cases above).
 wiki.addTiddler({title: "TKD overdue", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: past});

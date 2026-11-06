@@ -4,7 +4,7 @@ title: $:/plugins/yan/hypergsd-ticklers/modules/alert-body
 \whitespace trim
 \procedure hgsd-tickler-alert-click()
 <$transclude $variable="hgsd-handle-click"/>
-<!-- The action tree renders before any action invokes, so the guard reads the PRE-click value: an incomplete target means this click completes it, so the alert dismisses with it (the completion-warning branch is the exception — the modal leaves the target incomplete and the alert returns at the next hourly raise if its date has not rolled forward) -->
+<!-- The action tree renders before any action invokes, so the guard reads the PRE-click value: an incomplete target means this click completes it, so the alert dismisses with it (the completion-warning branch is the exception — the modal leaves the target incomplete and the alert returns at the next day's raise if its date has not rolled forward) -->
 <%if [<dom-data-hgsd-action>match[complete]] %>
 <%if [<dom-data-tiddler>gsd_complete[true]] %>
 <!-- an already-complete target only uncompletes; the alert stays -->
