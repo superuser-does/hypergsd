@@ -15,24 +15,22 @@ title: $:/plugins/yan/hypergsd-ticklers/modules/tickler-check
 <$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert"/>"""/>
 </$list>
 <!-- Completed repeating ticklers raise too — the nag — once per cycle or missed occurrence (the rollover below books the next date in this same run). The interval guard mirrors the rollover's convention: absent, empty, zero or non-numeric means one-shot, and a one-shot stays silent when complete. -->
-<$list filter="[tag[$:/GSD/Action]!is[draft]gsd_complete[true]has[gsd_tickler_date]has[gsd_tickler_repeat_days]] :filter[get[gsd_tickler_date]removesuffix[000000000]compare:string:lteq<localToday>] :filter[get[gsd_tickler_repeat_days]else[0]compare:integer:gt[0]]">
+<$list filter="[tag[$:/GSD/Action]!is[draft]gsd_complete[true]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]removesuffix[000000000]compare:string:lteq<localToday>] :filter[get[gsd_tickler_repeat_days]else[0]compare:integer:gt[0]]">
 <$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert"/>"""/>
 </$list>
 </$let>
 <$action-setfield $tiddler="$:/temp/hypergsd/Ticklers/AlertDay" text=<<localToday>>/>
 <%endif%>
 <!-- Repeating rollover: advance whole intervals from the fired date (phase preserved, idle periods caught up in one pass). Maintenance, not nagging — ungated by the day marker it runs on every check, at whatever overdue age (only the alert pass above is once per local day). The arithmetic is core filters: format:date[TIMESTAMP] reads epoch milliseconds, add shifts them, format:timestamp canonicalises back to the midnight store form (a bare [all[]]-seeded list field append records each rolled date — the last history entry is always the current date). An unparseable date drops out of the chain, nothing is written and the field stays as it is. -->
-<$list filter="[tag[$:/GSD/Action]!is[draft]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:lteq<today>]">
+<$list filter="[tag[$:/GSD/Action]!is[draft]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] :filter[get[gsd_tickler_repeat_days]else[0]compare:integer:gt[0]]">
 <$let fired-date={{!!gsd_tickler_date}}
-  interval-days={{{ [<currentTiddler>get[gsd_tickler_repeat_days]else[0]] }}} >
-<%if [<interval-days>compare:integer:gt[0]] %>
+  interval-days={{{ [<currentTiddler>get[gsd_tickler_repeat_days]] }}} >
 <$let rolled={{{ [range[1],[2000]] :map[<currentTiddler>multiply<interval-days>multiply[86400000]] :map[<fired-date>format:date[TIMESTAMP]add<currentTiddler>format:timestamp[]] +[compare:string:gt<today>] +[first[1]] }}} >
 <%if [<rolled>minlength[17]] %>
 <$action-setfield $tiddler=<<currentTiddler>> gsd_tickler_date=<<rolled>>/>
 <$action-listops $tiddler=<<currentTiddler>> $field="gsd_tickler_date_history" $subfilter="[<rolled>]"/>
 <%endif%>
 </$let>
-<%endif%>
 </$let>
 </$list>
 </$let>
