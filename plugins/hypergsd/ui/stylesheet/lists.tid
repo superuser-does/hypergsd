@@ -2,15 +2,27 @@ tags: $:/tags/Stylesheet
 title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
 
 .gsd-list-heading {
+  position: relative;
   font-weight: 600;
+  /* 1ch gap before the heading text — the fold chevron hangs outside it, so the text start never shifts between fold states */
+  margin-inline-start: 1ch;
   /* Collapse toggle input is hidden — the whole title label is the click target */
   & input[type=checkbox] {
     display: none;
   }
   & svg {
     height: 1em;
-    /* The chevron's gap from the heading text — the add-button svg carries its own margin rule below */
-    margin-inline-start: 1ch;
+  }
+}
+
+/* Fold indicator: appears only while the list is folded, hanging in the gutter left of the heading text (over the rule's left end) so neither the text nor the rows column moves */
+.hgsd-fold-chevron {
+  position: absolute;
+  inset-inline-start: -1.4em;
+
+  /* the glyph ships at 22pt square — clamp width to the 1em height or the wide box reaches under the text */
+  & svg {
+    width: 1em;
   }
 }
 

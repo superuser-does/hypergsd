@@ -12,8 +12,8 @@ title: $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
 <div class="tw-menu-list-item">
   <span class="gsd-list-heading">
     <$checkbox tiddler=<<listState>> field="text" checked="hide" unchecked="show" default="show" class="hgsd-list-collapse">
+      <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes" class="hgsd-fold-chevron">{{$:/core/images/chevron-down}}</$reveal>
       <<lingo References>>
-      <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes">{{$:/core/images/chevron-down}}</$reveal>
     </$checkbox>
     <!-- Invoked via $transclude $variable — macrocall parameters do NOT support <var> indirection (project:<currentTiddler> would pass the literal string). -->
     <$let caller-realm={{{ [all[current]tags[]prefix[$:/GSD/Realm/]removeprefix[$:/GSD/Realm/]limit[1]] }}} >

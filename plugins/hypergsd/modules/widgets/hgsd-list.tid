@@ -56,7 +56,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 [function[hgsd-row-feature-runs]] [function[hgsd-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
-\function hgsd-list-outer-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [prefix[$:/GSD/Realm/]] [prefix[$:/config/hypergsd]] [!is[tiddler]] -[is[draft]]")
+\function hgsd-list-outer-whitelist(base-whitelist:"[subfilter<hgsd-type-gate>] [tag[$:/tags/hypergsd/Type]] [prefix[$:/GSD/Realm/]] [prefix[$:/config/hypergsd]] [prefix[$:/temp/gsd-list/]] [!is[tiddler]] -[is[draft]] -[prefix[$:/temp/gsd-list/]!prefix<list-fold-prefix>]")
 [function[hgsd-row-feature-runs]] [function[hgsd-strip-feature-runs]] [<base-whitelist>] +[join[ ]]
 \end
 
@@ -142,10 +142,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <div class="tw-menu-list-item">
   <span class="gsd-list-heading">
     <$checkbox tiddler=<<listState>> field="text" checked="hide" unchecked="show" default="show">
+      <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes" class="hgsd-fold-chevron">{{$:/core/images/chevron-down}}</$reveal>
       <<list-heading>>
-      <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes">
-        {{$:/core/images/chevron-down}}
-      </$reveal>
     </$checkbox>
     <<add-button>>
   </span>
@@ -258,9 +256,10 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 
 \widget $hgsd.list(list-heading, list-filter, group-by, group-state, group-select:"no", group-members:"", sort-select:"no", sort-default:"$:/plugins/yan/hypergsd/ui/sort-by/modified-desc", group-default:"", add-button, future-items-sweep:"no", realm-scope:"[subfilter<hgsd-realm-selection>]")
 <!-- realm-scope is an EVALUATED FILTER EXPRESSION whose output is the scope list (realm tags + the `no-realm` sentinel when realm-less items are included). Blank falls back to [subfilter<hgsd-realm-all>] (observably unscoped); any other value is evaluated as given — the same contract as $hgsd.pick. The set arithmetic lives in hgsd-scope-include/exclude (scope-base/scope-tags ambient). FUTURE-ITEMS-SWEEP: when "yes" and the config ($:/config/hypergsd/dashboard-future-project-items, show/hide) says hide, items are filtered to active-parent (parentless items always pass); the sweep run travels as string data through a quoted $let and joins into the rows filter (the sort-expression idiom — an empty sweep-run joins to a no-op), because brackets inside then[] operands terminate the operand. -->
-<!-- OUTER DERIVATION GATE: without it the $let tree (list-filter evaluation + realm scope arithmetic) re-executed its filter-valued attributes on every global refresh descent (~0.3ms per item per list, paid on unrelated edits). The gate admits exactly what the derivation reads: item edits (type gate), realm tag-tiddlers, $:/config/hypergsd/*, and deletions — a deleted title has no tags, so only [!is[tiddler]] catches it. No realm-membership run: :and REPLACES the accumulated output (one :and chain per filter), and on GSD items the type gate already catches membership changes. Fragment and strip state prefixes arrive as DERIVED runs (hgsd-list-outer-whitelist, file top): this gate sits ABOVE the row freeze, so without them the members' state changes never reach it. The view strip's config tiddler rides the config prefix run the same way. -->
+<!-- OUTER DERIVATION GATE: without it the $let tree (list-filter evaluation + realm scope arithmetic) re-executed its filter-valued attributes on every global refresh descent (~0.3ms per item per list, paid on unrelated edits). The gate admits exactly what the derivation reads: item edits (type gate), realm tag-tiddlers, $:/config/hypergsd/*, and deletions — a deleted title has no tags, so only [!is[tiddler]] catches it. No realm-membership run: :and REPLACES the accumulated output (one :and chain per filter), and on GSD items the type gate already catches membership changes. Fragment and strip state prefixes arrive as DERIVED runs (hgsd-list-outer-whitelist, file top): this gate sits ABOVE the row freeze, so without them the members' state changes never reach it. The view strip's config tiddler rides the config prefix run the same way. The scoped gsd-list temp pair (prefix plus subtraction) passes THIS list's collapse write through — the fold reveal and checkbox label sit below this gate and would freeze on it otherwise. -->
 <!-- View state (persistent): one config tiddler per list instance carrying group (GroupBy member title), ungrouped (yes/no) and sort (SortBy member title). Persistent by design — each customised list gains one small tiddler under tiddlers/. The config prefix run below (already present) is all the gating these writes need at every level. group-default and sort-default are tag list TIDDLER TITLES (the same tokens the controls use as values and the state stores) applied while no choice exists — so the strip's displayed default IS the applied one. Precedence everywhere: view state, then the per-list default ($:/config/hypergsd/list-default/<heading> — the Settings pickers' write, keyed by the heading alone so one default serves every host the list renders on), then these parameters. A sort default missing its sort-filter sorts nothing (the list filter's own order). sort-expression empties when sort-select is off (then[] takes the lookup, else[] nothing — the renderers' join with an empty sort-expression is a no-op). The derivation $let below is ONE widget, its attributes in dependency order — LetWidget stages ordered attributes so each reads the earlier ones. -->
 <$let view-state-title={{{ [[$:/config/hypergsd/list-view/]addsuffix<currentTiddler>addsuffix[/]addsuffix<list-heading>] }}}
+  list-fold-prefix={{{ [[$:/temp/gsd-list/]addsuffix<currentTiddler>addsuffix[-]addsuffix<list-heading>] }}}
   list-default-heading={{{ [[$:/config/hypergsd/list-default/]addsuffix<list-heading>] }}}
   effective-sort-default={{{ [<list-default-heading>get[hgsd-sort]else<sort-default>] }}}
   effective-group-default={{{ [<list-default-heading>get[hgsd-group]else<group-default>] }}}
