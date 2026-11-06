@@ -142,7 +142,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <div class="tw-menu-list-item">
   <span class="gsd-list-heading">
     <$checkbox tiddler=<<listState>> field="text" checked="hide" unchecked="show" default="show">
-      &nbsp;<<list-heading>>
+      <<list-heading>>
       <$reveal state=<<listState>> type="match" text="hide" default="show" retain="yes">
         {{$:/core/images/chevron-down}}
       </$reveal>

@@ -9,6 +9,8 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   }
   & svg {
     height: 1em;
+    /* The chevron's gap from the heading text — the add-button svg carries its own margin rule below */
+    margin-inline-start: 1ch;
   }
 }
 
