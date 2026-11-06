@@ -291,6 +291,8 @@ The `subfilter` OPERATOR does not reorder its input: `[enlist<A C B>] subfilter<
 
 # Stylesheets
 
+- **Transcluded images carry their own square sizing — a constraint to design around, not fight**: core image svgs render as inline `<svg>` elements stamped with the file's own `width`/`height` attributes (core ships 22pt square), and the glyph centres in that box (`preserveAspectRatio` default). CSS that clamps only `height: 1em` leaves the declared width standing — a 29px box under 14px-tall ink whose empty flanks reach invisibly under neighbours. Respect the square: scale BOTH dimensions together (the fold-chevron rule clamps width and height to 1em), or pass explicit `width`/`height` attributes to the `<$image>` widget; when spacing matters, measure the glyph's ink in a screenshot, not the svg box.
+
 - **Stylesheet tiddlers render through wikitext**: the typography rule converts a literal `--` to an en-dash (U+2013), which silently invalidates CSS custom properties (`--x: v` arrives as `–x: v` and the declaration is dropped). Write the dashes as `&#45;&#45;` entities — entities decode after the typography pass.
 - **Widgets do not parse inside quoted attribute values:** CSS like `option[value="<$text text=<<var>>/>"]` emits the widget source literally into the stylesheet. Emit dynamic text inside a quoted attribute with a filtered transclusion in text position — `option[value="{{{ [<var>] }}}"]` — and keep `<$text …/>` for block/text positions.
 

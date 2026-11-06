@@ -206,12 +206,19 @@ Navigate by dispatching `tm-navigate` on the NAVIGATOR widget — a rootWidget d
 
 `@media print` rules can be verified without the print dialog: `page.emulateMedia({media: "print"})` applies them in the live viewport (note: backgrounds still render — emulation is not the print pipeline's background-dropping). Take a full-page screenshot, then hand the images to a vision-model delegate with a concrete yes/no checklist per screenshot — cheaper than interpreting DOM dumps, and it catches cascade failures a headless harness cannot (a specificity/ordering bug once shipped green through fakeDOM tests and only the screenshot caught it). Reset with `{media: "screen"}`.
 
+### Visual verification when the current model cannot view images
+
+If the model in use reads images, view the screenshots yourself and skip this. When it does not, delegate the review to an image-capable subagent (glm-5.3-flash works): give its task the image paths to `read` plus numbered, literal questions with numeric targets ("measure the pixel gap between X and Y — target 4-6px"). Pixel forensics from a delegate caught what DOM probes missed twice in one session: a chevron whose svg BOX had clearance while its 29px-wide svg overlapped the text, and a mislabelled screenshot pair. Give it the intended design in one sentence so deviations have something to be measured against, and re-verify after each fix — first-round measurements also double as regression baselines.
+
+Session-state persistence trap: one playwright session is ONE page — temp/state tiddlers, fold states and scroll survive every `run-code` invocation, and a hash-only `goto` does NOT reload the page (so boot-time plugin changes need a `close` + fresh `open`, not a `goto`). Before screenshotting a state, read the governing state tiddler and normalise it by clicking — an A/B pair captured against an assumed state comes out swapped and the delegate reports "inverted logic" for a working feature.
+
 Browser-side fixture traps (all bitten in practice):
 
 - `$tw.wiki.addTiddler()` in `page.evaluate` autosaves through the server: every fixture lands as a `.tid` in the SERVED wiki's `tiddlers/` folder — `git status` the wiki folder after any visual session and delete the fixtures.
 - `$tw.wiki.addToStory()` from `page.evaluate` crashed a page ("Linked List only accepts string values") — set the story via `addTiddler({title: "$:/StoryList", list: [...titles], text: ""})`.
 - `--listen credentials=` takes a FILE path (one `user:password` per line), not inline credentials; anonymous PUT stays 403.
 - A crashed page (TiddlyWiki's internal-error modal) plus a `page.goto` can leave the CLI in "does not handle the modal state" — `close` + `open` a fresh session rather than fighting it.
+- `page.reload()` on a TiddlyWiki page fires a `beforeunload` dialog (the syncer's change guard) and wedges the CLI in the same "does not handle the modal state" state — `dialog-dismiss` recovers, but prefer a fresh session over reloads; for a hard reload after a server restart, `close` + `open`.
 
 ## Step 4: deployed wikis
 
