@@ -12,6 +12,7 @@ title: $:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities
     <option value=<<priority-stop>> ><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}} /></option>
   </$list>
 </$select>
+<br/><<lingo Priorities/Default/Hint>>
 
 ! <<lingo Priorities/Config/Heading>>
 

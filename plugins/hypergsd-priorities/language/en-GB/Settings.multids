@@ -4,6 +4,7 @@ title: $:/language/hypergsd/Settings/
 Priorities/Caption: Priorities
 Priorities/Default/Label: Default priority for new items:
 Priorities/Default/None: -- none --
+Priorities/Default/Hint: A new item inherits its project's priority first, else this default; with neither it starts unset.
 Fragments/Priority/Caption: Priority select
 Fragments/Priority/Hint: A priority select on action and project rows
 Priorities/Config/Heading: Priority level configuration
