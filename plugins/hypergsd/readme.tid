@@ -1,20 +1,23 @@
 title: $:/plugins/yan/hypergsd/readme
 
-This is the core HyperGSD plugin. 
-It contains:
+This is the main HyperGSD plugin, enabling you to manage your tasks better.
 
-* Basic GSD/GTD concepts
-** Actions
-** Projects
-** Contacts (ships from the HyperGSD-Contacts sub-plugin)
-** Contexts (TW5 Tags; ships from the HyperGSD-Contexts sub-plugin)
-** References (ships from the HyperGSD-References sub-plugin)
-* An array of tools and displays to organize HyperGSD tiddlers
-** Instant-commit pickers: the project, contact and pre-requisite pickers commit a selection the moment you pick it, when you're using a mouse (on by default; toggle in Settings → Core) — on touch they keep the explicit Add step
-** Per-list defaults: each dashboard list's Settings row carries Group by and Sort by pickers beside the Portion picker — the chosen default applies wherever that list renders, and per-page strip choices still override it
-** Option withdrawal: untick any Group by or Sort by option on Settings → Dashboards to withdraw it from every list's view strip (re-tick to restore); a list's explicit group-members set is exempt; withdraw every Group by option and the Group by controls disappear entirely (None alone never shows)
-** Archive and delete: the Cleanup dashboard carries four type-scoped buttons — //Archive completed actions// / //Archive completed projects// rename every listed item to `$:/GSD/<title>`, so it leaves your lists (completed lists everywhere, project and contact pages included) but stays in the wiki with all fields and timestamps untouched; dependency references follow the rename (`gsd_prerequisites` and `gsd_project` on child actions and subprojects are relinked, timestamps still untouched); //Delete completed actions// / //Delete completed projects// remove them permanently (each button confirms first); tick ''Show archived items'' on the same dashboard to list archived items again, where each row keeps its delete button
-* Platform for expansion with other plugins
+HyperGSD is highly customisable. Out of the box, it provides a two-part way of organising your work, with discrete "Capture" (collecting tasks) and "Review" (sorting and prioritising tasks) steps. You can find tools for both these process in the sidebar.
+
+The plugin provides:
+
+* Actions (tagged $:/GSD/Action)
+* Projects, which can contain actions or other projects (tagged $:/GSD/Project)
+* Realms, to help compartmentalise different domains of interest. Realms as simple tags (add from Migrating tiddler)
+* Several dashboards which can be found in the "Review" sidebar. These are mainly composed from re-usable lists that you can configure in HyperGSD's list settings.
+* Cleanup dashboards
+* A platform for expansion with other plugins
+
+---
+
+''THIS MAY NOT BE NEEDED - GET AI TO CHECK API DOCS''
+
+<$details summary="tutorials">
 
 ! Extending HyperGSD
 
@@ -103,9 +106,11 @@ Any list tiddler can carry its own disclosure — wrap its content in `$hgsd.tog
 
 Pass `group-select="yes"` to any `$hgsd.list` and it renders a radio strip under its heading letting the user group the list by any offered dimension — Projects, Contacts, Contexts, Realms out of the box — plus an "include ungrouped" toggle. Dimensions live in the `$:/tags/hypergsd/GroupBy` tag list: a member is pure data (`group-key`, a per-item `group-filter` emitting group titles, optional `label-filter`), so a third-party field becomes groupable with one small tiddler. Sorting works the same way through `$:/tags/hypergsd/SortBy` — a member carries a complete sort expression (`sort-filter`), so multi-field sorts are just more runs. Members name themselves with a `caption` field (a lingo transclusion, the core PageControls convention), and both tag lists are drag-ordered in Settings → Dashboards. Choices persist per list, and `group-default`/`sort-default` name tag-list tiddlers for out-of-the-box behaviour. Every shipped dashboard list now carries the strip. See [[Grouping dimensions|Grouping dimensions]] and [[Sorting dimensions|Sorting dimensions]].
 
+</$details>
+
 Currently, en-US/GB language only.
 
-Full API documentation for extension authors — widgets, hooks, fields and state, item types, and a GSD5 comparison — lives under [[HyperGSD API]].
+Full API documentation for users and sub-plugin authors can be found under [[HyperGSD API]].
 
 [[Contributors|$:/plugins/yan/hypergsd/contributors]]
 

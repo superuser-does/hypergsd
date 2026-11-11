@@ -5,14 +5,18 @@ title: $:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Settings/
 
-<<lingo Priorities/Default/Label>>
+! <<lingo Priorities/Default/Heading>>
+
+<$link to=[[$:/config/hypergsd/priorities/default]]class=tc-control-panel-item><<lingo Priorities/Default/Label>></$link>
+
 <$select tiddler="$:/config/hypergsd/priorities/default" default="">
   <option value=""><<lingo Priorities/Default/None>></option>
   <$list filter="[enlist[A B C]]" variable="priority-stop">
     <option value=<<priority-stop>> ><$text text={{{ [[$:/language/hypergsd/Lists/Priorities/Name/]addsuffix<priority-stop>get[text]else[]trim[]minlength[1]] [<priority-stop>] +[limit[1]] }}} /></option>
   </$list>
 </$select>
-<br/><<lingo Priorities/Default/Hint>>
+
+<<lingo Priorities/Default/Hint>>
 
 ! <<lingo Priorities/Config/Heading>>
 

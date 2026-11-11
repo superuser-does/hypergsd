@@ -13,15 +13,16 @@ The plugin also provides the [[GSD/Ticklers]] dashboard for an overview of upcom
 
 The check runs automatically when the wiki loads, at <samp>hh:00</samp> every hour and at local midnight, and only in an open browser session. There is no server-side timer when used as part of a server.
 
-A tiddler that has a tickler with today's date will raise a //Tickler due// banner.
+A tiddler that has a tickler with today's date will raise a //Tickler due// alert banner.
 
-Repeating ticklers advance by whole intervals from the fired date (the weekday is preserved), and a completed repeating tickler still raises one banner on each due date. The date is never removed by triggering the alert. An overdue tickler stays in the [[GSD/Ticklers]] dashboard until handled and a tickler missed while the wiki was closed raises a //Tickler overdue// banner at the first check after (an overdue one-shot re-raises hourly until handled; a repeating one alerts once per missed occurrence).
+Repeating ticklers advance by whole intervals from the fired date (the weekday is preserved), and a completed repeating tickler still raises one banner on each due date. The date is never removed by triggering the alert. An overdue tickler stays in the [[GSD/Ticklers]] dashboard until handled and a tickler missed while the wiki was closed raises a //Tickler overdue// banner at the first check after (an overdue one-shot re-raises once a day until handled; a repeating one alerts once per missed occurrence).
+''THIS IS ALL HARD TO READ''
 
-! Alerts
+Completing the action dismisses the alert; pressing the button to increment will update with a new due dat and dismiss the alert.
 
-A due tickler raises a banner titled //Tickler due// with the due date (the action title itself is not repeated in the banner title — the link below carries it), showing the action title as a link, with a ''Complete'' checkbox and the Alert-tag list shift buttons (`+d`, `+w`) below it. Completing the action dismisses the alert; a shift writes a new due date (the base plus the interval, at midnight) and dismisses the alert. The title link only navigates — a banner closed with the toolbar close button is re-raised at the top of the next hour while the tickler stays due and unrolled (in practice, one-shot ticklers).
+The shift buttons are data-only tag-list tiddlers rendered by the shared `$hgsd.tickler-shift` widget: tag `$:/tags/hypergsd/Ticklers/Shift` for the panel set, add `$:/tags/hypergsd/Ticklers/Alert` to also appear on the banner; fields `days`, `label`, `tooltip` (plain text or `<<lingo>>` keys) and an optional `class`. The widget takes `target-tiddler`, `base-date` (panel = stored date, alert = now), `days`, `label`, `tooltip`, `class`, `after-shift-actions` and `lingo-base`, and is equally usable standalone with explicit parameters.
 
-The shift buttons are data-only tag-list tiddlers rendered by the shared `$hgsd.tickler-shift` widget: tag `$:/tags/hypergsd/Ticklers/Shift` for the panel set, add `$:/tags/hypergsd/Ticklers/Alert` to also appear on the banner; fields `days`, `label`, `tooltip` (plain text or `<<lingo>>` keys) and an optional `class`. The widget takes `target-tiddler`, `base-date` (panel = stored date, alert = now), `days`, `label`, `tooltip`, `class`, `after-shift-actions` and `lingo-base`, and is equally usable standalone with explicit parameters. This plugin ships +d/+w/+m on the panel (day, week, month tagged Shift) and +d/+w on the banner (day and week carry the Alert tag too); the year member ships withdrawn — its settings entry reads hide, so +y appears in Settings → HyperGSD → Ticklers as an unticked row; tick it to offer +y on the panel. Each set has its own knob there: panel members read `$:/config/hypergsd/Ticklers/Shift/visibility/`, banner members read `$:/config/hypergsd/Ticklers/Alert/visibility/` — a member tagged both answers to both independently.
+This plugin ships with separate alert banner and panel/modal tiddlers. They can be turned on/off in Settings → HyperGSD → Ticklers.
 
 ! Fields
 
@@ -30,10 +31,9 @@ The shift buttons are data-only tag-list tiddlers rendered by the shared `$hgsd.
 |`gsd_tickler_date_history` |Chronological list of every date the tickler has carried. The last entry is always the current date. It is not displayed anywhere as part of this plugin. |
 |`gsd_tickler_repeat_days` |Repeat interval in days. If empty, the alert will only trigger on the due date. |
 
-A repeating tickler that is marked complete stays complete. Its banner still returns on each due date, once per cycle.
+A repeating tickler that is marked complete, //stays// complete. Its alert still returns on each due date, once per cycle. -- WHATS A CYCLE
 
 ---
-
 Based on the GSD5 ticklers extension by Roma Hicks (https://gitlab.com/gsd5-tiddlywiki/gsd5-ticklers), reworked for HyperGSD.
 
-Calendar icon: Lucide (https://lucide.dev), derived from Feather. MIT License, Copyright (c) 2013-present Cole Bemis (https://raw.githubusercontent.com/lucide-icons/lucide/main/LICENSE).
+Calendar icon: Lucide (https://lucide.dev), derived from Feather. MIT License, Copyright (c) 2013--present Cole Bemis (https://raw.githubusercontent.com/lucide-icons/lucide/main/LICENSE).

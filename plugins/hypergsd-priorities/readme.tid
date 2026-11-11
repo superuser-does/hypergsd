@@ -1,36 +1,17 @@
 title: $:/plugins/yan/hypergsd-priorities/readme
 type: text/vnd.tiddlywiki
 
-! About
-
-A priority for HyperGSD items: a column of option blocks in the item panel — its own left-hand portion, ahead of every other section — for High, Medium and Low. The selected block fills solid with its priority's colour (deep red for High, bright orange for Medium, grey-blue for Low) — deliberately unlike the pastel status pills — and the radios underneath are hidden; the write rides the click (the status-pill event architecture). While a priority is set, a small ink-matched ✕ drops into a reserved slot at the end of the selected block — the slot's padding exists on every block, so nothing shifts when values change and translated labels of any length cannot run under it; clicking it clears the priority. The stylesheet uses logical properties throughout (no floats), so right-to-left languages mirror for free. The whole control is wikitext (no JavaScript).
-
-! Field
+A set of three priorities you can apply to HyperGSD actions and projects.
 
 | Field | Meaning |h
-| `gsd_priority` | `A` (high), `B` (medium) or `C` (low). Absent, empty or any other value means not set. |
+| `gsd_priority` | `A` (high), `B` (medium) or `C` (low). Empty is treated as not set. |
 
-The letters are the stored vocabulary; the words displayed are data (below), so relabelling needs no code.
+You can configure the appearance of these priorities and set the default priority in the [[Priorities settings|$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities]].
 
-! Logic (modules/priority-sets)
+! Where priorities appear
 
-* `hgsd-priority-rank(value)` — the vocabulary: A=3 (top) through C=1; anything else is 0 = not set. Replace the tiddler wholesale to change the letters (same title, keep the Global tag and the function name).
-* `hgsd-priority-set(item-title, priority-value)` — the one write path: the panel's radios (through the section's event catcher and `hgsd-priority-click`), its Not set row, a list-item select and any future surface all commit through it. An A/B/C value sets the field, anything else deletes it.
-
-! Where it appears
-
-* The item attributes panel, on actions and projects — Portion/0, so the column sits to the left of every other section. Settings → HyperGSD → Panel and modal hides, shows, re-orders and re-portions it like any section.
-* Every list's ''Sort by'' strip gains a ''Priority'' option (high to low, not set last), offered on lists whose items are actions or projects.
-* Every list's ''Group by'' strip gains a ''Priority'' option: groups render High, Medium, Low (headings from the name strings), with not-set items in the engine's ''No group'' bucket at the end. The keys are synthetic (declared `hgsd-synthetic-keys`), so headings stay plain text rather than links — and A/B/C's alphabetical order happens to be High→Low, so no rank prefixes are needed.
-* Action and project rows gain a priority select, pinned just after the status pills. It is a native select with only its colour changed: the closed box fills with the item's priority (unset rows show a bare dash), and the closed box is painted by the item's letter hook class and the dropdown options are coloured by generated stylesheet rules straight from the colours dictionary. Row labels come from the short language strings (H/M/L) so the box stays tight; the full words live in the name strings. Ticks and hides like any fragment (Settings → HyperGSD → Fragments), and every commit flows through the shared `hgsd-priority-set` write path — clearing deletes the field rather than leaving an empty string.
-
-! New items
-
-Settings → HyperGSD → ''Priorities'' holds one knob: the default priority for new items (None, or one of the three). A new action or project linked to a project at creation inherits that project's priority first — subprojects included; the configured default applies only when there is nothing to inherit (or the inherited value is not a valid A/B/C). The write happens through an `$:/tags/hypergsd/AfterCreation` rule, so both creation paths are covered — the modal and the create-and-add pickers — and an item that already carries a priority is never overwritten.
-
-! Data tiddlers
-
-* `language/en-GB/Lists.multids` — the name strings (`Priorities/Name/A|B|C`: High, Medium, Low) and the short strings for the row select (`Priorities/Short/A|B|C`: H, M, L). Settings → HyperGSD → Priorities edits them in the configuration table (heading: Priority level configuration) — an edit creates the standard language-string override, so translations and user renames share one mechanism. Empty boxes fall back: short to full, full to the letter.
-* `ui/config/colours` — dictionary: three keys per letter — `A` is the selected block's solid fill, `A-ink` its text and icon colour, applying in every media, `A-line` the print-only outline ink (the browser drops fills on paper, so the line marks the selection there). Settings → HyperGSD → Priorities edits all three (the core palette manager's colour inputs; the Line column is marked print only); missing keys fall back to grey.
-
-Both are ordinary tiddler dictionaries: edit them the usual way — an edit to the shipped shadow creates your override, which wins from then on.
+* Action and project panels
+** Option to enable in modals
+* Action and project list rows
+* Every list's ''Sort by'' control gains a ''Priority'' option
+* Every list's ''Group by'' control gains a ''Priority'' option
