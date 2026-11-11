@@ -5,7 +5,7 @@ Priorities/Caption: Priorities
 Priorities/Default/Heading: Default priority
 Priorities/Default/Label: Default priority for new items:
 Priorities/Default/None: -- none --
-Priorities/Default/Hint: A new item will inherit its parent project's priority first. If there is no parent project, or if there is one but it doesnot have a priority, it will inherit this default instead.
+Priorities/Default/Hint: A new item will inherit its parent project's priority first. If there is no parent project, or if there is a parent project but it does not have a priority, then the new item will inherit this default.
 Fragments/Priority/Caption: Priority select
 Fragments/Priority/Hint: A priority select on action and project rows
 Priorities/Config/Heading: Priority level configuration

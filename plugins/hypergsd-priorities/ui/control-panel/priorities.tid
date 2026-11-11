@@ -16,7 +16,7 @@ title: $:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities
   </$list>
 </$select>
 
-<<lingo Priorities/Default/Hint>>
+//<<lingo Priorities/Default/Hint>>//
 
 ! <<lingo Priorities/Config/Heading>>
 
