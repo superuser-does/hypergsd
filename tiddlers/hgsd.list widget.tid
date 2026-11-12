@@ -1,4 +1,4 @@
-caption: HyperGSD List Widget
+caption: $hgsd.list
 tags: Documentation [[HyperGSD API]]
 title: hgsd.list widget
 
@@ -6,8 +6,7 @@ The `$hgsd.list` widget is the single list engine behind every dashboard and reu
 
 ! Content and Attributes
 
-|>|>| !<$hgsd.list> |
-| !Attribute | !Default | !Description |
+|Attribute |Default |Description |h
 |list-heading |— |Heading shown on the collapsible list block. |
 |list-filter |— |''Required.'' Any filter over tiddler titles; the widget applies realm scoping to its output. Drafts never list — the widget excludes them from the filter output (they inherit the base tiddler's fields and would otherwise appear mid-edit). |
 |group-by |(blank) |Field to group rows by (e.g. `gsd_project`). Blank renders a flat list. |
@@ -27,7 +26,7 @@ Default precedence, group and sort alike: the per-instance view state (`$:/confi
 
 The `realm-scope` attribute is always evaluated as a filter producing the scope list (blank falls back to `hgsd-realm-all` — everything) — allowed realm tags plus the `no-realm` sentinel when realm-less items are included. The shared arithmetic lives in `modules/realm-scopes.tid` (`hgsd-realm-selection`, `hgsd-realm-all`, `hgsd-scope-include/exclude`); see [[Boilerplate: realm scoping|Boilerplate: realm scoping]] for the state contract.
 
-| !Selection (default scope) | !Result |
+|Selection (default scope) |Result |h
 |any set + sentinel |those realms' items ∪ realm-less items |
 |any set, no sentinel |only those realms' items |
 |empty + sentinel |realm-less items only |

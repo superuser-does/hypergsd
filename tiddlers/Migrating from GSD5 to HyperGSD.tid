@@ -1,6 +1,6 @@
 created: 20260525105322233
-modified: 20260913211848753
-tags: 
+modified: 20261112203831000
+tags: Documentation GSD5
 title: Migrating from GSD5 to HyperGSD
 type: text/vnd.tiddlywiki
 
@@ -34,46 +34,46 @@ To eliminate UI lag during typing and navigation, the filters in the panel dropd
 Copy all "gsd_action" values to "gsd_prerequisites"
 <$action-confirm $message="Are you sure you want to copy gsd_action and format it into gsd_prerequisites across ALL tiddlers? Please ensure timestamps are off so your modified dates are not changed inadvertently.">
 <$list filter="[has[gsd_action]]">
-    <$action-setfield 
-        $tiddler=<<currentTiddler>> 
-        $field="gsd_prerequisites" 
-        $value={{{ [<currentTiddler>get[gsd_action]format:titlelist[]] }}} 
+    <$action-setfield
+        $tiddler=<<currentTiddler>>
+        $field="gsd_prerequisites"
+        $value={{{ [<currentTiddler>get[gsd_action]format:titlelist[]] }}}
     />
 </$list>
 </$action-confirm>
 </$button>
 # Filter for all actions (`[gsd_type[action]]`) and bulk add the tag `$:/GSD/Action`: <$button>Tag all actions<$action-confirm $message="Are you sure you want to add the tag $:/GSD/Action to all tiddlers which carry gsd_type: action? Please ensure timestamps are off so your modified dates are not changed inadvertently?">
 <$list filter="[gsd_type[action]]">
-    <$action-listops 
-        $tiddler=<<currentTiddler>> 
-        $tags="+[append[$:/GSD/Action]]" 
+    <$action-listops
+        $tiddler=<<currentTiddler>>
+        $tags="+[append[$:/GSD/Action]]"
     />
 </$list>
 </$action-confirm>
 </$button>
 # Filter for all projects (`[gsd_type[project]]`) and bulk add the tag `$:/GSD/Project`: <$button>Tag all projects<$action-confirm $message="Are you sure you want to add the tag $:/GSD/Project to all tiddlers which carry gsd_type: project? Please ensure timestamps are off so your modified dates are not changed inadvertently?">
 <$list filter="[gsd_type[project]]">
-    <$action-listops 
-        $tiddler=<<currentTiddler>> 
-        $tags="+[append[$:/GSD/Project]]" 
+    <$action-listops
+        $tiddler=<<currentTiddler>>
+        $tags="+[append[$:/GSD/Project]]"
     />
 </$list>
 </$action-confirm>
 </$button>
 # Filter for all contacts (`[gsd_type[contact]]`) and bulk add the tag `$:/GSD/Contact`: <$button>Tag all contacts<$action-confirm $message="Are you sure you want to add the tag $:/GSD/Contact to all tiddlers which carry gsd_type: contact? Please ensure timestamps are off so your modified dates are not changed inadvertently?">
 <$list filter="[gsd_type[contact]]">
-    <$action-listops 
-        $tiddler=<<currentTiddler>> 
-        $tags="+[append[$:/GSD/Contact]]" 
+    <$action-listops
+        $tiddler=<<currentTiddler>>
+        $tags="+[append[$:/GSD/Contact]]"
     />
 </$list>
 </$action-confirm>
 </$button>
 # Filter for all references (`[gsd_type[reference]]`) and bulk add the tag `$:/GSD/Reference`: <$button>Tag all references<$action-confirm $message="Are you sure you want to add the tag $:/GSD/Reference to all tiddlers which carry gsd_type: reference? Please ensure timestamps are off so your modified dates are not changed inadvertently?">
 <$list filter="[gsd_type[reference]]">
-    <$action-listops 
-        $tiddler=<<currentTiddler>> 
-        $tags="+[append[$:/GSD/Reference]]" 
+    <$action-listops
+        $tiddler=<<currentTiddler>>
+        $tags="+[append[$:/GSD/Reference]]"
     />
 </$list>
 </$action-confirm>
@@ -91,11 +91,11 @@ Copy all "gsd_action" values to "gsd_prerequisites"
 </$action-confirm>
 </$button><br>Migrated realms should appear automatically in the [[capture|$:/plugins/yan/HyperGSD/ui/sidebar/capture-sidebar]] and [[review|$:/plugins/yan/HyperGSD/ui/sidebar/review-sidebar]] sidebars.
 
-''Why:'' Original GSD5 relied entirely on the `gsd_type` field to identify items. HyperGSD relies 100% on specific TiddlyWiki tags to leverage the internal tag index for instantaneous database lookups. 
+''Why:'' Original GSD5 relied entirely on the `gsd_type` field to identify items. HyperGSD relies 100% on specific TiddlyWiki tags to leverage the internal tag index for instantaneous database lookups.
 
 
 
-''Why:'' HyperGSD uses tags for higher-performance filtering than fields. 
+''Why:'' HyperGSD uses tags for higher-performance filtering than fields.
 
 !!! Migrate contexts
 
@@ -104,28 +104,62 @@ Copy all "gsd_action" values to "gsd_prerequisites"
 
 !! Optional
 
+!!! Migrate ticklers
+
+''Ticklers'' now live in the optional [[HyperGSD-Ticklers|$:/plugins/yan/hypergsd-ticklers/readme]] sub-plugin. GSD5 ticklers were actions carrying `gsd_tickdate` (and optionally `gsd_tickdays`); the sub-plugin reads the same idea from renamed fields:
+
+|GSD5 |HyperGSD |h
+|`gsd_tickdate` |`gsd_tickler_date` |
+|`gsd_tickdays` |`gsd_tickler_repeat_days` |
+
+GSD5 ticklers were actions, so the "Tag all actions" button above has already given them the `$:/GSD/Action` tag. An absent, empty, zero or non-numeric repeat interval means the tickler fires once.
+
+Use this button, which will not update timestamps, to copy the old fields across and delete them:
+<$button>
+    Migrate tickler fields
+    <$action-confirm $message="Are you sure you want to copy gsd_tickdate/gsd_tickdays to gsd_tickler_date/gsd_tickler_repeat_days and delete the old fields across ALL tiddlers?">
+        <$list filter="[all[tiddlers]has[gsd_tickdate]]">
+            <$action-setfield
+                $tiddler=<<currentTiddler>>
+                $timestamp="no"
+                gsd_tickler_date={{!!gsd_tickdate}}
+                gsd_tickler_repeat_days={{!!gsd_tickdays}}
+            />
+            <$action-deletefield
+                $tiddler=<<currentTiddler>>
+                $timestamp="no"
+                gsd_tickdate
+                gsd_tickdays
+            />
+        </$list>
+    </$action-confirm>
+</$button>
+
+''Why:'' the sub-plugin keys off `gsd_tickler_date` on tagged actions; the rename keeps your due dates and repeat intervals intact. If you would rather not use ticklers, skip this section — the old fields are inert without the sub-plugin.
+
 !!! Clean up redundant fields
 
 You can delete the following fields from all tiddlers:
 
 * `gsd_type`
-* `gsd_realm` 
+* `gsd_realm`
 * `gsd_context`
 * `gsd_action`
-
+* `gsd_perserve` -- a typo carried over from old GSD5 versions, serving no functional purpose
 
 Use this button, which will not update timestamps:
 <$button>
     Delete GSD Fields
     <$action-confirm $message="Are you sure you want to delete the old GSD5 fields from all tiddlers?">
-        <$list filter="[has[gsd_type]] [has[gsd_realm]] [has[gsd_context]] [has[gsd_action]]">
-            <$action-deletefield 
-                $tiddler=<<currentTiddler>> 
-                $timestamp="no" 
-                gsd_type 
-                gsd_realm 
-                gsd_context 
-                gsd_action 
+        <$list filter="[has[gsd_type]] [has[gsd_realm]] [has[gsd_context]] [has[gsd_action]] [has[gsd_perserve]]">
+            <$action-deletefield
+                $tiddler=<<currentTiddler>>
+                $timestamp="no"
+                gsd_type
+                gsd_realm
+                gsd_context
+                gsd_action
+                gsd_perserve
             />
         </$list>
     </$action-confirm>

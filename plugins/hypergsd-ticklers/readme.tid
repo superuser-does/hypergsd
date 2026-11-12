@@ -72,6 +72,6 @@ As with a change of date through the widget, every shift is also recorded on the
 
 ---
 
-Based on the GSD5 ticklers extension by Roma Hicks (https://gitlab.com/gsd5-tiddlywiki/gsd5-ticklers), reworked for HyperGSD.
+Idea based on the [[GSD5 ticklers extension|https://gitlab.com/gsd5-tiddlywiki/gsd5-ticklers]] by Roma Hicks, reworked from scratch for HyperGSD.
 
 Calendar icon: Lucide (https://lucide.dev), derived from Feather. MIT License, Copyright (c) 2013--present Cole Bemis (https://raw.githubusercontent.com/lucide-icons/lucide/main/LICENSE).

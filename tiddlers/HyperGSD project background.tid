@@ -1,49 +1,51 @@
 created: 20260614130152676
-modified: 20261112195653000
-tags:
+modified: 20261112203356000
+tags: Showcase
 title: HyperGSD project background
 type: text/vnd.tiddlywiki
 creator: Yannis Anthymidis
 
-HyperGSD is a top-to-bottom re-architecture of Roma Hicks's [[GSD5 plugin|https://gsd5.tiddlyhost.com/]].
-It began with these initial goals:
+''HyperGSD'' is a top-to-bottom re-architecture of Roma Hicks's [[GSD5 plugin|https://gsd5.tiddlyhost.com/]], of which I was a longtime user and had gotten a lot of value out of over the years.
+
+HyperGSD began a few months after the release GSD5 0.9.0 with these initial goals:
 
 * Eliminate typing and navigation lag on big GSD wikis
-* End the reliance on deleting GSD actions to keep it performant, allowing actions to be kept for the long term
-* Let GSD be freely mixed in with a general-purpose wiki.
+* End the reliance on deleting GSD actions to keep the wiki performant, allowing actions to be kept for the long term
+* Fix issues and bugs I had come across
+* Let GSD be freely mixed in with a general-purpose wiki
+* Support the community, for all the support it has given me through this amazing software, and beyond.
 
-By applying many TiddlyWiki optimisation techniques, such as event delegation, pure-HTML rendering, and tag index lookups, HyperGSD has reached a point of almost entirely decoupling the task-management UI from the global refresh cycle. It is virtually invisible to the CPU until you interact with it directly, thanks to [[refresh.js|https://gist.github.com/saqimtiaz/e9611a5dd37ac247fc16aa3d4dfb3e23]] by Saq Imtiaz.
+By applying many TiddlyWiki optimisation techniques, such as refresh management, event delegation, and tag index lookups, HyperGSD has reached a point of almost entirely decoupling the task-management UI from the global refresh cycle. It is virtually invisible to the CPU until you interact with it directly, thanks chiefly to [[refresh.js|https://gist.github.com/saqimtiaz/e9611a5dd37ac247fc16aa3d4dfb3e23]] by Saq Imtiaz.
 
-Having a much bigger wiki also led to questions on how to make about how to make it more efficient and useful.
+Having a much faster, integrated wiki also led to questions on how to make HyperGSD more efficient and useful.
 I was then free to implement multiple dependencies and picker fields that let you type-to-link items, offering a better experience than the limited select boxes of old.
 
-In the process of iterating, I looked into the long lineage of GSD's for TiddlyWiki, like [[mGSD|https://mgsd.tiddlyspot.com/]], [[mGSD1|https://mgsd1.tiddlyspot.com/]] and [[d-cubed|https://dcubed.ca/Welcome_to_d-cubed.html]], integrating more features from those. I finally created the "Review" portion of HyperGSD. This is based on modular dashboards where you can add and remove elements as you like, with consistent and extensible sorting/grouping mechanisms. The mechanism to form these dashboards relies on tag lists throughout, similar to TiddlyWiki's own architecture. I then re-engineered the rest of this so most parts of the View Template as well as the modal come from tags as well.
+In the process of iterating, I looked into the long lineage of GSD projects for TiddlyWiki that GSD5 was building on, such as [[mGSD|https://mgsd.tiddlyspot.com/]], [[mGSD1|https://mgsd1.tiddlyspot.com/]] and [[d-cubed|https://dcubed.ca/Welcome_to_d-cubed.html]], integrating more features from those. I also explored the various customisations of GSD5 shared over the years for ideas.
+After this review, I finally created the "Review" portion of HyperGSD. This is based on modular dashboards where you can add and remove elements as you like, with consistent and extensible sorting/grouping mechanisms. The mechanism to form these dashboards relies on tag lists throughout, similar to TiddlyWiki's own architecture. I then re-engineered the rest of HyperGSD so most parts of the View Template as well as the modal come from tag lists.
+
+After many months of use and further iteration, it was time to share it with the world.
 
 !! Main changes from GSD5
 
-* ''"Frozen" refresh triggers'': Dashboards and ViewTemplates are now wrapped in `refresh` widgets that actively block updates during global actions (like typing in the search box). They only "wake up" if you modify a specific GSD item. This is the highest-impact of all changes in terms of delivering better performance.
-* ''EventCatcher architecture'': Replaced hundreds of heavy individual checkbox and radio button widgets with a single, lightning-fast `EventCatcher` per dashboard list.
+* ''"Frozen" refresh triggers'': Dashboards and ViewTemplates are wrapped in `$refresh` widgets that actively block updates during global actions (like typing in the search box). They only "wake up" if you modify a specific GSD item, or a config or state tiddler a visible surface has declared an interest in. This is the highest-impact of all changes in terms of delivering better performance.
+* ''EventCatcher architecture'': Replaced hundreds of heavy individual checkbox and radio button widgets with a single and fast `EventCatcher` per dashboard list.
 * ''Lazy-Loaded completed actions'': The Contact and Project ViewTemplates now feature a native "show completed actions" toggle, keeping the initial load time of large projects incredibly fast.
-* ''Pure HTML rendering'': Dashboards now render using raw `<input>` and `<button>` tags controlled by CSS classes. This flattens the widget tree and allows TiddlyWiki to perfectly cache the parse tree of your dashboards.
+* ''Pure HTML rendering where it makes sense'': Dashboards now render using raw `<input>` and `<button>` tags controlled by CSS classes. This flattens the widget tree and allows TiddlyWiki to perfectly cache the parse tree of your dashboards.
 * ''Tag-driven types'': HyperGSD relies 100% on specific tags (<<tag-pill $:/GSD/Action>>, <<tag-pill $:/GSD/Project>>, <<tag-pill $:/GSD/Contact>>, <<tag-pill $:/GSD/Reference>>) to identify items. This routes every database query through TiddlyWiki's super-fast tag index rather than performing slower field scans each time to get the `gsd_type`.
-* ''Statically-linked dashboards'': The "Dynamic Extensibility" loops that generated dashboards via shadow tags have been ripped out. Dashboards are now heavily optimized, hardcoded transclusions.
-* ''Draft tiddlers are now excluded'' from lists, so you will not see a draft and the standard tiddler on refresh.
-* ''Unified picker widget'': The Contact, Project, Pre-requisite and modal dropdowns have been consolidated into one reusable `$hgsd.pick` widget — a single popup selector whose grouped lists are built from literal, statically-cacheable filter runs.
-* ''Bulletproof checkboxes'': Status and completion doodads now use a robust conditional rendering strategy to explicitly remove the `checked` attribute when inactive, preventing browser rendering bugs.
+* ''Modular dashboards, statically cached'': Dashboards are composed from tag lists (`$:/tags/hypergsd/Lists/*`). Every section is a tagged tiddler you can add, remove or reorder, and which sections ship is configurable from the control panel. Unlike GSD5's "Dynamic Extensibility" loops, each portion renders through literal, statically-cacheable filter runs, so the parse trees still cache perfectly.
+* ''Draft tiddlers are now excluded'' from lists and refresh gates, so you will not see a draft and the standard tiddler on refresh, and typing in an open editor does not wake the frozen views. This is an example of something I implemented only once performance was sufficiently good.
+* ''The pick family'': Various select boxes (dropdowns), like to select a project, were consolidated into one type-to-search picker engine: `$hgsd.pick`, featuring two presentation layers: `$hgsd.pick-field` (a three-state, single-value field editor) and `$hgsd.pick-append` (a one-row list adder). Grouped option lists are built from literal, statically-cacheable filter runs, and the family offers create-and-add functionality. This means you can type a title that does not exist, press <kbd>Enter</kbd>, and see tiddler created and linked in one move.
+* ''A plugin family, not a monolith'': HyperGSD grew into a main plugin plus multiple optional sub-plugins, splitting off Contacts, Contexts and References. some entirely new (priorities), some reworking GSD5 ideas (ticklers were incompatible with newer versions and made a comeback). Each is also removable. The [[HyperGSD project showcase]] introduces what each one does.
 
 !! New compared to GSD5
 
-* ''Multiple dependencies'': You can now have a list of dependencies against a single GSD action, with easy ways to add and remove them.
-** While technically possible, contacts have been limited to just one, as a design decision to help productivity. If you are thinking you should list more than one contact, consider changing your action into multiple.
-* ''Searchable pickers'': Projects, contacts, contexts and pre-requisites are now chosen through a reusable popup picker (`$hgsd.pick`) instead of a flat dropdown. Type into the box to filter the list as you go. Project pickers (e.g. to select parent project) filter for titles and text default, while the pre-requisite picker also searches body text and project name. Results stay grouped under their projects, with the current project shown first for convenience.
-* ''Explicit contexts'': Contexts are now managed separately from other tags. They are deliberately not namespaced to GSD, and any page can become a context by tagging it with <<tag-pill GSD/Contexts>>
-* ''Modal options'': The new HyperGSD tiddler modal now lets you choose the type, status, project, contact, context and realm of a new item before it is created.
-* ''In-place editing'': Clicking edit beside a project or contact opens the picker pre-filled with the current value and focused ready for typing. Enter saves, Escape cancels without changing anything.
-* ''ViewTemplate position toggle'': You can now instantly toggle the GSD Panel and Dashboards to appear either Above or Below the tiddler body directly from the HyperGSD Control Panel.
+* ''Multiple dependencies, in both directions'': You can now have a list of dependencies against a single GSD action, with easy ways to add and remove them. You can now add them also as prerequisites to another tiddler
+** While technically possible, contacts have been limited to just one per tiddler, as a design decision to help productivity. If you are thinking you should list more than one contact, consider changing your action into multiple. You can also create contacts for groups of people.
+* ''Searchable pickers'': Projects, contacts, contexts and pre-requisites are chosen through the popup pickers of the pick family instead of flat dropdowns. Type into the box to filter the list as you go — titles by default, while list adders such as the pre-requisite picker also search body text and project. Results stay grouped under their projects, with the current project shown first for convenience. A pick naming no existing tiddler offers create-and-add, straight from the keyboard.
+* ''Explicit contexts'': Contexts are managed separately from other tags. Any tiddler becomes a context when you tag it <<tag-pill GSD/Contexts>>; assigning a context to an action is just a matter of tagging it with the context's title. Context pages carry their own dashboards, and new items inherit contexts from the sidebar selection, the modal and the page they were created from.
+* ''Modal options'': The new HyperGSD tiddler modal lets you choose the type, status, project, contact, context and realm of a new item before it is created — plus a due date and repeat interval when the type is a tickler. The type list is itself a tag list, so sub-plugins extend the modal without touching it.
+* ''In-place editing with keyboard support'': Clicking change beside a project or contact opens the picker pre-filled with the current value and focused ready for typing. <kbd>Enter</kbd> saves, <kbd>Esc</kbd> cancels without changing anything, and the nearby clear button blanks the field outright.
+* ''Configurable fragments'': The doodads around a row's title link, and the rows that follow a value in panels, are fragments under one tag root (`$:/tags/hypergsd/Fragment/<FragmentName>`). Each can be shown or hidden per placement and per item type from Settings → HyperGSD → Fragments, and sub-plugins ship their own.
+* ''View panel position toggles'': The GSD panel, the dashboards and every other view panel can each be set to appear either //above// or //below// the tiddler body, from the HyperGSD Control Panel.
 
-!! What Was Removed?
-
-* ''The `gsd_type` field'': This field is redundant under the new Tag-Driven architecture.
-* ''The `gsd_perserve` field'': This was a typo carried over from old GSD5 code for a field that served no functional purpose.
-* ''The `gsd_realm` field'': Realms are now plain TiddlyWiki tags, optionally assigned through the new modal.
-* ''Prefix/suffix extensibility'': The legacy tags used to dynamically inject prefix/suffix icons into list rows have been removed, as the doodads are now hardcoded for maximum performance.
+For the practical side of moving GSD5 data across to HyperGSD, see [[Migrating from GSD5 to HyperGSD]].

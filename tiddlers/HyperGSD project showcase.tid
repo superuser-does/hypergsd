@@ -20,6 +20,7 @@ HyperGSD uses technologies from the core of TiddlyWiki as much as possible. It i
 ; Dashboards for task management
 : Manage your actions and projects through a number of dashboards.
 
+For background on how and why HyperGSD was created, see [[HyperGSD project background]].
 
 ! Install HyperGSD
 
@@ -28,6 +29,8 @@ Drag-and-drop the main ''HyperGSD plugin'' to your wiki to install:
 <$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
 {{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
 </$set>
+
+If you are coming from GSD5, you might want to also drag-and-drop and import the [[Migrating from GSD5 to HyperGSD]] tiddler, which also gives an overview of the advantages of HyperGSD.
 
 !! Sub-plugins
 

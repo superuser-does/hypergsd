@@ -1,4 +1,5 @@
 title: $:/plugins/yan/hypergsd/readme
+list: contributors licence
 
 This is the main HyperGSD plugin, enabling you to manage your tasks better.
 
@@ -15,7 +16,3 @@ The plugin provides:
 * A platform for expansion with sub-plugins and beyond.
 
 Full API documentation for users and sub-plugin authors can be found under [[HyperGSD API]].
-
-[[Contributors|$:/plugins/yan/hypergsd/contributors]]
-
-[[License|$:/plugins/yan/hypergsd/license]]
