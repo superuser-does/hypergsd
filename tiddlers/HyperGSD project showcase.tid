@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112211909000
+modified: 20261112212552000
 modifier: Yannis Anthymidis
 title: HyperGSD project showcase
 type: text/vnd.tiddlywiki
@@ -12,13 +12,17 @@ type: text/vnd.tiddlywiki
 HyperGSD uses technologies from the core of TiddlyWiki as much as possible. It is intended to integrate with an all-in-one personal TiddlyWiki and exist in the same wiki as your information, but you may also use it standalone. It is intended for use and tested with the the //Vanilla// theme.
 
 ; Actions (tasks)
-: Short, single-step actions that accomplish a task.<br>Actions may also carry dependencies to/from other actions.
+: Short, ideally single-step actions that accomplish a task.<br>Actions may also carry dependencies to/from other actions.
 ; Projects
 : A collection of Actions that have a similar purpose or goal.
 ; Realms
-: Divide your Actions/Projects into appropriate, custom groupings by tagging with <<tag-pill "$:/GSD/Realm/<RealmName>">> (e.g. <<tag-pill $:/GSD/Realm/Personal>>, <<tag-pill $:/GSD/Realm/Professional>>...)
-; Dashboards for task management
-: Manage your actions and projects through a number of dashboards.
+: Divide your Actions/Projects into appropriate, custom groupings by tagging with `"$:/GSD/Realm/<RealmName>` (e.g. <<tag-pill $:/GSD/Realm/Personal>>, <<tag-pill $:/GSD/Realm/Professional>>...)
+; Dashboards
+: Manage your actions and projects through a number of dashboards and views.
+
+This wiki has several sub-plugins already installed providing more capabilities, like listing [[Contacts|$:/plugins/yan/hypergsd-contacts]] and setting [[Priorities|$:/plugins/yan/hypergsd-priorities]].
+
+You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}.
 
 For background on how and why HyperGSD was created, see [[HyperGSD project background]].
 
@@ -26,11 +30,11 @@ For background on how and why HyperGSD was created, see [[HyperGSD project backg
 
 Drag-and-drop the main ''HyperGSD plugin'' to your wiki to install:
 
-<$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
+<$let qualified-state=<<qualify "$:/state/plugin">> default-popup-state="yes">
 {{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
-</$set>
+</$let>
 
-If you are coming from GSD5, you might want to also drag-and-drop and import the [[Migrating from GSD5 to HyperGSD]] tiddler, which also gives an overview of the advantages of HyperGSD.
+If you are coming from GSD5, please also drag-and-drop to import the [[Migrating from GSD5 to HyperGSD]] tiddler and follow the instructions listed there.
 
 !! Sub-plugins
 
