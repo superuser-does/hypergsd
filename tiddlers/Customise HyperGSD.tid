@@ -1,0 +1,11 @@
+created: 20260614130152676
+creator: Yannis Anthymidis
+modified: 20261112214658000
+modifier: Yannis Anthymidis
+title: Customise HyperGSD
+type: text/vnd.tiddlywiki
+
+HyperGSD offers many options to customise it out of the box through [[Control Panel → Settings → HyperGSD|$:/plugins/yan/hypergsd/ui/control-panel]]
+
+If you want to go further, HyperGSD is a highly-extensible platform to help you track what you need to do.
+See more options on the [[HyperGSD API]] documentation.

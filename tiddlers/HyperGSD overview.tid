@@ -1,8 +1,8 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112212552000
+modified: 20261112214651000
 modifier: Yannis Anthymidis
-title: HyperGSD project showcase
+title: HyperGSD overview
 type: text/vnd.tiddlywiki
 
 ! Overview
@@ -25,32 +25,3 @@ This wiki has several sub-plugins already installed providing more capabilities,
 You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}.
 
 For background on how and why HyperGSD was created, see [[HyperGSD project background]].
-
-! Install HyperGSD
-
-Drag-and-drop the main ''HyperGSD plugin'' to your wiki to install:
-
-<$let qualified-state=<<qualify "$:/state/plugin">> default-popup-state="yes">
-{{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
-</$let>
-
-If you are coming from GSD5, please also drag-and-drop to import the [[Migrating from GSD5 to HyperGSD]] tiddler and follow the instructions listed there.
-
-!! Sub-plugins
-
-The following ''sub-plugins'' require the main plugin to be installed.
-They provide more helpful ways to track things you need to do and manage associated information:
-
-<$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
-{{$:/plugins/yan/hypergsd-contacts||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-contexts||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-priorities||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-references||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
-</$set>
-
-! Extend HyperGSD through the API
-
-You can do rich customisation from the settings out of the box. If you want to go further, HyperGSD is an extensible platform.
-
-Read more on [[HyperGSD API]].
