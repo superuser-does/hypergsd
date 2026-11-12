@@ -113,18 +113,21 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
   <$keyboard tag="div" key="((hgsd-modal-close))" actions="""<$action-sendmessage $message="tm-close-tiddler"/>""">
     <$keyboard key="((hgsd-modal-submit))" actions=<<hgsd-modal-submit>>>
       <$let current-type={{{ [<new-state>get[hgsd-type]else<gsd-type>] }}}>
-      <$edit-text
-        tiddler="$:/temp/gsd-new-title"
-        field="hgsd-title"
-        placeholder={{{ [[$:/language/hypergsd/NewItem/TitlePlaceholder]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<current-type>] }}}
-        class="gsd-new-modal"
-        focus="true" />
-      <$button actions=<<hgsd-modal-submit>> class="gsd-new-modal-btn">
-        <<lingo Create>>
-      </$button>
-      <$checkbox tiddler="$:/state/hypergsd/create-another" field="text" checked="yes" unchecked="no" default="no">
-        <<lingo CreateAnother>>
-      </$checkbox>
+      <!-- The title row: the pick-row pair (gsd-list-item + hgsd-sizer-droplist) — flex + gap spaces the input, Create button and Create another checkbox (trim removes the inline whitespace). No hgsd-sizer-select: panel rows stretch only inside their fit-content chassis, and the modal body is full-width — the input keeps its natural width. -->
+      <div class="gsd-list-item hgsd-sizer-droplist">
+        <$edit-text
+          tiddler="$:/temp/gsd-new-title"
+          field="hgsd-title"
+          placeholder={{{ [[$:/language/hypergsd/NewItem/TitlePlaceholder]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<current-type>] }}}
+          class="gsd-new-modal"
+          focus="true" />
+        <$button actions=<<hgsd-modal-submit>> class="gsd-new-modal-btn">
+          <<lingo Create>>
+        </$button>
+        <$checkbox tiddler="$:/state/hypergsd/create-another" field="text" checked="yes" unchecked="no" default="no">
+          <span class="tc-tiny-gap-left"><<lingo CreateAnother>></span>
+        </$checkbox>
+      </div>
 
       <!-- Inline parse mode inside <$keyboard> never forms paragraphs from blank lines, so the gap above Attributes is a literal empty paragraph -->
       <p>&nbsp;</p>

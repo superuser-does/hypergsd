@@ -295,6 +295,7 @@ The `subfilter` OPERATOR does not reorder its input: `[enlist<A C B>] subfilter<
 
 - **Stylesheet tiddlers render through wikitext**: the typography rule converts a literal `--` to an en-dash (U+2013), which silently invalidates CSS custom properties (`--x: v` arrives as `–x: v` and the declaration is dropped). Write the dashes as `&#45;&#45;` entities — entities decode after the typography pass.
 - **Widgets do not parse inside quoted attribute values:** CSS like `option[value="<$text text=<<var>>/>"]` emits the widget source literally into the stylesheet. Emit dynamic text inside a quoted attribute with a filtered transclusion in text position — `option[value="{{{ [<var>] }}}"]` — and keep `<$text …/>` for block/text positions.
+- **A stretch class means "fill the host row", and the host's width decides what that is:** `flex: 1 1 0` on a control resolves to its natural width while the host shrink-wraps (`width: fit-content` — the panel chassis `.hgsd-capture`), but grows the control to the row's edges inside a full-width host (a modal body). Copying a panel row's classes into a full-width surface silently turns the natural-width input into a full-width one — keep the flex+gap row pair, drop the sizer class. Worked example: new-gsd-modal's title row reuses the pick-row pair without `hgsd-sizer-select` for exactly this reason.
 
 # Print layout
 
