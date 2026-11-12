@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112225711000
+modified: 20261112230530000
 modifier: Yannis Anthymidis
 title: Install HyperGSD
 type: text/vnd.tiddlywiki
@@ -24,4 +24,5 @@ They provide more helpful ways to track things you need to do and manage associa
 {{$:/plugins/yan/hypergsd-priorities||$:/core/ui/Components/plugin-info}}
 {{$:/plugins/yan/hypergsd-references||$:/core/ui/Components/plugin-info}}
 {{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-trashbin||$:/core/ui/Components/plugin-info}}
 </$set>
