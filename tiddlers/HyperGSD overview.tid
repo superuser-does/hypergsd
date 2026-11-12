@@ -1,13 +1,11 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112214651000
+modified: 20261112215604000
 modifier: Yannis Anthymidis
 title: HyperGSD overview
 type: text/vnd.tiddlywiki
 
-! Overview
-
-''HyperGSD'' is a series of plugins that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do.
+''HyperGSD'' is a series of plugins for [[TiddlyWiki|https://tiddlywiki.com/]] that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do. It aims to gracefully combine TiddlyWiki with the David Allen's [[Getting Things Done|https://joecotellese.com/posts/getting-things-done-book-summary/]] workflow for task management.
 
 HyperGSD uses technologies from the core of TiddlyWiki as much as possible. It is intended to integrate with an all-in-one personal TiddlyWiki and exist in the same wiki as your information, but you may also use it standalone. It is intended for use and tested with the the //Vanilla// theme.
 
@@ -24,4 +22,4 @@ This wiki has several sub-plugins already installed providing more capabilities,
 
 You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}.
 
-For background on how and why HyperGSD was created, see [[HyperGSD project background]].
+HyperGSD builds on a long series of previous "GSD" plugins for TiddlyWiki, which date back to the mid-2000s. For background on how and why HyperGSD was created, see [[HyperGSD project background]].
