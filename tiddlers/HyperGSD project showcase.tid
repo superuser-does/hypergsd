@@ -1,15 +1,14 @@
 created: 20260614130152676
-modified: 20260906074654935
+modified: 20261112185957000
 tags:
 title: HyperGSD project showcase
 type: text/vnd.tiddlywiki
 
 ! Overview
 
-''HyperGSD'' is a series of plugins that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, to help you manage and prioritise the things you need to do.
+''HyperGSD'' is a series of plugins that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do.
 
-HyperGSD carefully follows TiddlyWiki standards and uses the core's affordances as much as possible. It is intended to integrate with an all-in-one personal wiki, but you can also use it standalone. It is intended for use and tested against the vanilla theme, supporting.
-
+HyperGSD uses technologies from the core of TiddlyWiki as much as possible. It is intended to integrate with an all-in-one personal TiddlyWiki and exist in the same wiki as your information, but you may also use it standalone. It is intended for use and tested with the the //Vanilla// theme.
 
 ; Actions (tasks)
 : Short, single-step actions that accomplish a task.<br>Actions may also carry dependencies to/from other actions.
@@ -23,7 +22,7 @@ HyperGSD carefully follows TiddlyWiki standards and uses the core's affordances 
 
 ! Install HyperGSD
 
-Just drag-and-drop the main HyperGSD plugin to your wiki to install:
+Drag-and-drop the main ''HyperGSD plugin'' to your wiki to install:
 
 <$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
 {{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
@@ -31,7 +30,8 @@ Just drag-and-drop the main HyperGSD plugin to your wiki to install:
 
 !! Sub-plugins
 
-The following ''sub-plugins'' which extend HyperGSD and provide helpful ways to track your actions, are also available:
+The following ''sub-plugins'' require the main plugin to be installed.
+They provide more helpful ways to track things you need to do and manage associated information:
 
 <$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
 {{$:/plugins/yan/hypergsd-contacts||$:/core/ui/Components/plugin-info}}
@@ -41,6 +41,8 @@ The following ''sub-plugins'' which extend HyperGSD and provide helpful ways to 
 {{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
 </$set>
 
-! API
+! Extend HyperGSD through the API
 
-TODO
+You can do rich customisation from the settings out of the box. If you want to go further, HyperGSD is an extensible platform.
+
+Read more on [[HyperGSD API]].
