@@ -2,113 +2,17 @@ title: $:/plugins/yan/hypergsd/readme
 
 This is the main HyperGSD plugin, enabling you to manage your tasks better.
 
-HyperGSD is highly customisable. Out of the box, it provides a two-part way of organising your work, with discrete "Capture" (collecting tasks) and "Review" (sorting and prioritising tasks) steps. You can find tools for both these process in the sidebar.
+HyperGSD is highly customisable. Out of the box, it provides a two-part way of organising your work, with discrete "Capture" (collecting tasks) and "Review" (sorting and prioritising tasks) steps.
+You can find tools for both these processes in the sidebar.
 
 The plugin provides:
 
 * Actions (tagged $:/GSD/Action)
-* Projects, which can contain actions or other projects (tagged $:/GSD/Project)
-* Realms, to help compartmentalise different domains of interest. Realms as simple tags (add from Migrating tiddler)
+* Projects, which can contain actions or other projects (tagged <<tag-pill $:/GSD/Project>>)
+* Realms, to help compartmentalise different domains of interest. Realms are simple tags (in the format of <<tag-pill "$:/GSD/Realm/<RealmName>">>), with the ability to select the realm(s) you are operating in from the //Review// sidebar tab
 * Several dashboards which can be found in the "Review" sidebar. These are mainly composed from re-usable lists that you can configure in HyperGSD's list settings.
 * Cleanup dashboards
-* A platform for expansion with other plugins
-
----
-
-''THIS MAY NOT BE NEEDED - GET AI TO CHECK API DOCS''
-
-<$details summary="tutorials">
-
-! Extending HyperGSD
-
-New sections can be added to the view panel and the new-item modal without touching plugin code.
-
-To add a section, create a tiddler:
-
-* tagged `$:/tags/hypergsd/PanelTemplate` (view panel) or `$:/tags/hypergsd/ModalTemplate` (modal), plus a numbered group tag such as `.../PanelTemplate/Portion/2` — a group comes into existence the moment a section claims it (no `/Right`-style layout tags to create); untagged sections land in Portion/1
-* with a `caption` field naming the section in the control panel's Sections tab
-* whose content renders the section — plain HTML is enough, no plugin classes required
-
-Example — a "Due date" box in the view panel:
-
-```
-title: $:/plugins/MyStuff/ui/panel/due
-caption: Due date
-tags: $:/tags/hypergsd/PanelTemplate $:/tags/hypergsd/PanelTemplate/Portion/2
-
-\whitespace trim
-<%if [is[current]tag[$:/GSD/Action]] %>
-<label>Due: <$edit-text tiddler=<<currentTiddler>> field="my_due" type="date"/></label>
-<%endif%>
-```
-
-What you get for free:
-
-* membership, ordering (drag entries in ''control panel → HyperGSD → Sections''), and per-section show/hide
-* automatic portioning and layout: every distinct portion tag in use (Portion/1, Portion/2, ...) renders its own slot; portions sit side by side and the container is only as wide as its content, with `Portion/Top` and `Portion/Full` spanning the full width before and after them. Order is numeric — zero-pad (`Portion/01`) beyond nine portions. Within a portion, sections stack vertically or flow horizontally per the ''panel layout'' setting (control panel → HyperGSD → Core)
-* spacing, nested `fieldset`/`legend` styling, and the stacked caption-over-control label layout inherited from container rules
-
-Custom portions: the Portion picker in Settings (beside each draggable row) assigns the layout slot — numbered portions sit side by side, `Portion/Top` spans the full width above them ("Top, full-width") and `Portion/Full` below ("Bottom, full-width"); the same vocabulary serves panel sections, modal sections and dashboard lists.
-
-Custom statuses: the status vocabulary is hardcoded in [[$:/plugins/yan/hypergsd/modules/status-sets]] (next/waiting/future for actions, active/future for projects). Replace that tiddler wholesale — same title, keep the Global tag and both function names, re-ship the label/glyph procedures — and pills, row glyphs, colours and modal validation follow. See [[the action type page|Action]].
-
-Custom completion warnings: completing an item whose tag list warning trips (by default, a project with open actions or sub-projects) asks for confirmation first. The `list` field of `$:/tags/hypergsd/Complete/Warning` is the active set — append a member title to add a warning, delete one to retire it (the built-in included). See [[the completion warnings page|Completion warnings]].
-
-Notes:
-
-* Use `currentTiddler` (or `is[current]`) to guard a section by the viewed tiddler's type, like the built-in sections do.
-* Interactive controls: standard widgets (`<$button>`, `<$checkbox>`, `<$edit-text>`) carry their own event handling. Raw `<input>` elements are only wired up for the plugin's own `data-hgsd-*` actions via the `hgsd-interactive` event delegation — new actions require extending `$:/plugins/yan/hypergsd/modules/event-handler`.
-* In the modal, the chassis provides `new-data-title` (the working tiddler), `current-type` (selected type) and the invoking button's `gsd-*` parameters as variables. Submitting with ''create another'' ticked keeps the working tiddler and reopens the modal with only the title wiped; the checkbox is session state in `$:/state/hypergsd/create-another`.
-
-! Registering a new item type
-
-GSD item types live in the `$:/tags/hypergsd/Type` tag list — a tiddler per type, tagged with the tag, whose `hgsd-type` field holds the type name (must be unique):
-
-```
-title: $:/GSD/Stakeholder
-tags: $:/tags/hypergsd/Type
-hgsd-type: stakeholder
-```
-
-A type in the Type tag list automatically: refreshes all GSD views when its items change, appears in the new-item modal's Type dropdown (order: the tag tiddler's `list`, then alphabetical), and gets its tag applied on creation. Optionally add an ''after-creation rule'': a tiddler tagged `$:/tags/hypergsd/AfterCreation` whose body is executed after every creation, with `hgsd-new-title`, `hgsd-new-type` and `hgsd-calling-tiddler` in scope (see `$:/plugins/yan/hypergsd-contacts/modules/after-create/contact-delegation` for the pattern — the Contacts sub-plugin is a complete worked example of extending HyperGSD).
-
-! Adding a row decoration
-
-Every list row (dashboards, project and contact views) renders the tiddlers tagged `$:/tags/hypergsd/Fragment/Row/Prefix`, then the title link, then those tagged `$:/tags/hypergsd/Fragment/Row/Suffix`. Tag any tiddler to hook a fragment into every row:
-
-```
-title: My due-date fragment
-tags: $:/tags/hypergsd/Fragment/Row/Suffix
-```
-
-* The fragment must ''self-gate'' — start with an `<%if%>` that renders nothing when it does not apply (e.g. only for actions, only when complete), like the built-in fragments in `$:/plugins/yan/hypergsd/ui/list-items/`.
-* `currentTiddler` inside a fragment is the row's item. Two further signals support suppression: `storyTiddler` is the tiddler whose view the row renders inside (so a fragment can hide itself on the target's own page), and `current-group` is the grouped list's heading value (set only in grouped lists). The built-in ''project link'' suffix uses both: a jump-to-project icon on any row whose item carries `gsd_project`, hidden on the project tiddler and in lists grouped by project, tooltip the project's title. The Contacts sub-plugin ships the matching contact link for `gsd_contact`.
-* Ordering: fragments render in the engine's tag-list order — any tag-tiddler `list` first, then member `list-before`/`list-after` pins, unlisted ones appending alphabetically. The plugin ships a `list` on the Row/Suffix tag tiddler pinning `comp-date → body-text → realm → project-link → delete`; the priorities sub-plugin's select pins itself after the status pills with a `list-after` on the fragment. To reorder or slot your fragment among them, edit the placement tag tiddler and set its `list` field — a user-level `list` overrides both pins and alphabetical order.
-* Adding or editing a fragment updates open views immediately; ''removing'' one takes effect on the next view refresh — same as GSD item deletion (frozen views cannot match a tiddler that no longer exists).
-* ''Type suppression'': a fragment hidden for a type via `$:/config/hypergsd/Fragment/type-hide/<full member title>/<type>` (reading `hide`; absent = show) renders on no row of that type. Settings → HyperGSD → Fragments is data-driven over the `$:/tags/hypergsd/Fragment/` root: one draggable per placement, a placement select that moves a fragment between the Link, Row-before and Row-after placements, and one tick box per type in the vocabulary on every row (row placements key on the row item's type, the Panel placement on the link target's) — drag reorders within one placement. Shipped defaults: everything on Actions; nothing on Contacts or Contexts; on Projects only the status selector, the project link, the priority select, the trash button and the context picker; on References only the project link. The cross-realm globe is not a fragment: hosts render it directly, one switch in Settings → Lists governs it, and it never appears for contexts.
-
-! Lazy lists
-
-Any list tiddler can carry its own disclosure — wrap its content in `$hgsd.toggle` and it renders collapsed behind a button on every page that registers it (the tag list and the portion chassis stay dumb to it; the shipped completed lists work this way):
-
-```
-<$hgsd.toggle text="show archived items..." hide-text="hide archived items">
-  <$hgsd.list list-heading="Archive" list-filter="…"/>
-</$hgsd.toggle>
-```
-
-* `text` / `hide-text` are the button labels (hide-text defaults to text); `state` overrides the default state tiddler, which is `$:/state/hypergsd/show-completed/<hosting page>` — members sharing the default toggle together on a page (an overriding member keeps the gate-admitted prefix and the hosting page as the title's suffix, the shape the refresh gates scope on).
-* `class` is added to both buttons (the widget contributes `hgsd-toggle-closed`/`-open` state hooks); `unwrap-tag-lists` lists tag lists where the content renders bare — the pattern the dedicated Completed pages use for these very lists.
-* The default state prefix is the one the dashboard chassis refresh gate admits; a custom prefix inside a dashboard member needs matching gate runs ([[refresh gates|Refresh gates]]).
-* `$hgsd.toggle` is a thin convenience over the standard `<$reveal>` idiom — drop to core widgets when you need more than it exposes.
-
-! Grouping dimensions
-
-Pass `group-select="yes"` to any `$hgsd.list` and it renders a radio strip under its heading letting the user group the list by any offered dimension — Projects, Contacts, Contexts, Realms out of the box — plus an "include ungrouped" toggle. Dimensions live in the `$:/tags/hypergsd/GroupBy` tag list: a member is pure data (`group-key`, a per-item `group-filter` emitting group titles, optional `label-filter`), so a third-party field becomes groupable with one small tiddler. Sorting works the same way through `$:/tags/hypergsd/SortBy` — a member carries a complete sort expression (`sort-filter`), so multi-field sorts are just more runs. Members name themselves with a `caption` field (a lingo transclusion, the core PageControls convention), and both tag lists are drag-ordered in Settings → Dashboards. Choices persist per list, and `group-default`/`sort-default` name tag-list tiddlers for out-of-the-box behaviour. Every shipped dashboard list now carries the strip. See [[Grouping dimensions|Grouping dimensions]] and [[Sorting dimensions|Sorting dimensions]].
-
-</$details>
-
-Currently, en-US/GB language only.
+* A platform for expansion with sub-plugins and beyond.
 
 Full API documentation for users and sub-plugin authors can be found under [[HyperGSD API]].
 
