@@ -1,4 +1,4 @@
-caption: <$hgsd.convert>
+caption: $hgsd.convert
 title: hgsd.convert widget
 tags: Documentation [[HyperGSD API]]
 

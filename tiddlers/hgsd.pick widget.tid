@@ -1,4 +1,4 @@
-caption: <$hgsd.pick>
+caption: $hgsd.pick
 title: hgsd.pick widget
 tags: Documentation [[HyperGSD API]]
 

@@ -1,18 +1,23 @@
 created: 20260614130152676
-modified: 20260906074654935
+modified: 20261112194625000
 tags:
 title: HyperGSD project background
 type: text/vnd.tiddlywiki
+author: Yannis Anthymidis
 
-HyperGSD is a top-to-bottom re-architecture of the classic GSD5 plugin. It began with this initial goal:
+HyperGSD is a top-to-bottom re-architecture of Roma Hicks's [[GSD5 plugin|https://gsd5.tiddlyhost.com/]].
+It began with these initial goals:
 
 * Eliminate typing and navigation lag on big GSD wikis
 * End the reliance on deleting GSD actions to keep it performant, allowing actions to be kept for the long term
 * Let GSD be freely mixed in with a general-purpose wiki.
 
-By applying advanced TiddlyWiki optimisation techniques, such as Event Delegation, pure-HTML rendering, and strict index lookups, HyperGSD completely decouples the task-management UI from the global refresh cycle. It is virtually invisible to the CPU until you interact with it directly, thanks to `refresh.js` by Saq Imtiaz.
+By applying many TiddlyWiki optimisation techniques, such as event delegation, pure-HTML rendering, and tag index lookups, HyperGSD has reached a point of almost entirely decoupling the task-management UI from the global refresh cycle. It is virtually invisible to the CPU until you interact with it directly, thanks to [[refresh.js|https://gist.github.com/saqimtiaz/e9611a5dd37ac247fc16aa3d4dfb3e23]] by Saq Imtiaz.
 
-Having a much bigger wiki also led to questions on how to make about how to make it more efficient and useful. I
+Having a much bigger wiki also led to questions on how to make about how to make it more efficient and useful.
+I was then free to implement multiple dependencies and picker fields that let you type-to-link items, offering a better experience than the limited select boxes of old.
+
+In the process of iterating, I looked into the long lineage of GSD's for TiddlyWiki, like [[mGSD|https://mgsd.tiddlyspot.com/]], [[mGSD1|https://mgsd1.tiddlyspot.com/]] and [[d-cubed|https://dcubed.ca/Welcome_to_d-cubed.html]], integrating more features from those. I finally created the "Review" portion of HyperGSD which is based on modular dashboards where you can add and remove elements as you like, with consistent and extensible sorting/grouping mechanisms, based on tag lists throughout, similar to TiddlyWiki's own architecture.
 
 !! What's new?
 
@@ -30,7 +35,7 @@ Having a much bigger wiki also led to questions on how to make about how to make
 * ''EventCatcher architecture'': Replaced hundreds of heavy individual checkbox and radio button widgets with a single, lightning-fast `EventCatcher` per dashboard list.
 * ''Lazy-Loaded completed actions'': The Contact and Project ViewTemplates now feature a native "show completed actions" toggle, keeping the initial load time of large projects incredibly fast.
 * ''Pure HTML rendering'': Dashboards now render using raw `<input>` and `<button>` tags controlled by CSS classes. This flattens the widget tree and allows TiddlyWiki to perfectly cache the parse tree of your dashboards.
-* ''Tag-driven types'': HyperGSD relies 100% on specific tags (<<tag-pill $:/GSD/Action>>, <<tag-pill $:/GSD/Project>>, <<tag-pill $:/GSD/Contact>>, <<tag-pill $:/GSD/Reference>>) to identify items. This routes every database query through TiddlyWiki's ultra-fast C-level tag index rather than performing slow field scans.
+* ''Tag-driven types'': HyperGSD relies 100% on specific tags (<<tag-pill $:/GSD/Action>>, <<tag-pill $:/GSD/Project>>, <<tag-pill $:/GSD/Contact>>, <<tag-pill $:/GSD/Reference>>) to identify items. This routes every database query through TiddlyWiki's super-fast tag index rather than performing slower field scans each time to get the `gsd_type`.
 * ''Statically-linked dashboards'': The "Dynamic Extensibility" loops that generated dashboards via shadow tags have been ripped out. Dashboards are now heavily optimized, hardcoded transclusions.
 * ''Draft tiddlers are now excluded'' from lists, so you will not see a draft and the standard tiddler on refresh.
 * ''Unified picker widget'': The Contact, Project, Pre-requisite and modal dropdowns have been consolidated into one reusable `$hgsd.pick` widget — a single popup selector whose grouped lists are built from literal, statically-cacheable filter runs.

@@ -29,7 +29,7 @@ logic is wikitext.
 | Core requirement | >= 5.4.0 |
 | Main-plugin content | 235 files + `plugin.info` (217 tid + 17 multids + 1 js) |
 | Sub-plugin content | contacts 42 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 29 (23/4/1), trashbin 7 (5/1/0) — tid/multids/js |
-| Docs | `readme.tid` is the stub entry point; `ui/readme.tid` (`$:/language/Help/hypergsd/about`) keeps the GSD5 author credit (fork lineage attribution); the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
+| Docs | `readme.tid` is the stub entry point; the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
 ## 2. Code organisation
@@ -1567,7 +1567,6 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   `$:/config/hypergsd/list-view/GSD/References/References`).
 
 Intentional:
-- ui/readme.tid keeps GSD5 author credit — fork lineage attribution.
 - Dashboard page titles are user-facing (`GSD/…`, linked by plain title from
   the sidebar and buttons); filenames match the last title segment by design,
   so the filename=title rule deliberately does not apply to them.

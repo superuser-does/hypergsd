@@ -1,4 +1,4 @@
-caption: <$hgsd.pick-field>
+caption: $hgsd.pick-field
 title: hgsd.pick-field widget
 tags: Documentation [[HyperGSD API]]
 
