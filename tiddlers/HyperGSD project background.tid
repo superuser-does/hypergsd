@@ -1,9 +1,10 @@
 created: 20260614130152676
-modified: 20261112203356000
+creator: Yannis Anthymidis
+modified: 20261112205429000
+modifier: Yannis Anthymidis
 tags: Showcase
 title: HyperGSD project background
 type: text/vnd.tiddlywiki
-creator: Yannis Anthymidis
 
 ''HyperGSD'' is a top-to-bottom re-architecture of Roma Hicks's [[GSD5 plugin|https://gsd5.tiddlyhost.com/]], of which I was a longtime user and had gotten a lot of value out of over the years.
 
