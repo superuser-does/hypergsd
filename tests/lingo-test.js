@@ -75,7 +75,7 @@ check("override removed", render("$:/plugins/yan/hypergsd/ui/control-panel/view-
 // 5. Every family ships its expected shadows (en-GB, main plugin)
 const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix + "]]").length;
 const fams = {
-  "$:/language/hypergsd/Settings/": 155, "$:/language/hypergsd/Sections/": 75,
+  "$:/language/hypergsd/Settings/": 157, "$:/language/hypergsd/Sections/": 75,
   "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 80,
   "$:/language/hypergsd/Dashboards/": 22, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 42, "$:/language/hypergsd/NewItem/": 5,

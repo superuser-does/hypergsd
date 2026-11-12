@@ -22,13 +22,13 @@ logic is wikitext.
 | | |
 |---|---|
 | Main plugin | `$:/plugins/yan/hypergsd` v0.12.0 (`plugin.info`) — "Get Stuff Done in hypermedia" |
-| Sub-plugins | hypergsd-contacts v0.2.1, hypergsd-contexts v0.2.1, hypergsd-priorities v0.1.0, hypergsd-references v0.2.1, hypergsd-ticklers v0.3.0, hypergsd-trashbin v0.2.1 |
+| Sub-plugins | hypergsd-contacts v0.2.2, hypergsd-contexts v0.2.2, hypergsd-priorities v0.1.1, hypergsd-references v0.2.2, hypergsd-ticklers v0.3.1, hypergsd-trashbin v0.2.2 |
 | Vendored dependency | `$:/plugins/kookma/trashbin` v1.3.6 under `plugins/trashbin/` (third-party, soft dependency of hypergsd-trashbin) |
 | Author | Yannis Anthymidis (fork); upstream GSD5 by Roma Quintin Hicks et al. |
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
-| Main-plugin content | 209 files + `plugin.info` (190 tid + 17 multids + 1 js) |
-| Sub-plugin content | contacts 39 files (29/9/0), contexts 24 (17/6/0), priorities 15 (10/4/0), references 17 (12/4/0), ticklers 25 (19/4/1), trashbin 4 (2/1/0) — tid/multids/js |
+| Main-plugin content | 235 files + `plugin.info` (217 tid + 17 multids + 1 js) |
+| Sub-plugin content | contacts 42 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 29 (23/4/1), trashbin 7 (5/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; `ui/readme.tid` (`$:/language/Help/hypergsd/about`) keeps the GSD5 author credit (fork lineage attribution); the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
@@ -458,9 +458,12 @@ plugins/hypergsd/
 │   history field is a chronological list of every date carried — every
 │   pick, shift press and automatic roll appends the new date, so the last
 │   entry is always the current one). ALL check policy is wikitext
-│   (modules/tickler-check.tid, Global procedure: due-day alert ONLY —
-│   incomplete + the core days operator's local calendar day
-│   (days:gsd_tickler_date[0]), never past-due; the date field is NEVER
+│   (modules/tickler-check.tid, Global procedure: due-day-or-overdue
+│   raise — the stored date part (17-char string minus its nine
+│   trailing zeros) compared lteq the LOCAL calendar date, incomplete
+│   always + completed with a positive repeat interval, once per local
+│   day via the $:/temp/hypergsd/Ticklers/AlertDay temp gate; the
+│   date field is NEVER
 │   deleted (an overdue tickler stays dashboard-visible until handled —
 │   no unseen device login can silently consume it); the alert body
 │   carries the title link + core-contract Complete checkbox + the
@@ -470,9 +473,10 @@ plugins/hypergsd/
 │   date, alert binds now + binds the widget's after-shift-actions so
 │   shifts dismiss), dismissing itself on completion or shift (a
 │   toolbar-closed banner re-raises at the next day's first check while
-│   due and incomplete); then phase-preserving rollover via range/multiply/
-│   TIMESTAMP/add/compare chains at any overdue age, revival a day before
-│   due); ALL date arithmetic is core filters (format:date[TIMESTAMP]
+│   its raise condition still holds); then phase-preserving rollover via
+│   range/multiply/TIMESTAMP/add/compare chains at any overdue age (no
+│   revival pass — completion sticks, the banner is the due-again
+│   signal); ALL date arithmetic is core filters (format:date[TIMESTAMP]
 │   reads epoch milliseconds, add shifts, format:timestamp canonicalises
 │   back to the midnight form — no custom operator); the only JS is a
 │   ~15-line browser trigger running the procedure at startup, hourly on
@@ -1209,7 +1213,7 @@ enter/escape per-widget.
 | `$:/tags/hypergsd/Type` + members (`hgsd-type` field) | **type tag list** — item-type tag-tiddlers (the `context` member ships from the HyperGSD-Contexts sub-plugin, `contact` from HyperGSD-Contacts, `reference` from HyperGSD-References); drives the generic refresh gate (`modules/type-gate.tid` `\procedure hgsd-type-gate`), the modal Type dropdown, and the creation paths' type→tag mapping (`\function hgsd-type-tag` in modules/create-and-add.tid; unique `hgsd-type` values are an extension-author contract, `first[]` guards duplicates). Naming: `hgsd-type` follows core's hyphenated shadow-config convention (caption, list-after, plugin-type) — dotted fields (draft.of, throttle.refresh) are transient/behavioral, not config. The modal temp's selected type is also `hgsd-type` |
 | `ui/panel/dependants` mirror picker | the "Prerequisite of" section carries the full DependsOn interaction writing the OTHER side: picker over incomplete actions minus self (the literal filter carries a `-[<currentTiddler>]` run — variable operands resolve at evaluation, so self-exclusion needs no dynamic composition), add/remove write the PICKED action's `gsd_prerequisites` (both sections' rows sort `gsd_complete` — incomplete first, stable within groups — and every add path clears the per-action pick afterwards), typed new picks go through `hgsd-create-and-add` with `new-prereq` (blank `target-field` skips the target write; `target-tiddler` still names the caller for AfterCreation rules) |
 | `$:/tags/hypergsd/AfterCreation` | post-create extension point — tagged rules transcluded by the shared runner `hgsd-run-after-create` (modules/run-after-create.tid, $:/tags/Global) after EVERY creation: the modal (new-source=modal) AND create-and-add pickers (new-source=picker, calling-tiddler = the tiddler whose field receives the item). Contract vars `hgsd-new-title`/`hgsd-new-type`/`hgsd-calling-tiddler`/`hgsd-new-source` are `$let` into scope (plain tiddler transclusion inherits caller scope but DROPS extra <$transclude> attributes — those only reach procedures/widgets). No list-field pinning: navigation is not a member — each creation path navigates itself after the hook honouring new-action-navigate / new-project-navigate (the modal always for other types; pickers stay in place for them), so members are order-independent and no rule invalidates the invoking tree mid-chain. Members must read created-item data through ACTION attributes (invoke-time) — the calling tree renders before the item exists; the priorities default-priority rule is the reference. Shipped rules: contact-delegation + priorities default-priority (sub-plugins) |
-| `$:/tags/hypergsd/Ticklers/Snooze` + members | snooze-interval tag list (sub-plugin) — each member carries `days` + `caption`; the tickler alert body renders one button per member (list field pins one-day → one-week; ship your own by tagging) |
+| `$:/tags/hypergsd/Ticklers/Shift` + `$:/tags/hypergsd/Ticklers/Alert` + members | shift-button tag lists (sub-plugin) — Shift is the panel set beside the tickler date, Alert the banner set; each member carries `days` + `label` + `tooltip` (+optional `class`), rendered by the shared `$hgsd.tickler-shift` widget (the Alert list's `list` field pins day → week; per-member visibility knobs under `$:/config/hypergsd/Ticklers/Shift\|Alert/visibility/`, the year member ships withdrawn) |
 | `$:/tags/hypergsd/Capture` / `$:/tags/hypergsd/Review` + members | **sidebar tag lists** — members own the capture/review sidebars outright, rendered through hgsd-portions-core grouped by their numeric `Portion/<n>` tag (numbers only, no Top/Full bands; untagged members land in Portion/1; the review list ships 1-4 then 7-9 deliberately — 7 references/ticklers, 8 contexts/contacts, 9 the cleanup pair — leaving 5-6 free for later additions; portion numbers order numerically past 9). Capture: 1 the two defaults selects, 2 the common new-item buttons (action/project/reference — new-reference pins list-after new-project), 3 the rarer pair (contact/context), 4 the realm note. Review: 1 realm selection, 2 the dashboard link, 3 the action links, 4 the project links. Within-portion order is the engine's sortByList (the tag list's core-only `list` field first, member list-before/list-after pins, then engine registration order — the sub-plugin pairs in 7 and 8 ride engine order, no pin and no core anchor lives there); the Settings → Sidebar tab renders one `hgsd-visibility-list` draggable per tab (`bands="no"` — numeric Portion picker per row, no band options); hide writes `$:/config/hypergsd/Capture\|Review/visibility/<title>` (default show), gated per entry by the renderer. Buttons are single `<$hgsd.new-button>` invocations; members ship from whichever plugin owns the type, so an absent sub-plugin is a missing entry (a portion whose members are all absent never exists; an all-hidden one renders an empty div collapsed by `:empty`) |
 | `$:/config/hypergsd*/visibility/*` (11 list .multids across main + sub-plugins) | per-dashboard list visibility + drag-order seeds — live, consumed by the dashboard tag loops (see §7) |
 
@@ -1592,7 +1596,7 @@ tiddlers plus both codebases.
 | New-item flow | modal with type+title (status side-effects) | modal + type/status/project/contact/context/realm pickers, per-type status memory, keyboard submit/cancel, cancel-preserves-temp; inheritance = `$:/tags/hypergsd/Inheritance` rules at creation (informal-tags default, realm, contexts' context-tags; field values are the sections' — the temp pass-through copies render-time fields, mid-submit mutation never reaches it) |
 | Pickers | flat `<$select>` dropdowns w/ dynamic filters | `$hgsd.pick` searchable popup (optgroups, current-project-first, extended search); cacheable static filters; blank-on-broken-link tradeoff |
 | Deletion | core delete + refresh | no delete listener → ghost rows until refresh/next edit (deliberate) |
-| Ticklers | subplugin (`gsd_tickdate`) | re-shipped as plugins/hypergsd-ticklers: `gsd_tickler_date` + `gsd_tickler_repeat_days`, wikitext check policy, browser trigger hourly; GSD5's rollover bug fixed; firing is non-destructive (date never removed, due-day alerts, per-session dismissal); date arithmetic is core filters (`format:date[TIMESTAMP]`→`add`→`format:timestamp`), the quick buttons are advance buttons on the date section (+d/+w/+m/+y), the `gsd_tickler_date_history` ledger appends on every date write, due-today via the core `days` operator; the alert day is a local-date string compare (stored date part vs `<<now YYYY0MM0DD>>`) so alerts fire from local midnight in every timezone, with a dedicated self-rescheduling midnight run in the trigger |
+| Ticklers | subplugin (`gsd_tickdate`) | re-shipped as plugins/hypergsd-ticklers: `gsd_tickler_date` + `gsd_tickler_repeat_days`, wikitext check policy, browser trigger at startup/hourly/midnight; GSD5's rollover bug fixed; firing is non-destructive (date never removed, due-day-or-overdue alerts, once-per-local-day re-raise); date arithmetic is core filters (`format:date[TIMESTAMP]`→`add`→`format:timestamp`), the quick buttons are advance buttons on the date section (+d/+w/+m, +y withdrawn), the `gsd_tickler_date_history` ledger appends on every date write; the alert day is a local-date string compare (stored date part vs `<<now YYYY0MM0DD>>`) so alerts fire from local midnight in every timezone, with a dedicated self-rescheduling midnight run in the trigger |
 | Namespace | `$:/config/gsd5/*`, `$:/tags/GSD5*` | `$:/config/hypergsd/*`, `$:/tags/hypergsd*`, `$:/state/hypergsd/*`; stragglers: CamelCase state titles (see §7) |
 | Dashboards | plain titles (Dashboard, Contacts…) + Table Dashboard via plugin | `GSD/` title prefix; no table dashboard variant ships; Contexts dashboard added |
 | Colours | per-status CSS tiddlers | `hgsd-status-colours` dictionary + generated per-status stylesheet rules (the colour-manager/PaletteManager editor still edits the dictionary) |
