@@ -4,7 +4,7 @@
     "description": "Get Stuff Done in hypermedia",
     "author": "Yannis Anthymidis",
     "core-version": ">=5.4.0",
-    "list": "readme",
-    "version": "0.12.0",
+    "list": "readme contributors licence",
+    "version": "0.13.0",
     "stability":"STABILITY_1_EXPERIMENTAL"
 }

@@ -1,0 +1,77 @@
+caption: Version history
+created: 20260905162000000
+creator: Yannis Anthymidis
+title: Version history
+modified: 20261112211924000
+modifier: Yannis Anthymidis
+
+! 0.13.0
+
+First public release.
+
+!! New
+
+* HyperGSD now works with tiddler folding, and you can set it for any part of the interface. By default, it is displays priorites, completion and processing stage (next/waiting/future).
+* Added a warning for when the tiddler being converted has pre-requisites of its own
+* The Cleanup tiddler now lets you archive tiddlers behind `$:/GSD/`, so they don't come up in your search -- but also without having to delete them.
+* Creating and adding actions/projects from within the story river now honours your navigation setting
+* A print stylesheet has been introduced meaning it is more useful if you choose to print the page or use Eric Shulman's //PrintTiddler//. Interactable elements that wouldn't be useful are now always hidden.
+* Added a setting to configure whether blank fields should be included (e.g. if "Subproject of" is blank, it won't appear in the print view).
+
+!! Improved
+
+* Priorities style adjusted so the font colour is now configurable.
+* HyperGSD and it sub-plugins are now formally labelled as experimental
+** Trashbin can be considered stable
+* Added a small amount of CSS to have a gap between list items, the modal entry section, as well as on the [[GSD/Contacts]] and [[GSD/Contexts]] dashboards if you use those sub-plugins.
+* Context pages now show projects at the bottom and have been reworked to the generic style instead of being hardcoded, making them configurable.
+* HyperGSD Contacts are now in slot 2 of the panel.<br />This is with the idea of the standard second slot being more about context that the action matters in. For example, the other setting there currently is ticklers (so the context of //time//)
+* Simplified Capture and Review sidebar customisation.
+* Projects may now have their own link items. This entailed an entire reworking of "fragments" before and after a link/list item.
+
+!! Fixed
+
+* The completed actions/completed project buttons now function independently.
+* Fixed scaling on smaller screens
+* Restored built-in list folding behaviour from GSD5, but with the chevron just before each list heading, instead of after
+
+! 0.12.0
+
+!! UX
+
+* General re-arrangement of all the settings, which I now consider final (until we get drag and drop between zones in 5.5.0 -- if that is merged in)
+* Ticklers have better recurrence logic.
+* Tickler recurrence options are now configurable from the settings
+* Contexts no longer jump due to the picker while contextualising, if you have the context page open separately
+* Group by is no longer shown if there are no options to group by
+* When adding a dependency, pressing <kbd>Enter</kbd> now creates the target tiddler if it does not exist
+
+!! Priorities sub-plugin
+
+* New plugin, letting you mark priorities with a simple A/B/C scheme and your own custom label for A/B/C.
+
+!! Cosmetic
+
+* Actions now come before Projects in the default Review sidebar configuration
+* Select realms all/none now looks better on borderless (default) style.
+* _GSD/Contacts_ dashboard improved, now featuring a way to filter by contacts e.g. if you have an upcoming meeting
+
+!! Misc
+
+* Slight re-arrangement of control panel meant very minor breaking change on cleanup timeout setting if modified (due to removing the word "core" from it)
+* Several config keys renamed for clarity so they broke if you customised them
+* Significant performance improvement as I trimmed down some filter runs, etc. It is much less exciting to work on now that I am optimising and actually looking at all the AI-generated wikitext, but it shows it's mature
+
+! 0.11
+
+I consider it now feature complete, with all features working and a lot of bugfixes. The settings section has been massively overhauled and I'd say it's close to final.
+
+For development ease, I also had to give in and lowercase the. It now follows the file/folder structure almost exactly, to the point you can almost always add .tid to the end of a file and have it reachable. I can't actually attach the source code here but it's a little early either way.
+
+! 0.10
+
+0.10 was the first release, made to a closed group of previous GSD5 users on the Talk TiddlyWiki forum.
+
+! 0.9 and earlier
+
+These were developed under GSD5. See [[GSD5 Releases|https://gsd5.tiddlyhost.com/#GSD5%20Releases]] for their release notes.

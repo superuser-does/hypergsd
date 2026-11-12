@@ -7,7 +7,7 @@
     "plugin-type": "plugin",
     "parent-plugin": "$:/plugins/yan/hypergsd",
     "dependents": ["$:/plugins/yan/hypergsd"],
-    "list": "readme",
+    "list": "readme licence",
     "version": "0.3.1",
     "stability":"STABILITY_1_EXPERIMENTAL"
 }

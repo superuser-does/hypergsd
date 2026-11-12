@@ -1,6 +1,6 @@
-caption: System Tags
+caption: System tags
 tags: Documentation [[HyperGSD API]]
-title: System Tags
+title: System tags
 
 System tags are the integration surface: tag your tiddler and the framework picks it up. All HyperGSD hooks live under `$:/tags/hypergsd/` (plus the type tags under `$:/GSD/`).
 
