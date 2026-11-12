@@ -7,7 +7,7 @@ You can find tools for both these processes in the sidebar.
 
 The plugin provides:
 
-* Actions (tagged $:/GSD/Action)
+* Actions (tagged <<tag-pill $:/GSD/Action>>)
 * Projects, which can contain actions or other projects (tagged <<tag-pill $:/GSD/Project>>)
 * Realms, to help compartmentalise different domains of interest. Realms are simple tags (in the format of <<tag-pill "$:/GSD/Realm/<RealmName>">>), with the ability to select the realm(s) you are operating in from the //Review// sidebar tab
 * Several dashboards which can be found in the "Review" sidebar. These are mainly composed from re-usable lists that you can configure in HyperGSD's list settings.

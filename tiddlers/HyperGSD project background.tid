@@ -1,7 +1,7 @@
 created: 20260614130152676
 modified: 20260906074654935
-tags: 
-title: HyperGSD Project Showcase
+tags:
+title: HyperGSD project background
 type: text/vnd.tiddlywiki
 
 HyperGSD is a top-to-bottom re-architecture of the classic GSD5 plugin. It began with this initial goal:
@@ -14,7 +14,7 @@ By applying advanced TiddlyWiki optimisation techniques, such as Event Delegatio
 
 Having a much bigger wiki also led to questions on how to make about how to make it more efficient and useful. I
 
-!! What's New?
+!! What's new?
 
 * ''Multiple dependencies'': You can now have a list of dependencies against a single GSD action, with easy ways to add and remove them.
 ** While technically possible, contacts have been limited to just one, as a design decision to help productivity. If you are thinking you should list more than one contact, consider changing your action into multiple.
@@ -24,9 +24,9 @@ Having a much bigger wiki also led to questions on how to make about how to make
 * ''In-place editing'': Clicking edit beside a project or contact opens the picker pre-filled with the current value and focused ready for typing. Enter saves, Escape cancels without changing anything.
 * ''ViewTemplate position toggle'': You can now instantly toggle the GSD Panel and Dashboards to appear either Above or Below the tiddler body directly from the HyperGSD Control Panel.
 
-!! What Has Changed?
+!! What has changed?
 
-* ''"Frozen" refresh triggers'': Dashboards and ViewTemplates are now wrapped in `refresh` widgets that actively block updates during global actions (like typing in the search box). They only "wake up" if you modify a specific GSD item. This is the highest-impact of all changes.
+* ''"Frozen" refresh triggers'': Dashboards and ViewTemplates are now wrapped in `refresh` widgets that actively block updates during global actions (like typing in the search box). They only "wake up" if you modify a specific GSD item. This is the highest-impact of all changes in terms of delivering better performance.
 * ''EventCatcher architecture'': Replaced hundreds of heavy individual checkbox and radio button widgets with a single, lightning-fast `EventCatcher` per dashboard list.
 * ''Lazy-Loaded completed actions'': The Contact and Project ViewTemplates now feature a native "show completed actions" toggle, keeping the initial load time of large projects incredibly fast.
 * ''Pure HTML rendering'': Dashboards now render using raw `<input>` and `<button>` tags controlled by CSS classes. This flattens the widget tree and allows TiddlyWiki to perfectly cache the parse tree of your dashboards.

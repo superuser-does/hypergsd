@@ -1,0 +1,40 @@
+created: 20260614130152676
+modified: 20260906074654935
+tags:
+title: HyperGSD project showcase
+type: text/vnd.tiddlywiki
+
+HyperGSD is a series of plugins that helps you Get Stuff Done, supported by rich tools to work with the relations between them (making the system //hypermedia//).
+
+; Actions (tasks)
+: Short, single-step actions that accomplish a task.<br>Actions may also carry dependencies to/from other actions.
+; Projects
+: A collection of Actions that have a similar purpose or goal.
+; Realms
+: Divide your Actions/Projects into appropriate, custom groupings by tagging with <<tag-pill "$:/GSD/Realm/<RealmName>">> (e.g. <<tag-pill $:/GSD/Realm/Personal>>, <<tag-pill $:/GSD/Realm/Professional>>...)
+; Dashboards for task management
+: Manage your actions and projects through a number of dashboards.
+
+HyperGSD carefully follows TiddlyWiki principles and is intended to integrate with an all-in-one personal wiki, but you can also use it standalone. It is tested against the vanilla theme.
+
+! Install
+
+Just drag and drop the core HyperGSD plugin to your wiki to install:
+
+<$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
+{{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
+
+!! Sub-plugins
+
+The following ''sub-plugins'' which extend HyperGSD and provide helpful ways to track your actions, are also available:
+
+{{$:/plugins/yan/hypergsd-contacts||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-contexts||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-priorities||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-references||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
+</$set>
+
+! API
+
+TODO
