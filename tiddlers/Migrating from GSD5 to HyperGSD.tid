@@ -1,5 +1,5 @@
 created: 20260525105322233
-modified: 20261112203831000
+modified: 20261112205058000
 tags: Documentation GSD5
 title: Migrating from GSD5 to HyperGSD
 type: text/vnd.tiddlywiki
@@ -106,13 +106,14 @@ Copy all "gsd_action" values to "gsd_prerequisites"
 
 !!! Migrate ticklers
 
-''Ticklers'' now live in the optional [[HyperGSD-Ticklers|$:/plugins/yan/hypergsd-ticklers/readme]] sub-plugin. GSD5 ticklers were actions carrying `gsd_tickdate` (and optionally `gsd_tickdays`); the sub-plugin reads the same idea from renamed fields:
+''Ticklers'' now live in the optional [[HyperGSD Ticklers|$:/plugins/yan/hypergsd-ticklers/readme]] sub-plugin. GSD5 ticklers were actions carrying `gsd_tickdate` (and optionally `gsd_tickdays`).
+The HyperGSD sub-plugin reads the same data from renamed fields:
 
 |GSD5 |HyperGSD |h
 |`gsd_tickdate` |`gsd_tickler_date` |
 |`gsd_tickdays` |`gsd_tickler_repeat_days` |
 
-GSD5 ticklers were actions, so the "Tag all actions" button above has already given them the `$:/GSD/Action` tag. An absent, empty, zero or non-numeric repeat interval means the tickler fires once.
+GSD5 ticklers were actions, so the "Tag all actions" button above will have already given them the `$:/GSD/Action` tag. An empty or non-existent repeat interval means the tickler triggers only once.
 
 Use this button, which will not update timestamps, to copy the old fields across and delete them:
 <$button>
