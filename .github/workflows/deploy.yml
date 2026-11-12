@@ -3,6 +3,8 @@ name: Deploy wiki to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'tiddlers/**'
   workflow_dispatch:
 
 permissions:
