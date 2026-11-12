@@ -1,7 +1,8 @@
 title: $:/plugins/yan/hypergsd-ticklers/readme
 type: text/vnd.tiddlywiki
+modified: 20261112195909000
 
-A tickler is a reminder you can attach to a HyperGSD action. You pick a date for it. When the date arrives, an alert appears with a link to the action. You can also set the tickler to repeat every //n// days.
+A ''HyperGSD tickler'' is a reminder you can attach to a HyperGSD action. You pick a date for it. When the date arrives, an alert appears with a link to the action. You can also set the tickler to repeat every //n// days.
 
 ! The alert banner
 
