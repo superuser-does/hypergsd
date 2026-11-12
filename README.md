@@ -17,7 +17,7 @@ HyperGSD is a family of plugins for [TiddlyWiki](https://tiddlywiki.com/): Get S
    - Completed actions on project and contact pages load on demand.
 * **Extensibility.** Most surfaces are tag lists, and the same hooks are documented for your own extensions: see the _HyperGSD API_ tiddlers on the wiki.
 
-HyperGSD re-architects Roma Hicks's [GSD5](https://gsd5.tiddlyhost.com/) plugin - which exists in a line of "GSD" plugins for TiddlyWiki going back to the mid-2000s ([mGSD](https://mgsd.tiddlyspot.com/), [mGSD1](https://mgsd1.tiddlyspot.com/), [d-cubed](https://dcubed.ca/Welcome_to_d-cubed.html)).
+HyperGSD re-architects and greatly expands Roma Hicks's [GSD5](https://gsd5.tiddlyhost.com/) plugin, which is part of a line of "GSD" plugins for TiddlyWiki going back to the mid-2000s (including [mGSD](https://mgsd.tiddlyspot.com/), [mGSD1](https://mgsd1.tiddlyspot.com/) and [d-cubed](https://dcubed.ca/Welcome_to_d-cubed.html)).
 GSD5 users can bring their data across to HyperGSD: just import the [migration guide](https://superuser-does.github.io/hypergsd/#Migrating%20from%20GSD5%20to%20HyperGSD) into your GSD5 wiki.
 
 ## Sub-plugins
