@@ -1,0 +1,32 @@
+caption: 0.12.0
+created: 20260905162000000
+creator: Yannis Anthymidis
+tags: [[Version history]]
+title: Version 0.12.0
+modified: 20261112224929000
+modifier: Yannis Anthymidis
+
+!! UX
+
+* General re-arrangement of all the settings, which I now consider final (until we get [[drag and drop between zones in 5.5.0|https://github.com/TiddlyWiki/TiddlyWiki5/pull/9507]] -- //if// that is merged in)
+* Ticklers have better recurrence logic.
+* Tickler recurrence options are now configurable from the settings
+* Contexts no longer jump due to the picker while contextualising, if you have the context page open separately
+* Group by is no longer shown if there are no options to group by
+* When adding a dependency, pressing <kbd>Enter</kbd> now creates the target tiddler if it does not exist
+
+!! Priorities sub-plugin
+
+* New plugin, letting you mark priorities with a simple A/B/C scheme and your own custom label for A/B/C.
+
+!! Cosmetic
+
+* Actions now come before Projects in the default Review sidebar configuration
+* Select realms all/none now looks better on borderless (default) style.
+* _GSD/Contacts_ dashboard improved, now featuring a way to filter by contacts e.g. if you have an upcoming meeting
+
+!! Misc
+
+* Slight re-arrangement of control panel meant very minor breaking change on cleanup timeout setting if modified (due to removing the word "core" from it)
+* Several config keys renamed for clarity so they broke if you customised them
+* Significant performance improvement as I trimmed down some filter runs, etc.

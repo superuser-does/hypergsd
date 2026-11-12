@@ -1,0 +1,35 @@
+caption: 0.13.0
+created: 20260905162000000
+creator: Yannis Anthymidis
+tags: [[Version history]]
+title: Version 0.13.0
+modified: 20261112224932000
+modifier: Yannis Anthymidis
+
+First public release.
+
+!! New
+
+* HyperGSD now works with tiddler folding, and you can set it for any part of the interface. By default, it is displays priorites, completion and processing stage (next/waiting/future).
+* Added a warning for when the tiddler being converted has pre-requisites of its own
+* The Cleanup tiddler now lets you archive tiddlers behind `$:/GSD/`, so they don't come up in your search -- but also without having to delete them.
+* Creating and adding actions/projects from within the story river now honours your navigation setting
+* A print stylesheet has been introduced meaning it is more useful if you choose to print the page or use Eric Shulman's //PrintTiddler//. Interactable elements that wouldn't be useful are now always hidden.
+* Added a setting to configure whether blank fields should be included (e.g. if "Subproject of" is blank, it won't appear in the print view).
+
+!! Improved
+
+* Priorities style adjusted so the font colour is now configurable.
+* HyperGSD and it sub-plugins are now formally labelled as experimental
+** Trashbin can be considered stable
+* Added a small amount of CSS to have a gap between list items, the modal entry section, as well as on the [[GSD/Contacts]] and [[GSD/Contexts]] dashboards if you use those sub-plugins.
+* Context pages now show projects at the bottom and have been reworked to the generic style instead of being hardcoded, making them configurable.
+* HyperGSD Contacts are now in slot 2 of the panel.<br />This is with the idea of the standard second slot being more about context that the action matters in. For example, the other setting there currently is ticklers (so the context of //time//)
+* Simplified Capture and Review sidebar customisation.
+* Projects may now have their own link items. This entailed an entire reworking of "fragments" before and after a link/list item.
+
+!! Fixed
+
+* The completed actions/completed project buttons now function independently.
+* Fixed scaling on smaller screens
+* Restored built-in list folding behaviour from GSD5, but with the chevron just before each list heading, instead of after

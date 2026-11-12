@@ -1,0 +1,11 @@
+caption: 0.11.0
+created: 20260905162000000
+creator: Yannis Anthymidis
+tags: [[Version history]]
+title: Version 0.11.0
+modified: 20261112224944000
+modifier: Yannis Anthymidis
+
+I consider it now feature complete, with all features working and a lot of bugfixes. The settings section has been massively overhauled and I'd say it's close to final.
+
+For development ease, I also had to give in and lowercase the. It now follows the file/folder structure almost exactly, to the point you can almost always add .tid to the end of a file and have it reachable. I can't actually attach the source code here but it's a little early either way.
