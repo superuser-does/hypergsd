@@ -31,7 +31,9 @@ jobs:
       - run: npm ci
 
       - name: Build wiki
-        run: npx tiddlywiki . --build index
+        run: |
+          npx tiddlywiki . --build single-file
+          mv output/single-file.html output/index.html
 
       - uses: actions/configure-pages@v5
 
