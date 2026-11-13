@@ -47,9 +47,9 @@ tiddlywiki --build single-file   # build a single-file wiki into output/
 
 ### Repository layout
 
-- `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.
-- `tiddlers/` is the wiki's own content: the family's documentation tiddlers, tagged `Documentation` or `HyperGSD API` and indexed from the `HyperGSD API` tiddler. Every edit to these will update the static documentation site hosting HyperGSD.
-- TiddlyWiki loads every folder under a wiki's `plugins/` directory automatically, so no wiki configuration is needed: serving or building this repository publishes the plugins alongside their documentation.
+- `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.  
+  TiddlyWiki automatically loads every folder under a wiki's `plugins/` directory, so serving or building this repository will publish the plugins alongside their documentation.
+- `tiddlers/` is the showcase/documentation wiki's own content. Edits to these will update the static documentation site hosting HyperGSD.
 
 ### Verifying
 
