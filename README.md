@@ -15,7 +15,7 @@ HyperGSD is a family of plugins for [TiddlyWiki](https://tiddlywiki.com/): Get S
    - Each list handles its clicks through a single event catcher
    - Item types are tags, so every lookup runs on TiddlyWiki's tag index
    - Completed actions on project and contact pages load on demand.
-* **Extensibility.** Most surfaces are transcluded from  tag lists, and the same hooks are documented for your own sub-plugins: see the _HyperGSD API_ tiddlers on the wiki.
+* **Extensibility.** Most UI elements are transcluded from  tag lists, and the same methods can be used for your own sub-plugins without a single tiddler override. See the _HyperGSD API_ tiddlers on the wiki for more.
 
 HyperGSD re-architects and greatly expands Roma Hicks's [GSD5](https://gsd5.tiddlyhost.com/) plugin, which is part of a line of "GSD" plugins for TiddlyWiki going back to the mid-2000s (including [mGSD](https://mgsd.tiddlyspot.com/), [mGSD1](https://mgsd1.tiddlyspot.com/) and [d-cubed](https://dcubed.ca/Welcome_to_d-cubed.html)).
 GSD5 users can bring their data across to HyperGSD: just import the [migration guide](https://superuser-does.github.io/hypergsd/#Migrating%20from%20GSD5%20to%20HyperGSD) into your GSD5 wiki.
@@ -39,13 +39,13 @@ The repository root is itself a TiddlyWiki wiki folder (`tiddlywiki.info`, `tidd
 
 ```
 npm install
-tiddlywiki . --listen              # serve the wiki: documentation and plugins together. Not recommended to edit directly from this
-tiddlywiki . --build single-file   # build a single-file wiki into output/
+tiddlywiki --listen              # serve the wiki: documentation and plugins together. Not recommended to edit directly from this
+tiddlywiki --build single-file   # build a single-file wiki into output/
 ```
 
-`npm install` brings the pinned `tiddlywiki` CLI. GitHub Pages deploys the single-file build to the site above on every push to `main`.
+`npm install` will install the pinned version of the `tiddlywiki` package. GitHub Pages will deploy the single-file build to the site above on most _relevant_ pushes to `main`.
 
-### Layout
+### Repository layout
 
 - `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.
 - `tiddlers/` is the wiki's own content: the family's documentation tiddlers, tagged `Documentation` or `HyperGSD API` and indexed from the `HyperGSD API` tiddler. Every edit to these will update the static documentation site hosting HyperGSD.
@@ -70,6 +70,6 @@ Unless otherwise mentioned, everything is licensed under the [Apache Licence 2.0
 
 Exceptions:
 
-* The main HyperGSD plugin derives from Roma Quintin Hicks's GSD5 (MIT; the notice is retained in the plugin's licence tiddler).
-* HyperGSD Trashbin depends on Mohammad Rahmani's [Trashbin](https://github.com/kookma/TW-Trashbin) (MIT licence)
+* The main HyperGSD plugin derives from Roma Quintin Hicks's [GSD5](https://gsd5.tiddlyhost.com/) (MIT; the notice is retained in the main plugin's licence tiddler).
+* HyperGSD Trashbin depends on Mohammad Rahmani's [Trashbin](https://github.com/kookma/TW-Trashbin) plugin (MIT licence)
 * HyperGSD Ticklers ships a [Lucide](https://lucide.dev) calendar icon by Cole Bemis (MIT). It was almost entirely rewritten from the original GSD5 Ticklers plugin.
