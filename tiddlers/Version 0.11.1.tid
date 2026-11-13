@@ -1,0 +1,11 @@
+caption: 0.11.1
+created: 20260905162000000
+creator: Yannis Anthymidis
+tags: [[Version history]]
+title: Version 0.11.1
+modified: 20261112224944000
+modifier: Yannis Anthymidis
+
+Fixed regression where HyperGSD where the active/future status of a project was not showing.
+
+Due to the change, all future versions of HyperGSD will need a third point on their release version.
