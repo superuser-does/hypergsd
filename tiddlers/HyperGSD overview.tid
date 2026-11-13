@@ -15,7 +15,7 @@ It is intended for and tested with the standard //Vanilla// theme.
 ; Projects
 : A collection of Actions that have a similar purpose or goal.
 ; Realms
-: Divide your Actions/Projects into appropriate, custom groupings by tagging with `"$:/GSD/Realm/<RealmName>` (e.g. <<tag-pill $:/GSD/Realm/Personal>>, <<tag-pill $:/GSD/Realm/Professional>>...)
+: Divide your Actions/Projects into appropriate, custom groupings by tagging with `$:/GSD/Realm/<RealmName>` (e.g. <<tag-pill $:/GSD/Realm/Personal>>, <<tag-pill $:/GSD/Realm/Professional>>...)
 ; Dashboards
 : Manage your actions and projects through a number of dashboards and views.
 
