@@ -1,14 +1,13 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112215933000
+modified: 20261113195116000
 modifier: Yannis Anthymidis
 title: HyperGSD overview
 type: text/vnd.tiddlywiki
 
-''HyperGSD'' is a series of plugins for [[TiddlyWiki|https://tiddlywiki.com/]] that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do. It aims to gracefully combine TiddlyWiki with the David Allen's [[Getting Things Done|https://joecotellese.com/posts/getting-things-done-book-summary/]] workflow for task management.
+''HyperGSD'' is a series of plugins for [[TiddlyWiki|https://tiddlywiki.com/]] that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do. It aims to gracefully combine TiddlyWiki with David Allen's [[Getting Things Done|https://joecotellese.com/posts/getting-things-done-book-summary/]] workflow for task management.
 
-HyperGSD uses technologies from the core of TiddlyWiki as much as possible. HyperGSD is designed to integrate with an all-in-one personal TiddlyWiki and exist alongside your information, but you may also use HyperGSD in a dedicated wiki.
-It is intended for and tested with the standard //Vanilla// theme.
+HyperGSD is designed to integrate with an all-in-one personal TiddlyWiki and exist alongside your information, but you may also use HyperGSD in a dedicated wiki.
 
 ; Actions (tasks)
 : Short, ideally single-step actions that accomplish a task.<br>Actions may also carry dependencies to/from other actions.
@@ -21,6 +20,8 @@ It is intended for and tested with the standard //Vanilla// theme.
 
 This wiki has several sub-plugins already installed providing more capabilities, like listing [[Contacts|$:/plugins/yan/hypergsd-contacts]] and setting [[Priorities|$:/plugins/yan/hypergsd-priorities]].
 
-You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}.
+You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}
 
-HyperGSD builds on a long series of previous "GSD" plugins for TiddlyWiki, which date back to the mid-2000s. For background on how and why HyperGSD was created, see [[HyperGSD project background]].
+HyperGSD uses technologies from the core of TiddlyWiki as much as possible to make it feel native and easy to integrate into your wiki, and goes out of its way to work well with every part of core functionality -- like tiddler folding and the print layout. It is intended for and tested with the standard //Vanilla// theme.
+
+//HyperGSD builds on a long series of previous "GSD" plugins for TiddlyWiki, which date back to the mid-2000s. For background on how and why HyperGSD was created, see [[HyperGSD project background]].//
