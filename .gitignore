@@ -13,4 +13,5 @@ AGENTS.md
 tmp/
 output/
 node_modules/
+$__Import.tid
 $__StoryList.tid
