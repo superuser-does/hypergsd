@@ -9,7 +9,7 @@ type: text/vnd.tiddlywiki
 
 <aside class="tc-message-box">
 
-Most API documentation was written during development by AI. While it is accurate, and the data model and API it describes was designed deliberately, it can make for rough reading as documentation. I plan to humanise it humanise it over time.
+Most API documentation was written during development by AI. While it is accurate, and the data model and API it describes was designed with intention, it can be difficult to read with the hallmarks of AI writing. I plan to humanise it over time.
 
 </aside>
 
