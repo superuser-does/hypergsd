@@ -24,4 +24,4 @@ The core plugin derives from Roma Quintin Hicks's GSD5 (MIT licence). The requir
 Third-party components, not part of this project:
 * ''hypergsd-trashbin'' depends on and links parts of Mohammad Rahmani's Trashbin (MIT licence)
 * ''hypergsd-ticklers'' ships a Lucide calendar icon (MIT licence, Cole Bemis).
-* ''TiddlyWiki5'' itself (MIT licence)
+* ''TiddlyWiki5'' itself (3-clause BSD licence)
