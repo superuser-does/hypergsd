@@ -15,3 +15,5 @@ You can configure the appearance of these priorities and set the default priorit
 * Action and project list rows
 * Every list's ''Sort by'' control gains a ''Priority'' option
 * Every list's ''Group by'' control gains a ''Priority'' option
+
+[[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd-priorities]]

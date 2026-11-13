@@ -11,3 +11,5 @@ If you feel you need more than one contact for an action, consider breaking down
 Contacts may be added to realms through the regular HyperGSD mechanism for that, to help you compartmentalise your life and work.
 
 The plugin also provides the [[GSD/Contacts]] dashboard which lets you easily add contacts, as well as filter by multiple contacts at the same time -- for example, if you have a meeting or gathering where you can progress different actions with your contacts.
+
+[[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd-contacts]]

@@ -14,3 +14,5 @@ Being simple tags, context will be automatically inherited when you create actio
 You can add as many contexts as you want to action or project tiddlers.
 
 The plugin also ships with a button in lists that lets you quickly contextualise an action or project.
+
+[[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd-contexts]]

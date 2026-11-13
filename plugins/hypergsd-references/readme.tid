@@ -8,3 +8,5 @@ References are supporting material for your projects. It is an easy way to creat
 Each reference is tagged with <<tag-pill $:/GSD/Reference>> and can be put under a project through the `gsd_project` field.
 
 Your collected references can be viewed either in project panels, or all together in the [[GSD/References]] dashboard. As with most things in HyperGSD, you can filter the dashboard using your realm selector.
+
+[[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd-references]]

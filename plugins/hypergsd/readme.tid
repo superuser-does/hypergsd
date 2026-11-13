@@ -14,4 +14,4 @@ The plugin provides:
 * Cleanup dashboards
 * A platform for expansion with sub-plugins and beyond.
 
-Full API documentation for users and sub-plugin authors can be found under [[HyperGSD API]].
+[[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd]]

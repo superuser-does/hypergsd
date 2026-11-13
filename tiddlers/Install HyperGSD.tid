@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112230530000
+modified: 20261112235945000
 modifier: Yannis Anthymidis
 title: Install HyperGSD
 type: text/vnd.tiddlywiki
@@ -26,3 +26,15 @@ They provide more helpful ways to track things you need to do and manage associa
 {{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
 {{$:/plugins/yan/hypergsd-trashbin||$:/core/ui/Components/plugin-info}}
 </$set>
+
+!! Source code and alternative Node.js install
+
+The source code for all parts of HyperGSD is available on https://github.com/superuser-does/hypergsd under a [[free and open source licence|Licence]].
+
+Node.js users may install HyperGSD through the drag-and-drop method above, or:
+
+# Downloading the source code
+# Extracting the relevant plugin's sub-folders under `plugins/` to their TiddlyWiki's `/plugins/` folder //(i.e. a `plugins/` folder under the root that TiddlyWiki initialises from)//
+# Restarting the server
+
+Note that the main plugin of `plugins/hypergsd/` is required for all other plugins listed.
