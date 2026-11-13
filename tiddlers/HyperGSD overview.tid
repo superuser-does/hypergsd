@@ -24,4 +24,4 @@ You can interact with these through the options available on the //Capture// and
 
 HyperGSD uses technologies from the core of TiddlyWiki as much as possible to make it feel native and easy to integrate into your wiki, and goes out of its way to work well with every part of core functionality -- like tiddler folding and the print layout. It is intended for and tested with the standard //Vanilla// theme.
 
-//HyperGSD builds on a long series of previous "GSD" plugins for TiddlyWiki, which date back to the mid-2000s. For background on how and why HyperGSD was created, see [[HyperGSD project background]].//
+//HyperGSD builds on a long series of previous "GSD" plugins for TiddlyWiki, which date back to the mid-2000s. See [[HyperGSD project background]] for more on how and why HyperGSD was created.//
