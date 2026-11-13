@@ -1,12 +1,21 @@
 caption: HyperGSD API
-title: HyperGSD API
+created: 20260614130152676
+creator: Yannis Anthymidis
+modified: 20261113213131000
+modifier: Yannis Anthymidis
 tags: Documentation [[HyperGSD API]]
+title: HyperGSD API
+type: text/vnd.tiddlywiki
 
-The HyperGSD API gives plugin and content authors a way to integrate with the HyperGSD framework without editing shadow tiddlers — the same goal GSD5's API docs served, updated for HyperGSD's tag-driven architecture.
+<aside class="tc-message-box">
 
-Where GSD5 identified items by the `gsd_type` field, HyperGSD uses ''tags'': `$:/GSD/Action`, `$:/GSD/Project`, `$:/GSD/Contact`, `$:/GSD/Reference` and the `GSD/Contexts` tag (the dashboard tiddler). Extension points are system tags you attach to your own tiddler; user-data tag lists such as contexts are open `GSD/*` tags.
+Most API documentation was written during development by AI. While it is accurate, and the data model and API it describes was designed deliberately, it can make for rough reading as documentation. I plan to humanise it humanise it over time.
 
-! HyperGSD API
+</aside>
+
+The HyperGSD API gives plugin and content authors a way to integrate with the HyperGSD, without editing shadow tiddlers.
+
+HyperGSD generally uses ''tags'' beginning with `$:/GSD/` to represent types and realms. An exception is the `GSD/Contexts` tag (the dashboard tiddler), which is tagged on all [[HyperGSD Contexts|$:/plugins/yan/hypergsd-contexts]].
 
 <div class="tc-table-of-contents">
 <<toc "HyperGSD API">>
