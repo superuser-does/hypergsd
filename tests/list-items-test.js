@@ -66,11 +66,25 @@ const render = () => {
     })(row);
     return out;
   };
+  const pillTitles = (row) => {
+    const out = [];
+    (function g(n) {
+      if (!n || typeof n !== "object") return;
+      if (Array.isArray(n)) return n.forEach(g);
+      if (n.isTiddlyWikiFakeDom) {
+        const cls = (n.attributes && n.attributes.class) || "";
+        if (cls.indexOf("item-status") === 0) out.push(n.attributes.title || "");
+        (n.children || []).forEach(g);
+      }
+    })(row);
+    return out;
+  };
   return {
     done: rows["A done noted"] ? fingerprint(rows["A done noted"]) : "ROW NOT FOUND",
     open: rows["B open"] ? fingerprint(rows["B open"]) : "ROW NOT FOUND",
     unseeded: rows["C unseeded"] ? fingerprint(rows["C unseeded"]) : "ROW NOT FOUND",
-    openPillClasses: rows["B open"] ? pillClasses(rows["B open"]) : "ROW NOT FOUND"
+    openPillClasses: rows["B open"] ? pillClasses(rows["B open"]) : "ROW NOT FOUND",
+    openPillTitles: rows["B open"] ? pillTitles(rows["B open"]) : "ROW NOT FOUND"
   };
 };
 let fails = 0;
@@ -87,6 +101,9 @@ t("open row order", render().open, ["checkbox", "status", "status", "status", "t
 // (a literal {{{ }}} in a quoted class attr once shipped — pills painted nothing)
 t("open row pill classes (colour hooks)", render().openPillClasses,
   ["item-status action-next", "item-status action-waiting", "item-status action-future"]);
+// row glyph tooltips: the label carries the status word as a native title —
+// hover resolves the single-letter glyph (n/w/f) to its word
+t("open row pill titles", render().openPillTitles, ["next", "waiting", "future"]);
 
 // gsd_complete convention (2026-09-03): incomplete is the positive
 // gsd_complete[false] everywhere — every creation path seeds the field, so a

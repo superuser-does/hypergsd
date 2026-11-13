@@ -12,8 +12,10 @@ title: $:/plugins/yan/hypergsd/ui/list-items/status
 <%if [<item-type>!match[]] %>
 <%if [is[current]gsd_complete[false]] %>
 <div class="hgsd-interactive">
+<!-- The label carries the status word as a native title — the glyph is its first letter, and the bare word (no lingo lookup) keeps tooltips alive for replacement vocabularies with no language keys; the input is display:none, so a title there would never show. -->
 <$list filter="[function[hgsd-status-set],<item-type>]" variable="pill-status">
-  <label class={{{ [<item-type>addsuffix[-]addsuffix<pill-status>addprefix[item-status ]] }}}>
+  <label class={{{ [<item-type>addsuffix[-]addsuffix<pill-status>addprefix[item-status ]] }}}
+    title=<<pill-status>>>
     <%if [<item-title>gsd_status<pill-status>] %><input type="radio" name=<<qualify "$($(item-title)$)-status">> data-tiddler=<<item-title>> data-status=<<pill-status>> data-hgsd-action="status" checked><%else%><input type="radio" name=<<qualify "$($(item-title)$)-status">> data-tiddler=<<item-title>> data-status=<<pill-status>> data-hgsd-action="status"><%endif%>
     <span><$transclude $variable="hgsd-row-glyph" status=<<pill-status>>/></span>
   </label>
