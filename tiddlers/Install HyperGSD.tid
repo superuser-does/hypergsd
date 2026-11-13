@@ -11,6 +11,8 @@ Drag-and-drop the main ''HyperGSD plugin'' to your wiki to install:
 {{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
 </$let>
 
+For all changes, see [[Version history]].
+
 If you are coming from GSD5, please also drag-and-drop to import the [[Migrating from GSD5 to HyperGSD]] tiddler and follow the instructions listed there.
 
 !! Sub-plugins
