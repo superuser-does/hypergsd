@@ -1,0 +1,9 @@
+code-body: yes
+list-before: $:/core/ui/ViewTemplate/body
+tags: $:/tags/ViewTemplate
+title: $:/yan/templates/release-date
+type: text/vnd.tiddlywiki
+
+<%if [all[current]tag[Version history]has:field[released]] %>
+<span class="tc-subtitle">Released on <$view field=released format=date template="DDth mmm YYYY at 0hh:0mm" /></span>
+<%endif%>

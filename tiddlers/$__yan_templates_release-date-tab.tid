@@ -1,0 +1,9 @@
+code-body: yes
+title: $:/yan/templates/release-date-tab
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<$tiddler tiddler=<<currentTab>>>
+<$transclude $tiddler="$:/yan/templates/release-date" mode="block"/>
+<$transclude mode="block" />
+</$tiddler>
