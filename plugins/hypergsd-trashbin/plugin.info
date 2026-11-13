@@ -8,6 +8,6 @@
     "parent-plugin": "$:/plugins/yan/hypergsd",
     "dependents": ["$:/plugins/yan/hypergsd", "$:/plugins/kookma/trashbin"],
     "list": "readme licence",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "stability":"STABILITY_2_STABLE"
 }
