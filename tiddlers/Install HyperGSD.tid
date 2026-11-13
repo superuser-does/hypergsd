@@ -31,10 +31,10 @@ They provide more helpful ways to track things you need to do and manage associa
 
 The source code for all parts of HyperGSD is available on https://github.com/superuser-does/hypergsd under a [[free and open source licence|Licence]].
 
-Node.js users may install HyperGSD through the drag-and-drop method above, or:
+If you host your TiddlyWiki through Node.js, you may install HyperGSD through the drag-and-drop method above, or as follows:
 
-# Downloading the source code
-# Extracting the relevant plugin's sub-folders under `plugins/` to their TiddlyWiki's `/plugins/` folder //(i.e. a `plugins/` folder under the root that TiddlyWiki initialises from)//
-# Restarting the server
+# Download the source code
+# Extract the relevant plugin's sub-folder from `plugins/` to your TiddlyWiki's `/plugins/` folder //(i.e. a `plugins/` folder under the root that TiddlyWiki initialises from)//
+# Restart the server
 
 Note that the main plugin of `plugins/hypergsd/` is required for all other plugins listed.
