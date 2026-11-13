@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261112235945000
+modified: 20261113200631000
 modifier: Yannis Anthymidis
 title: Install HyperGSD
 type: text/vnd.tiddlywiki
@@ -38,3 +38,13 @@ If you host your TiddlyWiki through Node.js, you may install HyperGSD through th
 # Restart the server
 
 Note that the main plugin of `plugins/hypergsd/` is required for all other plugins listed.
+
+!! Relink configuration
+
+From time to time, you may want to re-title action, project and contact tiddlers.
+
+To ensure other tiddlers get updated when you re-title, install [[Relink|https://flibbles.github.io/tw5-relink/]], and drag-and-drop to import the following tiddlers into your wiki:
+
+* [[$:/config/flibbles/relink/fields/gsd_project]]
+* [[$:/config/flibbles/relink/fields/gsd_prerequisites]]
+* [[$:/config/flibbles/relink/fields/gsd_contact]] -- only if you also use the [[HyperGSD Contacts|$:/plugins/yan/hypergsd-contacts]] sub-plugin
