@@ -4,6 +4,6 @@ title: Version history
 modified: 20261112230606000
 modifier: Yannis Anthymidis
 
-The version history below is based on the main plugin.
+The version numbers below are from the [[main plugin|$:/plugins/yan/hypergsd]], but the notes of each version also cover sub-plugins, which will generally release in sync.
 
 <<tabs "[tag[Version history]!sortan[title]]" default={{{[tag[Version history]!sortan[title]]}}} class="tc-vertical" template:"$:/yan/templates/release-date-tab">>
