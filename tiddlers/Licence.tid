@@ -1,9 +1,5 @@
-caption: Licence
 created: 20261112194847000
-creator: Yannis Anthymidis
-modified: 20261112205624000
-modifier: Yannis Anthymidis
-tags: Documentation
+modified: 20261112194847000
 title: Licence
 
 Copyright 2026 Ioannis Anthymidis
@@ -25,4 +21,7 @@ limitations under the License.
 The whole plugin family of ''hypergsd'' and each sub-plugin hosted here is licensed under the Apache Licence, Version 2.0.
 The core plugin derives from Roma Quintin Hicks's GSD5 (MIT licence). The required MIT licence notice for the derived portions is retained in the core plugin's licence tiddler.
 
-Third-party components, not part of this project: ''hypergsd-trashbin'' depends on Mohammad Rahmani's Trashbin (MIT licence), and ''hypergsd-ticklers'' ships a Lucide calendar icon (MIT licence, Cole Bemis).
+Third-party components, not part of this project:
+* ''hypergsd-trashbin'' depends on and links parts of Mohammad Rahmani's Trashbin (MIT licence)
+* ''hypergsd-ticklers'' ships a Lucide calendar icon (MIT licence, Cole Bemis).
+* ''TiddlyWiki5'' itself (MIT licence)
