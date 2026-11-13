@@ -5,18 +5,55 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
+  release-assets:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build plugin JSON assets
+        run: |
+          mkdir -p /tmp/lib/plugins/yan /tmp/edition /tmp/dist
+          cp -r plugins/hypergsd* /tmp/lib/plugins/yan/
+          printf '{"description":"dist builder"}' > /tmp/edition/tiddlywiki.info
+          TIDDLYWIKI_PLUGIN_PATH=/tmp/lib/plugins npx tiddlywiki /tmp/edition \
+            --output /tmp/dist \
+            --makelibrary '$:/UpgradeLibrary' \
+            --savelibrarytiddlers '$:/UpgradeLibrary' '[prefix[$:/plugins/yan/hypergsd]]' './' ''
+          mkdir -p dist
+          ( cd /tmp/dist && for f in *; do cp "$f" "$GITHUB_WORKSPACE/dist/${f#%24%3A%2Fplugins%2Fyan%2F}"; done )
+          ls -l dist/
+
+      - name: Attach plugin JSON to release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --draft --generate-notes
+          gh release upload "$GITHUB_REF_NAME" dist/*.json --repo "$GITHUB_REPOSITORY" --clobber
+
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
