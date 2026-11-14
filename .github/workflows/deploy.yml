@@ -24,6 +24,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ship plugins from the latest tag
+        run: |
+          tag="$(git describe --tags --abbrev=0 --match 'v*')"
+          echo "Pinning plugins/ to $tag"
+          git checkout "$tag" -- plugins/
 
       - uses: actions/setup-node@v4
         with:

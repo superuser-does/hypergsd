@@ -43,13 +43,13 @@ tiddlywiki --listen              # serve the wiki: documentation and plugins tog
 tiddlywiki --build single-file   # build a single-file wiki into output/
 ```
 
-`npm install` will install the pinned version of the `tiddlywiki` package. GitHub Pages will deploy the single-file build to the site above on most _relevant_ pushes to `main`.
+`npm install` will install the pinned version of the `tiddlywiki` package. GitHub Pages will deploy the single-file build to the site above on most _relevant_ pushes to `main`; each build ships `plugins/` from the latest `v*` tag, so documentation deploys immediately while the plugin code the site carries advances only on a tag push.
 
 ### Repository layout
 
 - `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.
   TiddlyWiki automatically loads every folder under a wiki's `plugins/` directory, so serving or building this repository will publish the plugins alongside their documentation.
-- `tiddlers/` is the showcase/documentation wiki's own content. Edits to these will update the static documentation site hosting HyperGSD.
+- `tiddlers/` is the showcase/documentation wiki's own content. Edits to these will update the static documentation site hosting HyperGSD, without advancing the shipped plugin code.
 
 ### Verifying
 
