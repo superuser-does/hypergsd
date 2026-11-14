@@ -1,46 +1,29 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261113200631000
+modified: 20261114150419788
 modifier: Yannis Anthymidis
 title: Install HyperGSD
 type: text/vnd.tiddlywiki
 
-Drag-and-drop the ''main HyperGSD plugin'' to your wiki to install:
+\whitespace trim
 
-<$let qualified-state=<<qualify "$:/state/plugin">> default-popup-state="yes">
-{{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}
-</$let>
-
-For all changes, see [[Version history]].
-
-If you are coming from GSD5, please also drag-and-drop to import the [[Migrating from GSD5 to HyperGSD]] tiddler and follow the instructions listed there.
-
-!! Sub-plugins
-
-The following ''sub-plugins'' require the main plugin to be installed.
-They provide more helpful ways to track things you need to do and manage associated information:
-
-<$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
-{{$:/plugins/yan/hypergsd-contacts||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-contexts||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-priorities||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-references||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
-{{$:/plugins/yan/hypergsd-trashbin||$:/core/ui/Components/plugin-info}}
-</$set>
-
-!! Source code and alternative Node.js install
-
-The source code for all parts of HyperGSD is available on https://github.com/superuser-does/hypergsd under a [[free and open source licence|Licence]].
-
-If you host your TiddlyWiki through Node.js, you may install HyperGSD through the drag-and-drop method above, or as follows:
-
-# Download the source code
-# Extract the relevant plugin's sub-folder from `plugins/` to your TiddlyWiki's `/plugins/` folder //(i.e. a `plugins/` folder under the root that TiddlyWiki initialises from)//
-# Restart the server
-
-Note that the main plugin of `plugins/hypergsd/` is required for all other plugins listed.
-
-!! {{Relink configuration!!title}}
-
-{{Relink configuration}}
+<div class="hgsd-install-columns">
+  <div>
+    <h1>{{Add to an existing wiki!!title}}</h1>
+    <$transclude $tiddler="Add to an existing wiki" $mode="block"/>
+  </div>
+  <div>
+    <h1>{{Download a full wiki!!title}}</h1>
+    <$transclude $tiddler="Download a full wiki" $mode="block"/>
+  </div>
+  <div>
+    <h1>{{Other plugins!!title}}</h1>
+    <$transclude $tiddler="Other plugins" $mode="block"/>
+</div>
+  <div>
+  <h1>{{Source code and Node.js installation!!title}}</h1>
+  <$transclude $tiddler="Source code" $mode="block"/>
+  <h2>Alternative installation method for Node.js wikis</h2>
+  <$transclude $tiddler="Install HyperGSD on Node.js" $mode="block"/>
+  </div>
+</div>

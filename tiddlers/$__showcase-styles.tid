@@ -1,0 +1,33 @@
+title: $:/showcase-styles
+tags: $:/tags/Stylesheet
+type: text/vnd.tiddlywiki
+
+.tc-btn-download {
+	padding-block: 10px;
+	padding-inline: 30px;
+	border-radius: 5px;
+	background: <<colour download-background>>;
+	border: none;
+	box-shadow: 1px 2px 2px 0 <<colour muted-foreground>>;
+	overflow: hidden;
+	cursor: pointer;
+	font-size: 1.2em;
+	line-height: 1.4em;
+	color: <<colour download-foreground>>;
+	fill: <<colour download-foreground>>;
+}
+
+.tc-btn-download:active {
+	box-shadow: none;
+}
+
+.hgsd-install-columns {
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 2em;
+}
+
+.hgsd-install-columns > div {
+	flex: 1 1 calc(50% - 1em);
+	min-inline-size: 16em;
+}

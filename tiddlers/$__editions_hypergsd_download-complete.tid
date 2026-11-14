@@ -1,0 +1,12 @@
+title: $:/editions/hypergsd/download-complete
+type: text/vnd.tiddlywiki
+
+\procedure saveTiddlerFilter()
+[[$:/core]] [[$:/isEncrypted]] [[$:/themes/tiddlywiki/snowwhite]] [[$:/themes/tiddlywiki/vanilla]]
+[[$:/plugins/yan/hypergsd]] [[$:/plugins/yan/hypergsd-contacts]] [[$:/plugins/yan/hypergsd-contexts]] [[$:/plugins/yan/hypergsd-priorities]] [[$:/plugins/yan/hypergsd-references]] [[$:/plugins/yan/hypergsd-ticklers]] [[$:/plugins/yan/hypergsd-trashbin]]
+[[$:/plugins/flibbles/relink]] [[$:/plugins/kookma/trashbin]]
+[[$:/config/flibbles/relink/fields/gsd_contact]] [[$:/config/flibbles/relink/fields/gsd_prerequisites]] [[$:/config/flibbles/relink/fields/gsd_project]] [[$:/config/Toolbar/Text]] [[$:/config/Toolbar/ButtonClass]]
+[[$:/config/hypergsd/Fragment/Row/Suffix/visibility/$:/plugins/yan/hypergsd/ui/list-items/delete]]
+-[[$:/boot/boot.css]] -[type[application/javascript]library[yes]] -[[$:/boot/boot.js]] -[[$:/boot/bootprefix.js]] +[sort[title]]
+\end
+{{$:/core/templates/tiddlywiki5.html}}

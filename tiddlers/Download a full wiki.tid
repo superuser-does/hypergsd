@@ -1,0 +1,18 @@
+created: 20260614130152676
+creator: Yannis Anthymidis
+modified: 20261114144444000
+modifier: Yannis Anthymidis
+title: Download a full wiki
+type: text/vnd.tiddlywiki
+
+To start from a complete single-file TiddlyWiki (v{{$:/core!!version}}) instead of installing into an existing wiki, you can download one of these editions:
+
+<$button class="tc-btn-download" tooltip="TiddlyWiki, the main HyperGSD plugin and Relink">
+<$action-sendmessage $message="tm-download-file" $param="$:/editions/hypergsd/download-empty" filename="hypergsd-empty.html"/>
+Main HyperGSD + Relink {{$:/core/images/save-button}}
+</$button>
+
+<$button class="tc-btn-download" tooltip="TiddlyWiki, the complete HyperGSD suite, Relink and Trashbin">
+<$action-sendmessage $message="tm-download-file" $param="$:/editions/hypergsd/download-complete" filename="hypergsd-complete.html"/>
+Full HyperGSD suite + Relink + Trashbin {{$:/core/images/save-button}}
+</$button>

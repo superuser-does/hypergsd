@@ -1,0 +1,24 @@
+created: 20260614130152676
+creator: Yannis Anthymidis
+modified: 20261114144442000
+modifier: Yannis Anthymidis
+title: Other plugins
+type: text/vnd.tiddlywiki
+
+!! Sub-plugins
+
+The following ''sub-plugins'' require the main plugin to be installed.
+They provide more helpful ways to track things you need to do and manage associated information:
+
+<$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
+{{$:/plugins/yan/hypergsd-contacts||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-contexts||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-priorities||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-references||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-ticklers||$:/core/ui/Components/plugin-info}}
+{{$:/plugins/yan/hypergsd-trashbin||$:/core/ui/Components/plugin-info}}
+</$set>
+
+!! Integration with Relink
+
+{{Relink configuration}}

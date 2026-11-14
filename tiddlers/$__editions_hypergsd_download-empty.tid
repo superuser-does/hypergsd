@@ -1,0 +1,10 @@
+title: $:/editions/hypergsd/download-empty
+type: text/vnd.tiddlywiki
+
+\procedure saveTiddlerFilter()
+[[$:/core]] [[$:/isEncrypted]] [[$:/themes/tiddlywiki/snowwhite]] [[$:/themes/tiddlywiki/vanilla]]
+[[$:/plugins/yan/hypergsd]] [[$:/plugins/flibbles/relink]]
+[[$:/config/flibbles/relink/fields/gsd_contact]] [[$:/config/flibbles/relink/fields/gsd_prerequisites]] [[$:/config/flibbles/relink/fields/gsd_project]] [[$:/config/Toolbar/Text]] [[$:/config/Toolbar/ButtonClass]]
+-[[$:/boot/boot.css]] -[type[application/javascript]library[yes]] -[[$:/boot/boot.js]] -[[$:/boot/bootprefix.js]] +[sort[title]]
+\end
+{{$:/core/templates/tiddlywiki5.html}}
