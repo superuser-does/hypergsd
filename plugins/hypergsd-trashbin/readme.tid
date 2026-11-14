@@ -1,10 +1,10 @@
 title: $:/plugins/yan/hypergsd-trashbin/readme
 type: text/vnd.tiddlywiki
 
-A sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds a button to move completed items to the trashbin, instead of deleting them outright.
+A sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds a button to move completed items' tiddlers to the trashbin, instead of deleting them outright.
 Depends on Mohammad Rahmani's Trashbin ([[$:/plugins/kookma/trashbin]]).
 
-By default, the trashbin button will coexist with the regular <button disabled>{{$:/core/images/delete-button}}&nbsp;{{$:/language/Buttons/Delete/Caption}}</button> button.
-To hide the standard <button disabled>{{$:/core/images/delete-button}}&nbsp;{{$:/language/Buttons/Delete/Caption}}</button> button, open [[$:/plugins/yan/hypergsd/ui/list-items/delete]] and untag <<tag $:/tags/hypergsd/Fragment/Row/Suffix>>, or just press this button: <$button>hide {{$:/core/images/delete-button}}&nbsp;{{$:/language/Buttons/Delete/Caption}} button<$action-listops $tiddler="$:/plugins/yan/hypergsd/ui/list-items/delete" $tags="-[[$:/tags/hypergsd/Fragment/Row/Suffix]]" /></$button>
+By default, the trashbin button will coexist with the regular <$button class="tc-btn-invisible" tooltip={{$:/language/Buttons/Delete/Caption}}>{{$:/core/images/delete-button}}</$button> ({{$:/language/Buttons/Delete/Caption}}) button.
+To hide the standard <$button class="tc-btn-invisible" tooltip={{$:/language/Buttons/Delete/Caption}}>{{$:/core/images/delete-button}}</$button> button, open [[$:/plugins/yan/hypergsd/ui/list-items/delete]] and untag <<tag $:/tags/hypergsd/Fragment/Row/Suffix>>, or just press this button: <$button>hide {{$:/core/images/delete-button}}&nbsp;{{$:/language/Buttons/Delete/Caption}} button<$action-listops $tiddler="$:/plugins/yan/hypergsd/ui/list-items/delete" $tags="-[[$:/tags/hypergsd/Fragment/Row/Suffix]]" /></$button>
 
 [[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd-trashbin]]
