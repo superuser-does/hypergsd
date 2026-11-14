@@ -5,7 +5,7 @@ hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/
 
 \whitespace trim
 
-<!-- The Contacts page's multi-contact search, as a Strip tag-list member of the "Actions by contact" list: renders as the strip's leading control, ahead of Sort by. A muted label (the Sort by: convention — the colon rides in the lingo string) introduces the filter group; then one inline entry per picked contact (title link + × removal, the prereq-row vocabulary), the picker and the Add button — the pick-append pattern: the dropdown only FILLS the input (a raw $hgsd.pick, no commit-kind), the persistently-visible Add button (core's EditTemplate/Fields/Add/Button string, like every other pick row) commits, and ((input-accept)) — the core named shortcut, Enter by default, the keyboard-driven-input convention — runs the same commit from the keyboard. Both routes share hgsd-contact-add, gated on the pick naming an existing tiddler (the pick-keyboard-commit shape — the guard evaluates only at keypress/click, and a partial typed name neither commits nor clears the box: pick from the dropdown, or type a contact's exact title). Deliberately NO placeholder on the picker input and NO empty-state hint: the label alone explains the control, an empty box meaning no filtering. No refresh gate of its own: this renders inside the host list's gates, which DERIVE the picker's popup and temp prefixes from the hgsd-refresh-whitelist field above (the strip-member declaration route — list engine, dashboard chassis and view gates all compose it), and the selection commits to the config namespace every gate already admits. Writes land on the persistent selection tiddler the host list member's contact gate reads. -->
+<!-- The Contacts page's multi-contact filter, a Strip tag-list member rendered in the "Actions by contact" strip ahead of Sort by. A dropdown click instant-commits through the picker's append kind, gated on the pointer-class picker-instant-commit settings; the Add button and ((input-accept)) share hgsd-contact-add, guarded on the pick naming an existing tiddler. No refresh gate of its own: the picker's popup/temp prefixes ride the hgsd-refresh-whitelist field above, and the selection lives under $:/config/hypergsd, a prefix every gate admits. -->
 \procedure hgsd-contact-add()
 <$let picked-now={{{ [<pick-tiddler>get[hgsd-pick]else[]] }}}>
 <%if [<picked-now>!match[]is[tiddler]] %>
@@ -34,7 +34,10 @@ hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/
         id="contact-filter"
         list-filter="[tag[$:/GSD/Contact]]"
         none-label={{$:/language/hypergsd/Lists/ContactFilter/Choose}}
-        search-mode="extended"/>
+        search-mode="extended"
+        commit-kind="append"
+        commit-tiddler=<<selection-title>>
+        commit-field="list"/>
     </$keyboard>
     <$button actions="""<$transclude $variable="hgsd-contact-add"/>""">
       {{$:/language/EditTemplate/Fields/Add/Button}}

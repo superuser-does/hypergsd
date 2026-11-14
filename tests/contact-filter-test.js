@@ -4,7 +4,8 @@
 // combined member in Portion/1 and the roster's Portion/Full band. Covers
 // strip placement, no placeholder, Group by withdrawn on the combined list,
 // popup and typing THROUGH the chassis and row gates (the freeze
-// regressions), instant commit, entry removal and the two-string tooltip.
+// regressions), instant commit with the coarse-pointer Add fallback and the
+// keyboard guard, entry removal and the two-string tooltip.
 const $tw = require("/home/yan/tiddlywiki/tw5source/boot/boot.js").TiddlyWiki();
 $tw.boot.suppressBoot = true; $tw.boot.argv = [__dirname + "/fixture-wiki"]; $tw.boot.startup();
 global.$tw = $tw;
@@ -98,8 +99,10 @@ setSelection(null);
   wiki.deleteTiddler(TEMP); wiki.deleteTiddler(POPUP);
 }
 
-// 4. Add-button flow: the dropdown only FILLS the input; Add commits, and
-//    ((input-accept)) runs the same commit; rows narrow on the live tree.
+// 4. Commit flows: a dropdown click instant-commits under the fine-pointer
+//    default; a coarse pointer (setting off by default) falls back to
+//    fill-then-Add; ((input-accept)) commits a typed exact title, and the
+//    non-existent-pick guard holds on every route.
 setSelection(null);
 {
   const {c, w} = renderPage();
@@ -108,28 +111,49 @@ setSelection(null);
   const sel = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$select" && String(n.getAttribute("size")) === "8").pop();
   t("picker select rendered", !!sel, true);
   if (sel) { sel.domNodes[0].value = "ZZ Carol"; sel.handleChangeEvent({}); }
-  t("dropdown fills without committing", wiki.getTiddlerList(SELECTION, "list"), []);
-  t("input holds the pick", wiki.getTiddlerText(TEMP + "::hgsd-pick") !== null ? wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join("") : "?", "ZZ Carol");
-  const addBtn = findWidgets(w, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && /\badd\b/i.test((n.domNodes[0].textContent || "")) && !(n.domNodes[0].attributes || {}).title).pop();
-  t("Add button present with core string", !!addBtn, true);
-  if (addBtn) addBtn.invokeActionString(addBtn.getAttribute("actions"), addBtn, {type: "click"}, {variables: {}});
-  t("Add commits the pick", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Carol"]);
+  t("dropdown click commits instantly (fine default on)", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Carol"]);
+  t("pick temp cleared after the instant commit", wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join(""), "");
+  t("popup closed by the select actions", wiki.getTiddlerText(POPUP), "");
   poke(w, SELECTION);
   t("rows narrow after commit", actionRows(c), []);
-  // keyboard route: type a fresh pick, fire the ((input-accept)) actions string
-  wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Bob Comp"});
-  poke(w, TEMP);
-  const keyboardWidget = (() => { let foundKeyboard = null; (function f(n) { if (foundKeyboard || !n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f); if (n.parseTreeNode && n.parseTreeNode.tag === "$keyboard") { foundKeyboard = n; return; } (n.children || []).forEach(f); })(w.children); return foundKeyboard; })();
+
+  // coarse pointer, coarse setting off (the shipped default): infill only, Add commits
+  wiki.addTiddler({title: "$:/info/browser/pointer-coarse", text: "yes"});
+  setSelection(null);
+  wiki.addTiddler({title: POPUP, text: "(0,0,0,0)"});
+  wiki.deleteTiddler(TEMP);
+  const {w: w2} = renderPage();
+  const sel2 = findWidgets(w2, n => n.parseTreeNode && n.parseTreeNode.tag === "$select" && String(n.getAttribute("size")) === "8").pop();
+  if (sel2) { sel2.domNodes[0].value = "ZZ Bob Comp"; sel2.handleChangeEvent({}); }
+  t("coarse default off: dropdown fills without committing", wiki.getTiddlerList(SELECTION, "list"), []);
+  t("coarse default off: pick retained for the Add step", wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join(""), "ZZ Bob Comp");
+  t("coarse default off: popup still closes", wiki.getTiddlerText(POPUP), "");
+  const addBtn = findWidgets(w2, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && /\badd\b/i.test((n.domNodes[0].textContent || "")) && !(n.domNodes[0].attributes || {}).title).pop();
+  t("Add button present with core string", !!addBtn, true);
+  if (addBtn) addBtn.invokeActionString(addBtn.getAttribute("actions"), addBtn, {type: "click"}, {variables: {}});
+  t("Add commits the retained pick", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Bob Comp"]);
+
+  // keyboard route back on a fine pointer: typed exact title + ((input-accept)); the guard holds
+  wiki.deleteTiddler("$:/info/browser/pointer-coarse");
+  setSelection(null);
+  const {w: w3} = renderPage();
+  wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Alice"});
+  poke(w3, TEMP);
+  const keyboardWidget = (() => { let foundKeyboard = null; (function f(n) { if (foundKeyboard || !n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f); if (n.parseTreeNode && n.parseTreeNode.tag === "$keyboard") { foundKeyboard = n; return; } (n.children || []).forEach(f); })(w3.children); return foundKeyboard; })();
   t("keyboard bound", keyboardWidget ? (keyboardWidget.getAttribute("key") || "").indexOf("input-accept") !== -1 : false, true);
   if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}});
-  t("input-accept commits", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Carol", "ZZ Bob Comp"]);
+  t("input-accept commits", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Alice"]);
   // guard: a non-existent pick neither commits nor clears the box
   wiki.addTiddler({title: TEMP, "hgsd-pick": "No Such Contact"});
   if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}});
-  t("non-existent pick adds nothing", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Carol", "ZZ Bob Comp"]);
+  t("non-existent pick adds nothing", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Alice"]);
   t("non-existent pick keeps the text", wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join(""), "No Such Contact");
-  t("input cleared after real commit", (() => { wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Carol"}); if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}}); const f = wiki.getTiddler(TEMP).fields; return f["hgsd-pick"] === undefined ? "" : f["hgsd-pick"]; })(), "");
-  wiki.deleteTiddler(POPUP);
+  // a re-pick of a selected contact: the listops append moves the entry, never duplicates
+  wiki.addTiddler({title: TEMP, "hgsd-pick": "ZZ Alice"});
+  if (keyboardWidget) keyboardWidget.invokeActionString(keyboardWidget.getAttribute("actions"), keyboardWidget, null, {variables: {}});
+  t("re-pick neither duplicates nor sticks", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Alice"]);
+  t("re-pick still clears the box", wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join(""), "");
+  wiki.deleteTiddler(TEMP); wiki.deleteTiddler(POPUP);
 }
 
 // 5. Selections: one contact, then two incl. a spaced title through the
