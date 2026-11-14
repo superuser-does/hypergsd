@@ -152,6 +152,8 @@ playwright-cli -s=local run-code "await page.evaluate(() => \$tw.wiki.deleteTidd
 
 **Cleanup policy (standing rule):** delete the scratch tiddlers you created — and touch NOTHING else. `$:/StoryList` is the user's live list of OPEN tiddlers (their browsing session, shared by every browser window on the wiki). Never write, reset, "restore", or clear it; never close tiddlers on the user's behalf, including ones your navigation opened. An empty-looking story at session start is not a baseline — the user's own browser may have tiddlers open. Session teardown = scratch deletion only.
 
+**run-code output:** `run-code` surfaces only the function's return value — `return await page.evaluate(...)` prints under `### Result`; `console.log` output does not appear in the command output, so read `.playwright-cli/console-*.log` for page-side logs instead of wondering whether the code ran.
+
 ### Inspecting wiki state
 
 ```bash

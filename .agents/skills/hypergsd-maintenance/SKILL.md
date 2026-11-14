@@ -7,6 +7,8 @@ description: Maintenance and development of the HyperGSD plugin in TiddlyWiki. U
 
 This skill provides specialized knowledge for maintaining the HyperGSD plugin in TiddlyWiki.
 
+CODEMAP.md maps the family surface by surface; when a change alters behaviour an entry documents, update that entry in the same change.
+
 ## Core architecture
 
 ### Tag-driven identity
@@ -36,7 +38,7 @@ Realms use a tag prefix system: `$:/GSD/Realm/Work`, `$:/GSD/Realm/Home`, etc. B
 ### Contexts (opt-in)
 A context is a tiddler tagged `$:/tags/hypergsd/Context` — that tag is the sole identifier. Actions are assigned to a context by carrying the context's title as a regular tag (e.g., `@Phone`), so an action's effective contexts are its tags filtered through `[tag[$:/tags/hypergsd/Context]]`. Contexts are created through the modal's context type, which tags the new tiddler with `$:/tags/hypergsd/Context`.
 
-On creation, contexts are inherited as a union: the sidebar "Context for new stuff:" selection (`$:/state/hypergsd/effective-context`), any context explicitly picked in the modal, and the caller's context tags — combined in the contexts sub-plugin's Inheritance-rail member (`modules/inheritance/context-tags.tid`), the same state-default + pick + caller-harvest shape as the realm rule, then applied via `tm-add-tag` inside `create-gsd-tiddler`. `$hgsd.new-button` forwards the RESOLVED caller into tm-modal (explicit parameter else currentTiddler), so panel and list quick-adds inherit everything the rail harvests — contexts, every caller realm tag, informal tags; sidebar and toolbar buttons render with a blank currentTiddler and forward nothing. Context, reference and contact types receive no context tags. Dashboard injection into context tiddlers uses `[is[current]tag[GSD/Contexts]]`.
+On creation, contexts are inherited as a union: the sidebar "Context for new stuff:" selection (`$:/state/hypergsd/effective-context`), any context explicitly picked in the modal, and the caller's context tags — combined in the contexts sub-plugin's Inheritance-rail member (`modules/inheritance/context-tags.tid`), the same state-default + pick + caller-harvest shape as the realm rule, then applied via `tm-add-tag` inside `create-gsd-tiddler`. The caller forwarding is the realm rule's (`$hgsd.new-button` → resolved caller, parameter else currentTiddler), so panel and list quick-adds inherit everything the rail harvests — contexts, every caller realm tag, informal tags; sidebar and toolbar buttons render with a blank currentTiddler and forward nothing. Context, reference and contact types receive no context tags. Dashboard injection into context tiddlers uses `[is[current]tag[GSD/Contexts]]`.
 
 The contextualise row fragment (incomplete actions AND projects) keys its state, temp and popup titles per COPY, not per row: `contextualise-<row>-<group>-<scope>`, where group is the ambient `current-group` from the grouped renderer (empty in flat lists) and scope is the list's `listState` title stripped of its `$:/temp/gsd-list/` prefix (separates copies across list instances; derived above the group loop, so grouped copies share it and differ only by group). Per-row `$qualify` cannot replace this scheme: its hash is identical for every row of a list (so a per-row state was shared list-wide and other rows' stale writes made buttons look dead) and identical for grouped copies. A copy that appears when a context is added has no state tiddler and renders closed, so the picker input's `focus="yes"` never scrolls the new copy into view. All refresh-gate whitelists match these titles by prefix, so the suffixes ride along with no gate edits.
 
@@ -52,9 +54,8 @@ The modal uses typed status fields (`gsd_action_status`, `gsd_project_status`) t
 - **List headings fold (GSD5's mechanism)**: every heading is the label of a hidden `$checkbox` (checked=hide / unchecked=show) writing `listState`; the rows sit in a `$reveal` on it, and the folded-state indicator is an `hgsd-fold-chevron` reveal hanging in the gutter LEFT of the text — absolutely positioned so the text start stays fixed across fold states, and its svg square-clamped (see the mechanics skill's transcluded-image sizing constraint). The mechanism is GSD5's unchanged (born 2015-02-06 in gsd5-core, hidden checkbox from day one; full history at gitlab.com/gsd5-tiddlywiki/gsd5-core) — when an inherited control misbehaves, check the ancestor's behaviour before suspecting the port's markup.
 - **A stateful control needs EVERY ancestor gate to admit its writes, not just the nearest one**: the fold write passes view-body gate → chassis gate → `$hgsd.list`'s outer gate → the reveal, and each gate returns false independently. The engine's own two gates carry the scoped pair (`[prefix[$:/temp/gsd-list/]]` plus a `!prefix` subtraction run — heading-scoped at the list gate via `list-fold-prefix`, host-scoped at the chassis via `this-list-prefix`, mirroring the view-body gates' idiom); engine-owned state rides base runs (the show-completed precedent), member-owned state rides `hgsd-refresh-whitelist` declarations. Worked starvation: the refresh-gate work landed without the pair and the fold died silently on every surface — the state tiddler flipped on click but no DOM moved, and any admitted change made the UI catch up out of nowhere; the inner gate's `[match<listState>]` admission was unreachable because the outer gate blocked first. Symptom signature for any frozen control: state tiddler correct, DOM stale, spontaneous catch-up on admitted writes — audit every ancestor gate, not just the nearest.
 - **List filters carry no base sorts**: the default filter source is title-sorted (mechanics skill), so a `tag[]`-led pipeline is already alphabetical, and where the sort strip is on its effective SortBy member re-sorts the rows regardless — a trailing `sort[title]` or duplicated `!nsort` run was dead weight (ties fall to the default title order either way). Only non-title keys do real work in-filter: tickler dates, prereq completion, subproject status.
-- **Generic pickers inside the dashboard chassis declare their prefixes**: `hgsd-dashboard-portions`' refresh gate DERIVES its feature-owned runs from member declarations — Row-fragment members' and the tag list's members' `hgsd-refresh-whitelist` fields, plus Strip members found transitively through members' `hgsd-heading`. A plain `$hgsd.pick`/`pick-append` rendered as a chassis member still freezes shut unless its member declares the popup/temp prefixes in that field (hosting at PAGE level, above the chassis transclusion, remains the zero-declaration route — ui/dashboards/Contacts.tid + hgsd-contact-select is the worked shape); a Strip tag-list member declares on itself and every gate that renders it picks the runs up.
+- **Feature-owned gate runs derive from `hgsd-refresh-whitelist` declarations**: a stateful member (Row placement fragment, Strip member, Lists member, ViewPlacement body) carries its state prefixes in that field — single bracketed prefix runs, space-separated — and every gate that renders it composes them: the row freeze, `$hgsd.list`'s outer and per-list gates, the dashboard chassis (Row-fragment and tag-list members directly, Strip members transitively through members' `hgsd-heading` lingo titles resolved to heading text and matched against `hgsd-strip-host` — the sentinel member keeps the anchored regex from compiling empty; an empty regexp matches everything), the view-body gates, the placement slot (`hgsd-row-feature-runs` reads the fixed Row pair; Panel-placement members are read-only adornments and keep state under gate-admitted prefixes instead). A plain `$hgsd.pick`/`pick-append` rendered inside the chassis without a declaration freezes shut — declare the popup/temp prefixes on the member (the contacts filter's strip member is the worked shape) or host the picker at PAGE level, above the chassis transclusion, where no declaration is needed. Scoped `:and` pairs (the modal add- pair, show-completed) stay hand-written in host gates; `tests/gate-purity-test.js` fails if a sub-plugin namespace is hand-copied back into the main plugin.
 - **Feature state under `$:/config/hypergsd/*` rides every existing refresh gate**: the chassis, `$hgsd.list`'s outer gate and the view-body gates all carry a `[prefix[$:/config/hypergsd]]` run, so a selection/config tiddler there live-updates dashboards with ZERO gate edits — the contact-filter selection tiddler lives there for that reason (persistence across reloads comes free; see the mechanics skill's namespace rules).
-- **Feature-owned gate runs derive from `hgsd-refresh-whitelist` declarations**: a stateful member (Row placement fragment, Strip member, Lists member, ViewPlacement body) carries its state prefixes in that field — single bracketed prefix runs, space-separated — and every gate that renders it composes them: the row freeze, `$hgsd.list`'s outer and per-list gates, the dashboard chassis, the view-body gates, the placement slot (`hgsd-row-feature-runs` reads the fixed Row pair; Panel-placement members are read-only adornments and keep state under gate-admitted prefixes instead). The chassis finds Strip members transitively: members' `hgsd-heading` lingo titles resolve to heading text, matched against `hgsd-strip-host` (the sentinel member keeps the anchored regex from compiling empty — an empty regexp matches everything). Scoped `:and` pairs (the modal add- pair, show-completed) stay hand-written in host gates; `tests/gate-purity-test.js` fails if a sub-plugin namespace is hand-copied back into the main plugin.
 
 ### The Fragment root and config-driven fragment behaviour
 Fragments live under ONE root: `$:/tags/hypergsd/Fragment/` — `Row/Prefix` and `Row/Suffix` (the closed pair; `hgsd-item`'s loops around the title link, one placement tag per member) and `Panel` (after a value link — pick-field's set state, the prereq rows; `hgsd-panel-items(linked-tiddler)` hosts them, `panel-tag` overrides the family for an exotic host). The cross-realm globe is NOT a fragment: the row composer, pick-field and the prereq rows call `hgsd-realm-warning` directly — one indicator behind one switch (`$:/config/hypergsd/realm-warning`), never on contexts. Every gate carries `[prefix[$:/tags/hypergsd/Fragment]] [tags[]prefix[$:/tags/hypergsd/Fragment]]`, so placement tag edits live-refresh everywhere.
@@ -72,6 +73,8 @@ Config decides fragment behaviour without editing fragments:
 **Affordance matrix:** the Add/Save buttons of both shells render only for a pick commitable without creation — an `<%if create-gate %>`/`<%elseif non-blank %>` pair reusing hgsd-pick-keyboard-commit's create gate verbatim (a combined single-filter form does not parse and its error literal is truthy — tested), riding the per-keystroke refresh the create gate always used; each row declares its buttons in order through one elseif on the create gate — `hgsd-new-options` (the kind-mapped create-and-add button, UNGATED by contract: transcluded inside the gate's then-branch, i.e. in the commit slot) and `hgsd-new-fallback` (the self-gated plain new button, last); and pick-field's set state carries an icon-only clear button between the link and change (`clear-button="hide"` opts out; tooltip core `Buttons/Clear/Caption`) that blanks the field directly — clearing no longer depends on "open the editor, leave it empty, save" (the keyboard's blank commit still clears).
 
 **Keyboard commits create:** every keyboard-commit site of the family (pick-append's add-row, pick-field's empty and editing states — the key is each row's `$keyboard` binding, Enter by default) routes through `hgsd-pick-keyboard-commit` (in pick.tid, beside its sibling `hgsd-pick-commit`): a non-blank pick naming no existing tiddler — gated additionally on `new-type` being set — runs the shared creation core `hgsd-create-and-add-actions` (create-and-add.tid, split out of the button shell for exactly this), with the ambient `direction` playing `hgsd-new-options`' kind bit; anything else commits exactly as the row's own Add/Save button (blank pick still clears a field-kind target). The dispatcher is parameterless beyond `close-state` (pick-field's editing state passes its reveal), reads the caller's ambient scope, and uses only actions-string-safe forms (`{{{ }}}` filter attributes, `<%if%>` gates — the hgsd-pick-commit pattern); the existence check evaluates ONLY when the bound key is pressed because the whole dispatcher lives inside the keyboard's actions string.
+
+**Instant commits:** every `$hgsd.pick` call site opts in through `commit-kind` (+ `commit-tiddler`/`commit-field`/`commit-value`) so a dropdown click commits via the engine's `hgsd-pick-commit`, gated at pick time on the pointer-class `$:/config/hypergsd/picker-instant-commit/{fine,coarse}` settings (fine default on, coarse off) — a raw picker with no commit-kind silently ignores both settings (the contacts filter shipped that way once; keyboard and button commits never consult the pointer class). Worked call sites: the contextualise picker (append to tags) and the Contacts page's filter (append to the selection list). In fakeDOM `$:/info/browser/pointer-coarse` does not exist, so the fine default applies — a test asserting fill-only behaviour must flip the fine setting or add the pointer tiddler.
 
 **Row classes:** every pick row (and any trim'd control cluster — the modal's title row, the contacts filter) spaces itself with the `gsd-list-item` + `hgsd-sizer-droplist` pair: flex + gap, because `\whitespace trim` removes the inline whitespace between widgets. `hgsd-sizer-select` on the input means "fill the host row" — natural width inside the panel's fit-content chassis, full-width stretch in a full-width host (the mechanics skill's Stylesheets section), so full-width hosts omit it deliberately. A checkbox label inside such a row gets core's `tc-tiny-gap-left` on a plain span (the control-panel convention puts it on a `$link`; on a toggling checkbox label the link would hijack the label click for navigation).
 
@@ -105,61 +108,6 @@ Tooltip strings in the language files use `Hint` as the key segment, matching TW
 - **Interpolated names split across two lingo strings** (the CreateAdd pattern): `…/HintA` + `…/HintB` sandwich a title — plain filter concatenation for `title`/tooltip attributes (no HTML survives an attribute), `<q><$text text=<<var>>/></q>` for visible labels (create-and-add's button and the contact entry's × tooltip are the shipped examples; contact-select derives its tooltip with `addsuffix`).
 - **No aria-labels**: nothing ships `aria-label`. A control's accessible name comes from its visible text, or falls back to its `title` — and every HyperGSD control that needs naming carries `tooltip=` (the Hint), which is the `title`. One string, one attribute; the Hint covers both hover and screen-reader naming. No separate Aria lingo keys exist.
 
-### Adding tags to a tiddler: use `tm-add-tag` + `$fieldmangler`
-
-When you need to add a tag to a tiddler after creation (e.g., a context or realm tag), use the built-in `tm-add-tag` message wrapped in a `<$fieldmangler>`. This is the canonical TW approach — it handles multi-word tags, spaces, and special characters natively without any filter gymnastics.
-
-```html
-<$fieldmangler tiddler=<<createTiddler-title>>>
-  <$action-sendmessage $message="tm-add-tag" $param=<<realm-tag>> />
-  <$action-sendmessage $message="tm-add-tag" $param="@out and about" />
-</$fieldmangler>
-```
-
-**Never** try to construct tag strings with `join[ ]` and `format:titlelist[]` — the filter pipeline for spaced tags is fragile, scope-dependent, and repeatedly fails across TW versions. `tm-add-tag` just works.
-
-### Variable scope in procedure invocations vs filter strings
-
-Procedure parameters (e.g., `gsd-context`, `gsd-realm`) are template variables within the procedure body's widget tree (like `<%if%>` blocks), but they do NOT reliably resolve inside filter STRINGS passed to action widgets (like `$subfilter="[<gsd-context>]"` or `$tags="+[<gsd-context>]"`). The filter parser evaluates these strings at action-time, where the procedure's parameter scope may be unavailable.
-
-- **Safe**: `<%if [<gsd-context>!match[none]] %>` — widget conditionals use the live template scope.
-- **Unsafe**: `$subfilter="[<gsd-context>]"` in `$action-listops` — the filter string may resolve `<gsd-context>` to `currentTiddler` (the modal) instead of the procedure parameter.
-
-To pass values into action-widget filter strings, compute them in a `<$let>` variable first and reference that.
-
-### Filter runs in `{{{ }}}` are additive but fragile
-
-In TiddlyWiki's `{{{ }}}` filter evaluation, consecutive `[run]` steps add their results to the pipeline (they don't filter each other). This is how tags are built:
-
-```
-{{{ [<type>match[action]then[$:/GSD/Action]] [<realm>] [<context>] +[join[ ]] }}}
-```
-
-However, this pattern only works reliably for simple values without spaces. Tags with spaces (like `@out and about`) break when passed through `join[ ]` because the resulting string is re-parsed as space-separated tokens by TW's tag storage. Use `tm-add-tag` for those instead.
-
-### Multi-operand `match[a][b][c]` breaks inside then/else chains
-
-A multi-operand `match` silently fails when combined with `then[...]`/`else[...]` — both branches come back empty even for literals:
-
-```
-<$let raw="A [[B b]]" ft="action">
-{{{ [<ft>match[context][reference][contact]then[]else[XYZ]] }}}   ← empty (broken)
-```
-
-Single-operand `match[x]then[..]else[..]` works. For "if none of these match" semantics, use the negated form, which works correctly with multiple operands:
-
-```
-{{{ [<final-type>!match[context][reference][contact]then<raw-value>] }}}
-```
-
-### Runs cannot be nested inside runs
-
-A filter run must not contain another bracketed run — `[ [<var>get[field]] :and[tag[x]] ]` is a parse error ("Missing [ in filter expression"). Each source pipeline must be its own top-level run; validate or transform the combined output with trailing modifier runs instead:
-
-```
-{{{ [<new-data-title>get[gsd_context]] [[$:/state/x]get[text]] +[tag[$:/GSD/Contact]] +[unique[]] }}}
-```
-
 ### Keep the modal's tag computation in `hgsd-modal-submit`
 
 The `hgsd-modal-submit` procedure runs in the modal template scope where all variables (temp tiddler fields, button parameters, state tiddlers) resolve correctly. Compute complex values here and pass them as parameters to `create-gsd-tiddler`, which should be a thin wrapper that just fires actions based on its parameters.
@@ -177,10 +125,10 @@ Conventions for new or modified tests:
 - Widget-tree assertions that check WHERE a widget writes should resolve titles via `widget.getAttribute("tiddler")`/`getAttribute("set")` — the parse-tree attribute — not widget-class properties (EditWidget stores `editTitle`, CheckboxWidget `checkboxTitle`; `getAttribute` is the one resolver that works for every class, and the title strings often come from filter chains that broke silently — assert the assembled title, not just that the widget exists).
 - Fixture rows meant to appear in dashboard lists must carry `gsd_complete: "false"` EXPLICITLY: the lists filter on the positive `gsd_complete[false]` test, and a missing field does not match it.
 
-Run the WHOLE battery after any change (`npm test` in the repo) — and especially after user-facing string changes: expectations embed rendered strings, and live user edits to plugin language files (e.g. a settings-string rewording) surface here as stale expectations. When a check fails on a string, compare against the shipping `.multids` value before touching the harness — but if the string contradicts what the user approved, fix the STRING.
+Run the WHOLE battery after any change (`npm test` in the repo) — expectations embed rendered strings, so user-facing string changes surface as stale expectations; compare a failing string against the shipping `.multids` value before touching the harness.
 
 ## Directory constraints
 - **Plugin source**: the canonical source is THIS repository — `plugins/<name>/` (main plugin plus the six sub-plugins). Any copies inside another wiki's `plugins/` directory are generated; never edit them directly, and never use `$tw.wiki.addTiddler()` to modify plugin tiddlers.
 - **The repository is itself a wiki**: its `tiddlers/` folder holds the plugin family's documentation tiddlers (tagged `Documentation`/`HyperGSD API`), served by running `tiddlywiki . --listen` in the repository root. Never treat that folder as scratch space.
-- **Tests**: the headless battery and fixture wikis live in the repo's `tests/` (`npm test`; family symlinks point at the repo plugins, so tests run against the source, pre-sync). Conventions for writing or modifying tests live in the tiddlywiki-develop-with-playwright skill.
-- **Shadow tiddlers**: Tiddlers in `tiddlers/` override plugin tiddlers with the same `title:` field. Shadows can only come from historical in-memory pushes (no longer used) or intentional user overrides — the local-first workflow never creates them. If a plugin change doesn't take effect, check for a shadow; ask before deleting any shadow found. See the preferences skill for how to find one.
+- **Tests**: the headless battery and fixture wikis live in the repo's `tests/` (`npm test`). Conventions for writing or modifying tests live in the tiddlywiki-develop-with-playwright skill.
+- **Shadow tiddlers**: Tiddlers in `tiddlers/` override plugin tiddlers with the same `title:` field. Shadows can only come from historical in-memory pushes (no longer used) or intentional user overrides — the local-first workflow never creates them. If a plugin change doesn't take effect, check for a shadow; ask before deleting any shadow found (the grep recipe is the mechanics skill's Shadow tiddlers section; the ask-first rule is the preferences skill's).
