@@ -1,0 +1,14 @@
+created: 20260614130152676
+creator: Yannis Anthymidis
+modified: 20261114011237000
+modifier: Yannis Anthymidis
+title: Relink configuration
+type: text/vnd.tiddlywiki
+
+From time to time, you may want to re-title action, project or contact tiddlers.
+
+To ensure other tiddlers get updated when you re-title, install [[Relink|https://flibbles.github.io/tw5-relink/]], and to import them the following tiddlers by dragging-and-dropping them into your wiki:
+
+* [[$:/config/flibbles/relink/fields/gsd_project]]
+* [[$:/config/flibbles/relink/fields/gsd_prerequisites]]
+* [[$:/config/flibbles/relink/fields/gsd_contact]] -- only if you also use the [[HyperGSD Contacts|$:/plugins/yan/hypergsd-contacts]] sub-plugin

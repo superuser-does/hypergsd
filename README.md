@@ -1,8 +1,8 @@
 # HyperGSD
 
-HyperGSD is a family of plugins for [TiddlyWiki](https://tiddlywiki.com/): Get Stuff Done in hypermedia. It combines [David Allen's Getting Things Done](https://joecotellese.com/posts/getting-things-done-book-summary/) workflow with TiddlyWiki's tagging and linking, so your tasks can live inside an all-in-one personal wiki. A dedicated wiki works too.
+**HyperGSD** is a family of plugins for [TiddlyWiki](https://tiddlywiki.com/) to help you _Get Stuff Done_ in _Hypermedia_. It combines David Allen's [Getting Things Done](https://joecotellese.com/posts/getting-things-done-book-summary/) workflow with TiddlyWiki's tagging and linking, so your tasks can live inside an all-in-one personal wiki. A dedicated wiki works too.
 
-> **Looking to use HyperGSD?** Visit **[superuser-does.github.io/hypergsd](https://superuser-does.github.io/hypergsd/)**. The wiki holds the documentation, and each plugin installs from there by drag and drop. This README covers the development repository.
+> **Looking to use HyperGSD?** Visit **[superuser-does.github.io/hypergsd](https://superuser-does.github.io/hypergsd/)**. The wiki holds the documentation, and each plugin can be installed from there by drag and drop. This README covers the development repository.
 
 ## Features
 
@@ -17,7 +17,7 @@ HyperGSD is a family of plugins for [TiddlyWiki](https://tiddlywiki.com/): Get S
    - Completed actions on project and contact pages load on demand.
 * **Extensibility.** Most UI elements are transcluded from  tag lists, and the same methods can be used for your own sub-plugins without a single tiddler override. See the _HyperGSD API_ tiddlers on the wiki for more.
 
-HyperGSD re-architects and greatly expands Roma Hicks's [GSD5](https://gsd5.tiddlyhost.com/) plugin, which is part of a line of "GSD" plugins for TiddlyWiki going back to the mid-2000s (including [mGSD](https://mgsd.tiddlyspot.com/), [mGSD1](https://mgsd1.tiddlyspot.com/) and [d-cubed](https://dcubed.ca/Welcome_to_d-cubed.html)).
+HyperGSD re-architects and greatly expands Roma Hicks's [GSD5](https://gsd5.tiddlyhost.com/) plugin, and is part of a line of "GSD" plugins for TiddlyWiki going back to the mid-2000s (including [mGSD](https://mgsd.tiddlyspot.com/), [mGSD1](https://mgsd1.tiddlyspot.com/) and [d-cubed](https://dcubed.ca/Welcome_to_d-cubed.html)).
 GSD5 users can bring their data across to HyperGSD: just import the [migration guide](https://superuser-does.github.io/hypergsd/#Migrating%20from%20GSD5%20to%20HyperGSD) into your GSD5 wiki.
 
 ## Sub-plugins
@@ -47,7 +47,7 @@ tiddlywiki --build single-file   # build a single-file wiki into output/
 
 ### Repository layout
 
-- `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.  
+- `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.
   TiddlyWiki automatically loads every folder under a wiki's `plugins/` directory, so serving or building this repository will publish the plugins alongside their documentation.
 - `tiddlers/` is the showcase/documentation wiki's own content. Edits to these will update the static documentation site hosting HyperGSD.
 
