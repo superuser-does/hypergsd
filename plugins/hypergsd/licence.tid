@@ -16,8 +16,11 @@ limitations under the License.
 
 ---
 
-This plugin derives from GSD5. Portions Copyright (c) 2023 roma.hicks,
+This plugin derives from [[GSD5|https://gsd5.tiddlyhost.com/]].
+Portions Copyright (c) 2023 roma.hicks,
 licensed under the MIT License; the MIT notice for those portions follows.
+
+<<<
 
 The MIT License (MIT)
 
@@ -40,3 +43,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+<<<
