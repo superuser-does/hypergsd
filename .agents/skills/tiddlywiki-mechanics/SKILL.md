@@ -50,7 +50,9 @@ description: TiddlyWiki engine mechanics learned the hard way — filter-run sem
 
 # Procedures and widgets
 
-- **`<%if%>` conditionals in preference to `<$list>` guards** when a filter is used only for its truthiness — `<$list>` rebinds `currentTiddler` to its loop variable, which shadows ambient scope inside the body.
+- **`<%if%>` conditionals in preference to `<$list>` guards** when a filter is used only for its truthiness — `<$list>` rebinds `currentTiddler` to its loop variable, which shadows ambient scope inside the body. The shortcut is safe by construction: conditional.js compiles it to `$list variable="condition" limit="1"`, so the body renders at most once with the ambient `currentTiddler` intact.
+- **ViewTemplate fragments render for the story tiddler only — transcluded content never sees them:** `$transclude` sets `thisTiddler`, NOT `currentTiddler` (transclude.js), so tab panels and any transcluded body render with the AMBIENT `currentTiddler` and no view-template pass (the tabs macro docs' own caveat). Per-tab chrome belongs in the `<<tabs>>` `template` parameter using the documented pattern `<$tiddler tiddler=<<currentTab>>><$transclude mode="block"/></$tiddler>` — under the wrapper, gates and `<$view>` see the tab tiddler, and the template can transclude the ViewTemplate fragment itself so the markup lives in one place (the release-date line on Version history is the worked example).
+- **A tiddler tagged into a per-tiddler template must scope its gate to `all[current]`:** a wiki-wide condition like `[tag[X]has[f]]` there asks whether ANY tiddler matches — true on every tiddler once one does — so the body renders everywhere while `<$view field=f>` reads the viewed tiddler's missing field: a bare label with no value on every tiddler, the intended line nowhere (the release-date fragment shipped exactly this; the shape is `[all[current]tag[X]has[f]]`).
 
 # Performance
 
@@ -221,7 +223,7 @@ The conditional shortcut has no balance validation: an orphan or duplicated `<%e
 The shortcut compiles to a `$list` over the condition's output; a branch whose body is empty or whitespace-only falls back to the list widget's default template and renders each output ITEM as a transclusion — an existing title renders its tiddler, a non-existent one a missing-link (live case: a warning gate leaked "no-realm" as a missing-link and the linked tiddler's own content inside "visible" branches). Every branch needs real content — a `<!-- comment -->` is enough. Space-separated expressions in the condition are OR'd; prefix runs (`:and`, `:filter`) chain AND onto their own expression only.
 
 ## Distinguishing "never created" from "exists but empty"
-`has[field]` is false when the field is missing OR holds an empty value, so `!has[list]` cannot separate a pristine state tiddler from a deliberately emptied one. Use `!is[tiddler]` to select a state tiddler that does not exist at all; `is[tiddler]` matches any existing tiddler regardless of field values.
+`has[field]` is false when the field is missing OR holds an empty value, so `!has[list]` cannot separate a pristine state tiddler from a deliberately emptied one. Use `!is[tiddler]` to select a state tiddler that does not exist at all; `is[tiddler]` matches any existing tiddler regardless of field values. `has:field[x]` (the suffix form, has.js) matches on field EXISTENCE regardless of emptiness — the exact missing/empty separator `has[x]` lacks.
 
 ## `:filter` rebinding and membership
 
