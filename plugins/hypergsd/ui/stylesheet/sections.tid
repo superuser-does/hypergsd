@@ -41,21 +41,24 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
 }
 
 /* Portion regions (modules/section-portions): the dashboard columns row —
-   full-width flex, equal tracks, one div per Portion/N in use (panels and
-   the modal keep .hgsd-capture's fit-content row, sandwiched between the
-   bands). The two band slots bracket the row as plain block siblings, so
-   each spans the full width: Portion/Top above (its margin-bottom replaces
-   the row's gap), Portion/Full below (margin-top likewise).
-   Members carry no layout CSS — only these chassis wrappers do. */
+   one track per Portion/N in use (panels and the modal keep .hgsd-capture's
+   fit-content row, sandwiched between the bands). The two band slots
+   bracket the row as plain block siblings, so each spans the full width:
+   Portion/Top above (its margin-bottom replaces the row's gap),
+   Portion/Full below (margin-top likewise).
+   Members carry no layout CSS — only these chassis wrappers do.
+   Tracks are auto-fit grid columns with a font-relative readable floor
+   (min() caps the floor at the container, so a narrow host collapses to
+   one column instead of overflowing) and 1fr tops, so tracks share the
+   line equally, wrap when the host cannot seat two (a tiddler squeezed
+   beside the open sidebar) and admit future portions on wall-sized hosts
+   with zero retuning. Tracks hug their content height; the row gap spaces
+   wrapped tracks like the bands do. */
 .hgsd-portion-columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 2em;
-  align-items: flex-start;
-}
-.hgsd-portion-columns > div {
-  flex: 1 1 0;
-  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18em, 100%), 1fr));
+  gap: 1em 2em;
+  align-items: start;
 }
 .hgsd-portion-top {
   margin-bottom: 1em;
@@ -134,8 +137,7 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
 @media (max-width: {{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}) {
   /* Narrow screens always stack, overriding the horizontal setting */
   .gsd-panel,
-  .hgsd-capture,
-  .hgsd-portion-columns {
+  .hgsd-capture {
     flex-direction: column;
   }
 }

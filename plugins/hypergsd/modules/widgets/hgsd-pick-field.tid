@@ -50,12 +50,10 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 <%if [<label>!match[]] %><<label>>:<br/><%endif%>
 <div class="gsd-list-item hgsd-sizer-droplist">
 
-  <!-- State 2: field set, not editing: link + change button on one line (separate reveals keep them side-by-side flex items; both hide while editing). The link container is NOT a sizer-select: display rows must not stretch, or the clear/change buttons land at the host's right edge far from the value (the picker input alone owns the stretch). The change button's hgsd-change-button is print-ONLY: the print stylesheet hides it on paper, nothing styles it on screen (same contract as the clear button's hgsd-clear-button). -->
+  <!-- State 2: field set, not editing: link + change button on one line (separate reveals keep them side-by-side flex items; both hide while editing). The link's reveal is NOT a sizer: display rows must not stretch, or the clear/change buttons land at the host's right edge far from the value (the picker input alone owns the stretch); the stylesheet's title rule reaches links inside their reveal, so long values shrink and wrap. The change button's hgsd-change-button is print-ONLY: the print stylesheet hides it on paper, nothing styles it on screen (same contract as the clear button's hgsd-clear-button). -->
   <%if [<current-value>!match[]] %>
   <$reveal type="nomatch" state=<<edit-state-title>> text="yes">
-    <div>
-      <$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link>
-    </div>
+    <$link to={{{ [<target>get<field>] }}}><$view tiddler=<<target>> field=<<field>>/></$link>
   </$reveal>
   <%if [<panel-items>!match[hide]] %>
   <$reveal type="nomatch" state=<<edit-state-title>> text="yes">

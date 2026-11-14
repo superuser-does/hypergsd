@@ -52,9 +52,15 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
    through the min-content chain — past the viewport edge. anywhere DOES
    lower min-content; min-width:0 lets the item actually shrink that far
    (anywhere alone still left 9px at 360px). Titles wrap at word boundaries
-   except when a single token alone exceeds the available width. */
-.gsd-list-item > a {
+   except when a single token alone exceeds the available width. The reveal
+   arm covers a title link inside its own show/hide reveal (pick-field's set
+   state): the span is the flex item, so IT needs the shrink release —
+   flex-shrink beats the >span rule above, and overflow-wrap inherits into
+   the link. */
+.gsd-list-item > a,
+.gsd-list-item > .tc-reveal:has(> a) {
   min-width: 0;
+  flex-shrink: 1;
   overflow-wrap: anywhere;
 }
 

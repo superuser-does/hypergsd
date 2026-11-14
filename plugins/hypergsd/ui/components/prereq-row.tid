@@ -13,10 +13,8 @@ title: $:/plugins/yan/hypergsd/ui/components/prereq-row
   <%else%>
     <input type="checkbox" data-tiddler=<<item>> data-hgsd-action="complete">
   <%endif%>
-  <!-- Display row: the title container is no sizer — the × hugs its value instead of riding the host's right edge. -->
-  <div>
+  <!-- Display row: the bare link is no sizer (no flex-grow) — the × hugs its value; a direct row child, it takes the list stylesheet's shrink-and-wrap treatment for narrow screens. -->
   <$link to=<<item>>><$view tiddler=<<item>> field="title"/></$link>
-  </div>
   <!-- The realm globe is host-rendered infrastructure, not a fragment (ui/components/realm-warning): one indicator, one switch, no family membership. -->
   <$transclude $variable="hgsd-realm-warning" linked-tiddler=<<item>>/>
   <$transclude $variable="hgsd-panel-items" linked-tiddler=<<item>>/>
