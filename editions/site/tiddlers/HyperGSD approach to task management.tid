@@ -1,0 +1,22 @@
+created: 20261115210558125
+creator: Yannis Anthymidis
+modified: 20261115212646162
+modifier: Yannis Anthymidis
+tags: 
+title: HyperGSD approach to task management
+type: text/vnd.tiddlywiki
+
+The [[basic HyperGSD plugin|$:/plugins/yan/hypergsd]] offers these features to help you organise the things you need to do:
+
+; Actions (tasks)
+: Short, ideally single-step actions that accomplish a task.<br />Actions can also list dependencies to/from other actions.
+; Projects
+: A collection of <i>Actions</i> that have a similar purpose or goal.
+; Realms
+: Divide your <i>Actions</i>/<i>Projects</i> into appropriate, custom groupings by tagging with `$:/GSD/Realm/<RealmName>` (e.g. <<tag-pill $:/GSD/Realm/Personal>>, <<tag-pill $:/GSD/Realm/Professional>>...)
+; Dashboards
+: Manage your actions and projects through a number of dashboards and views.
+
+There are many ways to [[customise|Customise HyperGSD]] a. This wiki has several sub-plugins already installed providing more capabilities, like listing [[Contacts|$:/plugins/yan/hypergsd-contacts]] and setting [[Priorities|$:/plugins/yan/hypergsd-priorities]].
+
+You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}

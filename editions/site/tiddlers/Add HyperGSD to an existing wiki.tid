@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261115174858000
+modified: 20261115212805482
 modifier: Yannis Anthymidis
 title: Add HyperGSD to an existing wiki
 type: text/vnd.tiddlywiki
@@ -14,3 +14,7 @@ Drag-and-drop the ''main ~HyperGSD plugin'' to your wiki to install:
 For all changes, see [[Version history]].
 
 If you are coming from GSD5, please also drag-and-drop to import the [[Migrating from GSD5 to HyperGSD]] tiddler and follow the instructions listed there.
+
+!! Install or update through the plugin library
+
+{{HyperGSD plugin library}}

@@ -1,7 +1,7 @@
 caption: HyperGSD API
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261113213131000
+modified: 20261115211903655
 modifier: Yannis Anthymidis
 tags: Documentation [[HyperGSD API]]
 title: HyperGSD API
@@ -9,7 +9,7 @@ type: text/vnd.tiddlywiki
 
 <aside class="tc-message-box">
 
-Most API documentation was written during development by AI. While it is accurate, and the data model and API it describes was designed with intention, it can be difficult to read with the hallmarks of AI writing. I plan to humanise it over time.
+Most API documentation was written during development by AI. While it should be accurate -- and the data model and API it describes was designed with intention, it can be difficult to read with all the hallmarks of AI writing. I plan to humanise it over time.
 
 </aside>
 

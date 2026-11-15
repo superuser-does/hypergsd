@@ -1,11 +1,14 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261115160657000
+modified: 20261115212935304
 modifier: Yannis Anthymidis
 title: Customise HyperGSD
 type: text/vnd.tiddlywiki
 
-~HyperGSD offers many options to customise it out of the box through <$link to="$:/plugins/yan/hypergsd/ui/control-panel">Control Panel →&nbsp;Settings →&nbsp;~HyperGSD</$link>
+There are many options for customising ~HyperGSD to your needs and proclivities:
+
+* Out of the box through <$link to="$:/plugins/yan/hypergsd/ui/control-panel">Control Panel →&nbsp;Settings →&nbsp;~HyperGSD</$link>
+* Through a selection of [[official sub-plugins and by integrating with other plugins in the TW ecosystem|Other plugins]]
 
 If you want to go further, ~HyperGSD is a highly-extensible platform to help you track what you need to do.
 See more options on the [[HyperGSD API]] documentation.

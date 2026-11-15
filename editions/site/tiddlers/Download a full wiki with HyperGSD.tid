@@ -1,12 +1,12 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261115175107000
+modified: 20261115211107148
 modifier: Yannis Anthymidis
 tags: [[Get HyperGSD]]
 title: Download a full wiki with HyperGSD
 type: text/vnd.tiddlywiki
 
-To start from a complete single-file ~TiddlyWiki (v{{$:/core!!version}}) instead of installing into an existing wiki, you can download one of these editions:
+To start from a complete single-file ~TiddlyWiki (v{{$:/core!!version}}), you can download one of these editions:
 
 <$button class="tc-btn-download" tooltip="TiddlyWiki, the main HyperGSD plugin and Relink">
 <$action-sendmessage $message="tm-download-file" $param="$:/editions/hypergsd/download-empty" filename="hypergsd-empty.html" />
