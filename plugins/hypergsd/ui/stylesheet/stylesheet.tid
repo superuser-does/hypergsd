@@ -64,6 +64,29 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/stylesheet
   }
 }
 
+/* An input inside a tag pill (modal "new realm", contexts add-row): the input
+   carries core's tc-edit-texteditor chrome inside core's own add-name wrapper
+   (the add-field row's pattern — the wrapper's width:auto is what keeps a
+   framed host's width:100% editor rule from stretching the pill), so framed
+   hosts get the full editor look from the theme itself. This rule supplies
+   only what an unframed host (the modal) cannot inherit: the editor tint and
+   padding transcluded from the palette, the border in the theme's
+   editor-border ink, appearance reset for chrome parity. The box width is the
+   native size-attribute behaviour (fixed, content scrolls — every core
+   editor input): a field-sizing/content experiment made the empty box snap
+   down to its min-inline-size floor on the first keystroke (the empty box had
+   sized to the placeholder, a hair above the floor), so growth went. The
+   descendant selector outranks the theme's bare-input rule on specificity —
+   stylesheet order puts themes after plugins, so a single-class selector
+   would lose. */
+.tc-tag-label .hgsd-tag-pill-input {
+  appearance: none;
+  background: <<colour tiddler-editor-background>>;
+  border: 1px solid <<colour tiddler-editor-border>>;
+  padding: 3px;
+  font: inherit;
+}
+
 /* 2026-09-27: the former margin-inline-start sat INSIDE the fallback button,
    an asymmetric gap before the word with none after — the button's own padding
    separates it now (the row carries no flex gap; adjacent buttons space

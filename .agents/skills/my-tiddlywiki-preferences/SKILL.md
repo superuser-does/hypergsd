@@ -31,7 +31,7 @@ description: How I want TiddlyWiki work done — British English, names spelled 
 
 # Tiddler formatting
 
-- Always leave a newline after headings (`!`, `!!`, `!!!`). Always leave a newline before the START of a list block (lines starting with `#`, `*`, `;`, or `:`), but NEVER between individual list items. For description lists, the term (`;`) and definition (`:`) are part of the same list block — no newlines between pairs.
+- Always leave a newline after headings (`!`, `!!`, `!!!`). Always leave a newline before the START of a list block (lines starting with `#`, `*`, `;`, or `:`), but NEVER between individual list items. **List items run on ONE line — never hard-wrap an item's text at a column**: a wrapped continuation line splits the item, its tail rendering as stray paragraph text between the list blocks (a shipped doc's eight-item list parsed as two items plus paragraph fragments until every item was unwrapped). For description lists, the term (`;`) and definition (`:`) are part of the same list block — no newlines between pairs.
 - **Whitespace management**: `\whitespace trim` as the first pragma in UI and widget tiddlers; **DO NOT** include it in stylesheets or dictionary tiddlers.
 - **No backticks**: never use backticks for string construction or interpolation — standard double quotes or variable/filter lookups.
 - **Shortcut conditionals**: `<%if ... %>` and `<%endif%>`, never `<$endif%>`.

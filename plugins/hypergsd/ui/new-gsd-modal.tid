@@ -105,15 +105,15 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
   <$keyboard tag="div" key="((hgsd-modal-close))" actions="""<$action-sendmessage $message="tm-close-tiddler" />""">
     <$keyboard key="((hgsd-modal-submit))" actions=<<hgsd-modal-submit>>>
       <$let current-type={{{ [<new-state>get[hgsd-type]else<gsd-type>] }}}>
-      <!-- The title row: the pick-row pair (gsd-list-item + hgsd-sizer-droplist) — flex + gap spaces the input, Create button and Create another checkbox (trim removes the inline whitespace). No hgsd-sizer-select: panel rows stretch only inside their fit-content chassis, and the modal body is full-width — the input keeps its natural width. -->
+      <!-- The title row: the pick-row pair (gsd-list-item + hgsd-sizer-droplist) — flex + gap spaces the input, Create button and Create another checkbox (trim removes the inline whitespace). No hgsd-sizer-select: panel rows stretch only inside their fit-content chassis, and the modal body is full-width — the input keeps its natural width. A type whose member declares hgsd-tag-pill (the contexts dashboard — a context IS a tag) renders the input inside a tag pill: the class rides a conditional over the CURRENT type's member field on the always-present wrapper span (the main plugin names no type's word — the tag index supplies the member; then/else operands are subfilters, so the class list must stay a single token — tc-tag-label alone; tc-btn-invisible is inert on a span), and the input's hgsd-tag-pill-input is inert without the pill ancestor, so other types render unchanged. -->
       <!-- flex-wrap: wrap is locally applied so "[ ] create another" can wrap to a second line when the modal body narrows -->
       <div class="gsd-list-item hgsd-sizer-droplist" style="flex-wrap: wrap">
-        <$edit-text
+        <span class={{{ [all[shadows+tiddlers]tag[$:/tags/hypergsd/Type]hgsd-type<current-type>get[hgsd-tag-pill]match[yes]then[tc-tag-label]else[]] }}}><$edit-text
           tiddler="$:/temp/gsd-new-title"
           field="hgsd-title"
           placeholder={{{ [[$:/language/hypergsd/NewItem/TitlePlaceholder]] :map[get[text]] +[addsuffix[ ]] +[addsuffix<current-type>] }}}
-          class="gsd-new-modal"
-          focus="true" />
+          class="gsd-new-modal hgsd-tag-pill-input"
+          focus="true" /></span>
         <$button actions=<<hgsd-modal-submit>> class="gsd-new-modal-btn">
           <<lingo Create>>
         </$button>

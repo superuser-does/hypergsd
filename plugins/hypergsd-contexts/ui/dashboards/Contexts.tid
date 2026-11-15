@@ -1,4 +1,5 @@
 hgsd-type: context
+hgsd-tag-pill: yes
 icon: $:/plugins/yan/hypergsd-contexts/images/context
 tags: $:/tags/hypergsd/Type
 title: GSD/Contexts
@@ -16,13 +17,24 @@ title: GSD/Contexts
 </$let>
 \end
 
-<!-- The add row: gsd-list-item's gap spaces the input and the Add button (trim removes their inter-widget whitespace), and the wrapper div carries the print hook on an element with no display rule of its own — the pick-append pattern, so the print hide never needs a specificity escalation. -->
+\procedure clear-context-input-actions()
+<$action-deletetiddler $tiddler="$:/temp/hypergsd/NewContextName" />
+<$action-deletetiddler $tiddler="$:/temp/hypergsd/NewContextName/input" />
+\end
+
+<!-- The add row rides core's keyboard-driven-input (the tag editor's engine): commit and cancel follow the wiki's configured input shortcuts (input-accept Enter, input-cancel Escape — escape clears the input through the same mirror-temp pair the engine writes; the mirror is write-only here, no dropdown reads it). gsd-list-item's gap spaces the label and the Add button (trim removes inter-widget whitespace — the &nbsp; inside the label is load-bearing), and the wrapper div carries the print hook on an element with no display rule of its own — the pick-append pattern, so the print hide never needs a specificity escalation. The input renders in core's tag-pill chrome — the realm modal's pill minus prefix and ink, a textless pill having no inked content — with core's own tag-name placeholder and editor-input chrome (tc-edit-texteditor inside the add-field row's tc-edit-field-add-name-wrapper — the width:auto that stops a framed host's width:100% editor rule from stretching the pill), and the visible label stays the input's accessible name. -->
 <div class="hgsd-pick-append-row">
   <div class="gsd-list-item">
     <$let newContextState="$:/temp/hypergsd/NewContextName">
-      <$keyboard key="enter" actions=<<add-context-actions>>>
-        <$edit-text tiddler=<<newContextState>> field="text" placeholder={{$:/language/hypergsd/Dashboards/Contexts/NewContext/Placeholder}} tag="input" />
-      </$keyboard>
+      <label>{{$:/language/hypergsd/Dashboards/Contexts/NewContext/Label}}&nbsp;<span class="tc-tag-label tc-btn-invisible"><span class="tc-edit-field-add-name-wrapper"><$transclude $variable="keyboard-driven-input"
+        tiddler=<<newContextState>>
+        storeTitle="$:/temp/hypergsd/NewContextName/input"
+        inputAcceptActions=<<add-context-actions>>
+        inputCancelActions=<<clear-context-input-actions>>
+        tag="input"
+        class="tc-edit-texteditor hgsd-tag-pill-input"
+        size="10"
+        placeholder={{$:/language/EditTemplate/Tags/Add/Placeholder}} /></span></span></label>
       <$button actions=<<add-context-actions>>>
         {{$:/language/EditTemplate/Fields/Add/Button}}
       </$button>
@@ -30,8 +42,14 @@ title: GSD/Contexts
   </div>
 </div>
 
+<!-- The context list: each li is a real tag pill via tag-pill-BODY directly — the row fragment's mechanism (the outer tag-pill hop only wraps and rebinds currentTiddler), so colour and icon ride the standard cascades and the pill's ink is core's own contrastcolour — clicking navigates, the list keeping its ul/li structure. -->
 <ul>
-<$list filter="[tag[GSD/Contexts]!is[draft]]">
-  <li><$link to=<<currentTiddler>>><$view field="title" /></$link></li>
-</$list>
+  <$list filter="[tag[GSD/Contexts]!is[draft]]">
+    <li><$transclude $variable="tag-pill-body" tag=<<currentTiddler>>
+      colour={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerColourFilter]!is[draft]get[text]] }}}
+      icon={{{ [<currentTiddler>] :cascade[all[shadows+tiddlers]tag[$:/tags/TiddlerIconFilter]!is[draft]get[text]] }}}
+      palette={{$:/palette}}
+      element-tag="$button" element-attributes=""
+      actions="""<$action-navigate $to=<<currentTiddler>>/>"""/></li>
+  </$list>
 </ul>
