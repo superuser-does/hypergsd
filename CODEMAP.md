@@ -1,5 +1,7 @@
 # HyperGSD plugin code map
 
+⚠️ This codemap is entirely AI-written and AI-maintained. No part of it has been hand-verified.
+
 This repository develops and hosts the HyperGSD plugin family. `plugins/` carries the
 family source (any wiki holding these folders loads them automatically), the
 `editions/site/` edition is the showcase/documentation wiki
