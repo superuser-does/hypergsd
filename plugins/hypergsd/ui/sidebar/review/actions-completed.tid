@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/review/actions-completed
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Actions completed"><<lingo Review/ActionsCompleted>></$link><br/>
+<$link to="GSD/Actions completed"><<lingo Review/ActionsCompleted>></$link><br />

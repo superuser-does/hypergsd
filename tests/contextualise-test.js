@@ -94,7 +94,7 @@ const rowCtxButtons = (c) => {
 // the reveal through the gates) the picker's popup and temp from the rendered
 // picker input's focusPopup / tiddler.
 const renderOpen = (host, listFilter, heading) => {
-  const body = '<$hgsd.list list-heading="' + (heading || "T") + '" list-filter="' + (listFilter || LIST_FILTER) + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="' + (heading || "T") + '" list-filter="' + (listFilter || LIST_FILTER) + '" group-state="false" />';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: host || "GSD/Test"}});
   const c = doc.createElement("div");
@@ -115,7 +115,7 @@ const renderOpen = (host, listFilter, heading) => {
 
 // --- 1. gating: icon renders on incomplete actions and projects only ---
 {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false" />';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div");
@@ -152,9 +152,9 @@ const renderOpen = (host, listFilter, heading) => {
 {
   wiki.addTiddler({title: "$:/tags/Test/Chassis", list: "$:/temp/test-chassis-member"});
   wiki.addTiddler({title: "$:/temp/test-chassis-member", tags: "$:/tags/Test/Chassis",
-    text: '<$hgsd.list list-heading="C" list-filter="' + LIST_FILTER + '"/>'});
+    text: '<$hgsd.list list-heading="C" list-filter="' + LIST_FILTER + '" />'});
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-      G + '\n\n<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/Test/Chassis" visibility-base="$:/config/Test/vis/"/>\n\n</$importvariables>'),
+      G + '\n\n<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/Test/Chassis" visibility-base="$:/config/Test/vis/" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div");
   w.render(c);
@@ -256,7 +256,7 @@ const findButtonByTooltip = (w, tooltip) => findWidgets(w,
 // linked pills before the button; the pill for the enclosing view's tiddler
 // (storyTiddler) is suppressed; no contexts -> no pills ---
 const pills = (vars) => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false" />';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: Object.assign({currentTiddler: "GSD/Test"}, vars || {})});
   const c = doc.createElement("div");
@@ -293,7 +293,7 @@ const pills = (vars) => {
 // permanently and the reveal could never open — contextualise buttons looked
 // dead on project pages while the same rows worked on dashboards.) ---
 {
-  const body = '<$list filter="[[B open]]"><$transclude $variable="hgsd-item"/></$list>';
+  const body = '<$list filter="[[B open]]"><$transclude $variable="hgsd-item" /></$list>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div");
@@ -325,7 +325,7 @@ const pills = (vars) => {
   const out = pills();
   t("config no: pills hidden", out["C gate2"], undefined);
   t("config no: contextualise button remains", rowCtxButtons((() => {
-    const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false"/>';
+    const body = '<$hgsd.list list-heading="T" list-filter="' + LIST_FILTER + '" group-state="false" />';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
       {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c);
@@ -335,7 +335,7 @@ const pills = (vars) => {
   t("config deleted: pills return", pills()["C gate2"], ["@Phone"]);
   wiki.deleteTiddler("C gate2");
   // the Settings tab renders the core-styled checkbox with its label
-  const tab = '<$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/control-panel/context-list" $mode="block"/>';
+  const tab = '<$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/control-panel/context-list" $mode="block" />';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + tab + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -354,7 +354,7 @@ const pills = (vars) => {
 {
   wiki.addTiddler({title: "D dual", tags: ["$:/GSD/Action", "@Phone", "@out and about"], gsd_status: "next", gsd_complete: "false"});
   wiki.addTiddler({title: "$:/config/hypergsd/list-view/GSD/Grp/T", "hgsd-group": "$:/plugins/yan/hypergsd-contexts/ui/group-by/context"});
-  const body = '<$hgsd.list list-heading="T" list-filter="[all[tiddlers]tag[$:/GSD/Action]] +[sort[title]]" group-select="yes"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="[all[tiddlers]tag[$:/GSD/Action]] +[sort[title]]" group-select="yes" />';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Grp"}});
   const c = doc.createElement("div");

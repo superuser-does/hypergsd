@@ -69,7 +69,7 @@ wiki.deleteTiddler("Z pick host");
   wiki.addTiddler({title: "Z pick draft host"});
   wiki.addTiddler({title: "$:/state/popup/pick-draftgate-GSD/Test", text: "(0,0,0,0)"});
   const src = G + "\n\n" +
-    '<$set name="currentTiddler" value="GSD/Test"><$hgsd.pick tiddler="Z pick draft host" field="gsd_project" list-filter="[tag[$:/GSD/Project]]" id="draftgate" none-value="" none-label="-- none --"/></$set>' +
+    '<$set name="currentTiddler" value="GSD/Test"><$hgsd.pick tiddler="Z pick draft host" field="gsd_project" list-filter="[tag[$:/GSD/Project]]" id="draftgate" none-value="" none-label="-- none --" /></$set>' +
     "\n\n</$importvariables>";
   const parser = wiki.parseText("text/vnd.tiddlywiki", src);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});

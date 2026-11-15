@@ -14,7 +14,7 @@ tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/6
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Notes"><<lingo Review/Notes>></$link><br/>
+<$link to="GSD/Notes"><<lingo Review/Notes>></$link><br />
 ```
 
 * The portion number picks the slot (numbers only; an untagged member lands in Portion/1). Shipped portions: ''1'' realm selection, ''2'' the dashboard link, ''3'' action links, ''4'' project links, ''7'' references and ticklers, ''8'' contexts and contacts, ''9'' the cleanup pair — 7-9 ship deliberately, leaving 5-6 free for later additions. Portion numbers render in numeric order.
@@ -27,4 +27,4 @@ tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/6
 Order and visibility are configured in Settings → Sidebar: one drag list for the whole tab, a numeric Portion picker on every row (pick a number in use, or the next-free number it offers to start a fresh portion), and the checkbox hides an entry — `$:/config/hypergsd/Review/visibility/<title>`, default show.
 
 ! Best Practice
-Keep entries to one line of content plus a trailing `<br/>` to match the shipped rhythm; anything taller belongs on the page it links to.
+Keep entries to one line of content plus a trailing `<br />` to match the shipped rhythm; anything taller belongs on the page it links to.

@@ -20,7 +20,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
       <%endif%>
     <%endif%>
   </$list>
-  <$link class="gsd-list-item-title" to=<<currentTiddler>>><$view field="title"/></$link>
+  <$link class="gsd-list-item-title" to=<<currentTiddler>>><$view field="title" /></$link>
   <$list filter="[[$:/tags/hypergsd/Fragment/Row/Suffix]] :and[tagging[]]" variable="list-item">
     <%if [[$:/config/hypergsd/Fragment/Row/Suffix/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
       <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<list-item>addsuffix[/]addsuffix<item-type>get[text]else[show]match[hide]] %>
@@ -75,11 +75,11 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 <!-- Relevance guard for the Sort by option loops (the grouping strip derives its offered set as one filter instead — see the derivation below). Renders the caller's children only when the member declares no hgsd-types (universal) or one intersects the ambient list-types. A widget (not a procedure) because the children arrive via the slot. The $list-as- conditional shape is the proven one (:and with variable operands misfires; if-conditions cannot carry run prefixes). -->
 \widget $hgsd.view-relevant(view-member)
 <%if [<view-member>get[hgsd-types]else[]match[]] %>
-  <$slot $name="ts-raw"/>
+  <$slot $name="ts-raw" />
 <%else%>
   <$let member-types={{{ [<view-member>get[hgsd-types]] }}} >
   <$list filter="[enlist<list-types>] :filter[enlist<member-types>match<currentTiddler>limit[1]]" variable="v-shared">
-    <$slot $name="ts-raw"/>
+    <$slot $name="ts-raw" />
   </$list>
   </$let>
 <%endif%>
@@ -147,7 +147,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
     </$checkbox>
     <<add-button>>
   </span>
-  <hr/>
+  <hr />
   <$reveal state=<<listState>> type="match" text="show" default="show" retain="yes">
     <!-- Freezes this list against the global refresh cycle. No broad $:/state/hypergsd run: a changed hgsd-titles string busts the gate via hgsd-filter-buster, so a state run would only add cross-list amplification. Feature-owned state prefixes are DERIVED — the row fragments' and this heading's Strip members' hgsd-refresh-whitelist fields, composed by hgsd-list-inner-whitelist (file top) with the fingerprint cache on the three tag lists. The view strip below reads its config tiddler inside this gate — the config prefix run already carries those writes. -->
     <$refresh

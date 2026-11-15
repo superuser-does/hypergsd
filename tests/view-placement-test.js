@@ -31,7 +31,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 
 function renderSide(sideTitle, current) {
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="' + sideTitle + '" $mode="block"/>\n\n</$importvariables>'),
+    G + '\n\n<$transclude $tiddler="' + sideTitle + '" $mode="block" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: current}});
   const c = doc.createElement("div"); w.render(c);
   const out = {fieldset: 0, view: 0};
@@ -73,7 +73,7 @@ t("overridden-empty member: neither side renders", [renderSide(TOP, "C one").vie
 // 5. Settings tab (the View placement page, split out of sections 2026-09-26): one radio pair per member, saved/default side selected
 wiki.deleteTiddler(CONTACT_MEMBER);
 const sw = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-  G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/view-placement" $mode="block"/>\n\n</$importvariables>'),
+  G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/view-placement" $mode="block" />\n\n</$importvariables>'),
   {document: doc, parentWidget: $tw.rootWidget});
 const sc = doc.createElement("div"); sw.render(sc);
 const rows = [];

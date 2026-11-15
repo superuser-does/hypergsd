@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/review/actions-waiting
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Actions waiting"><<lingo Review/ActionsWaiting>></$link><br/>
+<$link to="GSD/Actions waiting"><<lingo Review/ActionsWaiting>></$link><br />

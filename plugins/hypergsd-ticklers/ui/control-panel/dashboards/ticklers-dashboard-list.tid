@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/control-panel/dashboards/ticklers-das
 
 \whitespace trim
 
-<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Lists/Ticklers" visibility-base="$:/config/hypergsd/Lists/Ticklers/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template"/>
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Lists/Ticklers" visibility-base="$:/config/hypergsd/Lists/Ticklers/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/list-item-template" />

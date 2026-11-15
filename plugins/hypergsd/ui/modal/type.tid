@@ -8,10 +8,10 @@ title: $:/plugins/yan/hypergsd/ui/modal/type
 
 <label>
 <<lingo Type/Label>>
-<br/>
+<br />
 <$select tiddler=<<new-state>> field="hgsd-type" default=<<gsd-type>>>
   <$list filter="[[$:/tags/hypergsd/Type]] :and[tagging[]]">
-    <option value={{{ [<currentTiddler>get[hgsd-type]] }}}><$view field="hgsd-type"/></option>
+    <option value={{{ [<currentTiddler>get[hgsd-type]] }}}><$view field="hgsd-type" /></option>
   </$list>
 </$select>
 </label>

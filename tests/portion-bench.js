@@ -19,11 +19,11 @@ const fmt = ms => ms.toFixed(3) + " ms";
 
 const surfaces = {
   "dashboard chassis (GSD/Dashboard)":
-    '<$transclude $tiddler="GSD/Dashboard" $mode="block"/>',
+    '<$transclude $tiddler="GSD/Dashboard" $mode="block" />',
   "panel chassis (hgsd-section-portions, fold params as the panel passes them)":
-    '<$tiddler tiddler="A next"><$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/" fold-state="$:/state/folded/A next" fold-visibility-base="$:/config/hypergsdPanel/folded/"/></$tiddler>',
+    '<$tiddler tiddler="A next"><$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/" fold-state="$:/state/folded/A next" fold-visibility-base="$:/config/hypergsdPanel/folded/" /></$tiddler>',
   "Settings sections page (picker rows)":
-    '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sections" $mode="block"/>'
+    '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sections" $mode="block" />'
 };
 
 console.log("portion chassis benchmark (" + new Date().toISOString().slice(0, 10) + ")");
@@ -49,7 +49,7 @@ for (const [name, inner] of Object.entries(surfaces)) {
 // refresh cycle: a membership tag write (the change class a portion pick makes)
 // must wake the dashboard chassis; time construct + render + one refresh.
 {
-  const body = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Dashboard" $mode="block"/>\n\n</$importvariables>');
+  const body = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Dashboard" $mode="block" />\n\n</$importvariables>');
   const times = [];
   for (let i = 0; i < N; i++) {
     const c = doc.createElement("div");

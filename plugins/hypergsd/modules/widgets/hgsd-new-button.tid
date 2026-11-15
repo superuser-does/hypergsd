@@ -3,7 +3,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-new-button
 
 \whitespace trim
 \procedure gsd-select-action()
-<$action-sendmessage $message="tm-focus-selector" $param=".gsd-new-modal"/>
+<$action-sendmessage $message="tm-focus-selector" $param=".gsd-new-modal" />
 \end
 \widget $hgsd.new-button(
   gsd-type,
@@ -56,7 +56,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-new-button
       gsd-contact=<<gsd-contact>>
       gsd-update-status=<<gsd-update-status>>
       gsd-calling-tiddler={{{ [<gsd-calling-tiddler>!match[]else<currentTiddler>] }}} />
-    <$action-sendmessage $message="gsd-select-entry"/>
+    <$action-sendmessage $message="gsd-select-entry" />
   </$button>
 </$messagecatcher>
 \end

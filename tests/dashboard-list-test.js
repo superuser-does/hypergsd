@@ -16,7 +16,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 
 const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
 const render = (title) => {
-  const body = G + '\n\n<$transclude $tiddler="' + title + '"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="' + title + '" />\n\n</$importvariables>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", body);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -157,7 +157,7 @@ wiki.deleteTiddler("$:/tags/hypergsd/Lists/Dashboard"); // back to the shipped c
 // (…/actions@<page>, …/projects@<page>), so the two open independently; the
 // per-member visibility gate removes a member entirely, button and all
 const textOf = (title) => {
-  const body = G + '\n\n<$transclude $tiddler="' + title + '"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="' + title + '" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   let s = "";
@@ -222,7 +222,7 @@ wiki.deleteTiddler(vis("hypergsd/Lists/Contact", "$:/plugins/yan/hypergsd-contac
   // would mask the plugin list with an empty text); restore by deleting the override
   const claim = (title, extra) => wiki.addTiddler({title, text: wiki.getTiddler(title).fields.text, tags: ["$:/tags/hypergsd/Lists/Contact"].concat(extra)});
   const columns = () => {
-    const body = G + '\n\n<$transclude $tiddler="GSD/Contacts"/>\n\n</$importvariables>';
+    const body = G + '\n\n<$transclude $tiddler="GSD/Contacts" />\n\n</$importvariables>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c);
     let cols = null;
@@ -256,7 +256,7 @@ wiki.deleteTiddler(vis("hypergsd/Lists/Contact", "$:/plugins/yan/hypergsd-contac
   wiki.deleteTiddler(CL); wiki.deleteTiddler(FA);
   // shipped claims: the combined list owns Portion/1; the roster rides the trailing Full band
   const fullBand = () => {
-    const body = G + '\n\n<$transclude $tiddler="GSD/Contacts"/>\n\n</$importvariables>';
+    const body = G + '\n\n<$transclude $tiddler="GSD/Contacts" />\n\n</$importvariables>';
     const w2 = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c2 = doc.createElement("div"); w2.render(c2);
     const hs = [];
@@ -291,7 +291,7 @@ wiki.deleteTiddler(vis("hypergsd/Lists/Contact", "$:/plugins/yan/hypergsd-contac
 {
   const text = (tid) => {
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-      G + '\n\n<$transclude $tiddler="' + tid + '" $mode="block"/>\n\n</$importvariables>'),
+      G + '\n\n<$transclude $tiddler="' + tid + '" $mode="block" />\n\n</$importvariables>'),
       {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c); return String(c.textContent || "");
   };
@@ -310,7 +310,7 @@ wiki.deleteTiddler(vis("hypergsd/Lists/Contact", "$:/plugins/yan/hypergsd-contac
 {
   const dom = (tid) => {
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-      G + '\n\n<$transclude $tiddler="' + tid + '" $mode="block"/>\n\n</$importvariables>'),
+      G + '\n\n<$transclude $tiddler="' + tid + '" $mode="block" />\n\n</$importvariables>'),
       {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c); return c;
   };
@@ -346,7 +346,7 @@ check("references page", render("GSD/References"), ["References"]);
 // transcluded by core's view-body-project) still renders in place with its rows
 {
   wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"], gsd_project: "P one"});
-  const body = G + '\n\n<$tiddler tiddler="P one"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project" $mode="block"/></$tiddler>\n\n</$importvariables>';
+  const body = G + '\n\n<$tiddler tiddler="P one"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project" $mode="block" /></$tiddler>\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   let text = "";
@@ -390,7 +390,7 @@ check("references page", render("GSD/References"), ["References"]);
   const headingsOf = (c) => { const a = []; (function f(n){ if(!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
     if(n.isTiddlyWikiFakeDom){ if(((n.attributes||{}).class||"").indexOf("gsd-list-heading")!==-1){ let s="";(function g(x){if(!x||typeof x!=="object")return;if(Array.isArray(x))return x.forEach(g);if(x.isTiddlyWikiFakeDom)return (x.children||[]).forEach(g);s+=(x.textContent||"");})(n);a.push(s.trim());} (n.children||[]).forEach(f);} })(c); return a; };
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="GSD/Action dashboard"/>\n\n</$importvariables>'),
+    G + '\n\n<$transclude $tiddler="GSD/Action dashboard" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Action dashboard"}});
   const c = doc.createElement("div"); w.render(c);
   const before = headingsOf(c);
@@ -414,7 +414,7 @@ wiki.addTiddler({title: "R two", tags: ["$:/GSD/Reference"], gsd_project: "P two
 wiki.addTiddler({title: "R three", tags: ["$:/GSD/Reference"], gsd_project: "P one"});
 wiki.addTiddler({title: "$:/state/hypergsd/references-sort", text: "+[sort[title]]"});
 const renderRefs = () => {
-  const body = G + '\n\n<$transclude $tiddler="GSD/References"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="GSD/References" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   const out = {options: [], optionLabels: [], groups: [], rows: [], strip: [], stripPrompt: null, emptyContainers: 0, stripGapCount: 0, stripChildren: [], stripMutedTexts: [], stripSelectClass: undefined};
@@ -487,7 +487,7 @@ check("strip with active dimension gains the ungrouped toggle",
 
 // 11c. Radio selection state: None selected while flat; the chosen member selected otherwise
 const stripStates = () => {
-  const body = G + '\n\n<$transclude $tiddler="GSD/References"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="GSD/References" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   return collectStrip(c, true);
@@ -512,7 +512,7 @@ wiki.addTiddler({title: GST, "hgsd-group": GBT + "project", "hgsd-ungrouped": "y
   wiki.addTiddler({title: "A fut", tags: ["$:/GSD/Action"], gsd_status: "future", gsd_complete: "false", gsd_project: "P one"});
   wiki.addTiddler({title: "A bare", tags: ["$:/GSD/Action"], gsd_complete: "false", gsd_project: "P one"});
   const renderStatus = () => {
-    const body = G + '\n\n<$hgsd.list list-heading="S" list-filter="[tag[$:/GSD/Action]] -[field:gsd_complete[true]]" group-select="yes"/>\n\n</$importvariables>';
+    const body = G + '\n\n<$hgsd.list list-heading="S" list-filter="[tag[$:/GSD/Action]] -[field:gsd_complete[true]]" group-select="yes" />\n\n</$importvariables>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c);
     const out = {groups: [], strip: []};
@@ -628,7 +628,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 // 12g-ter. Settings ordering section: both drag lists render captions, and
 // editing a tag's list field reorders the strip
 {
-  const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/dashboards"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/dashboards" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   const dragRows = [];
@@ -645,7 +645,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
     dragRows.filter(r => r.indexOf("modified") !== -1 || r.indexOf("Title") !== -1 || r.indexOf("completed") !== -1).length >= 6, true);
   // order: move realm first in the GroupBy list field, strip radios follow
   const radioOrder = () => {
-    const w2 = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/References"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
+    const w2 = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/References" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c2 = doc.createElement("div"); w2.render(c2);
     const out = [];
     (function f(n) {
@@ -676,7 +676,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 {
   const GST2 = "$:/config/hypergsd/list-view/GSD/Test/Next actions";
   wiki.deleteTiddler(GST2);
-  const body = '<$hgsd.list list-heading="Next actions" list-filter="[tag[$:/GSD/Action]gsd_complete[false]]" group-select="yes" group-default="$:/plugins/yan/hypergsd/ui/group-by/project"/>';
+  const body = '<$hgsd.list list-heading="Next actions" list-filter="[tag[$:/GSD/Action]gsd_complete[false]]" group-select="yes" group-default="$:/plugins/yan/hypergsd/ui/group-by/project" />';
   const render2 = () => {
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c);
@@ -701,7 +701,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 // 12g. Migration defaults: group-default and title-valued sort-default
 {
   const stripAndRows = (page, heading) => {
-    const body = G + '\n\n<$transclude $tiddler="' + page + '"/>\n\n</$importvariables>';
+    const body = G + '\n\n<$transclude $tiddler="' + page + '" />\n\n</$importvariables>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: page}});
     const c = doc.createElement("div"); w.render(c);
     const out = {selectedRadio: null, selectValue: null, groups: 0};
@@ -732,7 +732,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
   const co = stripAndRows("GSD/Contacts");
   let coLabels = [];
   {
-    const body = G + '\n\n<$transclude $tiddler="GSD/Contacts"/>\n\n</$importvariables>';
+    const body = G + '\n\n<$transclude $tiddler="GSD/Contacts" />\n\n</$importvariables>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Contacts"}});
     const c = doc.createElement("div"); w.render(c);
     (function f(n) {
@@ -799,7 +799,7 @@ wiki.addTiddler({title: "R one", tags: ["$:/GSD/Reference"]});
 // scoped gate runs (chassis + outer derivation + inner freeze all carry list-group)
 wiki.deleteTiddler(GST);
 {
-  const body = G + '\n\n<$transclude $tiddler="GSD/References"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="GSD/References" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   const groupsNow = () => { const out = [];
@@ -827,7 +827,7 @@ wiki.deleteTiddler(GST);
 wiki.deleteTiddler(vis("hypergsd/Lists/Waiting", "$:/plugins/yan/hypergsd/ui/lists/waiting-action-list"));
 wiki.addTiddler({title: "A delegated", tags: ["$:/GSD/Action"], gsd_status: "waiting", gsd_complete: "false", gsd_contact: "C one"});
 {
-  const body = G + '\n\n<$transclude $tiddler="GSD/Actions waiting"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="GSD/Actions waiting" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
   const groups = [], rows = [];
@@ -852,7 +852,7 @@ wiki.deleteTiddler("A delegated");
 // numeric Portion picker on every row — next-free runs one past the highest number
 // in use, so capture offers 1-5 and review 1-10 past the shipped 9).
 {
-  const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block" />\n\n</$importvariables>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", body);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
@@ -898,7 +898,7 @@ wiki.deleteTiddler("A delegated");
 // now admits only what the derivation reads. Assert: relevant change still updates rows,
 // deletion removes rows, unrelated edit does not corrupt the render.
 {
-  const body = G + '\n\n<$transclude $tiddler="GSD/Dashboard"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="GSD/Dashboard" />\n\n</$importvariables>';
   const mk = () => wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const textOf = (c) => { let s = ""; (function f(x) { if (Array.isArray(x)) return x.forEach(f);
     if (x && typeof x === "object" && x.isTiddlyWikiFakeDom) return (x.children || []).forEach(f); s += (x && x.textContent) || ""; })(c.children); return s; };
@@ -930,7 +930,7 @@ wiki.deleteTiddler("A delegated");
 // revived $:/tags/hypergsd/Lists/ContactAction hook — tag-driven order, visibility gates,
 // completed list lazy behind show-completed, realm scoping inherited from the engine.
 {
-  const viewBody = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact" $mode="block"/>\n\n</$importvariables>';
+  const viewBody = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/ui/ViewTemplate/view-body-contact" $mode="block" />\n\n</$importvariables>';
   const mkContact = () => wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", viewBody), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "C gate"}});
   const titles = (c) => { const out = [];
     (function f(n) { if (!n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f);
@@ -975,7 +975,7 @@ wiki.addTiddler({title: "CA next", tags: ["$:/GSD/Action", "Ctx one"], gsd_statu
 wiki.addTiddler({title: "CA waiting", tags: ["$:/GSD/Action", "Ctx one"], gsd_status: "waiting", gsd_complete: "false"});
 wiki.addTiddler({title: "CP open", tags: ["$:/GSD/Project", "Ctx one"], gsd_status: "active", gsd_complete: "false"});
 wiki.addTiddler({title: "CP done", tags: ["$:/GSD/Project", "Ctx one"], gsd_status: "active", gsd_complete: "true"});
-const ctxSrc = '<$tiddler tiddler="Ctx one"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block"/></$tiddler>';
+const ctxSrc = '<$tiddler tiddler="Ctx one"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block" /></$tiddler>';
 const ctxRender = () => {
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + ctxSrc + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
@@ -1018,7 +1018,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
   wiki.addTiddler({title: "ZZ portion full", tags: ["$:/tags/hypergsd/Lists/Dashboard", "$:/tags/hypergsd/Lists/Dashboard/Portion/Full"], text: "EXT-PF"});
   wiki.addTiddler({title: "ZZ portion top", tags: ["$:/tags/hypergsd/Lists/Dashboard", "$:/tags/hypergsd/Lists/Dashboard/Portion/Top"], text: "EXT-PT"});
   const containerOf = page => {
-    const body = G + '\n\n<$transclude $tiddler="' + page + '"/>\n\n</$importvariables>';
+    const body = G + '\n\n<$transclude $tiddler="' + page + '" />\n\n</$importvariables>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const cc = doc.createElement("div"); w.render(cc); render.strays = (render.strays || 0) + 0;
     return cc;
@@ -1068,7 +1068,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
 {
   wiki.addTiddler({title: "ZZ panel top", tags: ["$:/tags/hypergsd/PanelTemplate", "$:/tags/hypergsd/PanelTemplate/Portion/Top"], text: "PANEL-TOP-MARK"});
   wiki.addTiddler({title: "ZZ panel full", tags: ["$:/tags/hypergsd/PanelTemplate", "$:/tags/hypergsd/PanelTemplate/Portion/Full"], text: "PANEL-FULL-MARK"});
-  const body = G + '\n\n<$tiddler tiddler="A next"><$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/"/></$tiddler>\n\n</$importvariables>';
+  const body = G + '\n\n<$tiddler tiddler="A next"><$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/PanelTemplate" visibility-base="$:/config/hypergsdPanel/visibility/" /></$tiddler>\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   const order = [];
@@ -1086,7 +1086,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
 // (waiting-action-list shipped with no exclusion of its own until 2026-09-06)
 {
   wiki.addTiddler({title: "Draft of A wait", tags: ["$:/GSD/Action"], gsd_status: "waiting", gsd_complete: "false", gsd_project: "P one", "draft.of": "A wait", "draft.title": "A wait"});
-  const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/waiting-action-list"/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/waiting-action-list" />\n\n</$importvariables>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", body);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -1103,7 +1103,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
 // panel alike). Also covers the picker's initial display (default=, not value=,
 // which SelectWidget ignores) and dual-tag-list members.
 {
-  const page = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sections" $mode="block"/>\n\n</$importvariables>';
+  const page = G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sections" $mode="block" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", page), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   const pickers = {};
@@ -1188,7 +1188,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
     memberTags.forEach((tags, i) => wiki.addTiddler({title: rows(i), tags: [REG].concat(tags)}));
   };
   const renderScratch = () => {
-    const src = G + '\n\n<$transclude $variable="hgsd-visibility-list" tag-list="' + REG + '" visibility-base="$:/config/ZZ/scratch/"/>\n\n</$importvariables>';
+    const src = G + '\n\n<$transclude $variable="hgsd-visibility-list" tag-list="' + REG + '" visibility-base="$:/config/ZZ/scratch/" />\n\n</$importvariables>';
     const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", src), {document: doc, parentWidget: $tw.rootWidget});
     const c = doc.createElement("div"); w.render(c);
     return w;
@@ -1234,7 +1234,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
   const DEFAULT_T = "$:/config/hypergsd/list-default/Next actions";
   const VIEW_T = "$:/config/hypergsd/list-view/GSD/Dashboard/Next actions";
   const pageSrc = () => wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/dashboards/main-dashboard-list" $mode="block"/>\n\n</$importvariables>');
+    G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/dashboards/main-dashboard-list" $mode="block" />\n\n</$importvariables>');
   const renderPage = () => { const w = wiki.makeWidget(pageSrc(), {document: doc, parentWidget: $tw.rootWidget});
     const c = doc.createElement("div"); w.render(c); return w; };
   const rowSelects = w => { const rows = {};
@@ -1247,7 +1247,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
   const optionsOf = sw => (sw.domNodes[0].children || []).filter(ch => ch.tag === "option").map(ch => ch.attributes.value);
   const pick = (sw, value) => { sw.domNodes[0].value = value; sw.handleChangeEvent({}); };
   const dashboardStrip = () => { const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-      G + '\n\n<$transclude $tiddler="GSD/Dashboard" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
+      G + '\n\n<$transclude $tiddler="GSD/Dashboard" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c); return {w, c}; };
   const stripStates = c => { let out = [];
     (function f(n) { if (!n || typeof n !== "object" || Array.isArray(n)) return;
@@ -1314,7 +1314,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
         out.push((((n.attributes || {}).class || "").indexOf("tc-radio-selected") !== -1 ? "[x]" : "[ ]") + (n.children || []).map(x => x.textContent || "").join("").replace(/\u00A0/g, " ").trim());
       (n.children || []).forEach(f); })(c); return out; };
   const renderPage = title => { const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-      G + '\n\n<$transclude $tiddler="' + title + '" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
+      G + '\n\n<$transclude $tiddler="' + title + '" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
     const c = doc.createElement("div"); w.render(c); return {w, c}; };
   const checkboxesFor = (root, row) => { let hit = null;
     (function f(n) { if (hit || !n || typeof n !== "object" || Array.isArray(n)) return;
@@ -1368,7 +1368,7 @@ wiki.deleteTiddler("CA next"); wiki.deleteTiddler("CA waiting"); wiki.deleteTidd
 
   // explicit group-members is exempt: the author's set is final
   const exempt = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$hgsd.list list-heading="ZZ exempt" list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]]" group-select="yes" group-members="[[$:/plugins/yan/hypergsd/ui/group-by/realm]]"/>\n\n</$importvariables>'),
+    G + '\n\n<$hgsd.list list-heading="ZZ exempt" list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]]" group-select="yes" group-members="[[$:/plugins/yan/hypergsd/ui/group-by/realm]]" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const ec = doc.createElement("div"); exempt.render(ec);
   check("withdrawal: explicit group-members keeps a withdrawn dimension",

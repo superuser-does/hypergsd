@@ -13,8 +13,8 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/view-placement
 <$let member-config={{{ [<position-member>get[hgsd-config]addprefix[$:/config/hypergsd/Placement/]] }}}
   member-default={{{ [<position-member>get[hgsd-default]] }}} }>
 ''<$tiddler tiddler=<<position-member>>><$transclude field="caption"><$text text=<<position-member>>/></$transclude></$tiddler>''
-<br/>
-<$radio tiddler=<<member-config>> value="top" default=<<member-default>>><span class="tc-tiny-gap-left"><<lingo ViewPlacement/Top>></span></$radio><br/>
-<$radio tiddler=<<member-config>> value="bottom" default=<<member-default>>><span class="tc-tiny-gap-left"><<lingo ViewPlacement/Bottom>></span></$radio><br/>
+<br />
+<$radio tiddler=<<member-config>> value="top" default=<<member-default>>><span class="tc-tiny-gap-left"><<lingo ViewPlacement/Top>></span></$radio><br />
+<$radio tiddler=<<member-config>> value="bottom" default=<<member-default>>><span class="tc-tiny-gap-left"><<lingo ViewPlacement/Bottom>></span></$radio><br />
 </$let>
 </$list>

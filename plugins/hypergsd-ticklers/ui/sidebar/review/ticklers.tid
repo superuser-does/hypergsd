@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/sidebar/review/ticklers
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Ticklers"><<lingo Review/Ticklers>></$link><br/>
+<$link to="GSD/Ticklers"><<lingo Review/Ticklers>></$link><br />

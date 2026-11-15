@@ -12,7 +12,7 @@ const mkHost = (title, extra) => wiki.addTiddler(Object.assign(
 
 const runConvert = (host, accept) => {
   let message = "(no dialog)";
-  const src = G + '\n\n<$hgsd.convert current-status={{!!gsd_status}} tooltip="Convert Action to Project"/>\n\n</$importvariables>';
+  const src = G + '\n\n<$hgsd.convert current-status={{!!gsd_status}} tooltip="Convert Action to Project" />\n\n</$importvariables>';
   const p = wiki.parseText("text/vnd.tiddlywiki", src);
   const w = wiki.makeWidget(p, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: host}});
   const c = doc.createElement("div"); w.render(c);

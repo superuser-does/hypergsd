@@ -33,7 +33,7 @@ function t(name, got, want) {
 
 function renderPage() {
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="' + PAGE + '" $mode="block"/>\n\n</$importvariables>'),
+    G + '\n\n<$transclude $tiddler="' + PAGE + '" $mode="block" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   return {w, c};
@@ -87,7 +87,7 @@ t("sibling stranded action remains", r3.rows.indexOf("A stranded waiting") !== -
 
 // 4. The Settings tab: page caption and the member's row caption
 const sw = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-  G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/dashboards/cleanup-open-actions-list" $mode="block"/>\n\n</$importvariables>'),
+  G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/dashboards/cleanup-open-actions-list" $mode="block" />\n\n</$importvariables>'),
   {document: doc, parentWidget: $tw.rootWidget});
 const sc = doc.createElement("div"); sw.render(sc);
 const s = collect(sc);

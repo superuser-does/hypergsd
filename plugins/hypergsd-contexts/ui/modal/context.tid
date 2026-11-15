@@ -9,7 +9,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
 <%if [<current-type>!match[context]!match[reference]!match[contact]] %>
 <label>
 <<lingo Context/Label>>
-<br/>
+<br />
 <$hgsd.pick
   tiddler=<<new-state>>
   field="gsd_context"

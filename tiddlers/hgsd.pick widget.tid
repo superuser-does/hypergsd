@@ -47,7 +47,7 @@ Because the value is just a filter, scopes compose:
 
 ```
 <$hgsd.pick … realm-scope="[subfilter<hgsd-realm-all>]"/>                 <- every realm + realm-less
-<$hgsd.pick … realm-scope="[[no-realm]]"/>                                <- realm-less items only
+<$hgsd.pick … realm-scope="[[no-realm]]" />                                <- realm-less items only
 <$hgsd.pick … realm-scope="[subfilter<a>] [subfilter<b>] +[unique[]]"/>   <- composed
 ```
 

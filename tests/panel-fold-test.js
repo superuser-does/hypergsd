@@ -171,13 +171,13 @@ resetFixtures();
 wiki.addTiddler({ title: "Host project", tags: ["$:/GSD/Project"], gsd_status: "active", gsd_complete: "false" });
 wiki.addTiddler({ title: "Child action", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_project: "Host project" });
 const projectChain = render("$:/plugins/yan/hypergsd/modules/view-body-slot", {
-  text: '<$tiddler tiddler="Host project"><$transclude $variable="hgsd-view-body-slot" side="bottom"/></$tiddler>' });
+  text: '<$tiddler tiddler="Host project"><$transclude $variable="hgsd-view-body-slot" side="bottom" /></$tiddler>' });
 const projectOpen = viewFoldReveals(projectChain.w, "Host project");
 t("project view through the placement chain: panel + view reveals key on the host, all open", [
   projectOpen.length > 1, allOpen(projectOpen)], [true, true]);
 wiki.addTiddler({ title: "$:/state/folded/Host project", text: "hide" });
 const projectFoldedChain = render("$:/plugins/yan/hypergsd/modules/view-body-slot", {
-  text: '<$tiddler tiddler="Host project"><$transclude $variable="hgsd-view-body-slot" side="bottom"/></$tiddler>' });
+  text: '<$tiddler tiddler="Host project"><$transclude $variable="hgsd-view-body-slot" side="bottom" /></$tiddler>' });
 t("project view folded: every fold reveal hidden; cores with lazy reveals skip the content entirely", (() => {
   const rv = viewFoldReveals(projectFoldedChain.w, "Host project");
   const listsText = textOf(projectFoldedChain.c);

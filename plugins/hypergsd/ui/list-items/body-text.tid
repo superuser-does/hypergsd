@@ -9,6 +9,6 @@ title: $:/plugins/yan/hypergsd/ui/list-items/body-text
 <!-- Type suppression is engine-owned (hgsd-item gates every fragment on it): $:/config/hypergsd/ListItem/type-hide/<full member title> holds hgsd-type values whose rows must not show this fragment — the references plugin seeds it with "reference"; no config tiddler means every type shows it. -->
 <%if [is[current]!field:text[]!gsd_complete[true]] %>
 <div class="gsd-muted" title={{$:/language/hypergsd/Lists/Row/BodyText}}>
-  <$transclude $tiddler="$:/plugins/yan/hypergsd/images/excerpt" size="12pt"/>
+  <$transclude $tiddler="$:/plugins/yan/hypergsd/images/excerpt" size="12pt" />
 </div>
 <%endif%>

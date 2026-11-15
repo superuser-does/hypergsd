@@ -12,14 +12,14 @@ title: $:/plugins/yan/hypergsd/ui/components/realm-selection
 <fieldset class="hgsd-realm-fieldset" style="display:grid">
 <legend><<lingo Review/SelectRealms>>
 <$button class=<<tv-config-toolbar-class>> tooltip={{$:/language/hypergsd/Sidebar/Review/All/Hint}}
-  actions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[all[tags]prefix[$:/GSD/Realm/]] [[no-realm]]"/>""">{{$:/language/hypergsd/Sidebar/Review/All}}</$button>
+  actions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[all[tags]prefix[$:/GSD/Realm/]] [[no-realm]]" />""">{{$:/language/hypergsd/Sidebar/Review/All}}</$button>
   &nbsp;
   <$button class=<<tv-config-toolbar-class>> tooltip={{$:/language/hypergsd/Sidebar/Review/None/Hint}}
-  actions="""<$action-setfield $tiddler="$:/config/hypergsd/realm-selection" $field="list" $value=""/>""">{{$:/language/hypergsd/Sidebar/Review/None}}</$button></legend>
+  actions="""<$action-setfield $tiddler="$:/config/hypergsd/realm-selection" $field="list" $value="" />""">{{$:/language/hypergsd/Sidebar/Review/None}}</$button></legend>
 <$checkbox
   filter="""[[$:/config/hypergsd/realm-selection]get[list]enlist-input[]match[no-realm]]"""
-  checkactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[[no-realm]]"/>"""
-  uncheckactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="-[[no-realm]]"/>"""
+  checkactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="[[no-realm]]" />"""
+  uncheckactions="""<$action-listops $tiddler="$:/config/hypergsd/realm-selection" $field="list" $subfilter="-[[no-realm]]" />"""
 >&nbsp;//<<lingo Review/NoRealm>>//</$checkbox>
 <$list filter="[all[tags]prefix[$:/GSD/Realm/]sort[title]]" variable="realm">
   <$checkbox

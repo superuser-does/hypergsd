@@ -52,7 +52,7 @@ t("no stale panel/modal titles pinned in either list",
     .filter(x => /\/ui\/(panel|modal)\/(status|project)$/.test(x) || /Contacts\/ui\/(panel|modal)\/contact$/.test(x)).length, 0);
 
 // status: panel branch
-const stPanelR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "Host action"));
+const stPanelR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "Host action"));
 t("status panel: action radios with waiting checked", radios(stPanelR.c), ["[ ]next", "[x]waiting", "[ ]future"]);
 t("status panel: pill classes computed (colour hooks)", (() => {
   const out = [];
@@ -80,8 +80,8 @@ t("status panel: radio list structure (ul > li > label-wrapped input, no span)",
   })];
 })(), [3, [[true, "Host action-status", true, true], [true, "Host action-status", true, true], [true, "Host action-status", true, true]]]);
 t("status panel: complete action renders nothing",
-  txt(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "Done action")).c), "");
-const stProjR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "Host project"));
+  txt(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "Done action")).c), "");
+const stProjR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "Host project"));
 t("status panel: project radios with active checked", radios(stProjR.c), ["[x]active", "[ ]future"]);
 
 // regression guard (2026-09-12 panel typed every host "action"): the REAL view-body section-type derivation must yield the host's own type — an :and[list[]] operand replaces the accumulator wholesale (list[] ignores its input), so the simplified panelCtx above cannot be the only project-panel coverage
@@ -94,17 +94,17 @@ t("status panel: real view-body types the host (action pills, waiting checked)",
 
 // status: modal branch (cascade — per-type memory beats inherited default)
 wiki.addTiddler({title: "$:/temp/sec-state", "hgsd-type": "action", gsd_action_status: "future"});
-const stModalR = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "action", "$:/temp/sec-temp", "$:/temp/sec-state"));
+const stModalR = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "action", "$:/temp/sec-temp", "$:/temp/sec-state"));
 t("status modal: per-type memory (future) beats inherited default", radios(stModalR.c), ["[ ]next", "[ ]waiting", "[x]future"]);
 wiki.deleteTiddler("$:/temp/sec-state");
-const stModal2R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "action", "$:/temp/sec-temp", "$:/temp/sec-state"));
+const stModal2R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "action", "$:/temp/sec-temp", "$:/temp/sec-state"));
 t("status modal: inherited valid status used when no memory", radios(stModal2R.c), ["[x]next", "[ ]waiting", "[ ]future"]);
-const stModal3R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "project", "$:/temp/sec-temp", "$:/temp/sec-state"));
+const stModal3R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "project", "$:/temp/sec-temp", "$:/temp/sec-state"));
 t("status modal: invalid inherited status falls to type default (active)", radios(stModal3R.c), ["[x]active", "[ ]future"]);
 
 // project: panel branch — pick-field State 1 (empty field) + immediate save
 wiki.addTiddler({title: "$:/temp/hypergsd/add-project-Host action", "hgsd-pick": "Some project"});
-const prPanelR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/>', "Host action"));
+const prPanelR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block" />', "Host action"));
 const saveBtn = findButton(prPanelR.c, L("$:/language/Buttons/Save/Caption"));
 t("project panel: save button present (State 1, empty field)", !!saveBtn, true);
 if (saveBtn) fireActions(buttonWidgets(prPanelR.w)[0]);
@@ -120,23 +120,23 @@ const anyLabel = c => { let hit = false; (function f(n){ if(hit||!n||typeof n!==
 const buttonInsideLabel = (c, cls) => { let hit = false; (function f(n, inLabel){ if(hit||!n||typeof n!=="object") return; if(Array.isArray(n)) return n.forEach(n2 => f(n2, inLabel));
   if(n.isTiddlyWikiFakeDom) { const isLabel = n.tag === "label"; const isBtn = n.tag === "button" && n.attributes && (n.attributes.class||"").indexOf(cls) !== -1; if(isBtn && inLabel) { hit = true; return; } (n.children||[]).forEach(ch => f(ch, inLabel || isLabel)); } })(c, false); return hit; };
 t("project panel: empty state wraps caption + pick input in a label", labelWithInput(prPanelR.c, L("$:/language/hypergsd/Sections/Project/OfLabel")), true);
-const prSetR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/>', "Host action"));
+const prSetR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block" />', "Host action"));
 t("project panel: set state renders no label element at all", anyLabel(prSetR.c), false);
 t("project panel: set state's clear button sits outside any label", buttonInsideLabel(prSetR.c, "hgsd-clear-button"), false);
 
 // project: modal branch — pick-field over the temp, new-button suppressed
 wiki.deleteTiddler("$:/temp/hypergsd/add-project-Host action");
 wiki.addTiddler({title: "$:/temp/gsd-new-temp"});
-const prModalR = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/>', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
+const prModalR = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block" />', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
 t("project modal: no plain new-button (suppressed), no create button (blank pick)",
   buttons(prModalR.c).filter(b => /new project|create/.test(b)).length, 0);
 wiki.addTiddler({title: "$:/temp/hypergsd/add-project-$:/temp/gsd-new-temp", "hgsd-pick": "Nowhere"});
-const prModal2R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/>', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
+const prModal2R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block" />', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
 t("project modal: typed non-existent pick offers create-and-add",
   buttons(prModal2R.c).some(b => b.indexOf("create") !== -1 && b.indexOf("Nowhere") !== -1), true);
 wiki.deleteTiddler("$:/temp/hypergsd/add-project-$:/temp/gsd-new-temp");
 wiki.addTiddler({title: "$:/temp/hypergsd/add-project-$:/temp/gsd-new-temp", "hgsd-pick": "Some project"});
-const prModal3R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/>', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
+const prModal3R = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block" />', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
 const saveBtn2 = findButton(prModal3R.c, L("$:/language/Buttons/Save/Caption"));
 if (saveBtn2) fireActions(buttonWidgets(prModal3R.w)[0]);
 t("project modal: save writes the DATA TEMP (drafting, not the host)",
@@ -158,7 +158,7 @@ t("project modal: host action untouched by modal drafting",
 // seeded inheritance: new-button's gsd_contact seeding drives display + submit target
 wiki.deleteTiddler("$:/temp/gsd-new-temp");
 wiki.addTiddler({title: "$:/temp/gsd-new-temp", gsd_contact: "Ana"});
-const ctModalR = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/ui/attributes/contact" $mode="block"/>', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
+const ctModalR = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/ui/attributes/contact" $mode="block" />', "action", "$:/temp/gsd-new-temp", "$:/temp/sec-state"));
 t("contact modal: seeded contact shows as the current value (link state)",
   /Ana/.test(txt(ctModalR.c)) && buttons(ctModalR.c).some(x => x.indexOf(L("$:/language/hypergsd/Widgets/Change")) !== -1), true);
 
@@ -168,7 +168,7 @@ t("contact modal: seeded contact shows as the current value (link state)",
 {
   wiki.deleteTiddler("$:/temp/sec-state");
   wiki.addTiddler({title: "$:/temp/gsd-new-state", "hgsd-type": "action"});
-  const sim = `<$button><$set name="dom-data-tiddler" value="$:/temp/gsd-new-state"><$set name="dom-data-hgsd-action" value="status"><$set name="dom-data-status" value="future"><$set name="dom-data-hgsd-status-field" value="gsd_action_status"><$transclude $variable="hgsd-handle-click"/></$set></$set></$set></$set></$button>`;
+  const sim = `<$button><$set name="dom-data-tiddler" value="$:/temp/gsd-new-state"><$set name="dom-data-hgsd-action" value="status"><$set name="dom-data-status" value="future"><$set name="dom-data-hgsd-status-field" value="gsd_action_status"><$transclude $variable="hgsd-handle-click" /></$set></$set></$set></$set></$button>`;
   const r = render(sim);
   const btn = buttonWidgets(r.w)[0];
   if (btn) fireActions(btn);
@@ -176,7 +176,7 @@ t("contact modal: seeded contact shows as the current value (link state)",
     [wiki.getTiddler("$:/temp/gsd-new-state").fields.gsd_status, wiki.getTiddler("$:/temp/gsd-new-state").fields.gsd_action_status],
     ["future", "future"]);
   // per-type write guard: a REAL tiddler gets gsd_status but never the memory field
-  const sim2 = `<$button><$set name="dom-data-tiddler" value="Host action"><$set name="dom-data-hgsd-action" value="status"><$set name="dom-data-status" value="next"><$set name="dom-data-hgsd-status-field" value="gsd_action_status"><$transclude $variable="hgsd-handle-click"/></$set></$set></$set></$set></$button>`;
+  const sim2 = `<$button><$set name="dom-data-tiddler" value="Host action"><$set name="dom-data-hgsd-action" value="status"><$set name="dom-data-status" value="next"><$set name="dom-data-hgsd-status-field" value="gsd_action_status"><$transclude $variable="hgsd-handle-click" /></$set></$set></$set></$set></$button>`;
   const r2 = render(sim2);
   const btn2 = buttonWidgets(r2.w)[0];
   if (btn2) fireActions(btn2);
@@ -189,7 +189,7 @@ t("contact modal: seeded contact shows as the current value (link state)",
 {
   wiki.deleteTiddler("$:/temp/sec-state");
   wiki.addTiddler({title: "$:/temp/sec-state", "hgsd-type": "action", gsd_action_status: "waiting", gsd_project_status: "active"});
-  const sec = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>';
+  const sec = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />';
   const asAction = radios(render(modalCtx(sec, "action", "$:/temp/sec-temp", "$:/temp/sec-state")).c);
   const asProject = radios(render(modalCtx(sec, "project", "$:/temp/sec-temp", "$:/temp/sec-state")).c);
   t("type-switch memory: action shows waiting, project shows active", [asAction, asProject],
@@ -215,7 +215,7 @@ t("contact modal: seeded contact shows as the current value (link state)",
 {
   wiki.addTiddler({title: "$:/GSD/Action", tags: ["$:/tags/hypergsd/Type"], "hgsd-type": "action", statuses: "next waiting future someday", "default-status": "next"});
   t("tag list statuses field is inert (vocabulary is hardcoded)",
-    radios(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "Host action")).c),
+    radios(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "Host action")).c),
     ["[x]next", "[ ]waiting", "[ ]future"]);
   wiki.deleteTiddler("$:/GSD/Action");
   wiki.addTiddler({title: "$:/plugins/yan/hypergsd/modules/status-sets", tags: ["$:/tags/Global"], text:
@@ -230,9 +230,9 @@ t("contact modal: seeded contact shows as the current value (link state)",
 <%if [[$:/language/hypergsd/Lists/Row/]addsuffix<status>get[text]] %><$text text={{{ [[$:/language/hypergsd/Lists/Row/]addsuffix<status>get[text]] }}}/><%else%><$text text={{{ [<status>split[]first[]] }}}/><%endif%>
 \\end`});
   t("status-sets shadow override: fourth pill on panel",
-    radios(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "Host action")).c),
+    radios(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "Host action")).c),
     ["[x]next", "[ ]waiting", "[ ]future", "[ ]someday"]);
-  const m = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "action", "$:/temp/sec-temp", "$:/temp/sec-state2", "someday"));
+  const m = render(modalCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "action", "$:/temp/sec-temp", "$:/temp/sec-state2", "someday"));
   t("status-sets shadow override: inherited validates in modal cascade",
     radios(m.c), ["[ ]next", "[ ]waiting", "[ ]future", "[x]someday"]);
   t("status-sets shadow override: label falls back to the word",
@@ -242,10 +242,10 @@ t("contact modal: seeded contact shows as the current value (link state)",
     [/\.action-someday \{/.test(ssText), /\.action-next \{/.test(ssText), ssText.indexOf("Filter error") === -1], [true, true, true]);
   wiki.deleteTiddler("$:/plugins/yan/hypergsd/modules/status-sets");
   t("override removed: shipped three pills again",
-    radios(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/>', "Host action")).c),
+    radios(render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" />', "Host action")).c),
     ["[x]next", "[ ]waiting", "[ ]future"]);
   t("empty-set type (reference) renders no pills",
-    radios(render('<$transclude $variable="hgsd-status-radios" target-tiddler="X" current-type="reference" current-status="next"/>').c), []);
+    radios(render('<$transclude $variable="hgsd-status-radios" target-tiddler="X" current-type="reference" current-status="next" />').c), []);
 }
 
 // view-body's own section-type resolution (tag list intersection) drives
@@ -253,7 +253,7 @@ t("contact modal: seeded contact shows as the current value (link state)",
 // through the chassis (a broken filter here silently drops ALL attribute
 // sections; the sections above bypass view-body via panelCtx)
 {
-  const r = render('<$tiddler tiddler="Host action"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block"/></$tiddler>');
+  const r = render('<$tiddler tiddler="Host action"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block" /></$tiddler>');
   const st = (r.c.textContent || "").replace(/\s+/g, " ");
   t("view-body: status fieldset renders via chassis (tag list type resolution)",
     [!(/Filter error/.test(st)), /next/.test(st), /waiting/.test(st)], [true, true, true]);

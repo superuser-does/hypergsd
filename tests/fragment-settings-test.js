@@ -97,7 +97,7 @@ resetFixtures(wiki);
 // body-text marks rows that HAVE body text; the type-hide engine gate is the suppression under test
 wiki.addTiddler({ title: "B typed action", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", text: "body" });
 const rowIcons = host => {
-  const { c } = render(null, { text: '<$tiddler tiddler="' + host + '"><$transclude $variable="hgsd-item"/></$tiddler>' });
+  const { c } = render(null, { text: '<$tiddler tiddler="' + host + '"><$transclude $variable="hgsd-item" /></$tiddler>' });
   let n = 0; (function f(x) { if (!x || typeof x !== "object") return; if (Array.isArray(x)) return x.forEach(f);
     // body-text's excerpt icon: an svg inside its gsd-muted div (the contextualise button carries an svg of its own)
     if (x.isTiddlyWikiFakeDom && x.tag === "svg") {
@@ -147,7 +147,7 @@ resetFixtures(wiki);
   wiki.addTiddler({title: "ZZ act target", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
   wiki.addTiddler({title: "$:/config/hypergsd/Fragment/type-hide/ZZ probe badge/context", text: "hide"});
   const probe = target => {
-    const { c } = render(null, { text: '<$transclude $variable="hgsd-panel-items" linked-tiddler="' + target + '"/>' });
+    const { c } = render(null, { text: '<$transclude $variable="hgsd-panel-items" linked-tiddler="' + target + '" />' });
     return textOf(c).indexOf("PROBE") !== -1;
   };
   t("hidden-for-context member skips a context target", probe("ZZ ctx target"), false);

@@ -36,7 +36,7 @@ const findInputs = c => { const out = []; (function f(n){ if(!n||typeof n!=="obj
 // procedure transclude (trees built by invokeActionString do not execute
 // actions inside a $variable transclude — a normally rendered tree does).
 const runCheck = () => {
-  const tree = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n<$transclude $variable="hgsd-tickler-check"/>\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
+  const tree = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n<$transclude $variable="hgsd-tickler-check" />\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); tree.render(c);
   return tree.invokeActions(tree, {type: "tm-generic"});
 };
@@ -109,7 +109,7 @@ t("check source is tag-driven wikitext (no JS policy)", checkSource.indexOf("$ac
 // ── Date-input procedure ──────────────────────────────────────────────────────
 wiki.addTiddler({title: "TK valid", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: midnight(3)});
 wiki.addTiddler({title: "TK nan", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: "NaNNaNNaNNaNNaNNaNNaN"});
-const dateInput = title => render(`<$tiddler tiddler="${title}"><$transclude $variable="hgsd-date-input" target-tiddler="${title}" target-field="gsd_tickler_date" history-field="gsd_tickler_date_history"/></$tiddler>`);
+const dateInput = title => render(`<$tiddler tiddler="${title}"><$transclude $variable="hgsd-date-input" target-tiddler="${title}" target-field="gsd_tickler_date" history-field="gsd_tickler_date_history" /></$tiddler>`);
 t("date-input renders a native date box", findInputs(dateInput("TK valid").c).length === 1);
 t("date-input seeds the display form", (() => {
   // fakeDOM does not surface edit-text defaults on the input node; assert
@@ -172,8 +172,8 @@ t("alert tags exactly day and week", JSON.stringify(wiki.filterTiddlers("[[$:/ta
 t("members are data-only (no body to drift)", ["day","week","month","year"].every(m => (wiki.getTiddler("$:/plugins/yan/hypergsd-ticklers/ui/shift/" + m).fields.text || "") === ""));
 
 // ── Section gating + Grade-2 pass-through data temp ──────────────────────────
-const modalSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-data-title="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let>`;
-const modalRepeatSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-data-title="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat" $mode="block"/></$let>`;
+const modalSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-data-title="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block" /></$let>`;
+const modalRepeatSrc = type => `<$let section-target="$:/temp/gsd-new-test" section-type="${type}" section-mode="modal" new-data-title="$:/temp/gsd-new-test" new-state="$:/temp/gsd-new-state" current-type="${type}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat" $mode="block" /></$let>`;
 const clearTip = (wiki.getTiddlerText("$:/language/hypergsd/Sections/Tickler/Clear/Hint") || "").trim();
 const findClearButton = r => { let btn = null; (function f(n){ if(!n||btn||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
   if(n.parseTreeNode && n.parseTreeNode.tag === "$button" && (n.domNodes||[])[0] && (n.domNodes[0].attributes || {}).title === clearTip) { btn = n; return; }
@@ -202,10 +202,10 @@ t("tagging-only order (no sort[]) honours list-after", (() => {
 t("data temp carries the tickler fields", fields("$:/temp/gsd-new-test").gsd_tickler_date === midnight(4) && fields("$:/temp/gsd-new-test").gsd_tickler_repeat_days === "2");
 
 // ── Panel + suffix gating ─────────────────────────────────────────────────────
-const panelSrc = x => `<$tiddler tiddler="${x}"><$let section-target="${x}" section-mode="panel" section-type={{{ [is[current]tag[$:/GSD/Action]then[action]else[project]] }}}><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block"/></$let></$tiddler>`;
+const panelSrc = x => `<$tiddler tiddler="${x}"><$let section-target="${x}" section-mode="panel" section-type={{{ [is[current]tag[$:/GSD/Action]then[action]else[project]] }}}><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler" $mode="block" /></$let></$tiddler>`;
 t("panel date section shows on an action", /Tickler date/.test(txt(render(panelSrc("TK valid")).c)));
 t("panel: clear button present while a date exists", !!findClearButton(render(panelSrc("TK valid"))));
-const panelRepeatSrc = x => `<$tiddler tiddler="${x}"><$let section-target="${x}" section-mode="panel" section-type={{{ [is[current]tag[$:/GSD/Action]then[action]else[project]] }}}><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat" $mode="block"/></$let></$tiddler>`;
+const panelRepeatSrc = x => `<$tiddler tiddler="${x}"><$let section-target="${x}" section-mode="panel" section-type={{{ [is[current]tag[$:/GSD/Action]then[action]else[project]] }}}><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler-repeat" $mode="block" /></$let></$tiddler>`;
 t("panel repeat section shows when a date exists", /Repeat after days/.test(txt(render(panelRepeatSrc("TK valid")).c)));
 wiki.addTiddler({title: "TK undated", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false"});
 const undatedPanel = txt(render(panelRepeatSrc("TK undated")).c);
@@ -259,7 +259,7 @@ wiki.deleteTiddler("TK shift-target");
 
 // ── The shared widget standalone (explicit parameters, no tag list) ────────
 wiki.addTiddler({title: "TK widget-target", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: midnight(10)});
-const widgetRender = render(`<$hgsd.tickler-shift target-tiddler="TK widget-target" base-date="${midnight(10)}" days="3" label="plain label" tooltip="plain tip"/>`);
+const widgetRender = render(`<$hgsd.tickler-shift target-tiddler="TK widget-target" base-date="${midnight(10)}" days="3" label="plain label" tooltip="plain tip" />`);
 const widgetButtons = shiftButtonsOf(widgetRender);
 t("widget renders one button from explicit parameters", widgetButtons.length === 1 && buttonLabel(widgetButtons[0]) === "plain label");
 t("widget resolves a plain tooltip through wikify", ((widgetButtons[0].domNodes||[])[0].attributes || {}).title === "plain tip");
@@ -269,7 +269,7 @@ if (widgetButtons.length === 1) {
   t("widget shifts the date by its days parameter", fields("TK widget-target").gsd_tickler_date === midnight(13));
   t("widget records the history", JSON.stringify(historyOf("TK widget-target")) === JSON.stringify([midnight(13)]));
 }
-const badRender = render(`<$hgsd.tickler-shift target-tiddler="TK widget-target" base-date="garbage" days="3" label="x"/>`);
+const badRender = render(`<$hgsd.tickler-shift target-tiddler="TK widget-target" base-date="garbage" days="3" label="x" />`);
 const badButtons = shiftButtonsOf(badRender);
 if (badButtons.length === 1) {
   badButtons[0].invokeActions(badButtons[0], {type: "tm-generic"});
@@ -279,7 +279,7 @@ if (badButtons.length === 1) {
 }
 wiki.deleteTiddler("TK widget-target");
 
-const suffixSrc = x => `<$tiddler tiddler="${x}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/list-items/tickler" $mode="block"/></$tiddler>`;
+const suffixSrc = x => `<$tiddler tiddler="${x}"><$transclude $tiddler="$:/plugins/yan/hypergsd-ticklers/ui/list-items/tickler" $mode="block" /></$tiddler>`;
 const suffixEditTexts = c => {
   const out = [];
   (function f(n){ if(!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
@@ -300,8 +300,8 @@ t("row suffix has no stray > text node (chevron-count guard)", suffixStrayGt ===
 
 // ── Alert body: title link, core checkbox, snooze re-dates ───────────────────
 wiki.addTiddler({title: "$:/temp/alert/TK valid", tags: "$:/tags/Alert", component: "Tickler due",
-  modified: $tw.utils.stringifyDate(new Date()), text: '<$transclude $variable="hgsd-tickler-alert"/>'});
-const alertWidget = render(`<$tiddler tiddler="$:/temp/alert/TK valid"><$transclude/></$tiddler>`);
+  modified: $tw.utils.stringifyDate(new Date()), text: '<$transclude $variable="hgsd-tickler-alert" />'});
+const alertWidget = render(`<$tiddler tiddler="$:/temp/alert/TK valid"><$transclude /></$tiddler>`);
 const alertText = txt(alertWidget.c);
 t("alert body renders the title link + Complete + both snooze buttons", [/TK valid/.test(alertText), /Complete/.test(alertText), /\+d/.test(alertText), /\+w/.test(alertText)].every(Boolean));
 t("alert body carries no go-to button or legacy snooze captions", !/go to action|snooze a (day|week)/.test(alertText));
@@ -347,8 +347,8 @@ if (buttonWidgets.length === 2) {
 // ── Completion dismissal + toolbar-close re-raise ─────────────────────────────
 wiki.addTiddler({title: "TK al-target", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: todayAlert});
 wiki.addTiddler({title: "$:/temp/alert/TK al-target", tags: "$:/tags/Alert", component: "Tickler due",
-  modified: $tw.utils.stringifyDate(new Date()), text: '<$transclude $variable="hgsd-tickler-alert"/>'});
-const completeAlert = render(`<$tiddler tiddler="$:/temp/alert/TK al-target"><$transclude/></$tiddler>`);
+  modified: $tw.utils.stringifyDate(new Date()), text: '<$transclude $variable="hgsd-tickler-alert" />'});
+const completeAlert = render(`<$tiddler tiddler="$:/temp/alert/TK al-target"><$transclude /></$tiddler>`);
 let catcher = null;
 (function f(n){ if(catcher||!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
   if(n.parseTreeNode && String(n.parseTreeNode.tag || "").replace(/^\$/, "") === "eventcatcher") catcher = n; (n.children||[]).forEach(f); })(completeAlert.w);
@@ -366,8 +366,8 @@ if (catcher) {
   t("completed target is not re-raised", !wiki.getTiddler("$:/temp/alert/TK al-target"));
   // The pre-state branch: a click on an already-complete target uncompletes it and the alert stays
   wiki.addTiddler({title: "$:/temp/alert/TK al-target", tags: "$:/tags/Alert", component: "Tickler due",
-    modified: $tw.utils.stringifyDate(new Date()), text: '<$transclude $variable="hgsd-tickler-alert"/>'});
-  const staleAlert = render(`<$tiddler tiddler="$:/temp/alert/TK al-target"><$transclude/></$tiddler>`);
+    modified: $tw.utils.stringifyDate(new Date()), text: '<$transclude $variable="hgsd-tickler-alert" />'});
+  const staleAlert = render(`<$tiddler tiddler="$:/temp/alert/TK al-target"><$transclude /></$tiddler>`);
   let staleCatcher = null;
   (function f(n){ if(staleCatcher||!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
     if(n.parseTreeNode && String(n.parseTreeNode.tag || "").replace(/^\$/, "") === "eventcatcher") staleCatcher = n; (n.children||[]).forEach(f); })(staleAlert.w);
@@ -400,7 +400,7 @@ wiki.addTiddler({title: "TKD today", tags: "$:/GSD/Action", gsd_status: "next", 
 wiki.addTiddler({title: "TKD soon", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "false", gsd_tickler_date: future});
 wiki.addTiddler({title: "TKD old-done", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "true", gsd_comp_date: past, gsd_tickler_date: past});
 wiki.addTiddler({title: "TKD rolled", tags: "$:/GSD/Action", gsd_status: "next", gsd_complete: "true", gsd_comp_date: past, gsd_tickler_date: future});
-const dashRender = () => render(`<$tiddler tiddler="GSD/Ticklers"><$transclude $tiddler="GSD/Ticklers" $mode="block"/></$tiddler>`);
+const dashRender = () => render(`<$tiddler tiddler="GSD/Ticklers"><$transclude $tiddler="GSD/Ticklers" $mode="block" /></$tiddler>`);
 let dash = dashRender();
 const section = (whole, from, to) => { const a = whole.indexOf(from), b = whole.indexOf(to); return a >= 0 && b > a ? whole.substring(a, b) : ""; };
 const dashTxt = txt(dash.c);

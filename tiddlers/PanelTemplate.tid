@@ -50,4 +50,4 @@ A shipped panel section needs ''no work'' to participate: it folds away with the
 * ''No refresh declaration.'' The reveal reads core's `$:/state/folded/` prefix, which the panel and placement-slot gates already admit — nothing to add to `hgsd-refresh-whitelist`. A sub-plugin hosting its ''own'' panel chassis (its own `hgsd-section-portions` call with `fold-state`) must admit `[prefix[$:/state/folded/]]` in its own gate; without `fold-state` a chassis simply never folds (the modal and every dashboard).
 
 ! Best Practice
-Interactive controls: standard widgets carry their own handling; raw `<input>`/`<button>` elements only work for the plugin's `data-hgsd-*` actions via the event delegation — new actions require extending the event handler module.
+Interactive controls: standard widgets carry their own handling; raw `<input />`/`<button>` elements only work for the plugin's `data-hgsd-*` actions via the event delegation — new actions require extending the event handler module.

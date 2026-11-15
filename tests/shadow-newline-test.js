@@ -15,7 +15,7 @@ const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tid
 const LF = "[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title]]";
 const render = (opts) => {
   const attrs = Object.entries(opts).map(([k, v]) => " " + k + '="' + v + '"').join("");
-  const body = "<$hgsd.list list-heading=\"T\" list-filter=\"" + LF + "\"" + attrs + "/>";
+  const body = "<$hgsd.list list-heading=\"T\" list-filter=\"" + LF + "\"" + attrs + " />";
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);

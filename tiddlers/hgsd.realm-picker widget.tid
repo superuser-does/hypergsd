@@ -18,4 +18,4 @@ The empty option writes `""` (labelled by `$:/language/hypergsd/Widgets/RealmPic
 The single-realm-model parameters (`show-match`, `show-filter-mode`, `show-exclude`) were removed on 2026-08-30 with the multi-select realm model and will not return. The widget was briefly retired on 2026-09-01 and restored the same day — it is documented public surface for sub-plugin authors.
 
 ! Example
-<$hgsd.realm-picker state-tiddler="$:/state/hypergsd/effective-realm"/>
+<$hgsd.realm-picker state-tiddler="$:/state/hypergsd/effective-realm" />

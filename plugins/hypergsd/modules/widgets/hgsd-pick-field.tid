@@ -96,7 +96,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
       <%endif%>
       <!-- Cancel rides the SAME flex row, after the commit slot (2026-09-27 — it lived on a line below, which read as "no button to press" in the editor); the plain new fallback comes last -->
       <$button set=<<edit-state-title>> setTo="">{{$:/core/images/cancel-button}} {{$:/language/Buttons/Cancel/Caption}}</$button>
-      <$transclude $variable="hgsd-new-fallback"/>
+      <$transclude $variable="hgsd-new-fallback" />
       </div>
     </fieldset>
   </$reveal>
@@ -104,7 +104,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 
   <!-- State 1: field empty: picker row with keyboard-to-save, new button below -->
   <%if [<current-value>match[]] %>
-  <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit"/>""">
+  <$keyboard key="enter" actions="""<$transclude $variable="hgsd-pick-keyboard-commit" />""">
   <$hgsd.pick
     tiddler=<<pick-tiddler-title>>
     list-filter=<<list-filter>>
@@ -120,14 +120,14 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
     commit-field=<<field>>/>
   </$keyboard>
   <%if [<pick-tiddler-title>get[hgsd-pick]!match[]] :filter[<new-type>!match[]] :and[!is[tiddler]] %>
-    <$transclude $variable="hgsd-new-options"/>
+    <$transclude $variable="hgsd-new-options" />
   <%elseif [<pick-tiddler-title>get[hgsd-pick]!match[]] %>
   <$button>
     <$action-setfield $tiddler=<<target>> $field=<<field>> $value={{{ [<pick-tiddler-title>get[hgsd-pick]] }}}/>
     {{$:/core/images/done-button}} {{$:/language/Buttons/Save/Caption}}</$button>
   <%endif%>
   <div>
-    <$transclude $variable="hgsd-new-fallback"/>
+    <$transclude $variable="hgsd-new-fallback" />
   </div>
   <%endif%>
 </div>
@@ -142,10 +142,10 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 <$let effective-none-label={{{ [<none-label>!match[]then<none-label>else{$:/language/hypergsd/Widgets/NoneOption}] }}}>
 <%if [<label>!match[]] %>
 <%if [<current-value>!match[]] %>
-<<label>><br/>
+<<label>><br />
 <<hgsd-pick-field-ui>>
 <%else%>
-<label class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank]] }}}><<label>><br/>
+<label class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank]] }}}><<label>><br />
 <<hgsd-pick-field-ui>>
 </label>
 <%endif%>

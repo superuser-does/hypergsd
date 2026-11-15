@@ -21,7 +21,7 @@ const setSel = (list) => list === undefined ? wiki.deleteTiddler(SEL)
 const names = (l) => l.map(t => t.replace("$:/GSD/Realm/", ""));
 
 const listRender = (attrs) => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" ' + attrs + "/>";
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" ' + attrs + " />";
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -36,7 +36,7 @@ const listRender = (attrs) => {
 // picker: render the popup OPEN by setting pop state text, collect option values
 const pickRender = (attrs) => {
   wiki.addTiddler({title: "$:/state/popup/pick-test-GSD/Test", text: "(0,0,0,0)"});
-  const body = '<$hgsd.pick tiddler="Z host" field="pick" id="test" list-filter="' + LF + '" ' + attrs + "/>";
+  const body = '<$hgsd.pick tiddler="Z host" field="pick" id="test" list-filter="' + LF + '" ' + attrs + " />";
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);

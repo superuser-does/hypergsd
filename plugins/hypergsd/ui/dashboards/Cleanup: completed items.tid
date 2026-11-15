@@ -7,7 +7,7 @@ title: GSD/Cleanup: completed items
 \procedure hgsd-cleanup-archive(item-type:"Actions", confirm-message:"")
 <$action-confirm $message={{{ [<confirm-message>] }}}>
 <$let prior-timestamps={{{ [[$:/config/TimestampDisable]get[text]else[]] }}}>
-<$action-setfield $tiddler="$:/config/TimestampDisable" text="yes" $timestamp="no"/>
+<$action-setfield $tiddler="$:/config/TimestampDisable" text="yes" $timestamp="no" />
 <%if [<item-type>match[Projects]] %>
 <$list filter="[tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[addprefix[$:/GSD/]!has[title]]" variable="archive-item">
   <$let archive-title={{{ [<archive-item>addprefix[$:/GSD/]] }}}>
@@ -85,14 +85,14 @@ title: GSD/Cleanup: completed items
 <%if [tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] %>
 <$button
   tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Actions/Hint}}
-  actions="""<$transclude $variable="hgsd-cleanup-archive" item-type="Actions" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Actions/Confirm}}/>""">
+  actions="""<$transclude $variable="hgsd-cleanup-archive" item-type="Actions" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Actions/Confirm}} />""">
   <<lingo Cleanup/Archive/Actions>>
 </$button>
 <%endif%>
 <%if [tag[$:/GSD/Action]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] :filter[get[gsd_project]get[gsd_complete]else[true]match[true]else<show-uncompleted-parent-items>match[true]] %>
 <$button
   tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Actions/Hint}}
-  actions="""<$transclude $variable="hgsd-cleanup-delete" item-type="Actions" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Actions/Confirm}}/>""">
+  actions="""<$transclude $variable="hgsd-cleanup-delete" item-type="Actions" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Actions/Confirm}} />""">
   <<lingo Cleanup/Delete/Actions>>
 </$button>
 <%endif%>
@@ -102,14 +102,14 @@ title: GSD/Cleanup: completed items
 <%if [tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] %>
 <$button
   tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Projects/Hint}}
-  actions="""<$transclude $variable="hgsd-cleanup-archive" item-type="Projects" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Projects/Confirm}}/>""">
+  actions="""<$transclude $variable="hgsd-cleanup-archive" item-type="Projects" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Archive/Projects/Confirm}} />""">
   <<lingo Cleanup/Archive/Projects>>
 </$button>
 <%endif%>
 <%if [tag[$:/GSD/Project]gsd_complete[true]!days:gsd_comp_date<age-in-days>!is[system]] %>
 <$button
   tooltip={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Projects/Hint}}
-  actions="""<$transclude $variable="hgsd-cleanup-delete" item-type="Projects" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Projects/Confirm}}/>""">
+  actions="""<$transclude $variable="hgsd-cleanup-delete" item-type="Projects" confirm-message={{$:/language/hypergsd/Dashboards/Cleanup/Delete/Projects/Confirm}} />""">
   <<lingo Cleanup/Delete/Projects>>
 </$button>
 <%endif%>

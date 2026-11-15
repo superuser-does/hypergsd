@@ -13,7 +13,7 @@ title: Output
 
 \whitespace trim
 
-<$tiddler tiddler="A one"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/list-items/status"/></$tiddler>
+<$tiddler tiddler="A one"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/list-items/status" /></$tiddler>
 
 +
 

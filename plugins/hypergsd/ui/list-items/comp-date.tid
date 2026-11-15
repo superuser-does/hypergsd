@@ -7,5 +7,5 @@ title: $:/plugins/yan/hypergsd/ui/list-items/comp-date
 
 <!-- Muted "how long ago" suffix for completed actions. !field:gsd_comp_date[] suppresses the suffix on legacy completed items that predate date-stamping. -->
 <%if [is[current]tag[$:/GSD/Action]gsd_complete[true]!field:gsd_comp_date[]] %>
-<span class="gsd-muted">(<$view field="gsd_comp_date" format="relativedate"/>)</span>
+<span class="gsd-muted">(<$view field="gsd_comp_date" format="relativedate" />)</span>
 <%endif%>

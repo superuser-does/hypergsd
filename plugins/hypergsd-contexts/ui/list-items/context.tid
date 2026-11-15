@@ -52,13 +52,13 @@ title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
     tooltip={{$:/language/hypergsd/Lists/Contextualise/Hint}}
     set=<<contextualise-state>>
     setTo={{{ [<contextualise-state>get[text]match[open]then[]else[open]] }}} >
-    <$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/images/context" size="1em"/>
+    <$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/images/context" size="1em" />
   </$button>
   <$reveal state=<<contextualise-state>> type="match" text="open">
     <div class="hgsd-sizer-droplist">
       <div>
         <!-- Option-click appends the tag instantly (the picker-instant-commit setting gates it; coarse pointers default off and fall back to the buttons). Duplicate-safe by the candidate filter: a context drops out of the list the moment it lands on the row, so the append never re-adds. Enter in the picker input adds the picked context (prereq picker pattern); the transcluded procedure carries the guard — control flow inside a bare actions string is silently ignored. -->
-        <$keyboard key="enter" actions="""<$transclude $variable="hgsd-contextualise-add" $fillignore="yes"/>""">
+        <$keyboard key="enter" actions="""<$transclude $variable="hgsd-contextualise-add" $fillignore="yes" />""">
           <$hgsd.pick
             tiddler=<<pick-temp>>
             field="hgsd-pick"
@@ -75,12 +75,12 @@ title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
       </div>
       <div>
         <$button tooltip={{$:/language/hypergsd/Lists/Contextualise/Hint}}>
-          <$transclude $variable="hgsd-contextualise-add"/>
+          <$transclude $variable="hgsd-contextualise-add" />
           {{$:/language/hypergsd/Lists/Contextualise/Add}}
         </$button>
         <%if [<pick-temp>get[hgsd-pick]!match[]] :and[!is[tiddler]] %>
           <$button tooltip={{$:/language/hypergsd/Lists/Contextualise/Create/Hint}}>
-            <$transclude $variable="hgsd-contextualise-create"/>
+            <$transclude $variable="hgsd-contextualise-create" />
             {{$:/language/hypergsd/Lists/Contextualise/Create}}
           </$button>
         <%endif%>

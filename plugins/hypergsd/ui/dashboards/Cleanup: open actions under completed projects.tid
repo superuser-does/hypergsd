@@ -8,4 +8,4 @@ title: GSD/Cleanup: open actions under completed projects
 
 </div>
 
-<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/CompletedProjectAction" visibility-base="$:/config/hypergsd/Lists/CompletedProjectAction/visibility/"/>
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/CompletedProjectAction" visibility-base="$:/config/hypergsd/Lists/CompletedProjectAction/visibility/" />

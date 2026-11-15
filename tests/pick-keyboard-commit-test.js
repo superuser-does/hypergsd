@@ -36,7 +36,7 @@ const list = (title, field) => JSON.stringify($tw.wiki.getTiddlerList(title, fie
 // ---------------------------------------------------------------------------
 // 1. pick-append direction="own" (DependsOn panel): typed non-existent pick
 const PREREQTEMP = "$:/temp/hypergsd/add-prereq-Host action";
-const prereqSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq"/>';
+const prereqSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq" />';
 wiki.addTiddler({title: "P one", tags: ["$:/GSD/Project"], gsd_status: "active"});
 wiki.addTiddler({title: "Old dep", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false", gsd_project: "P one", gsd_prerequisites: ["Old dep"]});
@@ -69,7 +69,7 @@ t("own/multi-word: list keeps it whole", list("Host action", "gsd_prerequisites"
 // ---------------------------------------------------------------------------
 // 4. pick-append direction="item" (Prerequisite-of panel): typed non-existent pick
 const DEPTEMP = "$:/temp/hypergsd/add-dependant-Host action";
-const depSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants"/>';
+const depSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants" />';
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false", gsd_project: "P one"});
 setPick(DEPTEMP, "Brand New Dependant");
 fireKey(render(depSrc, "Host action").w);
@@ -93,7 +93,7 @@ t("item/existing: pick cleared", pickOf(DEPTEMP) === "");
 // 6. pick-field empty state: typed non-existent pick -> created and SET (modal-style)
 const CONTACTTEMP = "$:/temp/hypergsd/add-contact-Host action";
 const EDITPOP = "$:/state/hypergsd/edit-gsd_contact-Host action";
-const fieldSrc = '<$hgsd.pick-field field="gsd_contact" list-filter="[all[tiddlers]tag[$:/GSD/Contact]]" id="contact" new-type="contact"/>';
+const fieldSrc = '<$hgsd.pick-field field="gsd_contact" list-filter="[all[tiddlers]tag[$:/GSD/Contact]]" id="contact" new-type="contact" />';
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false"});
 setPick(CONTACTTEMP, "Typed Person");
 fireKey(render(fieldSrc, "Host action").w);
@@ -135,7 +135,7 @@ wiki.deleteTiddler(EDITPOP);
 // 10. no-creation call site (new-type blank): Enter plain-appends a non-existent
 // pick exactly as before (the fork must not hijack hosts that never opted in)
 const BARETEMP = "$:/temp/hypergsd/add-bare-Host action";
-const bareSrc = '<$hgsd.pick-append field="gsd_refs" id="bare" list-filter="[all[tiddlers]tag[$:/GSD/Action]]"/>';
+const bareSrc = '<$hgsd.pick-append field="gsd_refs" id="bare" list-filter="[all[tiddlers]tag[$:/GSD/Action]]" />';
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false"});
 setPick(BARETEMP, "Phantom title");
 fireKey(render(bareSrc, "Host action").w);
@@ -197,7 +197,7 @@ let clearW = null;
   if(n.children) n.children.forEach(f); })(setR.w.children);
 if (clearW) clearW.invokeActionString(clearW.getAttribute("actions"), clearW, {type: "click"});
 t("matrix/clear click empties the field", (wiki.getTiddler("Host action").fields.gsd_contact || "") === "");
-const hideSrc = '<$hgsd.pick-field field="gsd_contact" list-filter="[all[tiddlers]tag[$:/GSD/Contact]]" id="contact" new-type="contact" clear-button="hide"/>';
+const hideSrc = '<$hgsd.pick-field field="gsd_contact" list-filter="[all[tiddlers]tag[$:/GSD/Contact]]" id="contact" new-type="contact" clear-button="hide" />';
 let suppressed = true;
 (function f(n){ if(!n) return; if(Array.isArray(n)) return n.forEach(f);
   const p = n.parseTreeNode; if(p && p.tag === "$button" && String((p.attributes||{}).actions && p.attributes.actions.value || "").indexOf('$value=""') !== -1) suppressed = false;

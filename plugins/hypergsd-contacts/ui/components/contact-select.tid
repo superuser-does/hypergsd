@@ -27,7 +27,7 @@ hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/
         </$button>
       </span>
     </$list>
-    <$keyboard key="((input-accept))" actions="""<$transclude $variable="hgsd-contact-add"/>""">
+    <$keyboard key="((input-accept))" actions="""<$transclude $variable="hgsd-contact-add" />""">
       <$hgsd.pick
         tiddler=<<pick-tiddler>>
         field="hgsd-pick"
@@ -39,7 +39,7 @@ hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/
         commit-tiddler=<<selection-title>>
         commit-field="list"/>
     </$keyboard>
-    <$button actions="""<$transclude $variable="hgsd-contact-add"/>""">
+    <$button actions="""<$transclude $variable="hgsd-contact-add" />""">
       {{$:/language/EditTemplate/Fields/Add/Button}}
     </$button>
   </span>

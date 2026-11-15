@@ -59,7 +59,7 @@ t("grouped render: covered by priority-groupby-test.js (fresh boot)", true);
 
 // 3. the section inside the real panel chassis: Portion/0, radios, accents, Not set row
 function renderPanel(title) {
-	const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: title}});
+	const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: title}});
 	const c = doc.createElement("div"); w.render(c);
 	return {w, c};
 }
@@ -110,7 +110,7 @@ t("no radios on a contact", findRadioInputs(renderPanel("ZZ prio contact").c.chi
 // 4. writes
 // the catcher's handler writes through hgsd-priority-set with the input's data attributes
 {
-	const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$button class="zz">x<$let dom-data-tiddler="ZZ prio action" dom-data-priority="A"><$transclude $variable="hgsd-priority-click"/></$let></$button>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
+	const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$button class="zz">x<$let dom-data-tiddler="ZZ prio action" dom-data-priority="A"><$transclude $variable="hgsd-priority-click" /></$let></$button>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
 	const c = doc.createElement("div"); w.render(c);
 	let btn = null;
 	(function f(n) { if (btn || !n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f);
@@ -145,7 +145,7 @@ t("clear ✕ absent once unset", !findClearButton(panel.w));
 
 // the shared procedure also sets values (the future select's path) — fire on the button, the shipped harness pattern
 {
-	const mk = value => { const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$button class="zz">x<$transclude $variable="hgsd-priority-set" item-title="ZZ prio action" priority-value="' + value + '"/></$button>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
+	const mk = value => { const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$button class="zz">x<$transclude $variable="hgsd-priority-set" item-title="ZZ prio action" priority-value="' + value + '" /></$button>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
 		const c = doc.createElement("div"); w.render(c); return w; };
 	let btn = null;
 	(function f(n) { if (btn || !n || typeof n !== "object") return; if (Array.isArray(n)) return n.forEach(f);
@@ -183,7 +183,7 @@ console.log("stray-markup walk complete");
 
 // 7. the default-priority setting: the tab's select and the AfterCreation rule
 {
-	const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
+	const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
 	const c = doc.createElement("div"); w.render(c);
 	const select = (function f(n) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const r = f(x); if (r) return r; } return null; }
 		if (n.tag === "select") return n; return f(n.children); })(c.children);
@@ -241,7 +241,7 @@ t("a pre-set priority is never overwritten", (() => {
 {
 	const GV = '<$importvariables filter="[[$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global/View]!is[draft]]">';
 	function renderRow(title) {
-		const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", GV + '\n\n<$tiddler tiddler="' + title + '"><$transclude $variable="hgsd-item"/></$tiddler>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
+		const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", GV + '\n\n<$tiddler tiddler="' + title + '"><$transclude $variable="hgsd-item" /></$tiddler>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget});
 		const c = doc.createElement("div"); w.render(c); return {c, w};
 	}
 	function findTag(n, tag) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const r = findTag(x, tag); if (r) return r; } return null; }
@@ -289,7 +289,7 @@ t("a pre-set priority is never overwritten", (() => {
 	function textAll(n) { return (function textOf(n) { if (!n || typeof n !== "object") return ""; if (Array.isArray(n)) return n.map(textOf).join("");
 		if (n.tag === undefined && typeof n.textContent === "string") return n.textContent; return textOf(n.children); })(n); }
 	// the editor: a table — one row per priority: letter cell in its colour, Name edit, Short edit (inputs bound to the lingo tiddlers)
-	const ed = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block"/>');
+	const ed = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block" />');
 	const rowsEls = (function g(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => g(x, acc)); return acc; }
 		if (n.tag === "tr" && n.children && n.children.some(x => x.tag === "td" || x.tag === "th")) acc.push(n); if (n.children) g(n.children, acc); return acc; })(ed.children, []);
 	const cellTag = (x) => x.tag === "td" || x.tag === "th";
@@ -307,18 +307,18 @@ t("a pre-set priority is never overwritten", (() => {
 		JSON.stringify(inputs.map(r => r.map(i => i.attributes.value))));
 	// a lingo override flows through the panel and back into the editor
 	wiki.addTiddler({title: "$:/language/hypergsd/Lists/Priorities/Name/A", text: "Urgent"});
-	const panel = renderT('<$tiddler tiddler="ZZ row action"><$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/panel/priority" $mode="block"/></$tiddler>');
+	const panel = renderT('<$tiddler tiddler="ZZ row action"><$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/panel/priority" $mode="block" /></$tiddler>');
 	t("lingo override reaches the panel", textAll(panel.children).includes("Urgent"), "panel missed Urgent");
-	const ed2 = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block"/>');
+	const ed2 = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block" />');
 	t("lingo override shows in the editor box", textAll(ed2.children).includes("Urgent"), "editor missed Urgent");
 	// an empty Name falls back to the letter (and the row select's short label still resolves)
 	wiki.addTiddler({title: "$:/language/hypergsd/Lists/Priorities/Name/B", text: ""});
-	const sel2 = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block"/>');
+	const sel2 = renderT('<$transclude $tiddler="$:/plugins/yan/hypergsd-priorities/ui/control-panel/priorities" $mode="block" />');
 	const optTexts = (function g(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => g(x, acc)); return acc; }
 		if (n.tag === "option") acc.push(textAll(n.children)); if (n.children) g(n.children, acc); return acc; })(sel2.children, []);
 	t("empty Name falls back to the letter", JSON.stringify(optTexts) === JSON.stringify(["– none –", "Urgent", "B", "Low"]), JSON.stringify(optTexts));
 	const GV = '<$importvariables filter="[[$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global/View]!is[draft]]">';
-	const rowB = renderT('<$tiddler tiddler="ZZ row action">' + GV + '\n\n<$transclude $variable="hgsd-item"/>\n\n</$importvariables></$tiddler>');
+	const rowB = renderT('<$tiddler tiddler="ZZ row action">' + GV + '\n\n<$transclude $variable="hgsd-item" />\n\n</$importvariables></$tiddler>');
 	t("row select short label unaffected by an empty Name", (function g(n) { if (!n || typeof n !== "object") return false; if (Array.isArray(n)) { for (const x of n) { if (g(x)) return true; } return false; }
 		if (n.tag === "select") { const o = (function h(m) { if (!m || typeof m !== "object") return []; if (Array.isArray(m)) { const a = []; m.forEach(x => { a.push(...h(x)); }); return a; } if (m.tag === "option") return [m]; return h(m.children); })(n.children); return o.some(x => (x.attributes.value === "B") && textAll(x.children) === "M"); } return g(n.children); })(rowB.children), "short label broke");
 	wiki.deleteTiddler("$:/language/hypergsd/Lists/Priorities/Name/A");

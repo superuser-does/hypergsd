@@ -186,7 +186,7 @@ t("completed-project-list: archived project excluded",
 
 // project-view completed-actions (toggle state derived from the project title)
 wiki.addTiddler({title: "$:/state/hypergsd/show-completed/Live project", text: "show"});
-lr = render(undefined, {text: '<$set name="section-target" value="Live project"><$set name="currentTiddler" value="Live project"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/project-view/completed-actions" $mode="block"/></$set></$set>'});
+lr = render(undefined, {text: '<$set name="section-target" value="Live project"><$set name="currentTiddler" value="Live project"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/project-view/completed-actions" $mode="block" /></$set></$set>'});
 t("project-view: archived action of the project excluded",
   [rows(lr.c).indexOf("Plain done") !== -1, rows(lr.c).indexOf("$:/GSD/Archived done") !== -1], [true, false]);
 

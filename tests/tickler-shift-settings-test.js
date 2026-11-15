@@ -62,7 +62,7 @@ wipe("Shift", YEAR);
 t("deleting the override falls back to the shipped hide", wiki.filterTiddlers(panelFilter), [DAY, WEEK, MONTH]);
 
 // (2) the settings tab renders: two sections — panel rows then alert rows, caption + description text
-const tab = render('<$tiddler tiddler="$:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers"><$transclude mode="inline"/></$tiddler>');
+const tab = render('<$tiddler tiddler="$:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers"><$transclude mode="inline" /></$tiddler>');
 const tabText = txt(tab.c);
 t("main heading", tabText.indexOf("Date increment options") !== -1, true);
 t("panel and alert sub-headings", [tabText.indexOf("Panel") !== -1, tabText.indexOf("Alerts") !== -1], [true, true]);
@@ -91,7 +91,7 @@ t("panel ignores Alert-hidden day", buttonLabels(render(panelCtx(body("ui/attrib
 wipe("Alert", DAY);
 
 // (4) the alert body's buttons follow the Alert knob alone
-wiki.addTiddler({title: "$:/temp/alert/ZZ shift host", text: "<$transclude $variable=\"hgsd-tickler-alert\"/>"});
+wiki.addTiddler({title: "$:/temp/alert/ZZ shift host", text: "<$transclude $variable=\"hgsd-tickler-alert\" />"});
 const alertCtx = src => `<$tiddler tiddler="$:/temp/alert/ZZ shift host">${src}</$tiddler>`;
 t("alert default buttons", buttonLabels(render(alertCtx(body("modules/alert-body.tid"))).c).filter(x => /^\+[dwmy]$/.test(x)), ["+d", "+w"]);
 hide("Alert", DAY);

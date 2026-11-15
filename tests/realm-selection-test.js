@@ -18,7 +18,7 @@ const LF = "[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]] +[sort[title
 const setSel = (list) => list === undefined ? wiki.deleteTiddler(SEL)
   : wiki.addTiddler({title: SEL, list: list.map(t => t === "no-realm" ? t : "$:/GSD/Realm/" + t)});
 const render = () => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" />';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -50,7 +50,7 @@ wiki.deleteTiddler("L item");
 // in the realm label even when a tiddler with the realm's short name exists
 // (filtered transclusion linkifies existing titles; <$text> must not)
 const sidebar = () => {
-  const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/sidebar/review-sidebar" $mode="block"/>' + "\n\n</$importvariables>");
+  const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/sidebar/review-sidebar" $mode="block" />' + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   return c;
@@ -73,9 +73,9 @@ t("sidebar: 2 buttons + sentinel box first + 2 realm boxes (Home checked)", labe
   ["BTN:all","BTN:none","[ ] Items not in a realm","[x] Home","[ ] Work"]);
 t("sidebar: realm labels are not wikilinks", linksInLabels, 0);
 // layout: the fieldset itself is a grid (single inline style) — legend row 1,
-// one label per row, no <br>s, no separator text nodes between labels
+// one label per row, no <br />s, no separator text nodes between labels
 const comp = (() => {
-  const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/realm-selection" $mode="block"/>' + "\n\n</$importvariables>");
+  const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/realm-selection" $mode="block" />' + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c); return c;
 })();
@@ -99,7 +99,7 @@ t("component: grid fieldset, legend first, one label per row, no separators",
 wiki.deleteTiddler("Home");
 // ── Cross-realm link warning (globe = linked tiddler outside the selection) ──
 const warnSvg = title => {
-  const parser = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $variable="hgsd-realm-warning" linked-tiddler="' + title + '"/>\n\n</$importvariables>');
+  const parser = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $variable="hgsd-realm-warning" linked-tiddler="' + title + '" />\n\n</$importvariables>');
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let globes = 0;
@@ -152,7 +152,7 @@ wiki.addTiddler({title: "P ord", tags: ["$:/GSD/Project"], gsd_status: "active"}
 wiki.addTiddler({title: "A ord", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_project: "P ord"});
 setSel(["Work"]);
 const order = (() => {
-  const src = '<$tiddler tiddler="A ord"><$let section-target="A ord" section-type="action" section-mode="panel"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/></$let></$tiddler>';
+  const src = '<$tiddler tiddler="A ord"><$let section-target="A ord" section-type="action" section-mode="panel"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block" /></$let></$tiddler>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + src + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
@@ -172,7 +172,7 @@ setSel(undefined);
 // ── The globe is host-rendered (one indicator, one switch): direct hgsd-realm-warning calls ──
 setSel(["Work"]);
 const warningGlobes = title => {
-  const parser = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $variable="hgsd-realm-warning" linked-tiddler="' + title + '"/>\n\n</$importvariables>');
+  const parser = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $variable="hgsd-realm-warning" linked-tiddler="' + title + '" />\n\n</$importvariables>');
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let n = 0; (function f(x){ if(!x||typeof x!=="object")return; if(Array.isArray(x))return x.forEach(f);
@@ -188,7 +188,7 @@ wiki.deleteTiddler("@NoRealm ctx");
 wiki.addTiddler({title: "P ord3", tags: ["$:/GSD/Project"], gsd_status: "active"});
 wiki.addTiddler({title: "A ord3", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_project: "P ord3"});
 const pickFieldGlobes = attrs => {
-  const src = '<$tiddler tiddler="A ord3"><$hgsd.pick-field field="gsd_project" id="li3" ' + attrs + '/></$tiddler>';
+  const src = '<$tiddler tiddler="A ord3"><$hgsd.pick-field field="gsd_project" id="li3" ' + attrs + ' /></$tiddler>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + src + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);

@@ -10,20 +10,20 @@ type: text/vnd.tiddlywiki
 <div class="hgsd-install-columns">
   <div>
     <h1>{{Add to an existing wiki!!title}}</h1>
-    <$transclude $tiddler="Add to an existing wiki" $mode="block"/>
+    <$transclude $tiddler="Add to an existing wiki" $mode="block" />
   </div>
   <div>
     <h1>{{Download a full wiki!!title}}</h1>
-    <$transclude $tiddler="Download a full wiki" $mode="block"/>
+    <$transclude $tiddler="Download a full wiki" $mode="block" />
   </div>
   <div>
     <h1>{{Other plugins!!title}}</h1>
-    <$transclude $tiddler="Other plugins" $mode="block"/>
+    <$transclude $tiddler="Other plugins" $mode="block" />
 </div>
   <div>
   <h1>{{Source code and Node.js installation!!title}}</h1>
-  <$transclude $tiddler="Source code" $mode="block"/>
+  <$transclude $tiddler="Source code" $mode="block" />
   <h2>Alternative installation method for Node.js wikis</h2>
-  <$transclude $tiddler="Install HyperGSD on Node.js" $mode="block"/>
+  <$transclude $tiddler="Install HyperGSD on Node.js" $mode="block" />
   </div>
 </div>

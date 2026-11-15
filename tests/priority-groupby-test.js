@@ -18,7 +18,7 @@ function textOf(n) { if (!n || typeof n !== "object") return ""; if (Array.isArr
 // view state must drive the grouping: High, Medium, Low, then No group
 const stateTitle = "$:/config/hypergsd/list-view/GSD/Action dashboard/" + wiki.getTiddlerText("$:/language/hypergsd/Lists/NextActions");
 wiki.addTiddler({title: stateTitle, "hgsd-group": "$:/plugins/yan/hypergsd-priorities/ui/group-by/priority", "hgsd-ungrouped": "yes", type: "text/vnd.tiddlywiki"});
-const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Action dashboard" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Action dashboard"}});
+const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Action dashboard" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Action dashboard"}});
 const c = doc.createElement("div"); w.render(c);
 const headings = (function f(n, acc) { if (!n || typeof n !== "object") return acc; if (Array.isArray(n)) { n.forEach(x => f(x, acc)); return acc; }
 	if (n.attributes && n.attributes.class === "hgsd-group-title") acc.push(textOf(n.children)); if (n.children) f(n.children, acc); return acc; })(c.children, []);

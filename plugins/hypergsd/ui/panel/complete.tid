@@ -20,7 +20,7 @@ title: $:/plugins/yan/hypergsd/ui/panel/complete
       <%if [is[current]gsd_complete[true]] %>
       <<lingo Complete/MarkedLabel>>&ensp;
       <span class="gsd-muted gsd-small-text">
-        (<$view field="gsd_comp_date" format="relativedate"/>)
+        (<$view field="gsd_comp_date" format="relativedate" />)
       </span>
       <%else%>
       <<lingo Complete/UnmarkedLabel>>

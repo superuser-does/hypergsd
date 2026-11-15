@@ -15,4 +15,4 @@ title: $:/plugins/yan/hypergsd/ui/shortcuts/new-action-trigger
   gsd-status="next"
   gsd-complete="false" />
 <!-- Focus: the modal's focus=true fires while the wrapper is detached, so the field is selected after the modal opens — :last-of-type skips the dying wrapper of a just-replaced modal. -->
-<$action-sendmessage $message="tm-focus-selector" $param=".tc-modal-wrapper:last-of-type .gsd-new-modal"/>
+<$action-sendmessage $message="tm-focus-selector" $param=".tc-modal-wrapper:last-of-type .gsd-new-modal" />

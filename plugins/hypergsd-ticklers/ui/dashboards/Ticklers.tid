@@ -3,4 +3,4 @@ title: GSD/Ticklers
 \whitespace trim
 
 <!-- Pure chassis page: three date-split members over the Lists/Ticklers tag list — requiring action (pinned top, also a main-dashboard member), upcoming, old ticklers self-lazily collapsed inside their own member. The check itself runs automatically at startup, at the top of every hour and at local midnight. -->
-<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Ticklers" visibility-base="$:/config/hypergsd/Lists/Ticklers/visibility/"/>
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/Ticklers" visibility-base="$:/config/hypergsd/Lists/Ticklers/visibility/" />

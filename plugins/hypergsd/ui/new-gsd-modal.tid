@@ -97,12 +97,12 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
   </$let>
   <!-- Create another: the modal's whole context (type, status memory, project, contact, contexts) lives on the two temps below, so keeping them and re-sending tm-modal reopens with every attribute retained and only the title wiped. create-gsd-tiddler has already closed the modal by here. The title temp is CLEARED, not deleted: a deletion forces the modal's change listener to rebuild the edit-text and drop focus; a blank field syncs the input value in place. -->
   <%if [[$:/state/hypergsd/create-another]get[text]else[no]match[yes]] %>
-    <$action-setfield $tiddler="$:/temp/gsd-new-title" hgsd-title=""/>
+    <$action-setfield $tiddler="$:/temp/gsd-new-title" hgsd-title="" />
     <$action-sendmessage $message="tm-modal" $param="$:/plugins/yan/hypergsd/ui/new-gsd-modal" gsd-type=<<gsd-type>> gsd-status=<<gsd-status>> gsd-complete=<<gsd-complete>> gsd-project=<<gsd-project>> gsd-contact=<<gsd-contact>> gsd-update-status=<<gsd-update-status>> gsd-calling-tiddler=<<gsd-calling-tiddler>> />
     <!-- Focus: the edit-text's focus=true fires while the wrapper is still detached (modal.js appends after render), so it never takes. The selector is scoped to the LAST wrapper because the modal being replaced lingers ~400ms for its close animation, and a bare .gsd-new-modal resolves to that dying wrapper's input first. -->
-    <$action-sendmessage $message="tm-focus-selector" $param=".tc-modal-wrapper:last-of-type .gsd-new-modal"/>
+    <$action-sendmessage $message="tm-focus-selector" $param=".tc-modal-wrapper:last-of-type .gsd-new-modal" />
   <%else%>
-  <$action-sendmessage $message="tm-close-tiddler"/>
+  <$action-sendmessage $message="tm-close-tiddler" />
   <!-- The temps are deleted only on submit, never on cancel: a cancelled modal (Esc or mask click) deliberately keeps its entries so they survive into the next open. The title lives on its OWN temp so title keystrokes never touch gsd-new-temp — that is what lets the $refresh gate below freeze the attribute sections while typing (fallback reads gsd-new-temp's gsd-title for pre-split state). -->
   <$action-deletetiddler $tiddler=<<new-data-title>> />
   <$action-deletetiddler $tiddler=<<new-state>> />
@@ -110,7 +110,7 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
   <%endif%>
 \end
 <$let new-data-title="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state">
-  <$keyboard tag="div" key="((hgsd-modal-close))" actions="""<$action-sendmessage $message="tm-close-tiddler"/>""">
+  <$keyboard tag="div" key="((hgsd-modal-close))" actions="""<$action-sendmessage $message="tm-close-tiddler" />""">
     <$keyboard key="((hgsd-modal-submit))" actions=<<hgsd-modal-submit>>>
       <$let current-type={{{ [<new-state>get[hgsd-type]else<gsd-type>] }}}>
       <!-- The title row: the pick-row pair (gsd-list-item + hgsd-sizer-droplist) — flex + gap spaces the input, Create button and Create another checkbox (trim removes the inline whitespace). No hgsd-sizer-select: panel rows stretch only inside their fit-content chassis, and the modal body is full-width — the input keeps its natural width. -->
@@ -144,7 +144,7 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
           section-mode="modal"
           section-status-target=<<new-state>>
           section-type=<<current-type>>>
-        <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/ModalTemplate" visibility-base="$:/config/hypergsdModal/visibility/"/>
+        <$transclude $variable="hgsd-section-portions" tag-list="$:/tags/hypergsd/ModalTemplate" visibility-base="$:/config/hypergsdModal/visibility/" />
         </$let>
         </$eventcatcher>
         </$refresh>

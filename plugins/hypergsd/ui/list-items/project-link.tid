@@ -9,7 +9,7 @@ title: $:/plugins/yan/hypergsd/ui/list-items/project-link
 <%if [all[current]get[gsd_project]trim[]!is[blank]!match<storyTiddler>!match<current-group>] %>
 <span>
   <$link to={{{ [all[current]get[gsd_project]trim[]] }}} tooltip={{{ [all[current]get[gsd_project]trim[]] }}} class="gsd-muted hgsd-project-link">
-    <$transclude $tiddler="$:/plugins/yan/hypergsd/images/project" size="1em"/>
+    <$transclude $tiddler="$:/plugins/yan/hypergsd/images/project" size="1em" />
   </$link>
 </span>
 <%endif%>

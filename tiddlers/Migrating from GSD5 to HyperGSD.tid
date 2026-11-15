@@ -91,7 +91,7 @@ Copy all "gsd_action" values to "gsd_prerequisites"
     </$let>
 </$list>
 </$action-confirm>
-</$button><br>Migrated realms should appear automatically in the [[capture|$:/plugins/yan/HyperGSD/ui/sidebar/capture-sidebar]] and [[review|$:/plugins/yan/HyperGSD/ui/sidebar/review-sidebar]] sidebars.
+</$button><br />Migrated realms should appear automatically in the [[capture|$:/plugins/yan/HyperGSD/ui/sidebar/capture-sidebar]] and [[review|$:/plugins/yan/HyperGSD/ui/sidebar/review-sidebar]] sidebars.
 
 ''Why:'' Original GSD5 relied entirely on the `gsd_type` field to identify items. HyperGSD relies 100% on specific TiddlyWiki tags to leverage the internal tag index for instantaneous database lookups.
 

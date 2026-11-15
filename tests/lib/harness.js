@@ -37,7 +37,7 @@ function makeRender(wiki, doc, $tw) {
     opts = opts || {};
     const body = opts.text !== undefined
       ? opts.text
-      : '<$transclude $tiddler="' + title + '"' + (opts.mode ? ' $mode="' + opts.mode + '"' : "") + "/>";
+      : '<$transclude $tiddler="' + title + '"' + (opts.mode ? ' $mode="' + opts.mode + '"' : "") + " />";
     const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
     const w = wiki.makeWidget(parser, {
       document: doc, parentWidget: $tw.rootWidget,

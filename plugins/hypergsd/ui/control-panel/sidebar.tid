@@ -12,8 +12,8 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/sidebar
 
 ! <<lingo Sidebar/CaptureHeading>>
 
-<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Capture" visibility-base="$:/config/hypergsd/Capture/visibility/" bands="no"/>
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Capture" visibility-base="$:/config/hypergsd/Capture/visibility/" bands="no" />
 
 ! <<lingo Sidebar/ReviewHeading>>
 
-<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Review" visibility-base="$:/config/hypergsd/Review/visibility/" bands="no"/>
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Review" visibility-base="$:/config/hypergsd/Review/visibility/" bands="no" />

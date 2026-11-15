@@ -36,7 +36,7 @@ wiki.addTiddler({title: "Work item", tags: ["$:/GSD/Action", "$:/GSD/Realm/Work"
 
 function renderReview() {
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="' + REVIEW + '" $mode="block"/>\n\n</$importvariables>'),
+    G + '\n\n<$transclude $tiddler="' + REVIEW + '" $mode="block" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   const portions = [];
@@ -112,7 +112,7 @@ wiki.deleteTiddler("$:/config/hypergsd/Review/visibility/$:/plugins/yan/hypergsd
 // 9. The Sidebar settings tab: one draggable per sidebar, tag-basis note with the numbered
 // portion sentence, a Portion picker on every row (numbers only — no band labels)
 const sw = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-  G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block"/>\n\n</$importvariables>'),
+  G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/control-panel/sidebar" $mode="block" />\n\n</$importvariables>'),
   {document: doc, parentWidget: $tw.rootWidget});
 const sc = doc.createElement("div"); sw.render(sc);
 const flat9 = (function f(x) { let t = ""; (function g(y) { if (!y || typeof y !== "object") return; if (Array.isArray(y)) return y.forEach(g); t += (y.textContent || ""); (y.children || []).forEach(g); })(x); return t.replace(/\s+/g, " "); })(sc);

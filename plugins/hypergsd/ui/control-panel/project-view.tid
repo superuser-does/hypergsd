@@ -10,4 +10,4 @@ title: $:/plugins/yan/hypergsd/ui/control-panel/project-view
 
 //<<lingo ProjectView/Lists/Prompt>>//
 
-<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/ProjectView" visibility-base="$:/config/hypergsd/ProjectView/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/portion-item-template"/>
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/ProjectView" visibility-base="$:/config/hypergsd/ProjectView/visibility/" item-template="$:/plugins/yan/hypergsd/ui/components/portion-item-template" />

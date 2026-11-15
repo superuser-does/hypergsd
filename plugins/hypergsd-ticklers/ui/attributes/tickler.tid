@@ -11,7 +11,7 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/attributes/tickler
 <!-- hgsd-print-hide-blank-input is the print stylesheet's unset-date hook (a set date renders the clear ✕ inside, which the rule keys on), carried only while Behaviour is set to hide -->
 <label class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank-input]] }}}>
 <<lingo Tickler/Label>>
-<br/>
+<br />
 <$transclude $variable="hgsd-date-input" target-tiddler=<<section-target>> target-field="gsd_tickler_date" history-field="gsd_tickler_date_history"/>
 <%if [<section-mode>!match[modal]] %>
 <%if [<section-target>has[gsd_tickler_date]] %>

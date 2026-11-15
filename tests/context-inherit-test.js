@@ -19,7 +19,7 @@ wiki.addTiddler({title: "ZZ proj", tags: ["$:/GSD/Project", "$:/GSD/Realm/Home",
 wiki.addTiddler({title: "$:/state/hypergsd/effective-realm", text: "Home"});
 
 // 1. fire the project view's quick-add button (context inheritance seed)
-const pv = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "ZZ proj"}});
+const pv = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "ZZ proj"}});
 const pvc = doc.createElement("div"); pv.render(pvc);
 let qbtn = null;
 (function f(n){ if(qbtn||!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
@@ -37,7 +37,7 @@ t("button seeds the project on the data temp", (wiki.getTiddler("$:/temp/gsd-new
 
 // 2. render the modal as tm-modal would, title typed, submit
 wiki.addTiddler({title: "$:/temp/gsd-new-title", "hgsd-title": "ZZ inherit probe"});
-const modal = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/new-gsd-modal" $mode="block"/>\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "$:/temp/gsd-new-state", "gsd-type": "action", "gsd-status": "next", "gsd-complete": "false", "gsd-project": "ZZ proj", "gsd-update-status": "no", "gsd-calling-tiddler": "ZZ proj"}});
+const modal = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/new-gsd-modal" $mode="block" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "$:/temp/gsd-new-state", "gsd-type": "action", "gsd-status": "next", "gsd-complete": "false", "gsd-project": "ZZ proj", "gsd-update-status": "no", "gsd-calling-tiddler": "ZZ proj"}});
 const mc = doc.createElement("div"); modal.render(mc);
 let cbtn = null;
 (function f(n){ if(cbtn||!n||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);

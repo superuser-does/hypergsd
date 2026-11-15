@@ -26,7 +26,7 @@ $tw.rootWidget.addEventListener("tm-close-tiddler", () => { closes++; });
 const fireClick = (action, tiddler) => {
   modalOpened = null; modalHost = null;
   const body = '<$button><$let dom-data-tiddler="' + tiddler + '" dom-data-hgsd-action="' + action + '">'
-    + '<$transclude $variable="hgsd-handle-click"/></$let></$button>';
+    + '<$transclude $variable="hgsd-handle-click" /></$let></$button>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let btn = null;
@@ -38,7 +38,7 @@ const fireClick = (action, tiddler) => {
 // Modal body render: transclude the modal with hgsd-host set, collect the
 // tag+text of paragraphs/bullets/links/labels/buttons in list-field tag-list order.
 const renderModal = (host) => {
-  const src = G + '\n\n<$set name="hgsd-host" value="' + host + '"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/complete-warning-modal" $mode="block"/></$set>\n\n</$importvariables>';
+  const src = G + '\n\n<$set name="hgsd-host" value="' + host + '"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/complete-warning-modal" $mode="block" /></$set>\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", src), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   const nodes = [];

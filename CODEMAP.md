@@ -851,7 +851,7 @@ ui/dashboards/*            tag-driven loops ($:/tags/hypergsd*List; order =
   └─ ui/lists/*            one <$hgsd.list> each (+ realm/group wiring)
        └─ $hgsd.list       realm set-arithmetic → pre-bracketed `hgsd-titles`
             └─ hgsd-render-inner   <$refresh> freeze + <$eventcatcher>
-                 ├─ list-item fragments ×4 (pure <input>/<button> + data-* attrs)
+                 ├─ list-item fragments ×4 (pure <input />/<button> + data-* attrs)
                  └─ click → hgsd-handle-click (modules/event-handler.tid)
                               complete | status | delete dispatch
 ```
@@ -1435,7 +1435,7 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   legs. Results flattened to a
   bracketed titlelist string once, then rendered.
 - **Event delegation**: one `<$eventcatcher>` per list/panel/modal region;
-  all controls are raw `<input>`/`<button>` carrying `data-*` attributes.
+  all controls are raw `<input />`/`<button>` carrying `data-*` attributes.
   Plain inputs (not `<$radio>`) are required so `input:checked + span` CSS
   sibling selectors work; the `checked` attribute is emitted conditionally to
   dodge browser caching bugs.
@@ -1605,7 +1605,7 @@ tiddlers plus both codebases.
 | Contacts | `gsd_contact` field (34 sites) | same field, deliberately single; "new contact from action" auto-assigns |
 | Rendering | gen-1 JS widgets; gen-2 `$gsd5.*` + dynamic `$:/tags/GSD5*` shadow-tag loops | `$hgsd.*` wikitext widgets; dashboard/list/section composition tag-driven (Lists/*, Panel/ModalTemplate, Capture, Review, ContactAction hooks) |
 | Refresh | default widget refresh | `<$refresh>` freeze wrappers + whitelists; invisible to CPU until GSD item changes |
-| Events | one widget per checkbox/radio | 1 `<$eventcatcher>` per region + raw `<input>`/`<button>` + `data-hgsd-*` contract |
+| Events | one widget per checkbox/radio | 1 `<$eventcatcher>` per region + raw `<input />`/`<button>` + `data-hgsd-*` contract |
 | Status controls | `<$radio>` widgets | pure HTML radios (`input:checked + span` CSS), conditional `checked` attr |
 | Completed items | always rendered | lazy "show completed" toggles (Dashboard, project/contact view templates) |
 | Comments | terse What-one-liners | fully rewritten; Why-only convention (engine gotchas and design decisions survive, narration and change-log residue are gone — history lives in this map) |

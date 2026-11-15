@@ -32,6 +32,6 @@ title: GSD/Contexts
 
 <ul>
 <$list filter="[tag[GSD/Contexts]!is[draft]]">
-  <li><$link to=<<currentTiddler>>><$view field="title"/></$link></li>
+  <li><$link to=<<currentTiddler>>><$view field="title" /></$link></li>
 </$list>
 </ul>

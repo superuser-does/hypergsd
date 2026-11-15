@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/review/projects-without-next-actions
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Projects without next actions"><<lingo Review/ProjectsWithoutNext>></$link><br/>
+<$link to="GSD/Projects without next actions"><<lingo Review/ProjectsWithoutNext>></$link><br />

@@ -20,7 +20,7 @@ title: $:/plugins/yan/hypergsd-references/ui/ViewTemplate/project-references
       <$transclude $variable="new-reference-button" project=<<currentTiddler>> realm=<<caller-realm>> />
     </$let>
   </span>
-  <hr/>
+  <hr />
   <$reveal state=<<listState>> type="match" text="show" default="show" retain="yes">
     <$list filter="[tag[$:/GSD/Reference]!is[draft]gsd_project<currentTiddler>]">
       <<hgsd-item>>

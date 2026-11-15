@@ -36,7 +36,7 @@ wiki.addTiddler({title: "$:/StoryList", list: river});
 // parse + render + invoke of the handler tree.
 const fireClick = (tiddler) => {
   const body = '<$tiddler tiddler="' + tiddler + '"><$button><$let dom-data-tiddler="' + tiddler + '" dom-data-hgsd-action="complete">'
-    + '<$transclude $variable="hgsd-handle-click"/></$let></$button></$tiddler>';
+    + '<$transclude $variable="hgsd-handle-click" /></$let></$button></$tiddler>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let btn = null;
@@ -67,7 +67,7 @@ const clickTimes = {off: [], on: []};
 // Surface 2 + 3: heavy dashboard refresh against completion change sets.
 // Each case gets its own constructed page so no case rides an
 // already-consumed change from the previous one.
-const body = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Dashboard" $mode="block"/>\n\n</$importvariables>');
+const body = wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Dashboard" $mode="block" />\n\n</$importvariables>');
 const runCase = (changeSetFor) => {
   const c = doc.createElement("div");
   const w = wiki.makeWidget(body, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Dashboard"}});

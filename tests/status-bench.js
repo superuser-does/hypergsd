@@ -91,7 +91,7 @@ for (const name in listFilters)
 // --- 2. engine list render (widget build + render, parse excluded) -------
 const listParsers = {};
 const listParser = title => listParsers[title] || (listParsers[title] = wiki.parseText("text/vnd.tiddlywiki",
-  G + '\n\n<$transclude $tiddler="' + title + '"/>\n\n</$importvariables>'));
+  G + '\n\n<$transclude $tiddler="' + title + '" />\n\n</$importvariables>'));
 const listRender = (title, c) => {
   const w = wiki.makeWidget(listParser(title), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   w.render(c);
@@ -136,7 +136,7 @@ for (const title of [
 
 // --- 4. panel render + status-change refresh ------------------------------
 {
-  const src = '<$tiddler tiddler="A 001"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block"/></$tiddler>';
+  const src = '<$tiddler tiddler="A 001"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block" /></$tiddler>';
   results["panel render (view-body)"] = time(c => makeWidget(src, {currentTiddler: "A 001"}).render(c) || {lastContainer: c});
   const w = makeWidget(src, {currentTiddler: "A 001"});
   const c = doc.createElement("div"); w.render(c);
@@ -156,7 +156,7 @@ for (const title of [
 
 // --- 5. modal status cascade render ---------------------------------------
 {
-  const src = '<$let section-target="$:/temp/bench-temp" section-type="action" section-mode="modal" section-status-target="$:/temp/bench-state" new-temp="$:/temp/bench-temp" new-state="$:/temp/bench-state" current-type="action" gsd-status="waiting" gsd-project=""><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block"/></$let>';
+  const src = '<$let section-target="$:/temp/bench-temp" section-type="action" section-mode="modal" section-status-target="$:/temp/bench-state" new-temp="$:/temp/bench-temp" new-state="$:/temp/bench-state" current-type="action" gsd-status="waiting" gsd-project=""><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/status" $mode="block" /></$let>';
   results["modal status cascade render"] = time(c => makeWidget(src).render(c) || {lastContainer: c});
 }
 
@@ -229,19 +229,19 @@ const depthResults = {};
   const surfaces = [
     ["engine list (next-action-list)", () => listRender("$:/plugins/yan/hypergsd/ui/lists/next-action-list", doc.createElement("div"))],
     ["panel (view-body)", () => {
-      const src = '<$tiddler tiddler="A 001"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block"/></$tiddler>';
+      const src = '<$tiddler tiddler="A 001"><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/ViewTemplate/view-body" $mode="block" /></$tiddler>';
       const w = makeWidget(src, {currentTiddler: "A 001"});
       w.render(doc.createElement("div"));
       return w;
     }],
     ["dashboard chassis (GSD/Action dashboard)", () => {
-      const src = '<$transclude $tiddler="GSD/Action dashboard" $mode="block"/>';
+      const src = '<$transclude $tiddler="GSD/Action dashboard" $mode="block" />';
       const w = makeWidget(src, {currentTiddler: "GSD/Action dashboard"});
       w.render(doc.createElement("div"));
       return w;
     }],
     ["context page (view-body-context)", () => {
-      const src = '<$tiddler tiddler="Ctx Bench"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block"/></$tiddler>';
+      const src = '<$tiddler tiddler="Ctx Bench"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block" /></$tiddler>';
       const w = makeWidget(src, {currentTiddler: "Ctx Bench"});
       w.render(doc.createElement("div"));
       return w;
@@ -254,7 +254,7 @@ const depthResults = {};
   // AC rows tagged Ctx Bench; assert the pill buttons actually appear.
   {
     const c = doc.createElement("div");
-    const src = '<$tiddler tiddler="Ctx Bench"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block"/></$tiddler>';
+    const src = '<$tiddler tiddler="Ctx Bench"><$transclude $tiddler="$:/plugins/yan/hypergsd-contexts/ui/ViewTemplate/view-body-context" $mode="block" /></$tiddler>';
     const w = makeWidget(src, {currentTiddler: "Ctx Bench"});
     w.render(c);
     let pills = 0;

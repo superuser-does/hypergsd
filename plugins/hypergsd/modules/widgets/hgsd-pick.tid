@@ -96,7 +96,7 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 \procedure hgsd-pick-select()
 <!-- The search runs INPUT-SCOPED: enlist the candidates first, then :and[search:...] so the operator iterates only the scoped list — a fresh search: run would scan every tiddler in the wiki on every keystroke. SELECT CONTENT MODEL: nothing that renders a DOM element may sit between <$select> and its options — <$reveal> wraps its content in a span, and modern engines render only option/optgroup DIRECT children (span-wrapped options exist in the DOM but never display). Branch selection uses the <%if%> shortcut (compiles to $list, no element). The actions string runs hgsd-pick-commit (a no-op for raw pickers: it needs a commit-kind plus the setting/pointer gates) before closing the popup. -->
 <$let typed={{{ [<tiddler>get<field>] }}}>
-<$select tiddler=<<tiddler>> field=<<field>> default=<<none-value>> size="8" actions="""<$transclude $variable="hgsd-pick-commit"/><$action-setfield $tiddler=<<pop>> text=""/>""">
+<$select tiddler=<<tiddler>> field=<<field>> default=<<none-value>> size="8" actions="""<$transclude $variable="hgsd-pick-commit" /><$action-setfield $tiddler=<<pop>> text=""/>""">
   <option value=<<none-value>>><<none-label>></option>
   <%if [<typed>match<none-value>] %>
     <$let candidates=<<scoped-titles>>>

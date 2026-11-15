@@ -13,5 +13,5 @@ title: $:/plugins/yan/hypergsd-contexts/ui/control-panel/context-list
     <<lingo Fragments/Contextualise/ShowApplied>>
   </$link>
 </$checkbox>
-<br/>
-<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Lists/ContextAction" visibility-base="$:/config/hypergsd/Lists/ContextAction/visibility/"/>
+<br />
+<$transclude $variable="hgsd-visibility-list" tag-list="$:/tags/hypergsd/Lists/ContextAction" visibility-base="$:/config/hypergsd/Lists/ContextAction/visibility/" />

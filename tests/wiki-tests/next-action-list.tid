@@ -41,7 +41,7 @@ title: Output
 
 \whitespace trim
 
-<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/next-action-list"/>
+<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/next-action-list" />
 
 +
 

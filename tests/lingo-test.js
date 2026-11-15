@@ -9,7 +9,7 @@ const wiki = $tw.wiki, doc = fd.fakeDocument;
 // Mirror the live global import chain (PageMacros + Macro + Global) so <<lingo>> resolves.
 const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
 const render = (title, mode) => {
-  const body = G + '\n\n<$transclude $tiddler="' + title + '"' + (mode ? ' $mode="' + mode + '"' : "") + '/>\n\n</$importvariables>';
+  const body = G + '\n\n<$transclude $tiddler="' + title + '"' + (mode ? ' $mode="' + mode + '"' : "") + ' />\n\n</$importvariables>';
   const parser = wiki.parseText("text/vnd.tiddlywiki", body);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -127,19 +127,19 @@ const renderBtns = (title, vars) => {
     if(n.isTiddlyWikiFakeDom){ if(btn(n)) out.push((n.textContent||"").replace(/\s+/g," ").trim()); (n.children||[]).forEach(f);} })(c);
   return out;
 };
-const caBtns = renderBtns("Lingo host", '<$transclude $variable="hgsd-create-and-add" typed-pick="New Person" new-type="contact" new-status="next" target-tiddler="Lingo host" target-field="gsd_contact"/>');
+const caBtns = renderBtns("Lingo host", '<$transclude $variable="hgsd-create-and-add" typed-pick="New Person" new-type="contact" new-status="next" target-tiddler="Lingo host" target-field="gsd_contact" />');
 // The typed pick is wrapped in a <q> element (browser supplies the quotation marks) — assert the
 // assembled text (marks absent from textContent) AND the structural q-wrap, so a regression to
 // plain text cannot pass silently.
 const caRender = (() => { let qWrap = false;
-  const body = G + '\n\n<$tiddler tiddler="Lingo host"><$transclude $variable="hgsd-create-and-add" typed-pick="New Person" new-type="contact" new-status="next" target-tiddler="Lingo host" target-field="gsd_contact"/></$tiddler>\n\n</$importvariables>';
+  const body = G + '\n\n<$tiddler tiddler="Lingo host"><$transclude $variable="hgsd-create-and-add" typed-pick="New Person" new-type="contact" new-status="next" target-tiddler="Lingo host" target-field="gsd_contact" /></$tiddler>\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "Lingo host"}});
   const c = doc.createElement("div"); w.render(c);
   (function f(n){ if(!n||qWrap||typeof n!=="object")return; if(Array.isArray(n))return n.forEach(f);
     if(n.isTiddlyWikiFakeDom && n.tag === "q" && String(n.textContent||"").trim() === "New Person") qWrap = true; (n.children||[]).forEach(f); })(c);
   return qWrap; })();
 check("create-and-add label", [caBtns.some(x => x === "create New Person and add"), caRender], [true, true]);
-const convBtns = renderBtns("Lingo host", '<$hgsd.convert current-status="next"/>');
+const convBtns = renderBtns("Lingo host", '<$hgsd.convert current-status="next" />');
 check("convert default label", convBtns.some(x => x === "convert"), true);
 
 console.log(fails === 0 ? "ALL LINGO CASES PASS" : fails + " FAILURES");

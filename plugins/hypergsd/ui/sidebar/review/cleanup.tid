@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd/ui/sidebar/review/cleanup
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Cleanup: completed items"><<lingo Review/Cleanup>></$link><br/>
+<$link to="GSD/Cleanup: completed items"><<lingo Review/Cleanup>></$link><br />

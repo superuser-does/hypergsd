@@ -27,13 +27,13 @@ title: Output
 
 \whitespace trim
 
-<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/next-action-list"/>
+<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/lists/next-action-list" />
 
 +
 
 title: Actions
 
-<$action-setfield $tiddler="A one" gsd_complete="true"/>
+<$action-setfield $tiddler="A one" gsd_complete="true" />
 
 +
 

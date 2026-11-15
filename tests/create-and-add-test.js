@@ -57,7 +57,7 @@ const render = (src, cur) => {
 // Canonical click-equivalent in fakeDOM: exactly what ButtonWidget.handleClick runs
 const fireActions = (wid) => { wid.invokeActions(wid, {type: "click"}); };
 
-const pickFieldSrc = '<$hgsd.pick-field field="gsd_contact" list-filter="[all[tiddlers]tag[$:/GSD/Contact]]" id="contact" new-type="contact" new-update-status="true"/>';
+const pickFieldSrc = '<$hgsd.pick-field field="gsd_contact" list-filter="[all[tiddlers]tag[$:/GSD/Contact]]" id="contact" new-type="contact" new-update-status="true" />';
 let fails = 0;
 const t = (name, ok, extra) => { if (Array.isArray(ok)) ok = JSON.stringify(ok) === JSON.stringify(extra); if (!ok) fails++; console.log((ok ? "PASS " : "FAIL ") + name + (ok || !extra ? "" : " " + extra)); };
 const has = (a, s) => a.some(x => x.indexOf(s) !== -1);
@@ -106,7 +106,7 @@ t("editing state: created + linked + editor closed",
 wiki.deleteTiddler(EDITPOP);
 wiki.addTiddler({title: "$:/temp/gsd-new-temp"});
 wiki.addTiddler({title: "$:/temp/hypergsd/add-project-$:/temp/gsd-new-temp", "hgsd-pick": "Fresh Project"});
-const modalSrc = '<$let section-target="$:/temp/gsd-new-temp" section-type="action" section-mode="modal" new-data-title="$:/temp/gsd-new-temp" current-type="action" gsd-project=""><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project"/></$let>';
+const modalSrc = '<$let section-target="$:/temp/gsd-new-temp" section-type="action" section-mode="modal" new-data-title="$:/temp/gsd-new-temp" current-type="action" gsd-project=""><$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" /></$let>';
 const r6 = render(modalSrc, "$:/plugins/yan/hypergsd/ui/new-gsd-modal");
 t("modal: create button shown", has(r6.buttons, 'create Fresh Project and add') && !!r6.createBtnWidget, JSON.stringify(r6.buttons));
 if (r6.createBtnWidget) fireActions(r6.createBtnWidget);
@@ -125,7 +125,7 @@ wiki.addTiddler({title: "Old dep", tags: ["$:/GSD/Action"], gsd_status: "next", 
 wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Home"], gsd_status: "next", gsd_complete: "false", gsd_project: "P one", gsd_prerequisites: ["Old dep"]});
 const PREREQTEMP = "$:/temp/hypergsd/add-prereq-Host action";
 wiki.addTiddler({title: PREREQTEMP, "hgsd-pick": "Fresh Dependency"});
-const prereqSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq"/>';
+const prereqSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq" />';
 const r7 = render(prereqSrc, "Host action");
 t("prereq: create button shown", has(r7.buttons, 'create Fresh Dependency and add') && !!r7.createBtnWidget, JSON.stringify(r7.buttons));
 if (r7.createBtnWidget) fireActions(r7.createBtnWidget);
@@ -168,7 +168,7 @@ const r7b = render(prereqSrc, "Host action");
 t("prereq: existing title hides plain new, shows add", !r7b.createBtnWidget && !has(r7b.buttons, "new") && has(r7b.buttons, "add"));
 
 // 9. Dependants panel ("Prerequisite of"): mirror picker writing the OTHER side
-const depSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants"/>';
+const depSrc = '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants" />';
 wiki.addTiddler({title: "Old dependent", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_prerequisites: "[[Host action]]"});
 wiki.addTiddler({title: "Multi word dependent", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false", gsd_prerequisites: "[[Host action]]"});
 wiki.addTiddler({title: "Unrelated action", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
@@ -261,9 +261,9 @@ const orderPanel = (src, a2, b2) => {
   return t2.indexOf(a2) < t2.indexOf(b2) && t2.indexOf(a2) !== -1 && t2.indexOf(b2) !== -1;
 };
 t("prereq rows: not-completed first (Done prereq last)",
-  orderPanel('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq"/>', "Old dep", "Done prereq"));
+  orderPanel('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq" />', "Old dep", "Done prereq"));
 t("dependant rows: not-completed first (Done dep last)",
-  orderPanel('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants"/>', "Multi word dependent", "Done dep"));
+  orderPanel('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants" />', "Multi word dependent", "Done dep"));
 
 // picker: DependsOn's literal filter — incomplete actions, minus self
 const pickerEval = (() => {
@@ -351,7 +351,7 @@ const createVia = (title, type, tempFields) => {
   wiki.deleteTiddler("$:/temp/gsd-new-temp");
   if (tempFields) wiki.addTiddler(Object.assign({title: "$:/temp/gsd-new-temp"}, tempFields));
   // create-gsd-tiddler is modal-file-local (not Global-tagged) — import the file explicitly
-  const body = '<$importvariables filter="[[$:/plugins/yan/hypergsd/ui/new-gsd-modal]]"><$button><$transclude $variable="create-gsd-tiddler" gsd-type="' + type + '" gsd-status="next" gsd-complete="false" gsd-update-status="no" gsd-calling-tiddler="" new-title="' + title + '" gsd-realm-tags="" gsd-context-tags=""/></$button></$importvariables>';
+  const body = '<$importvariables filter="[[$:/plugins/yan/hypergsd/ui/new-gsd-modal]]"><$button><$transclude $variable="create-gsd-tiddler" gsd-type="' + type + '" gsd-status="next" gsd-complete="false" gsd-update-status="no" gsd-calling-tiddler="" new-title="' + title + '" gsd-realm-tags="" gsd-context-tags="" /></$button></$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let btn = null;
@@ -391,7 +391,7 @@ $tw.rootWidget.dispatchEvent = function(event) {
 const submitVia = () => {
   const body = '<$importvariables filter="[[$:/plugins/yan/hypergsd/ui/new-gsd-modal]]">'
     + '<$let new-data-title="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state" gsd-type="action" gsd-status="next" gsd-complete="false" gsd-project="" gsd-contact="" gsd-update-status="no" gsd-calling-tiddler="">'
-    + '<$button><$transclude $variable="hgsd-modal-submit"/></$button>'
+    + '<$button><$transclude $variable="hgsd-modal-submit" /></$button>'
     + '</$let></$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);

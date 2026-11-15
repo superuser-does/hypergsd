@@ -30,7 +30,7 @@ const fireClick = (action, tiddler, host, extraLets) => {
   const lets = '<$let dom-data-tiddler="' + tiddler + '" dom-data-hgsd-action="' + action + '"'
     + (extraLets ? " " + extraLets : "") + ">";
   const body = '<$tiddler tiddler="' + host + '"><$button>' + lets
-    + '<$transclude $variable="hgsd-handle-click"/></$let></$button></$tiddler>';
+    + '<$transclude $variable="hgsd-handle-click" /></$let></$button></$tiddler>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let btn = null;

@@ -46,7 +46,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
 
 // --- field kind: instant set on pick, pick retained (matches Save), popup closed
 {
-  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project"/>',
+  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project" />',
     "ZZ host", "$:/state/popup/pick-t1-ZZ host");
   const childTags = (sw.domNodes[0].children || []).map(n => n.tag);
   pick(sw, "ZZ proj one");
@@ -60,7 +60,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
 {
   wiki.addTiddler({title: "$:/info/browser/pointer-coarse", text: "yes"});
   wiki.deleteTiddler("ZZ host"); wiki.addTiddler({title: "ZZ host", tags: ["$:/GSD/Action"], gsd_complete: "false"});
-  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project"/>',
+  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project" />',
     "ZZ host", "$:/state/popup/pick-t1-ZZ host");
   pick(sw, "ZZ proj one");
   t("coarse: target untouched", field("ZZ host", "gsd_project"), undefined);
@@ -75,7 +75,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
   wiki.addTiddler({title: "$:/config/hypergsd/picker-instant-commit/coarse", text: "true"});
   wiki.deleteTiddler("ZZ host"); wiki.addTiddler({title: "ZZ host", tags: ["$:/GSD/Action"], gsd_complete: "false"});
   wiki.deleteTiddler("$:/temp/hypergsd/add-t1-ZZ host");
-  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project"/>',
+  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project" />',
     "ZZ host", "$:/state/popup/pick-t1-ZZ host");
   pick(sw, "ZZ proj one");
   t("coarse + coarse setting on: target committed", field("ZZ host", "gsd_project"), "ZZ proj one");
@@ -89,7 +89,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
   wiki.addTiddler({title: "$:/config/hypergsd/picker-instant-commit/fine", text: "false"});
   wiki.deleteTiddler("ZZ host"); wiki.addTiddler({title: "ZZ host", tags: ["$:/GSD/Action"], gsd_complete: "false"});
   wiki.deleteTiddler("$:/temp/hypergsd/add-t1-ZZ host");
-  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project"/>',
+  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" commit-kind="field" commit-tiddler="ZZ host" commit-field="gsd_project" />',
     "ZZ host", "$:/state/popup/pick-t1-ZZ host");
   pick(sw, "ZZ proj one");
   t("setting off: target untouched", field("ZZ host", "gsd_project"), undefined);
@@ -103,7 +103,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
   t("default: coarse setting shadow is off", wiki.getTiddlerText("$:/config/hypergsd/picker-instant-commit/coarse"), "false");
   wiki.deleteTiddler("ZZ host"); wiki.addTiddler({title: "ZZ host", tags: ["$:/GSD/Action"], gsd_complete: "false"});
   wiki.deleteTiddler("$:/temp/hypergsd/add-t1-ZZ host");
-  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1"/>',
+  const sw = openPicker('<$hgsd.pick tiddler="$:/temp/hypergsd/add-t1-ZZ host" list-filter="[tag[$:/GSD/Project]]" id="t1" />',
     "ZZ host", "$:/state/popup/pick-t1-ZZ host");
   pick(sw, "ZZ proj one");
   t("raw pick: no commit-kind means infill only", [field("ZZ host", "gsd_project"), field("$:/temp/hypergsd/add-t1-ZZ host", "hgsd-pick")], [undefined, "ZZ proj one"]);
@@ -111,7 +111,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
 
 // --- append kind: the real prereq section appends and blanks the temp
 {
-  const sw = openPicker('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq" $mode="block"/>',
+  const sw = openPicker('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/prereq" $mode="block" />',
     "ZZ host", "$:/state/popup/pick-prereq-ZZ host");
   pick(sw, "ZZ other");
   t("append: prerequisites gain the pick", listOf("ZZ host", "gsd_prerequisites"), ["ZZ other"]);
@@ -122,7 +122,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
 
 // --- append-to-picked: the real dependants section writes the OTHER side
 {
-  const sw = openPicker('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants" $mode="block"/>',
+  const sw = openPicker('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/panel/dependants" $mode="block" />',
     "ZZ host", "$:/state/popup/pick-dependant-ZZ host");
   pick(sw, "ZZ third");
   t("append-to-picked: picked action gains the viewing title", listOf("ZZ third", "gsd_prerequisites"), ["ZZ host"]);
@@ -137,7 +137,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
   wiki.deleteTiddler("ZZ host"); wiki.addTiddler({title: "ZZ host", tags: ["$:/GSD/Action"], gsd_complete: "false"});
   wiki.deleteTiddler("$:/temp/hypergsd/add-project-ZZ host");
   wiki.addTiddler({title: "$:/state/popup/pick-project-ZZ host", text: "(0,0,0,0)"});
-  const r = render('<$hgsd.pick-field tiddler="ZZ host" field="gsd_project" list-filter="[tag[$:/GSD/Project]]" id="project"/>', "ZZ host");
+  const r = render('<$hgsd.pick-field tiddler="ZZ host" field="gsd_project" list-filter="[tag[$:/GSD/Project]]" id="project" />', "ZZ host");
   const sw = findSelect(r.w);
   pick(sw, "ZZ proj one");
   t("pick-field empty: pick sets the field", field("ZZ host", "gsd_project"), "ZZ proj one");
@@ -149,7 +149,7 @@ const cleanup = ["ZZ host", "ZZ other", "ZZ third", "ZZ proj one", "$:/temp/gsd-
   wiki.addTiddler({title: "$:/temp/gsd-new-temp", gsd_project: "ZZ proj one"});
   wiki.addTiddler({title: "$:/state/hypergsd/edit-gsd_project-$:/temp/gsd-new-temp", text: "yes"});
   wiki.addTiddler({title: "$:/state/popup/pick-project-ZZ modal host", text: "(0,0,0,0)"});
-  const r = render('<$hgsd.pick-field tiddler="$:/temp/gsd-new-temp" field="gsd_project" list-filter="[tag[$:/GSD/Project]]" id="project"/>', "ZZ modal host");
+  const r = render('<$hgsd.pick-field tiddler="$:/temp/gsd-new-temp" field="gsd_project" list-filter="[tag[$:/GSD/Project]]" id="project" />', "ZZ modal host");
   const sw = findSelect(r.w);
   pick(sw, "ZZ proj one");
   t("pick-field editing (modal drafting): pick re-drafts the temp field", field("$:/temp/gsd-new-temp", "gsd_project"), "ZZ proj one");

@@ -9,7 +9,7 @@ title: $:/plugins/yan/hypergsd-contacts/ui/list-items/contact-link
 <%if [all[current]get[gsd_contact]trim[]!is[blank]!match<storyTiddler>!match<current-group>] %>
 <span>
   <$link to={{{ [all[current]get[gsd_contact]trim[]] }}} tooltip={{{ [all[current]get[gsd_contact]trim[]] }}} class="gsd-muted hgsd-contact-link">
-    <$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/images/contact" size="1em"/>
+    <$transclude $tiddler="$:/plugins/yan/hypergsd-contacts/images/contact" size="1em" />
   </$link>
 </span>
 <%endif%>

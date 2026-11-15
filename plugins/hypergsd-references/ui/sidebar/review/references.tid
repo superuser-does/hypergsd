@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd-references/ui/sidebar/review/references
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/References"><<lingo Review/References>></$link><br/>
+<$link to="GSD/References"><<lingo Review/References>></$link><br />

@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd-contacts/ui/sidebar/review/contacts
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Contacts"><<lingo Review/Contacts>></$link><br/>
+<$link to="GSD/Contacts"><<lingo Review/Contacts>></$link><br />

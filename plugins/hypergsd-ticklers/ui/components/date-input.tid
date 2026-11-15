@@ -12,7 +12,7 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/components/date-input
   <$action-setfield $tiddler={{{ [<target-tiddler>] :filter[<actionValue>!match[]] +[else[$:/temp/hgsd-date-discard]] }}} $field=<<target-field>> $value={{{ [<actionValue>split[-]join[]addsuffix[000000000]minlength[17]] }}}/>
   <$action-listops $tiddler={{{ [<target-tiddler>] :filter[<actionValue>!match[]] +[else[$:/temp/hgsd-date-discard]] }}} $field=<<history-field>> $subfilter="[<actionValue>split[-]join[]addsuffix[000000000]minlength[17]]"/>
   <$action-deletefield $tiddler=<<date-input-title>> $field="text"/>
-  <$action-deletetiddler $tiddler="$:/temp/hgsd-date-discard"/>
+  <$action-deletetiddler $tiddler="$:/temp/hgsd-date-discard" />
   """/>
 </$let>
 \end

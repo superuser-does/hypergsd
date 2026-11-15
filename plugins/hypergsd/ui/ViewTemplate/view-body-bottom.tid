@@ -2,4 +2,4 @@ list-after: $:/core/ui/ViewTemplate/body
 tags: $:/tags/ViewTemplate
 title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-bottom
 
-<$transclude $variable="hgsd-view-body-slot" side="bottom"/>
+<$transclude $variable="hgsd-view-body-slot" side="bottom" />

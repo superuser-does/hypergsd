@@ -14,7 +14,7 @@ wiki.addTiddler({title: "$:/state/hypergsd/current-realm", text: "NoRealm"});
 const G = '<$importvariables filter="[[\$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[\$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[\$:/tags/Global/View]!is[draft]]">';
 const LF = "[all[tiddlers]tag[$:/GSD/Action]] +[sort[title]]";
 const render = () => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" />';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -140,7 +140,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/Fragment/Row/Suffix"});
 // identity survives); the row's own item edit must reach it (node replaced)
 {
   wiki.addTiddler({title: "A other", tags: ["$:/GSD/Action"], gsd_status: "next", gsd_complete: "false"});
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" />';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -169,7 +169,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/Fragment/Row/Suffix"});
 // row gate's subfilter (tag list-driven extensibility, not main-plugin edits)
 {
   wiki.addTiddler({title: "ZZ wl test", tags: ["$:/tags/hypergsd/Fragment/Row/Suffix"], text: "EXT-W", "hgsd-refresh-whitelist": "[prefix[$:/state/hypergsd/ext-feature]]"});
-  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false"/>';
+  const body = '<$hgsd.list list-heading="T" list-filter="' + LF + '" group-state="false" />';
   const parser = wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>");
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
   const c = doc.createElement("div"); w.render(c);
@@ -189,7 +189,7 @@ wiki.addTiddler({title: "$:/tags/hypergsd/Fragment/Row/Suffix"});
 // under its own group heading (current-group — ambient only in the grouped
 // branch; every shipped grouping is by gsd_project or gsd_contact).
 const jumpRender = (filter, attrs, vars) => {
-  const body = '<$hgsd.list list-heading="T" list-filter="' + filter + '" ' + (attrs || "") + "/>";
+  const body = '<$hgsd.list list-heading="T" list-filter="' + filter + '" ' + (attrs || "") + " />";
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\n\n" + body + "\n\n</$importvariables>"),
     {document: doc, parentWidget: $tw.rootWidget, variables: Object.assign({currentTiddler: "GSD/Test"}, vars || {})});
   const c = doc.createElement("div"); w.render(c);

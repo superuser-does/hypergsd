@@ -12,11 +12,11 @@ title: $:/plugins/yan/hypergsd-ticklers/modules/tickler-check
 <$let due-label={{$:/language/hypergsd/Sections/Tickler/AlertDue}}
   overdue-label={{$:/language/hypergsd/Sections/Tickler/AlertOverdue}}>
 <$list filter="[tag[$:/GSD/Action]!is[draft]gsd_complete[false]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]removesuffix[000000000]compare:string:lteq<localToday>]">
-<$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert"/>"""/>
+<$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert" />"""/>
 </$list>
 <!-- Completed repeating ticklers raise too — the nag — once per cycle or missed occurrence (the rollover below books the next date in this same run). The interval guard mirrors the rollover's convention: absent, empty, zero or non-numeric means one-shot, and a one-shot stays silent when complete. -->
 <$list filter="[tag[$:/GSD/Action]!is[draft]gsd_complete[true]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]removesuffix[000000000]compare:string:lteq<localToday>] :filter[get[gsd_tickler_repeat_days]else[0]compare:integer:gt[0]]">
-<$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert"/>"""/>
+<$action-createtiddler $timestamp="no" $basetitle={{{ [[$:/temp/alert/]addsuffix<currentTiddler>] }}} $overwrite="yes" component={{{ [all[current]get[gsd_tickler_date]removesuffix[000000000]compare:string:lt<localToday>then<overdue-label>else<due-label>] }}} modified={{!!gsd_tickler_date}} tags="$:/tags/Alert" text="""<$transclude $variable="hgsd-tickler-alert" />"""/>
 </$list>
 </$let>
 <$action-setfield $tiddler="$:/temp/hypergsd/Ticklers/AlertDay" text=<<localToday>>/>

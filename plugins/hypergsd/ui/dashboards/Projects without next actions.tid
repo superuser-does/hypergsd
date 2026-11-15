@@ -8,4 +8,4 @@ title: GSD/Projects without next actions
   </p>
 </div>
 
-<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/NoNextAction" visibility-base="$:/config/hypergsd/Lists/NoNextAction/visibility/"/>
+<$transclude $variable="hgsd-dashboard-portions" tag-list="$:/tags/hypergsd/Lists/NoNextAction" visibility-base="$:/config/hypergsd/Lists/NoNextAction/visibility/" />

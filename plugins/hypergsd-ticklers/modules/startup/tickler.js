@@ -24,7 +24,7 @@ exports.startup = function() {
 	const run = () => {
 		// No-ops safely if the procedure is absent
 		const tree = $tw.wiki.makeWidget($tw.wiki.parseText("text/vnd.tiddlywiki",
-				'<$importvariables filter="[all[shadows+tiddlers]tag[$:/tags/Macro]] [all[shadows+tiddlers]tag[$:/tags/Global]]"><$transclude $variable="hgsd-tickler-check"/></$importvariables>'),
+				'<$importvariables filter="[all[shadows+tiddlers]tag[$:/tags/Macro]] [all[shadows+tiddlers]tag[$:/tags/Global]]"><$transclude $variable="hgsd-tickler-check" /></$importvariables>'),
 			{parentWidget: $tw.rootWidget, document: doc});
 		const container = doc.createElement("div");
 		tree.render(container);

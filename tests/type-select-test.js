@@ -13,7 +13,7 @@ const render = () => {
   wiki.addTiddler({title: "$:/temp/gsd-new-state", text: "", "hgsd-type": "action"});
   const src = G + "\n\n" +
     '<$let new-temp="$:/temp/gsd-new-temp" new-state="$:/temp/gsd-new-state" gsd-type="action">' +
-    '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/modal/type" $mode="block"/>' +
+    '<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/modal/type" $mode="block" />' +
     "</$let>\n\n</$importvariables>";
   const parser = wiki.parseText("text/vnd.tiddlywiki", src);
   const w = wiki.makeWidget(parser, {document: doc, parentWidget: $tw.rootWidget});
@@ -49,7 +49,7 @@ wiki.deleteTiddler("$:/temp/gsd-new-state");
 const fireStatus = (tiddler, status, field) => {
   wiki.addTiddler({title: tiddler, tags: ["$:/GSD/Action"], gsd_status: "waiting", gsd_complete: "false"});
   const body = '<$button><$let dom-data-tiddler="' + tiddler + '" dom-data-status="' + status + '" dom-data-hgsd-action="status" dom-data-hgsd-status-field="' + field + '">'
-    + '<$transclude $variable="hgsd-handle-click"/></$let></$button>';
+    + '<$transclude $variable="hgsd-handle-click" /></$let></$button>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + "\\n\\n" + body + "\\n\\n</$importvariables>"), {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   let btn = null;

@@ -4,4 +4,4 @@ title: $:/plugins/yan/hypergsd-contexts/ui/sidebar/review/contexts
 
 \procedure lingo-base() $:/language/hypergsd/Sidebar/
 
-<$link to="GSD/Contexts"><<lingo Review/Contexts>></$link><br/>
+<$link to="GSD/Contexts"><<lingo Review/Contexts>></$link><br />

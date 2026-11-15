@@ -24,7 +24,7 @@ t("rail members: informal-tags, realm, context-tags", JSON.stringify(members.sli
 function submit(variables) {
   wiki.addTiddler({title: "$:/temp/gsd-new-title", "hgsd-title": "ZZ informal probe"});
   const modal = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/new-gsd-modal" $mode="block"/>\n\n</$importvariables>'),
+    G + '\n\n<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/new-gsd-modal" $mode="block" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget, variables: Object.assign({currentTiddler: "$:/temp/gsd-new-state"}, variables)});
   const c = doc.createElement("div"); modal.render(c);
   let btn = null;

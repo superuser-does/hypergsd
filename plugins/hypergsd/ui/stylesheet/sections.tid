@@ -17,7 +17,7 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/sections
 }
 
 /* Labels flow natively (caption then control, one line, wrapping). A
-   section needing a line break inside a label uses a literal <br/>:
+   section needing a line break inside a label uses a literal <br />:
    element interiors parse inline, so blank lines never form paragraphs
    there, and \whitespace trim eats newline runs outright.
 

@@ -29,8 +29,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-convert
     <%endif%>
     <$action-setfield $tiddler=<<currentTiddler>> gsd_prerequisites=""/>
     <$fieldmangler tiddler=<<currentTiddler>>>
-      <$action-sendmessage $message="tm-remove-tag" $param="$:/GSD/Action"/>
-      <$action-sendmessage $message="tm-add-tag" $param="$:/GSD/Project"/>
+      <$action-sendmessage $message="tm-remove-tag" $param="$:/GSD/Action" />
+      <$action-sendmessage $message="tm-add-tag" $param="$:/GSD/Project" />
     </$fieldmangler>
   </$action-confirm>
 </$button>

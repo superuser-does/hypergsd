@@ -28,7 +28,7 @@ function t(name, got, want) {
 
 function renderCapture() {
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki",
-    G + '\n\n<$transclude $tiddler="' + CAPTURE + '" $mode="block"/>\n\n</$importvariables>'),
+    G + '\n\n<$transclude $tiddler="' + CAPTURE + '" $mode="block" />\n\n</$importvariables>'),
     {document: doc, parentWidget: $tw.rootWidget});
   const c = doc.createElement("div"); w.render(c);
   const portions = [];

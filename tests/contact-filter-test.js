@@ -32,7 +32,7 @@ let fails = 0;
 const t = (name, got, want) => { const ok = JSON.stringify(got) === JSON.stringify(want); if (!ok) fails++; console.log((ok ? "PASS " : "FAIL ") + name + (ok ? "" : " got:" + JSON.stringify(got))); };
 const setSelection = (list) => list === null ? wiki.deleteTiddler(SELECTION) : wiki.addTiddler({title: SELECTION, list});
 const renderPage = () => {
-  const body = '<$importvariables filter="[[$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global/View]!is[draft]]">' + '\n\n<$transclude $tiddler="GSD/Contacts"/>\n\n</$importvariables>';
+  const body = '<$importvariables filter="[[$:/core/ui/PageMacros]] [all[shadows+tiddlers]tag[$:/tags/Macro]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global]!is[draft]] [all[shadows+tiddlers]tag[$:/tags/Global/View]!is[draft]]">' + '\n\n<$transclude $tiddler="GSD/Contacts" />\n\n</$importvariables>';
   const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", body), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Contacts"}});
   const c = doc.createElement("div"); w.render(c);
   return {c, w};

@@ -3,4 +3,4 @@ tags: $:/tags/hypergsd/Review $:/tags/hypergsd/Review/Portion/1
 title: $:/plugins/yan/hypergsd/ui/sidebar/review/realm-selection
 
 <!-- Block-mode transclusion: the component uses only absolute titles, so the currentTiddler rebinding of plain transclusion changes nothing. -->
-<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/realm-selection" $mode="block"/>
+<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/realm-selection" $mode="block" />
