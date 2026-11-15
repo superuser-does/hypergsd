@@ -15,7 +15,7 @@ title: $:/plugins/yan/hypergsd/ui/components/visibility-list
   next-free-portion-tag={{{ [<tag-list>addsuffix[/Portion/]addsuffix<next-free-portion-number>] }}}
   portion-bands=<<bands>>>
 <%if [<note>!match[no]] %>
-<p>//{{$:/language/hypergsd/Settings/TagBasis/Prompt}}&#32;<$macrocall $name="tag" tag=<<tag-list>>/><%if [<portions>!match[no]] %><br /><%if [<bands>!match[no]] %>{{$:/language/hypergsd/Settings/TagBasis/Portions}}<%else%>{{$:/language/hypergsd/Settings/TagBasis/Portions/Numbered}}<%endif%>.<%endif%>//</p>
+<p>//{{$:/language/hypergsd/Settings/TagBasis/Prompt}}&#x20;<$macrocall $name="tag" tag=<<tag-list>>/><%if [<portions>!match[no]] %><br /><%if [<bands>!match[no]] %>{{$:/language/hypergsd/Settings/TagBasis/Portions}}<%else%>{{$:/language/hypergsd/Settings/TagBasis/Portions/Numbered}}<%endif%>.<%endif%>//</p>
 <%endif%>
 <$transclude
   $variable="list-tagged-draggable"
