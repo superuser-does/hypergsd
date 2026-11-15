@@ -15,7 +15,7 @@ type: text/vnd.tiddlywiki
 * Portion layout moved from flex to grid so it responds better in //all// cases, like narrowing the window width but not going to the mobile view.
 * The contact filter search in `GSD/Contacts` now follows your settings on whether to instantly commit picker selections
 * The context creator in both the modal and fragments is now much easier to use, with a similar commit pattern and the ability to easily add/remove multiple contexts to an action
-* Fixed issue where creating a tiddler from the "new" button on the panel of a tiddler, did not make that tiddler not inherit the created project or "Depends on"
+* Fixed issue where creating a tiddler from the "new" button on the panel of a tiddler, did not make that tiddler inherit the created project or "Depends on"
 *  If you install [[GSD/Ticklers]], "Ticklers requiring action" will now appear at the top of your dashboard.
 ** The tickler dashboard was overhauled as part of this to not be standalone, and instead be based on tag list membership like most others
 * The new realm and context creator input are now styled like  tag pills, to indicate that you are creating tags
