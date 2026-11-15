@@ -40,7 +40,7 @@ hgsd-refresh-whitelist: [prefix[$:/state/popup/pick-contact-filter]] [prefix[$:/
         commit-field="list"/>
     </$keyboard>
     <$button actions="""<$transclude $variable="hgsd-contact-add" />""">
-      {{$:/language/EditTemplate/Fields/Add/Button}}
+      {{$:/language/hypergsd/Lists/ContactFilter/Add}}
     </$button>
   </span>
 </$let>

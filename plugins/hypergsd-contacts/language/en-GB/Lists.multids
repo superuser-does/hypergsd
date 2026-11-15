@@ -14,3 +14,4 @@ ContactFilter/Filter: Filter by contacts:
 ContactFilter/Choose: -- pick a contact --
 ContactFilter/Remove/HintA: Remove contact
 ContactFilter/Remove/HintB: from search
+ContactFilter/Add: add to filter

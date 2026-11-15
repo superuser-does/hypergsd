@@ -129,7 +129,7 @@ setSelection(null);
   t("coarse default off: pick retained for the Add step", wiki.filterTiddlers("[[" + TEMP + "]get[hgsd-pick]]").join(""), "ZZ Bob Comp");
   t("coarse default off: popup still closes", wiki.getTiddlerText(POPUP), "");
   const addBtn = findWidgets(w2, n => n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && /\badd\b/i.test((n.domNodes[0].textContent || "")) && !(n.domNodes[0].attributes || {}).title).pop();
-  t("Add button present with core string", !!addBtn, true);
+  t("Add button present with plugin string", !!addBtn, true);
   if (addBtn) addBtn.invokeActionString(addBtn.getAttribute("actions"), addBtn, {type: "click"}, {variables: {}});
   t("Add commits the retained pick", wiki.getTiddlerList(SELECTION, "list"), ["ZZ Bob Comp"]);
 
@@ -198,6 +198,7 @@ t("filter label lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactF
 t("all-hint key removed", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/All"), undefined);
 t("hintA lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Remove/HintA"), "Remove contact");
 t("hintB lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Remove/HintB"), "from search");
+t("add label lingo", wiki.getTiddlerText("$:/language/hypergsd/Lists/ContactFilter/Add"), "add to filter");
 
 setSelection(null);
 console.log(fails ? "FAILURES: " + fails : "ALL PASS");

@@ -401,8 +401,8 @@ plugins/hypergsd/
 │   derivation and row gates (pick-contact-filter runs); the dropdown click
 │   instant-commits through the picker's append kind (the pointer-class
 │   picker-instant-commit gates) and, with the applicable setting off, only
-│   fills the input — the persistently-visible Add button (core's
-│   EditTemplate/Fields/Add/Button string) plus the ((input-accept)) named
+│   fills the input — the persistently-visible Add button (the plugin's
+│   Lists/ContactFilter/Add string) plus the ((input-accept)) named
 │   shortcut commit the append either way to the persistent
 │   $:/config/hypergsd/contact-filter/selection tiddler, and the one
 │   combined member (contact-filtered-action-list, a Portion/1 claimant:
