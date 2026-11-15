@@ -2,10 +2,11 @@ title: $:/plugins/yan/hypergsd/ui/components/list-item-template
 
 \whitespace trim
 
-<!-- Item template for the per-list Settings pages: the core row, the Portion picker (ui/components/portion-picker), and a Group by + Sort by pair writing the list's DEFAULT directly — the selects bind the config tiddler natively (the same write the view strip uses), so no state tiddler or actions. The key is the heading: each list tiddler's heading field carries its heading's lingo title, whose text equals the widget's list-heading parameter, so Settings and the widget land on the same $:/config/hypergsd/list-default/<heading> tiddler. Rows without a heading field (third-party lists) hide the pair — their picks would be silent no-ops. Members unticked in Settings are excluded (the hidden/ config lookup, same contract as the strip). Option labels render the member's caption with the key-field lingo as fallback (the hgsd-view-label pattern inlined — that procedure is View-scoped and the control panel renders outside that import). -->
+<!-- Item template for the per-list Settings pages: the core row, the Portion picker (ui/components/portion-picker), and a Group by + Sort by pair writing the list's DEFAULT directly — the selects bind the config tiddler natively (the same write the view strip uses), so no state tiddler or actions. The key is the heading: each list tiddler's heading field declares a $:/ language title or a literal, resolved with the same rule as the widget's derivation (get[text] with the declaration as fallthrough), so Settings and the widget land on the same $:/config/hypergsd/list-default/<heading> tiddler — the resolved text, identical on both sides. Rows without a heading field (third-party lists) hide the pair — their picks would be silent no-ops. Members unticked in Settings are excluded (the hidden/ config lookup, same contract as the strip). Option labels render the member's caption with the key-field lingo as fallback (the hgsd-view-label pattern inlined — that procedure is View-scoped and the control panel renders outside that import). -->
 <$transclude $tiddler="$:/core/ui/ControlPanel/Toolbars/ItemTemplate" />
 <%if [<currentTiddler>get[hgsd-heading]] %>
-<$let heading-text={{{ [<currentTiddler>get[hgsd-heading]get[text]] }}}>
+<$let heading-declaration={{{ [<currentTiddler>get[hgsd-heading]] }}}>
+<$let heading-text={{{ [<heading-declaration>prefix[$:/]get[text]else<heading-declaration>] }}}>
 <$let list-default-heading={{{ [[$:/config/hypergsd/list-default/]addsuffix<heading-text>] }}}>
 <span class="hgsd-list-pickers">
   <$transclude $tiddler="$:/plugins/yan/hypergsd/ui/components/portion-picker" />
@@ -25,6 +26,7 @@ title: $:/plugins/yan/hypergsd/ui/components/list-item-template
     </$list>
   </$select>
 </span>
+</$let>
 </$let>
 </$let>
 <%endif%>

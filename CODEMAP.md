@@ -189,9 +189,12 @@ plugins/hypergsd/
 │       │                        whose selects bind $:/config/hypergsd/list-default/
 │       │                        <heading> NATIVELY (the strip's own write
 │       │                        mechanism — no state/actions plumbing), each list
-│       │                        tiddler carrying a heading FIELD naming its
-│       │                        heading's lingo tiddler so Settings and the
-│       │                        widget derive the same key from list-heading; a
+│       │                        tiddler carrying a heading FIELD declaring its
+│       │                        heading — the same declaration as the widget's
+│       │                        list-heading parameter (a $:/ language title or a literal,
+resolved with the raw title as fallthrough; the surfaces must
+agree, asserted by heading-resolution-test) so both derive the
+same resolved key; a
 │       │                        leading "List default" option (value "") clears
 │       │                        the field; the widget's default chain is view
 │       │                        state → list-default config → invocation
@@ -1172,7 +1175,7 @@ Widgets (`$:/tags/Global` unless noted):
 
 | Widget | Params | Role |
 |---|---|---|
-| `$hgsd.list` | list-heading, list-filter, group-by, group-state, group-select:"no", group-members:"", sort-select:"no", sort-default (the modified-desc member), group-default:"", add-button, future-items-sweep:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | realm-filtered, frozen, delegated list (core engine); future-items-sweep="yes" hides items whose parent project is not active when the config says hide (parentless items always pass). all-titles is the draft gate (inline `!is[draft]`); list-filters start with `tag[]` to ride the tag index |
+| `$hgsd.list` | list-heading, list-filter, group-by, group-state, group-select:"no", group-members:"", sort-select:"no", sort-default (the modified-desc member), group-default:"", add-button, future-items-sweep:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | realm-filtered, frozen, delegated list (core engine); list-heading is the heading DECLARATION — a $:/-prefixed language title resolved via its tiddler's text, anything else literal, the declaration itself the fallthrough (a missing language tiddler renders its raw title instead of emptying; a pre-resolved {{...}} transclusion from an older caller passes through unchanged) — and every state key (view state, fold, list-default) plus the strip binding reads the RESOLVED text; future-items-sweep="yes" hides items whose parent project is not active when the config says hide (parentless items always pass). all-titles is the draft gate (inline `!is[draft]`); list-filters start with `tag[]` to ride the tag index |
 | `$hgsd.new-button` | gsd-type, gsd-status, gsd-complete, gsd-project, gsd-contact, gsd-realm, gsd-update-status, gsd-calling-tiddler, class/style/aria-label/role/tooltip/disabled | seeds temp tiddler + opens creation modal |
 | `$hgsd.pick` | tiddler, field:"pick", list-filter, placeholder, none-label:"-- none --", none-value, group-by (any field), none-group-label:"(none)", initial, id, search-mode:"title"\|"extended", focus:"no", realm-scope:"[subfilter<hgsd-realm-selection>]" | searchable popup select w/ generic optgroups; realm-scope = always-evaluated filter (scope list: realm tags + no-realm sentinel; "" = everything via hgsd-realm-all). Display-neutral (no root wrapper): native inline handle; flex hosts stretch it via hgsd-sizer-select on the input |
 | `$hgsd.pick-field` | field, tiddler:"" (write target, blank=currentTiddler — the modal's drafting editor), new-button:"show" ("hide" overrides to suppress the plain new-button fallback; modal hosts are suppressed automatically by hgsd-new-fallback's ambient section-mode gate), list-filter, id, label, group-by, none-label, none-group-label, new-type (blank=omit), new-status:"next", new-update-status:"no", search-mode, placeholder, realm-scope:"[subfilter<hgsd-realm-selection>]", panel-items:"show" ("hide" — no Panel adornments in the set state) | 3-state field editor (empty/set/editing) wrapping `$hgsd.pick` |

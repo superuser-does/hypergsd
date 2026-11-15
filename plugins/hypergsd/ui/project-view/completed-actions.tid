@@ -1,17 +1,18 @@
 caption: {{$:/language/hypergsd/Lists/CompletedActions}}
+hgsd-heading: $:/language/hypergsd/Lists/CompletedActions
 tags: $:/tags/hypergsd/ProjectView $:/tags/hypergsd/ProjectView/Portion/1
 title: $:/plugins/yan/hypergsd/ui/project-view/completed-actions
 
 \whitespace trim
 
-<!-- Project-view list member rendered by the shared $hgsd.list widget (its view controls are opt-in, so this page shows no group-by/sort-by strip; realm-scope blank keeps the project's own page unscoped where dashboards honour the realm filter), carrying its own disclosure via $hgsd.toggle (the per-project show-completed state, same namespace the dashboard completed lists share); the link classes ride in on class= because the widget's own buttons are deliberately unstyled. The chassis transcludes this in block mode, rebinding currentTiddler to this member tiddler; section-target (set by view-body-project around the chassis) carries the project, so the $set restores it for the filter. -->
+<!-- Project-view list member rendered by the shared $hgsd.list widget (its view controls are opt-in, so this page shows no group-by/sort-by strip; realm-scope blank keeps the project's own page unscoped where dashboards honour the realm filter), carrying its own disclosure via $hgsd.toggle (the per-project show-completed state, same namespace the dashboard completed lists share); the link classes ride in on class= because the widget's own buttons are deliberately unstyled. section-target (set by view-body-project around the chassis) carries the project past the shared chassis into this member; the $set binds it as currentTiddler for the filter, independent of the hosting scope. -->
 <$set name="currentTiddler" value=<<section-target>>>
 <$hgsd.toggle
   text={{$:/language/hypergsd/Lists/ShowCompletedActions}}
   hide-text={{$:/language/hypergsd/Lists/HideCompletedActions}}
   class="hgsd-completed-toggle tc-btn-invisible tc-tiddlylink">
   <$hgsd.list
-    list-heading={{$:/language/hypergsd/Lists/CompletedActions}}
+    list-heading="$:/language/hypergsd/Lists/CompletedActions"
     list-filter="[tag[$:/GSD/Action]!is[draft]gsd_project<currentTiddler>gsd_complete[true]!is[system]!nsort[gsd_comp_date]]"
     realm-scope=""/> <!-- !is[system] keeps archived rows out (renamed $:/GSD/-prefixed items keep tags, project link and completion); undated legacy items sink; equal timestamps fall back to the default title order -->
 </$hgsd.toggle>

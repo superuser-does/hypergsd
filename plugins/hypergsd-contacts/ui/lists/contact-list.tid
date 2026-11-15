@@ -5,7 +5,7 @@ tags: $:/tags/hypergsd/Lists/Contact $:/tags/hypergsd/Lists/Contact/Portion/Full
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-list
 
 <$hgsd.list
-  list-heading={{$:/language/hypergsd/Lists/Contacts}}
+  list-heading="$:/language/hypergsd/Lists/Contacts"
   list-filter="[tag[$:/GSD/Contact]]"
   group-select="yes"
   sort-select="yes"

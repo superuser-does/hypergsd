@@ -14,7 +14,7 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/lists/old-ticklers-list
   hide-text={{$:/language/hypergsd/Lists/Ticklers/Old/Hide}}
   class="hgsd-completed-toggle">
 <$hgsd.list
-  list-heading={{$:/language/hypergsd/Lists/Ticklers/Old}}
+  list-heading="$:/language/hypergsd/Lists/Ticklers/Old"
   list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]gsd_complete[true]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] +[!nsort[gsd_comp_date]]"
   group-select="yes"/>
 </$hgsd.toggle>

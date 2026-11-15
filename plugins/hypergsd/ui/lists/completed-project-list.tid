@@ -15,7 +15,7 @@ title: $:/plugins/yan/hypergsd/ui/lists/completed-project-list
   unwrap-tag-lists="$:/tags/hypergsd/Lists/CompletedProject">
 <!-- !is[system] in the leading run keeps archived rows out (renamed $:/GSD/-prefixed items still match the tag/complete runs). -->
 <$hgsd.list
-  list-heading={{$:/language/hypergsd/Lists/CompletedProjects}}
+  list-heading="$:/language/hypergsd/Lists/CompletedProjects"
   list-filter="[tag[$:/GSD/Project]gsd_complete[true]!is[system]]"
   group-select="yes"
   sort-select="yes"

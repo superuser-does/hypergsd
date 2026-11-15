@@ -13,7 +13,7 @@ title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-filtered-action-list
       <$let contact-gate={{{ [enlist<selected-contacts>limit[1]then<gate-run>else[]] }}}>
         <$let meeting-filter={{{ "[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]has[gsd_contact]] [tag[$:/GSD/Action]gsd_status[waiting]gsd_complete[false]has[gsd_contact]] [tag[$:/GSD/Action]gsd_status[future]gsd_complete[false]has[gsd_contact]]" [<contact-gate>] +[join[ ]] }}}>
           <$hgsd.list
-            list-heading={{$:/language/hypergsd/Lists/ContactFilter}}
+            list-heading="$:/language/hypergsd/Lists/ContactFilter"
             list-filter=<<meeting-filter>>
             group-by="gsd_contact"
             sort-select="yes"

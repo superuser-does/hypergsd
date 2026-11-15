@@ -11,10 +11,10 @@ title: $:/plugins/yan/hypergsd/ui/ViewTemplate/view-body-project
 <div class="project-view-template">
 <!-- Freezes the view against the global refresh cycle. Scoped by SUBTRACTION runs (a second :and chain would wipe the first's output): the additive runs let item/config changes and ALL temps through, then the subtraction runs drop OTHER hosts' temps, so a toggle or collapse in one view refreshes only that view. A host name that is a prefix/suffix of another host's over-refreshes — never under-refreshes. The folded-state prefix (additive, before the subtractions — they only subtract gsd-list temps and show-completed states) reaches the fold reveal the dashboard chassis carries around this view's lists. Member visibility and drag-reorder are admitted by the hgsd-dashboard-portions gate this row now transcludes (the chassis carries its own refresh). Feature-owned runs (row fragments, ProjectView members, strips hosted on their lists) are derived from hgsd-refresh-whitelist declarations. -->
 <$let this-list-prefix={{{ [[$:/temp/gsd-list/]addsuffix<currentTiddler>] }}} >
-<$let tag-list="$:/tags/hypergsd/ProjectView" strip-hosts-regex={{{ [[$:/tags/hypergsd/ProjectView]] :and[tagging[]] :and[get[hgsd-heading]get[text]] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
+<$let tag-list="$:/tags/hypergsd/ProjectView" strip-hosts-regex={{{ [[$:/tags/hypergsd/ProjectView]] :and[tagging[]] :and[get[hgsd-heading]] :map[prefix[$:/]get[text]else<currentTiddler>] [[·]] +[join[|]addprefix[^(]addsuffix[)$]] }}}>
 <$refresh subfilter={{{ [function[hgsd-view-body-project-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/ProjectView $:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip">
 <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
-<!-- section-target carries the project past the chassis's block-mode transclusion, which rebinds currentTiddler to each member tiddler; every member restores currentTiddler from this. -->
+<!-- section-target carries the project into the chassis (currentTiddler is already the project here — the chassis's block-mode transclusion sets thisTiddler, not currentTiddler — but the explicit binding keeps the members' filters independent of that scoping fact). -->
 <$set name="section-target" value=<<currentTiddler>>>
 <$transclude $variable="hgsd-dashboard-portions" tag-list=<<tag-list>> visibility-base="$:/config/hypergsd/ProjectView/visibility/"/>
 </$set>

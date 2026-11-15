@@ -10,7 +10,7 @@ title: $:/plugins/yan/hypergsd-ticklers/ui/lists/upcoming-list
 <!-- Today derives per member; the 17-digit UTC strings compare correctly as strings (the tickler-check idiom). -->
 <$let today=<<now "[UTC]YYYY0MM0DD000000000">>>
 <$hgsd.list
-  list-heading={{$:/language/hypergsd/Lists/Ticklers/Upcoming}}
+  list-heading="$:/language/hypergsd/Lists/Ticklers/Upcoming"
   list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:gt<today>] +[sort[gsd_tickler_date]]"
   group-select="yes"/>
 </$let>

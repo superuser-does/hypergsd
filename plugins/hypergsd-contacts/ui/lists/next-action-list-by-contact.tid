@@ -6,7 +6,7 @@ tags: $:/tags/hypergsd/Lists/Dashboard
 title: $:/plugins/yan/hypergsd-contacts/ui/lists/next-action-list-by-contact
 
 <$hgsd.list
-  list-heading={{$:/language/hypergsd/Lists/NextByContact}}
+  list-heading="$:/language/hypergsd/Lists/NextByContact"
   list-filter="[tag[$:/GSD/Action]gsd_status[next]gsd_complete[false]has[gsd_contact]]"
   group-select="yes"
   group-default="$:/plugins/yan/hypergsd-contacts/ui/group-by/contact"
