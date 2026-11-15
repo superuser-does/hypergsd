@@ -75,7 +75,7 @@ check("override removed", render("$:/plugins/yan/hypergsd/ui/control-panel/view-
 // 5. Every family ships its expected shadows (en-GB, main plugin)
 const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix + "]]").length;
 const fams = {
-  "$:/language/hypergsd/Settings/": 157, "$:/language/hypergsd/Sections/": 75,
+  "$:/language/hypergsd/Settings/": 164, "$:/language/hypergsd/Sections/": 75,
   "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 80,
   "$:/language/hypergsd/Dashboards/": 22, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 42, "$:/language/hypergsd/NewItem/": 5,
@@ -90,7 +90,7 @@ check("sub Lists keys", wiki.getTiddlerText("$:/language/hypergsd/Lists/WaitingB
 check("sub Convert key", wiki.getTiddlerText("$:/language/hypergsd/Convert/Warnings/Contact"), "The contact field will be kept, but it no longer applies to a project.");
 check("sub Sidebar keys", wiki.getTiddlerText("$:/language/hypergsd/Sidebar/Capture/NewContact/Hint"), "Add a new contact");
 check("ticklers Sections keys", wiki.getTiddlerText("$:/language/hypergsd/Sections/Tickler/Label"), "Tickler date:");
-check("ticklers Lists keys", wiki.getTiddlerText("$:/language/hypergsd/Lists/UpcomingTicklers"), "Upcoming ticklers");
+check("ticklers Lists keys", wiki.getTiddlerText("$:/language/hypergsd/Lists/Ticklers/Upcoming"), "Upcoming ticklers");
 check("ticklers shift lingo pairs", [wiki.getTiddlerText("$:/language/hypergsd/Sections/Tickler/Shift/Week/Short"), wiki.getTiddlerText("$:/language/hypergsd/Sections/Tickler/Shift/Week/Hint")], ["+w", "Add 7 days"]);
 check("sub Context Sidebar keys", wiki.getTiddlerText("$:/language/hypergsd/Sidebar/Capture/DefaultContext/Label"), "Default context:&#x2004;");
 check("sub Context Sections keys", wiki.getTiddlerText("$:/language/hypergsd/Sections/Context/Label"), "Context:");

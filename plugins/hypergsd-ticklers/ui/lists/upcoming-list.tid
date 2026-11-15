@@ -1,0 +1,16 @@
+caption: {{$:/language/hypergsd/Settings/Lists/Ticklers/Upcoming/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/Ticklers/Upcoming/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/Ticklers/Upcoming
+tags: $:/tags/hypergsd/Lists/Ticklers
+title: $:/plugins/yan/hypergsd-ticklers/ui/lists/upcoming-list
+
+\whitespace trim
+
+<!-- Completed repeating ticklers roll to a future date and rest here between cycles — the due-day and overdue raise includes them regardless of completion, so no revival pass is needed. -->
+<!-- Today derives per member; the 17-digit UTC strings compare correctly as strings (the tickler-check idiom). -->
+<$let today=<<now "[UTC]YYYY0MM0DD000000000">>>
+<$hgsd.list
+  list-heading={{$:/language/hypergsd/Lists/Ticklers/Upcoming}}
+  list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]] :filter[get[gsd_tickler_date]compare:string:gt<today>] +[sort[gsd_tickler_date]]"
+  group-select="yes"/>
+</$let>

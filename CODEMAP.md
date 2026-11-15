@@ -28,7 +28,7 @@ logic is wikitext.
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
 | Main-plugin content | 235 files + `plugin.info` (217 tid + 17 multids + 1 js) |
-| Sub-plugin content | contacts 42 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 29 (23/4/1), trashbin 7 (5/1/0) — tid/multids/js |
+| Sub-plugin content | contacts 42 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 34 (29/4/1), trashbin 7 (5/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
@@ -501,7 +501,18 @@ plugins/hypergsd/
 │   in the row's centred flex layout — no popup), the alert body (title
 │   link; core-contract Complete checkbox; Alert-tag list shift members
 │   through the shared $hgsd.tickler-shift widget, base = now),
-│   GSD/Ticklers, and lingo in the shared namespaces. The ticklers plugin
+│   GSD/Ticklers (a chassis page over the sub-plugin's own
+│   $:/tags/hypergsd/Lists/Ticklers tag list — three date-split
+│   member lists: requiring-action/upcoming/old-ticklers, the last
+│   self-lazily collapsed inside its member; requiring-action claims
+│   each page's Portion/Top band, full width above the columns, and
+│   joins the main dashboard's Lists/Dashboard tag list pinned first
+│   via the empty list-before form — position zero in sortByList's
+│   pin pass, ahead of every list-field anchor, so a later-installed
+│   sub-plugin tops the dashboard without touching the core tag
+│   tiddler; a Settings drag deletes the field and a portion-picker
+│   move leaves the band, together handing placement to the user),
+│   and lingo in the shared namespaces. The ticklers plugin
 │   also ships its own review-sidebar entry (a Portion/7 member of the
 │   $:/tags/hypergsd/Review tag list), so core keeps no tickler branch
 │   in the sidebar. plugins/hypergsd-references ships the reference type +
@@ -1222,7 +1233,7 @@ enter/escape per-widget.
 Control panel (`$:/tags/ControlPanel/SettingsTab` → HyperGSD): General
 checkboxes + cleanup timeout; View placement radios; Dashboards grouping
 checkbox + per-dashboard list tabs — 9 from main + Contact page from the
-Contacts sub-plugin. Every draggable surface (list tabs, Panel and modal, Fragments,
+Contacts sub-plugin + Tickler dashboard from the Ticklers sub-plugin. Every draggable surface (list tabs, Panel and modal, Fragments,
 the Sidebar tab) calls the one shared procedure `hgsd-visibility-list(tag-list,
 visibility-base, item-template, portions, fold-visibility-base, bands)` (ui/components/visibility-list,
 $:/tags/Global — Global because the control panel renders outside the ViewTemplate
@@ -1561,7 +1572,7 @@ inline styles hoisted to classes (.hgsd-toolbar/.context-view-template/
   `$:/config/hypergsd/Lists/ContactAction/visibility/*` (seeded show via
   contact-action-list.multids), editable on Settings → Contact page (the
   sub-plugin ships a `$:/tags/hypergsd/Settings/List` tab; caption key
-  Settings/Pages/Contact/Caption). Realm scoping and grouping support
+  Settings/Pages/Contacts/Caption). Realm scoping and grouping support
   arrive free via the engine.
 - The References dashboard has no bespoke grouping machinery: its list
   (references-list) passes `group-select="yes"`/`sort-select="yes"`, so

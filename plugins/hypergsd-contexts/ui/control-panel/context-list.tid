@@ -1,4 +1,4 @@
-caption: {{$:/language/hypergsd/Settings/Pages/Context/Caption}}
+caption: {{$:/language/hypergsd/Settings/Pages/Contexts/Caption}}
 tags: $:/tags/hypergsd/Settings/List
 title: $:/plugins/yan/hypergsd-contexts/ui/control-panel/context-list
 

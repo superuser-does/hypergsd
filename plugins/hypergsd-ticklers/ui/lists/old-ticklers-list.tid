@@ -1,0 +1,21 @@
+caption: {{$:/language/hypergsd/Settings/Lists/Ticklers/Old/Caption}}
+description: {{$:/language/hypergsd/Settings/Lists/Ticklers/Old/Hint}}
+hgsd-heading: $:/language/hypergsd/Lists/Ticklers/Old
+tags: $:/tags/hypergsd/Lists/Ticklers
+title: $:/plugins/yan/hypergsd-ticklers/ui/lists/old-ticklers-list
+
+\whitespace trim
+
+<!-- The list carries its own disclosure (the default toggle state is per hosting page, the one prefix the dashboard chassis gate admits); this page is its only host, so no explicit state is needed. -->
+<!-- Today derives per member; the 17-digit UTC strings compare correctly as strings (the tickler-check idiom). -->
+<$let today=<<now "[UTC]YYYY0MM0DD000000000">>>
+<$hgsd.toggle
+  text={{$:/language/hypergsd/Lists/Ticklers/Old/Show}}
+  hide-text={{$:/language/hypergsd/Lists/Ticklers/Old/Hide}}
+  class="hgsd-completed-toggle">
+<$hgsd.list
+  list-heading={{$:/language/hypergsd/Lists/Ticklers/Old}}
+  list-filter="[tag[$:/GSD/Action]has[gsd_tickler_date]gsd_complete[true]] :filter[get[gsd_tickler_date]compare:string:lteq<today>] +[!nsort[gsd_comp_date]]"
+  group-select="yes"/>
+</$hgsd.toggle>
+</$let>

@@ -1,4 +1,4 @@
-caption: {{$:/language/hypergsd/Settings/Pages/Contact/Caption}}
+caption: {{$:/language/hypergsd/Settings/Pages/Contacts/Caption}}
 tags: $:/tags/hypergsd/Settings/Lists/Dashboard
 title: $:/plugins/yan/hypergsd-contacts/ui/control-panel/dashboards/contacts-dashboard-list
 

@@ -2,9 +2,17 @@ title: $:/language/hypergsd/Settings/
 
 # Ticklers additions to the shared Settings string namespace (same key space
 # as the main plugin; the sub-plugin owns only these keys).
+Lists/Ticklers/Requiring/Caption: Ticklers requiring action
+Lists/Ticklers/Requiring/Hint: Incomplete ticklers due today or overdue
+Lists/Ticklers/Upcoming/Caption: Upcoming ticklers
+Lists/Ticklers/Upcoming/Hint: Ticklers with a future due date, completed repeating ticklers included
+Lists/Ticklers/Old/Caption: Old ticklers
+Lists/Ticklers/Old/Hint: Completed ticklers past their due date, behind a toggle
 Fragments/Tickler/Caption: Tickler date
 Fragments/Tickler/Hint: The in-place due-date input on tickler rows
 Ticklers/Caption: Ticklers
 Ticklers/Heading: Date increment options
 Ticklers/Shift/Heading: Panel
 Ticklers/Alert/Heading: Alerts
+
+Pages/Ticklers/Caption: Tickler dashboard

@@ -82,26 +82,26 @@ const check = (name, got, want) => {
 // 1. Main dashboard: default composition and order (by-contact seeded hidden, completed in collapsed reveal; the roster left the dashboard with 4356189)
 check("main default composition",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Next actions", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
+  ["Ticklers requiring action", "Next actions", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
 
 // 2. Visibility toggle hides a list (checkbox state tiddler)
 wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd/ui/lists/future-project-list"), text: "hide"});
 check("hide Future projects via visibility",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Next actions", "Active projects", "Future actions", "Waiting actions"]);
+  ["Ticklers requiring action", "Next actions", "Active projects", "Future actions", "Waiting actions"]);
 wiki.deleteTiddler(vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd/ui/lists/future-project-list"));
 
 // 3. Seeded-hidden member appears when enabled (joins Portion/1 unlisted; the flat list stays Portion/2)
 wiki.addTiddler({title: vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact"), text: "show"});
 check("enable by-contact variant",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Next actions", "Waiting actions by contact", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
+  ["Ticklers requiring action", "Next actions", "Waiting actions by contact", "Active projects", "Future actions", "Future projects", "Waiting actions"]);
 wiki.deleteTiddler(vis("hypergsd/Lists/Dashboard", "$:/plugins/yan/hypergsd-contacts/ui/lists/waiting-action-list-by-contact"));
 
-// 4. Drag-reorder = tag tiddler list field write (core's drag deletes member
-// pins first; the by-contact pins stay inert here because those lists are
-// seeded hidden): future projects pinned first (within Portion/1; waiting keeps
-// its explicit Portion/2 tag, completed stay in the Full band)
+// 4. List-field write omitting the ticklers member: the shipped empty
+// list-before pin wins over the field (sortByList's pin pass runs last; the
+// by-contact pins stay inert here because those lists are seeded hidden;
+// waiting keeps its explicit Portion/2 tag, completed stay in the Full band)
 wiki.addTiddler({title: "$:/tags/hypergsd/Lists/Dashboard", list: [
   "$:/plugins/yan/hypergsd/ui/lists/future-project-list",
   "$:/plugins/yan/hypergsd/ui/lists/next-action-list",
@@ -110,9 +110,47 @@ wiki.addTiddler({title: "$:/tags/hypergsd/Lists/Dashboard", list: [
   "$:/plugins/yan/hypergsd/ui/lists/waiting-action-list",
   "$:/plugins/yan/hypergsd/ui/lists/completed-action-list",
   "$:/plugins/yan/hypergsd/ui/lists/completed-project-list"]});
-check("list-field reorder honored",
+check("shipped pin beats a list field that omits the member",
   render("GSD/Dashboard").filter(t => !t.includes("items")),
-  ["Future projects", "Next actions", "Active projects", "Future actions", "Waiting actions"]);
+  ["Ticklers requiring action", "Future projects", "Next actions", "Active projects", "Future actions", "Waiting actions"]);
+
+// 4a. A drag strips member pins (core's drop actions delete
+// list-before/list-after) and enlists every member into the written order —
+// but the Portion/Top claim survives a drag, so the band still owns
+// placement: the ticklers member stays above the columns mid-field-write
+wiki.addTiddler((() => {  // the drag's field strip copies every shadow field except the pin
+  const shadowFields = wiki.getTiddler("$:/plugins/yan/hypergsd-ticklers/ui/lists/requiring-action-list").fields;
+  const stripped = Object.assign({}, shadowFields);
+  delete stripped["list-before"];
+  return stripped;  // tags ride along, the Top claims included
+})());
+wiki.addTiddler({title: "$:/tags/hypergsd/Lists/Dashboard", list: [
+  "$:/plugins/yan/hypergsd/ui/lists/future-project-list",
+  "$:/plugins/yan/hypergsd/ui/lists/next-action-list",
+  "$:/plugins/yan/hypergsd-ticklers/ui/lists/requiring-action-list",
+  "$:/plugins/yan/hypergsd/ui/lists/active-project-list",
+  "$:/plugins/yan/hypergsd/ui/lists/future-action-list",
+  "$:/plugins/yan/hypergsd/ui/lists/waiting-action-list",
+  "$:/plugins/yan/hypergsd/ui/lists/completed-action-list",
+  "$:/plugins/yan/hypergsd/ui/lists/completed-project-list"]});
+check("Top claim keeps the member above a list-field drag",
+  render("GSD/Dashboard").filter(t => !t.includes("items")),
+  ["Ticklers requiring action", "Future projects", "Next actions", "Active projects", "Future actions", "Waiting actions"]);
+
+// 4b. A portion-picker move out of the band completes the override: pin gone,
+// band gone, the written order finally governs
+wiki.addTiddler((() => {
+  const shadowFields = wiki.getTiddler("$:/plugins/yan/hypergsd-ticklers/ui/lists/requiring-action-list").fields;
+  const moved = Object.assign({}, shadowFields);
+  delete moved["list-before"];
+  moved.tags = ["$:/tags/hypergsd/Lists/Dashboard", "$:/tags/hypergsd/Lists/Ticklers"];
+  return moved;
+})());
+check("dragged placement honored once pin and band are gone",
+  render("GSD/Dashboard").filter(t => !t.includes("items")),
+  ["Future projects", "Next actions", "Ticklers requiring action", "Active projects", "Future actions", "Waiting actions"]);
+wiki.deleteTiddler("$:/plugins/yan/hypergsd-ticklers/ui/lists/requiring-action-list"); // back to the shipped shadow (pin + Top restored)
+wiki.deleteTiddler("$:/tags/hypergsd/Lists/Dashboard"); // back to the shipped core list field
 
 // 5. Completed lists are self-lazy ($hgsd.toggle inside the members): collapsed
 // by default (button, no heading); each member passes an explicit state

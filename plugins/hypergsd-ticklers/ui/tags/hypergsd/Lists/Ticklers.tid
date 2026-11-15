@@ -1,0 +1,3 @@
+<!-- This list field orders the page's own members (always present together, so no absence hazard); the requiring-action member pins itself to the top via the empty list-before form and also joins $:/tags/hypergsd/Lists/Dashboard, where the same pin tops the main dashboard above the core list-field anchors. -->
+list: $:/plugins/yan/hypergsd-ticklers/ui/lists/upcoming-list $:/plugins/yan/hypergsd-ticklers/ui/lists/old-ticklers-list
+title: $:/tags/hypergsd/Lists/Ticklers

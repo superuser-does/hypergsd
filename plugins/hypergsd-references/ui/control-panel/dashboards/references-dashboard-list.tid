@@ -1,4 +1,4 @@
-caption: {{$:/language/hypergsd/Settings/Pages/Reference/Caption}}
+caption: {{$:/language/hypergsd/Settings/Pages/References/Caption}}
 tags: $:/tags/hypergsd/Settings/Lists/Dashboard
 title: $:/plugins/yan/hypergsd-references/ui/control-panel/dashboards/references-dashboard-list
 
