@@ -1,0 +1,4 @@
+caption: {{$:/language/ControlPanel/Settings/Caption}}
+title: $:/plugins/yan/hypergsd/settings
+
+{{$:/plugins/yan/hypergsd/ui/control-panel}}
