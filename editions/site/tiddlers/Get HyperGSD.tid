@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261114160000000
+modified: 20261115175056000
 modifier: Yannis Anthymidis
 title: Get HyperGSD
 type: text/vnd.tiddlywiki
@@ -9,21 +9,21 @@ type: text/vnd.tiddlywiki
 
 <div class="hgsd-install-columns">
   <div>
-    <h1>{{Add to an existing wiki!!title}}</h1>
-    <$transclude $tiddler="Add to an existing wiki" $mode="block" />
+    <h1>Add to an existing wiki</h1>
+    <$transclude $tiddler="Add HyperGSD to an existing wiki" $mode="block" />
     <h2>Install or update through the plugin library</h2>
     <$transclude $tiddler="HyperGSD plugin library" $mode="block" />
   </div>
   <div>
-    <h1>{{Download a full wiki!!title}}</h1>
-    <$transclude $tiddler="Download a full wiki" $mode="block" />
+    <h1>Download a full wiki</h1>
+    <$transclude $tiddler="Download a full wiki with HyperGSD" $mode="block" />
   </div>
   <div>
     <h1>{{Other plugins!!title}}</h1>
     <$transclude $tiddler="Other plugins" $mode="block" />
 </div>
   <div>
-  <h1>{{Source code and Node.js installation!!title}}</h1>
+  <h1>Source code and Node.js installation</h1>
   <$transclude $tiddler="Source code" $mode="block" />
   <h2>Alternative installation method for Node.js wikis</h2>
   <$transclude $tiddler="Install HyperGSD on Node.js" $mode="block" />

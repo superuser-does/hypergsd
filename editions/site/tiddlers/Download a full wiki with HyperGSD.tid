@@ -1,9 +1,9 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261114144444000
+modified: 20261115175107000
 modifier: Yannis Anthymidis
 tags: [[Get HyperGSD]]
-title: Download a full wiki
+title: Download a full wiki with HyperGSD
 type: text/vnd.tiddlywiki
 
 To start from a complete single-file TiddlyWiki (v{{$:/core!!version}}) instead of installing into an existing wiki, you can download one of these editions:
