@@ -96,6 +96,7 @@ wiki.addTiddler({title: "Host action", tags: ["$:/GSD/Action", "$:/GSD/Realm/Hom
 wiki.addTiddler({title: EDITPOP, text: "yes"});
 wiki.addTiddler({title: ADDTEMP, "hgsd-pick": "Second Person"});
 const r5 = render(pickFieldSrc, "Host action");
+t("editing state: create button says and change", has(r5.buttons, 'create Second Person and change'), JSON.stringify(r5.buttons));
 if (r5.createBtnWidget) fireActions(r5.createBtnWidget);
 t("editing state: created + linked + editor closed",
   !!wiki.getTiddler("Second Person") && wiki.getTiddler("Host action").fields.gsd_contact === "Second Person"

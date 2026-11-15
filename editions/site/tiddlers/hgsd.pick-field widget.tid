@@ -24,7 +24,7 @@ One commit affordance per pick state: blank shows the new cluster alone, a typed
 |new-type |(blank) |Enables the "new" button: type preselected in the modal; blank omits the button |
 |new-status |`next` |Status preselected by the "new" button |
 |new-update-status |`no` |Whether the new-item flow may update this tiddler's status |
-|new-button |`show` |`hide` suppresses the plain new-button fallback (hosts that cannot stack modals); shown only while the box is blank — typed non-existent picks still get create-and-add. The fallback links the created item back to this field through the [[panel-link stamp|hgsd.new-button widget]] and forwards the row target as the calling tiddler |
+|new-button |`show` |`hide` suppresses the plain new-button fallback (hosts that cannot stack modals); shown only while the box is blank — typed non-existent picks still get create-and-add. The fallback links the created item back to this field through the [[panel-link stamp|hgsd.new-button widget]] and forwards the row target as the calling tiddler. The create-and-add button reads "create «typed» and change" in the editing state (a value replacement) and "and add" in the empty state |
 |clear-button |`show` |`hide` suppresses the set state's icon-only clear button (tooltip from core's `Buttons/Clear/Caption`; the direct field-blanking control added 2026-09-27, replacing the "open the editor, leave it empty, save" path) |
 |realm-scope |`[subfilter<hgsd-realm-selection>]` |Passed through to the inner picker — an evaluated filter expression; see [[$hgsd.pick|hgsd.pick widget]] for the contract (`""` = everything, composable) |
 |panel-items |`show` |renders the [[Panel placement|Fragments]] between the value link and the change button; `hide` for none |

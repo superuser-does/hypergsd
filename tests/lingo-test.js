@@ -79,7 +79,7 @@ const fams = {
   "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 80,
   "$:/language/hypergsd/Dashboards/": 22, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 42, "$:/language/hypergsd/NewItem/": 5,
-  "$:/language/hypergsd/Widgets/": 13,
+  "$:/language/hypergsd/Widgets/": 17,
 };
 for (const fam in fams) check("family count " + fam.split("/")[3].toLowerCase(), famCount(fam), fams[fam]);
 

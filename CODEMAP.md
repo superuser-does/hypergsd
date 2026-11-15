@@ -92,7 +92,11 @@ plugins/hypergsd/
 │   │                            (every other type stays in place — the modal's
 │   │                            type rule, extended to pickers 2026-10-26);
 │   │                            label via $slot with English default, tooltip
-│   │                            param — i18n hooks)
+│   │                            param — i18n hooks; the lingo family branches on
+│   │                            close-state: the editing state (a value
+│   │                            replacement) reads "create «typed» and change"
+│   │                            (CreateChange/*), the empty state and list
+│   │                            rows keep "and add" (CreateAdd/*))
 │   ├── section-portions.tid     Global \procedure core hgsd-portions-core
 │   │                            behind the two thin wrappers
 │   │                            hgsd-section-portions (panel + modal chassis)
