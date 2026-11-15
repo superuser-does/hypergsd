@@ -1,0 +1,94 @@
+caption: GSD
+created: 20261026202307554
+creator: Yannis Anthymidis
+modified: 20261115222044783
+modifier: Yannis Anthymidis
+title: Drawers/GSD
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+\import $:/plugins/yan/hypergsd/modules/type-gate
+\import $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
+\import $:/core/ui/PageMacros
+
+<!-- Local shadow of the engine's row composer (hgsd-render-grouped calls it by name): identical except the contexts and contact-link fragments are withdrawn from the suffix loop only for this list, because the global visibility config would pull them off every dashboard. -->
+\procedure hgsd-item()
+<$refresh subfilter={{{ [function[hgsd-row-whitelist-expression]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix">
+<$let item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
+<div class="gsd-list-item">
+  <$list filter="[[$:/tags/hypergsd/Fragment/Row/Prefix]] :and[tagging[]]" variable="list-item">
+    <%if [[$:/config/hypergsd/Fragment/Row/Prefix/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
+      <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<list-item>addsuffix[/]addsuffix<item-type>get[text]else[show]match[hide]] %>
+        <!-- suppressed for this row type -->
+      <%else%>
+        <$transclude $tiddler=<<list-item>> />
+      <%endif%>
+    <%endif%>
+  </$list>
+  <$link class="gsd-list-item-title" to=<<currentTiddler>>><$view field="title"/></$link>
+  <$list filter="[[$:/tags/hypergsd/Fragment/Row/Suffix]] :and[tagging[]] -[[$:/plugins/yan/hypergsd-contexts/ui/list-items/context]] -[[$:/plugins/yan/hypergsd-contacts/ui/list-items/contact-link]]" variable="list-item">
+    <%if [[$:/config/hypergsd/Fragment/Row/Suffix/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
+      <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<list-item>addsuffix[/]addsuffix<item-type>get[text]else[show]match[hide]] %>
+        <!-- suppressed for this row type -->
+      <%else%>
+        <$transclude $tiddler=<<list-item>> />
+      <%endif%>
+    <%endif%>
+  </$list>
+  <$transclude $variable="hgsd-realm-warning" linked-tiddler=<<currentTiddler>>/>
+</div>
+</$let>
+</$refresh>
+\end
+
+<!-- The list engine ships View-scoped and the drawer mounts at page level, outside ViewTemplate imports — the two \import lines carry it here; everything Global (realm scoping, click handling, priority writes) resolves ambiently. -->
+<$let view-state-title="$:/config/hypergsd/list-view/GSD drawer actions/Actions"
+    priority-member="$:/plugins/yan/hypergsd-priorities/ui/group-by/priority"
+    project-member="$:/plugins/yan/hypergsd/ui/group-by/project"
+    effective-group={{{ [<view-state-title>get[hgsd-group]match<priority-member>then<priority-member>] [<view-state-title>get[hgsd-group]match<project-member>then<project-member>] [<priority-member>] +[first[1]] }}}>
+<!-- The grouping choice: exactly the two dimensions (the engine's strip always adds its leading None and the $hgsd.list chassis renders a heading block — hand-rolled radios keep it to two with no heading). Labels follow the engine's caption-driven resolution; the state tiddler is the engine's own view-state contract, so radio writes re-render through the config prefix run. -->
+<div class="hgsd-group-strip">
+    <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
+    <$radio tiddler=<<view-state-title>> field="hgsd-group" value=<<priority-member>> default=<<priority-member>>>
+        <span class="tc-tiny-gap-left"><$transclude $variable="hgsd-view-label" view-member=<<priority-member>> view-key-field="hgsd-group-key" view-lingo-base="$:/language/hypergsd/Lists/GroupBy/"/></span>
+    </$radio>
+    <$radio tiddler=<<view-state-title>> field="hgsd-group" value=<<project-member>>>
+        <span class="tc-tiny-gap-left"><$transclude $variable="hgsd-view-label" view-member=<<project-member>> view-key-field="hgsd-group-key" view-lingo-base="$:/language/hypergsd/Lists/GroupBy/"/></span>
+    </$radio>
+</div>
+
+<!-- The engine's outer derivation, inlined: open next/waiting actions, realm scoping from the review sidebar's selection, the future-project sweep. Row order is status → priority → title: the base filter title-sorts, each :sort run layers one key over the last (index-stable), the most significant key last — project groups thereby order next-then-waiting before priority. -->
+<$refresh subfilter={{{ [function[hgsd-list-outer-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip">
+<$let list-filter="[tag[$:/GSD/Action]gsd_complete[false]gsd_status[next]] [tag[$:/GSD/Action]gsd_complete[false]gsd_status[waiting]] +[sort[title]]"
+    future-items-visibility={{{ [[$:/config/hypergsd/dashboard-future-project-items]get[text]else[hide]] }}}>
+<$let all-titles={{{ [subfilter<list-filter>!is[draft]format:titlelist[]join[ ]] }}}
+    realm-scope-filter="[subfilter<hgsd-realm-selection>]"
+    sweep-guarded=":filter[get[gsd_project]get[gsd_status]else[active]match[active]]">
+<$let scope-list={{{ [subfilter<realm-scope-filter>] +[format:titlelist[]join[ ]] }}}
+    scope-base=<<all-titles>>
+    scope-tags={{{ [enlist<scope-list>!match[no-realm]format:titlelist[]join[ ]] }}}
+    sweep-run={{{ [<future-items-visibility>match[hide]then<sweep-guarded>] }}}
+    scope-include-run="[subfilter<hgsd-scope-include>]"
+    scope-exclude-run="[subfilter<hgsd-scope-exclude>]"
+    rows-filter={{{ [enlist<scope-list>match[no-realm]then<scope-include-run>else<scope-exclude-run>] [<sweep-run>] +[join[ ]] }}}
+    hgsd-titles={{{ [subfilter<rows-filter>] +[format:titlelist[]join[ ]] }}}
+    listState="$:/temp/gsd-list/GSD drawer actions-Actions">
+<$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>>>
+<$let group-filter={{{ [<effective-group>get[hgsd-group-filter]else[]] }}}
+    member-label-filter={{{ [<effective-group>get[hgsd-label-filter]else[]] }}}
+    show-ungrouped="yes"
+    sort-expression=":sort[get[gsd_priority]else[zz]] :sort[get[gsd_status]]">
+<<hgsd-render-grouped>>
+</$let>
+</$eventcatcher>
+</$let>
+</$let>
+</$let>
+</$refresh>
+</$let>
+<style>
+/* Core's sidebar chassis (tc-sidebar-lists tc-menu-list-item) forbids wrapping, and the row's fixed controls starve long titles: let drawer rows break members to a second line and titles wrap at word boundaries. Scoped to the left drawer — move the drawer and the scope follows only by editing here. */
+.etc-drawer-left .gsd-list-item:not(.gsd-panel) { flex-wrap: wrap; }
+.etc-drawer-left .gsd-list-item a.gsd-list-item-title { white-space: normal; min-width: 0; flex-shrink: 1; overflow-wrap: anywhere; }
+.etc-drawer-left .tc-tab-content a.gsd-list-item-title { color: <<colour tiddler-link-foreground>>; }
+</style>

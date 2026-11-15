@@ -1,0 +1,11 @@
+created: 20261115222347832
+creator: Yannis Anthymidis
+modified: 20261115222950374
+modifier: Yannis Anthymidis
+tags: [[Other plugins]]
+title: Drawers integration
+type: text/vnd.tiddlywiki
+
+The [[Drawers plugin|https://drawers.tiddlyhost.com/]] is an excellent way to get a quick view to your tasks, especially on mobile.
+
+You can import the self-contained [[Drawers/GSD]] to your wiki which is specially made for this purpose, and add it to either sidebar from the Drawers settings (''Appearance'' → ''Drawers'').

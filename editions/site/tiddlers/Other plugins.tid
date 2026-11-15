@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261115211201222
+modified: 20261115222419418
 modifier: Yannis Anthymidis
 tags: [[Get HyperGSD]]
 title: Other plugins
@@ -13,3 +13,7 @@ type: text/vnd.tiddlywiki
 !! Integration with Relink
 
 {{Relink configuration}}
+
+!! Integration with Drawers
+
+{{Drawers integration}}
