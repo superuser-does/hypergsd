@@ -1,0 +1,37 @@
+caption: 0.14.0
+created: 20261115213023921
+creator: Yannis Anthymidis
+modified: 20261115213906142
+modifier: Yannis Anthymidis
+released: 20261115214544447
+tags: [[Version history]]
+title: Version 0.14.0
+type: text/vnd.tiddlywiki
+
+!! Plugin changes
+
+!!! Key improvements
+
+* Portion layout moved from flex to grid so it responds better in //all// cases, like narrowing the window width but not going to the mobile view.
+* The contact filter search in `GSD/Contacts` now follows your settings on whether to instantly commit picker selections
+* The context creator in both the modal and fragments is now much easier to use, with a similar commit pattern and the ability to easily add/remove multiple contexts to an action
+* Fixed issue where creating a tiddler from the "new" button on the panel of a tiddler, did not make that tiddler not inherit the created project or "Depends on"
+*  If you install [[GSD/Ticklers]], "Ticklers requiring action" will now appear at the top of your dashboard.
+** The tickler dashboard was overhauled as part of this to not be standalone, and instead be based on tag list membership like most others
+* The new realm and context creator input are now styled like  tag pills, to indicate that you are creating tags
+
+!!! Other changes
+
+* Added title text tooltips explaining what <kbd>n</kbd>/<kbd>w</kbd>/<kbd>f</kbd> mean following [[forum feedback|https://talk.tiddlywiki.org/t/hypergsd-the-native-task-management-plugin/15958/6?u=yan]]
+* You can now add contacts directly from the "Contact list" heading of [[GSD/Contacts]]
+* All realms are now selected by default -- much more straightforward for new users
+* The button on the [[GSD/Contacts]] now helpfully says "add to filter", for avoidance of any doubt.
+* Tidied up the readme of [[HyperGSD Trashbin|$:/plugins/yan/hypergsd-trashbin]].<br>It will be rebadged to 1.0 in a future release if nothing changes.
+* Renamed some `lingo` keys (i.e. tiddler titles of user-facing text strings), so there may be some stray tiddlers left after you update most of the sub-plugins
+* For people who turn on ~CamelCase tiddler linking, plugin readmes, settings and the site have been updated to respect that setting
+
+!! Beyond the plugin
+
+* [[Relink configuration tiddlers|Relink configuration]] are now available on the main website
+* You can now [[download a wiki with HyperGSD included|Download a full wiki with HyperGSD]]
+* Made a [[HyperGSD plugin library|HyperGSD plugin library]] available on the site

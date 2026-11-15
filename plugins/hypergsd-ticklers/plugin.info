@@ -8,6 +8,6 @@
     "parent-plugin": "$:/plugins/yan/hypergsd",
     "dependents": ["$:/plugins/yan/hypergsd"],
     "list": "readme licence",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "stability":"STABILITY_1_EXPERIMENTAL"
 }
