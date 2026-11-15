@@ -3,7 +3,7 @@ title: Fragments
 tags: Documentation [[HyperGSD API]]
 
 ! Summary
-Add a fragment to HyperGSD by tagging a tiddler with a placement tag under the `$:/tags/hypergsd/Fragment/` root.
+Add a fragment to ~HyperGSD by tagging a tiddler with a placement tag under the `$:/tags/hypergsd/Fragment/` root.
 
 ! Detail
 A placement is a tag list under one of two families:

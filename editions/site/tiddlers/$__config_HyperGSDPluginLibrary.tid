@@ -3,4 +3,4 @@ tags: $:/tags/PluginLibrary
 url: https://superuser-does.github.io/hypergsd/library/pluginlibrary.html
 caption: HyperGSD plugin library
 
-The HyperGSD plugin library distributes the HyperGSD plugin family: the main plugin and its optional sub-plugins for contacts, contexts, priorities, references, ticklers and the trashbin. To register the library in another wiki, drag this link into it: [[HyperGSD plugin library|$:/config/HyperGSDPluginLibrary]]
+The ~HyperGSD plugin library distributes the ~HyperGSD plugin family: the main plugin and its optional sub-plugins for contacts, contexts, priorities, references, ticklers and the trashbin. To register the library in another wiki, drag this link into it: [[HyperGSD plugin library|$:/config/HyperGSDPluginLibrary]]

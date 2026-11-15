@@ -3,7 +3,7 @@ title: refresh widget
 tags: Documentation [[HyperGSD API]]
 
 ! Introduction
-The `<$refresh>` widget (JS module `$:/plugins/yan/hypergsd/modules/widgets/refresh.js`) freezes its children against TiddlyWiki's default refresh: they only re-render when a tiddler matching the `subfilter` whitelist changes. This is the plugin's core performance architecture — dashboards stay invisible to the CPU until a GSD item actually changes.
+The `<$refresh>` widget (JS module `$:/plugins/yan/hypergsd/modules/widgets/refresh.js`) freezes its children against ~TiddlyWiki's default refresh: they only re-render when a tiddler matching the `subfilter` whitelist changes. This is the plugin's core performance architecture — dashboards stay invisible to the CPU until a GSD item actually changes.
 
 The subfilter is evaluated with the widget as filter context, so whitelists can reference `<currentTiddler>`.
 

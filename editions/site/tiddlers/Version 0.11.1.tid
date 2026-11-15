@@ -7,6 +7,6 @@ modified: 20261112224944000
 modifier: Yannis Anthymidis
 released: 20260914215600000
 
-Fixed regression where HyperGSD where the active/future status of a project was not showing.
+Fixed regression where ~HyperGSD where the active/future status of a project was not showing.
 
-Due to the change, all future versions of HyperGSD will need a third point on their release version.
+Due to the change, all future versions of ~HyperGSD will need a third point on their release version.

@@ -8,7 +8,7 @@ A quick guide to the hgsd-refresh-whitelist considerations for anything a sub-pl
 
 ! How the freeze works
 
-HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when one of the ''changed'' tiddlers matches the gate's whitelist filter (an input-driven filter evaluated over the change set). Gates nest — the list engine has a derivation gate, a per-list gate and a ''row freeze''; the panel and modal have their own. Refresh is about VISUALS only: clicks reach the delegated event handler regardless of gates.
+~HyperGSD renders behind `<$refresh>` gates: a gated region only re-renders when one of the ''changed'' tiddlers matches the gate's whitelist filter (an input-driven filter evaluated over the change set). Gates nest — the list engine has a derivation gate, a per-list gate and a ''row freeze''; the panel and modal have their own. Refresh is about VISUALS only: clicks reach the delegated event handler regardless of gates.
 
 ! What is already covered
 
@@ -47,7 +47,7 @@ Rules: each entry is a single bracketed filter run, entries separated by spaces 
 
 ! Recursion safety
 
-The engine's own recursion guard counts widgets (a depth of 1000) while the browser's stack counts JS frames, and a HyperGSD level is expensive in frames: gate attribute evaluation, refreshSelf cascades and per-row executes mean the raw "maximum call stack size exceeded" surfaces at a widget depth of roughly 150–400 — before the engine's friendly recursion error can trip. The depth budget is tracked by the telemetry section of the headless benchmark (`node scripts/hypergsd-bench.js` in the wiki checkout); the shipped surfaces sit at ≤67% of it (worst: the dashboard chassis at 100), and an engine list rendered from inside a row fragment — the one nesting shape that would breach the budget — is unreachable through the data model: mount such a list at a page slot, as the context page does.
+The engine's own recursion guard counts widgets (a depth of 1000) while the browser's stack counts JS frames, and a ~HyperGSD level is expensive in frames: gate attribute evaluation, refreshSelf cascades and per-row executes mean the raw "maximum call stack size exceeded" surfaces at a widget depth of roughly 150–400 — before the engine's friendly recursion error can trip. The depth budget is tracked by the telemetry section of the headless benchmark (`node scripts/hypergsd-bench.js` in the wiki checkout); the shipped surfaces sit at ≤67% of it (worst: the dashboard chassis at 100), and an engine list rendered from inside a row fragment — the one nesting shape that would breach the budget — is unreachable through the data model: mount such a list at a page slot, as the context page does.
 
 * ''No `\define` in gate plumbing.'' `\function` and `\procedure` only: a `\define` whose body references another `\define` cycles through variable substitution with no engine guard, which is a direct stack overflow.
 * ''A whitelist admits only what the gated subtree reads.'' Never match a tiddler that any part of the subtree writes at render time — that is a refresh loop (write → change → gate opens → re-render → write). Action-time writes are what gates exist for; a render-time write inside a gated region is the bug.

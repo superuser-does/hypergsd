@@ -18,14 +18,14 @@ type: text/vnd.tiddlywiki
 
 !!! Picker and list refreshing
 
-To eliminate UI lag during typing and navigation, the filters in the panel dropdowns (Contact, Project, and Pre-requisite) have been stripped of all dynamic variables. This allows TiddlyWiki to aggressively cache them.
+To eliminate UI lag during typing and navigation, the filters in the panel dropdowns (Contact, Project, and Pre-requisite) have been stripped of all dynamic variables. This allows ~TiddlyWiki to aggressively cache them.
 
 * ''Broken links'': If you e.g. assign a contact to an action and then delete that contact tiddler entirely, the dropdown will display as blank (`-- none --`) because the engine no longer performs an expensive fallback search to find the missing title.
 
 !! Pre-requisites
 
-* A working TiddlyWiki with GSD5 data.
-* The ''HyperGSD'' plugin installed and the old GSD5 `core` plugin disabled.
+* A working ~TiddlyWiki with GSD5 data.
+* The ''~HyperGSD'' plugin installed and the old GSD5 `core` plugin disabled.
 
 !! Mandatory
 
@@ -93,11 +93,11 @@ Copy all "gsd_action" values to "gsd_prerequisites"
 </$action-confirm>
 </$button><br />Migrated realms should appear automatically in the [[capture|$:/plugins/yan/HyperGSD/ui/sidebar/capture-sidebar]] and [[review|$:/plugins/yan/HyperGSD/ui/sidebar/review-sidebar]] sidebars.
 
-''Why:'' Original GSD5 relied entirely on the `gsd_type` field to identify items. HyperGSD relies 100% on specific TiddlyWiki tags to leverage the internal tag index for instantaneous database lookups.
+''Why:'' Original GSD5 relied entirely on the `gsd_type` field to identify items. ~HyperGSD relies 100% on specific ~TiddlyWiki tags to leverage the internal tag index for instantaneous database lookups.
 
 
 
-''Why:'' HyperGSD uses tags for higher-performance filtering than fields.
+''Why:'' ~HyperGSD uses tags for higher-performance filtering than fields.
 
 !!! Migrate contexts
 
@@ -109,9 +109,9 @@ Copy all "gsd_action" values to "gsd_prerequisites"
 !!! Migrate ticklers
 
 ''Ticklers'' now live in the optional [[HyperGSD Ticklers|$:/plugins/yan/hypergsd-ticklers/readme]] sub-plugin. GSD5 ticklers were actions carrying `gsd_tickdate` (and optionally `gsd_tickdays`).
-The HyperGSD sub-plugin reads the same data from renamed fields:
+The ~HyperGSD sub-plugin reads the same data from renamed fields:
 
-|GSD5 |HyperGSD |h
+|GSD5 |~HyperGSD |h
 |`gsd_tickdate` |`gsd_tickler_date` |
 |`gsd_tickdays` |`gsd_tickler_repeat_days` |
 
@@ -165,11 +165,11 @@ Use this button, which will not update timestamps:
     </$action-confirm>
 </$button>
 
-''Why:'' HyperGSD relies entirely on tags for identity and categorisation, making these legacy fields completely redundant. Removing them reduces tiddler weight and keeps the database clean.
+''Why:'' ~HyperGSD relies entirely on tags for identity and categorisation, making these legacy fields completely redundant. Removing them reduces tiddler weight and keeps the database clean.
 
 !!! Update dashboard titles
 
 * Rename your primary dashboards (e.g. rename `Action Dashboard` to `GSD/Action Dashboard`).
 * Ensure your sidebar links or any custom shortcuts are updated to point to the new `GSD/` prefixed titles.
 
-''Why:'' To keep the main tiddler list clean, HyperGSD has all built-in dashboards prefixed with `GSD/`.
+''Why:'' To keep the main tiddler list clean, ~HyperGSD has all built-in dashboards prefixed with `GSD/`.

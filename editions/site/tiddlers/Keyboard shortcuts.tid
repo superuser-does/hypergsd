@@ -6,7 +6,7 @@ tags: Documentation [[HyperGSD API]]
 Bind keyboard shortcuts to modal actions using the core `$:/tags/KeyboardShortcut` tag.
 
 ! Detail
-HyperGSD ships four shortcut triggers, each a tiddler tagged `$:/tags/KeyboardShortcut` with a `key` field naming a shortcut definition in `$:/config/ShortcutInfo/`:
+~HyperGSD ships four shortcut triggers, each a tiddler tagged `$:/tags/KeyboardShortcut` with a `key` field naming a shortcut definition in `$:/config/ShortcutInfo/`:
 
 | !Trigger | !Shortcut tiddler | !Action |
 |`ui/shortcuts/new-action-trigger` |`((hgsd-new-action))` |Open the new-item modal for an action (clears inherited project, focuses the title field) |

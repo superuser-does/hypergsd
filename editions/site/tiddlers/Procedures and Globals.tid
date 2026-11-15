@@ -2,7 +2,7 @@ caption: Procedures and Globals
 tags: Documentation [[HyperGSD API]]
 title: Procedures and Globals
 
-Besides widgets, HyperGSD exports procedures on the `$:/tags/Global` tag (plus shared components under `$:/plugins/yan/hypergsd/ui/components/` and chassis procedures in `modules/section-portions`). They are implementation surfaces you can call from custom content, but their parameter contracts are internal — unlike widgets, they may change between releases.
+Besides widgets, ~HyperGSD exports procedures on the `$:/tags/Global` tag (plus shared components under `$:/plugins/yan/hypergsd/ui/components/` and chassis procedures in `modules/section-portions`). They are implementation surfaces you can call from custom content, but their parameter contracts are internal — unlike widgets, they may change between releases.
 
 ! Globals
 

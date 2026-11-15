@@ -13,9 +13,9 @@ Most API documentation was written during development by AI. While it is accurat
 
 </aside>
 
-The HyperGSD API gives plugin and content authors a way to integrate with the HyperGSD, without editing shadow tiddlers.
+The ~HyperGSD API gives plugin and content authors a way to integrate with the ~HyperGSD, without editing shadow tiddlers.
 
-HyperGSD generally uses ''tags'' beginning with `$:/GSD/` to represent types and realms. An exception is the `GSD/Contexts` tag (the dashboard tiddler), which is tagged on all [[HyperGSD Contexts|$:/plugins/yan/hypergsd-contexts]].
+~HyperGSD generally uses ''tags'' beginning with `$:/GSD/` to represent types and realms. An exception is the `GSD/Contexts` tag (the dashboard tiddler), which is tagged on all [[HyperGSD Contexts|$:/plugins/yan/hypergsd-contexts]].
 
 <div class="tc-table-of-contents">
 <<toc "HyperGSD API">>

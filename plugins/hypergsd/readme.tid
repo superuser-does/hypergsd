@@ -1,8 +1,8 @@
 title: $:/plugins/yan/hypergsd/readme
 
-This is the main HyperGSD plugin, enabling you to manage your tasks better.
+This is the main ~HyperGSD plugin, enabling you to manage your tasks better.
 
-HyperGSD is highly customisable. Out of the box, it provides a two-part way of organising your work, with discrete "Capture" (collecting tasks) and "Review" (sorting and prioritising tasks) steps.
+~HyperGSD is highly customisable. Out of the box, it provides a two-part way of organising your work, with discrete "Capture" (collecting tasks) and "Review" (sorting and prioritising tasks) steps.
 You can find tools for both these processes in the sidebar.
 
 The plugin provides:
@@ -10,7 +10,7 @@ The plugin provides:
 * Actions (tagged <<tag-pill $:/GSD/Action>>)
 * Projects, which can contain actions or other projects (tagged <<tag-pill $:/GSD/Project>>)
 * Realms, to help compartmentalise different domains of interest. Realms are simple tags (in the format of <<tag-pill "$:/GSD/Realm/<RealmName>">>), with the ability to select the realm(s) you are operating in from the //Review// sidebar tab
-* Several dashboards which can be found in the "Review" sidebar. These are mainly composed from re-usable lists that you can configure in HyperGSD's list settings.
+* Several dashboards which can be found in the "Review" sidebar. These are mainly composed from re-usable lists that you can configure in ~HyperGSD's list settings.
 * Cleanup dashboards
 * A platform for expansion with sub-plugins and beyond.
 

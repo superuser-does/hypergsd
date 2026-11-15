@@ -30,7 +30,7 @@ The convert-warning contract is the one special case: a fragment's `warning` fie
 
 ! Translations
 
-Not yet — the core language switcher only activates the selected language plugin and its `dependents`, so a plugin's strings have no supported way to ride the switch. Once upstream bundled sub-plugins land (TiddlyWiki5 PR #8957, targeted v5.5.0), translations ship as language sub-plugins inside the main plugin (`languages/<code>/` with its own `plugin.info`), automatically activated when their language is selected, with these English shadows as the per-key fallback. Until then the `.multids` structure above is already the shape that mechanism overrides.
+Not yet — the core language switcher only activates the selected language plugin and its `dependents`, so a plugin's strings have no supported way to ride the switch. Once upstream bundled sub-plugins land (~TiddlyWiki5 PR #8957, targeted v5.5.0), translations ship as language sub-plugins inside the main plugin (`languages/<code>/` with its own `plugin.info`), automatically activated when their language is selected, with these English shadows as the per-key fallback. Until then the `.multids` structure above is already the shape that mechanism overrides.
 
 ! Notes for this codebase
 

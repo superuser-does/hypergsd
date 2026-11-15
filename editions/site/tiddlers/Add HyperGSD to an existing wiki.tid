@@ -5,7 +5,7 @@ modifier: Yannis Anthymidis
 title: Add HyperGSD to an existing wiki
 type: text/vnd.tiddlywiki
 
-Drag-and-drop the ''main HyperGSD plugin'' to your wiki to install:
+Drag-and-drop the ''main ~HyperGSD plugin'' to your wiki to install:
 
 <$let qualified-state=<<qualify "$:/state/plugin">> default-popup-state="yes">
 {{$:/plugins/yan/hypergsd||$:/core/ui/Components/plugin-info}}

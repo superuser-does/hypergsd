@@ -1,7 +1,7 @@
 title: $:/plugins/yan/hypergsd-contexts/readme
 type: text/vnd.tiddlywiki
 
-''HyperGSD Contexts'' is a sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds the //Context// type and has the following benefits:
+''~HyperGSD Contexts'' is a sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds the //Context// type and has the following benefits:
 
 * Offers easy ways to enter context on GSD tiddlers
 * Offers dashboards and grouping mechanisms to look through your actions/projects by context:

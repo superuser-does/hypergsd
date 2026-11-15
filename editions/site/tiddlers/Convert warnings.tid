@@ -14,7 +14,7 @@ Tag a tiddler with `$:/tags/hypergsd/Convert/Warning` to extend the message show
 The `conditions` filter runs with the variable `host-title` set to the action being converted. It is evaluated through `subfilter`, which passes its incoming source through — the tag-list member itself — so a `conditions` filter must start with a selection operator (`all[tiddlers]` or similar); starting with `tag[]` or another filtering operator would filter the member and return nothing. Ship the fragment from your plugin and it is gated on your plugin's presence automatically — no fragment, no warning.
 
 ! Example
-The HyperGSD Contacts sub-plugin ships this fragment (`$:/plugins/yan/hypergsd-contacts/modules/convert-warnings/contact`):
+The ~HyperGSD Contacts sub-plugin ships this fragment (`$:/plugins/yan/hypergsd-contacts/modules/convert-warnings/contact`):
 
 ```
 title: $:/plugins/MyPlugin/convert-warnings/stale

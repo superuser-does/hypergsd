@@ -2,7 +2,7 @@ title: $:/plugins/yan/hypergsd-ticklers/readme
 type: text/vnd.tiddlywiki
 modified: 20261112195909000
 
-A ''HyperGSD tickler'' is a reminder you can attach to a HyperGSD action. You pick a date for it. When the date arrives, an alert appears with a link to the action. You can also set the tickler to repeat every //n// days.
+A ''~HyperGSD tickler'' is a reminder you can attach to a ~HyperGSD action. You pick a date for it. When the date arrives, an alert appears with a link to the action. You can also set the tickler to repeat every //n// days.
 
 ! The alert banner
 
@@ -12,7 +12,7 @@ Completing or deferring also closes the banner. If you just close the banner, it
 
 ! The tickler check
 
-The check runs when the wiki loads, every hour at <samp>hh:00</samp>, and at local midnight. It only runs in an open browser. There is no timer if TiddlyWiki is run on a server.
+The check runs when the wiki loads, every hour at <samp>hh:00</samp>, and at local midnight. It only runs in an open browser. There is no timer if ~TiddlyWiki is run on a server.
 
 If the wiki was closed on a due date, the banner will appear again the next time that you open the wiki.
 
@@ -32,12 +32,12 @@ The [[GSD/Ticklers]] dashboard lists ticklers in three sections:
 
 ! Settings
 
-You can switch the date-shift buttons (<kbd>+d</kbd>, <kbd>+w</kbd>, etc) on or off in Settings → HyperGSD → [[Ticklers|$:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers]]. The buttons beside the tickler date and the buttons on the banner are set separately.
+You can switch the date-shift buttons (<kbd>+d</kbd>, <kbd>+w</kbd>, etc) on or off in Settings → ~HyperGSD → [[Ticklers|$:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers]]. The buttons beside the tickler date and the buttons on the banner are set separately.
 
 ! Fields
 
 |Field |Meaning |h
-|`gsd_tickler_date` |When the tickler fires, as a TiddlyWiki UTC date string at midnight |
+|`gsd_tickler_date` |When the tickler fires, as a ~TiddlyWiki UTC date string at midnight |
 |`gsd_tickler_date_history` |Every date the tickler has had, oldest first. The last entry is the current date. The plugin does not display this list anywhere. |
 |`gsd_tickler_repeat_days` |How many days between repeats. Zero or empty means the tickler does not repeat. It alerts only on its due date. |
 
@@ -72,6 +72,6 @@ As with a change of date through the widget, every shift is also recorded on the
 
 ---
 
-Idea based on the [[GSD5 ticklers extension|https://gitlab.com/gsd5-tiddlywiki/gsd5-ticklers]] by Roma Hicks, reworked from scratch for HyperGSD.
+Idea based on the [[GSD5 ticklers extension|https://gitlab.com/gsd5-tiddlywiki/gsd5-ticklers]] by Roma Hicks, reworked from scratch for ~HyperGSD.
 
 [[HyperGSD website|https://superuser-does.github.io/hypergsd/]] · [[Plugin source code|https://github.com/superuser-does/hypergsd/tree/main/plugins/hypergsd-ticklers]]

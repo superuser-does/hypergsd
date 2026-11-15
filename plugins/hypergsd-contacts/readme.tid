@@ -1,14 +1,14 @@
 title: $:/plugins/yan/hypergsd-contacts/readme
 type: text/vnd.tiddlywiki
 
-''HyperGSD Contacts'' is a sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds the //Contact// type and easy ways to enter it. You can use contacts to track actions for companies, people and even animals.
+''~HyperGSD Contacts'' is a sub-plugin of [[HyperGSD|$:/plugins/yan/hypergsd]] that adds the //Contact// type and easy ways to enter it. You can use contacts to track actions for companies, people and even animals.
 
 While contacts are normally individuals, you can name a group of people, an organisation or even an animal as a contact. How you use it is up to you.
 
 Contacts are tagged with <<tag-pill $:/GSD/Contact>>. A single contact can be added to any action in the `gsd_contact` field, indicating that a contact is related to the action at hand.
 If you feel you need more than one contact for an action, consider breaking down the action into further actions.
 
-Contacts may be added to realms through the regular HyperGSD mechanism for that, to help you compartmentalise your life and work.
+Contacts may be added to realms through the regular ~HyperGSD mechanism for that, to help you compartmentalise your life and work.
 
 The plugin also provides the [[GSD/Contacts]] dashboard which lets you easily add contacts, as well as filter by multiple contacts at the same time -- for example, if you have a meeting or gathering where you can progress different actions with your contacts.
 

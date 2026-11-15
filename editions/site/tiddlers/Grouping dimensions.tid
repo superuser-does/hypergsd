@@ -30,4 +30,4 @@ group-members="[subfilter<hgsd-group-default>] [[…MyStuff/group-by/stakeholder
 group-members="[subfilter<hgsd-group-default>] -[[…ui/group-by/realm]]"
 ``` State lives per list instance at `$:/config/hypergsd/list-view/<host tiddler>/<list heading>` (persistent), shared with the `sort` field of [[the SortBy tag list|Sorting dimensions]].
 
-Shipped members: Projects (`hgsd-types: action project reference`) and Realms (core, universal), Contacts (HyperGSD-Contacts, actions), Contexts (HyperGSD-Contexts, actions).
+Shipped members: Projects (`hgsd-types: action project reference`) and Realms (core, universal), Contacts (~HyperGSD-Contacts, actions), Contexts (~HyperGSD-Contexts, actions).

@@ -22,4 +22,4 @@ A context describes where or how an action happens. Unlike the other types, cont
 The context view template shows the context's actions; the Contexts dashboard lists every listed context.
 
 ! Best Practice
-List a context by tagging its tiddler with `GSD/Contexts` (or typing its name on the [[GSD/Contexts]] dashboard) — an unlisted tag still works as a plain TiddlyWiki tag but stays invisible to the pickers and dashboards.
+List a context by tagging its tiddler with `GSD/Contexts` (or typing its name on the [[GSD/Contexts]] dashboard) — an unlisted tag still works as a plain ~TiddlyWiki tag but stays invisible to the pickers and dashboards.

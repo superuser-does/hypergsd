@@ -2,9 +2,9 @@ caption: Widgets
 tags: Documentation [[HyperGSD API]]
 title: Widgets
 
-HyperGSD uses custom wikitext widgets to drive behaviour. All are defined in `$:/plugins/yan/hypergsd/modules/widgets/`, and called with the standard TiddlyWiki element syntax `<$widget>`. Most carry the `$:/tags/Global` tag (resolvable everywhere); `$hgsd.list` and `$hgsd.convert` are `$:/tags/Global/View` (ViewTemplate subtree + edit preview only — anything reachable from a modal must stay Global).
+~HyperGSD uses custom wikitext widgets to drive behaviour. All are defined in `$:/plugins/yan/hypergsd/modules/widgets/`, and called with the standard ~TiddlyWiki element syntax `<$widget>`. Most carry the `$:/tags/Global` tag (resolvable everywhere); `$hgsd.list` and `$hgsd.convert` are `$:/tags/Global/View` (ViewTemplate subtree + edit preview only — anything reachable from a modal must stay Global).
 
-! HyperGSD Widgets
+! ~HyperGSD Widgets
 
 ;[[$hgsd.list|hgsd.list widget]]
 :Realm-aware, refresh-frozen list engine used by every dashboard. See its own page for the full parameter table and examples.

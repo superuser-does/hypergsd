@@ -15,6 +15,6 @@ CreateChange/HintA: Create tiddler
 CreateChange/HintB: and change it
 CreateChange/LabelA: create&#x20;
 CreateChange/LabelB: &#x20;and change
-NewButtonDefault: New HyperGSD Tiddler
+NewButtonDefault: New ~HyperGSD Tiddler
 RealmPickerNone: -- no realm --
 RealmWarning/Hint: Outside your realm selection
