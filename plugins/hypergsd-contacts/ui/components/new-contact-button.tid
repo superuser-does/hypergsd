@@ -1,0 +1,14 @@
+tags: $:/tags/Global/View
+title: $:/plugins/yan/hypergsd-contacts/ui/components/new-contact-button
+
+\whitespace trim
+
+<!-- Scope: $:/tags/Global/View — consumer is the Contacts page roster (the $hgsd.list add-button slot). Blank gsd-project/gsd-realm mean "no inheritance"; realm flows through the modal's effective-realm state. Global-tagged: full-path transclusions only — importvariables flattens this scope, so a lingo-base here would leak into every importer. -->
+\procedure new-contact-button()
+<$hgsd.new-button
+  gsd-type="contact"
+  tooltip={{$:/language/hypergsd/Lists/Add/Contact}}
+  class="gsd-list-new-button tc-btn-invisible" >
+  {{$:/core/images/new-button}}
+</$hgsd.new-button>
+\end

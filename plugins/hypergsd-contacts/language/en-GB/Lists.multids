@@ -5,6 +5,7 @@ title: $:/language/hypergsd/Lists/
 # and Remove/HintB sandwich the contact title in the entry's × tooltip (the
 # CreateAdd two-string pattern).
 Contacts: Contact list
+Add/Contact: add new contact
 NextByContact: Next actions by contact
 WaitingByContact: Waiting actions by contact
 FutureByContact: Future actions by contact

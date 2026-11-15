@@ -76,7 +76,7 @@ check("override removed", render("$:/plugins/yan/hypergsd/ui/control-panel/view-
 const famCount = (prefix) => wiki.filterTiddlers("[all[shadows]prefix[" + prefix + "]]").length;
 const fams = {
   "$:/language/hypergsd/Settings/": 164, "$:/language/hypergsd/Sections/": 76,
-  "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 81,
+  "$:/language/hypergsd/Convert/": 5, "$:/language/hypergsd/Lists/": 82,
   "$:/language/hypergsd/Dashboards/": 23, "$:/language/hypergsd/Toolbar/": 12,
   "$:/language/hypergsd/Sidebar/": 42, "$:/language/hypergsd/NewItem/": 5,
   "$:/language/hypergsd/Widgets/": 17,
@@ -96,6 +96,7 @@ check("sub Context Sidebar keys", wiki.getTiddlerText("$:/language/hypergsd/Side
 check("sub Context Sections keys", wiki.getTiddlerText("$:/language/hypergsd/Sections/Context/Label"), "Context:");
 check("references Settings keys", wiki.getTiddlerText("$:/language/hypergsd/Settings/References/Placement/Caption"), "Reference tiddlers");
 check("references Lists keys", wiki.getTiddlerText("$:/language/hypergsd/Lists/Add/Reference"), "add new reference");
+check("contacts Lists add key", wiki.getTiddlerText("$:/language/hypergsd/Lists/Add/Contact"), "add new contact");
 check("references Sidebar keys", wiki.getTiddlerText("$:/language/hypergsd/Sidebar/Capture/NewReference/Label"), "new reference");
 check("portion band labels", [wiki.getTiddlerText("$:/language/hypergsd/Settings/PanelModal/PortionTop"), wiki.getTiddlerText("$:/language/hypergsd/Settings/PanelModal/PortionFull")], ["Top, full-width", "Bottom, full-width"]);
 check("tag-basis note lingo", [wiki.getTiddlerText("$:/language/hypergsd/Settings/TagBasis/Prompt"), wiki.getTiddlerText("$:/language/hypergsd/Settings/TagBasis/Portions")], ["Tiddlers tagged with", "Portions are the layout slots an entry renders in. Each portion is a tag named by adding a suffix -- such as `/Portion/1` or `/Portion/Top`, to this tag"]);

@@ -212,6 +212,30 @@ check("contacts page: combined list hidden",
   ["Contact list"]);
 wiki.deleteTiddler(vis("hypergsd/Lists/Contact", "$:/plugins/yan/hypergsd-contacts/ui/lists/contact-filtered-action-list"));
 
+// 8a. Roster quick-add: the Contact list heading carries the shared
+// new-contact-button (the add-button slot) and it opens the new-GSD modal
+// with the contact type — the only gsd-list-new-button on the page
+{
+  const w = wiki.makeWidget(wiki.parseText("text/vnd.tiddlywiki", G + '\n\n<$transclude $tiddler="GSD/Contacts" />\n\n</$importvariables>'), {document: doc, parentWidget: $tw.rootWidget, variables: {currentTiddler: "GSD/Test"}});
+  const c = doc.createElement("div"); w.render(c);
+  let addBtn = null;
+  (function f(n) {
+    if (addBtn || !n || typeof n !== "object") return;
+    if (Array.isArray(n)) return n.forEach(f);
+    if (n.parseTreeNode && n.parseTreeNode.tag === "$button" && n.domNodes && n.domNodes[0] && ((n.domNodes[0].attributes || {}).class || "").indexOf("gsd-list-new-button") !== -1) { addBtn = n; return; }
+    (n.children || []).forEach(f);
+  })(w);
+  check("contacts roster: new-contact button rendered", [!!addBtn, addBtn && addBtn.domNodes[0].attributes.title], [true, "add new contact"]);
+  let modalParams = null;
+  const origDispatch = $tw.rootWidget.dispatchEvent.bind($tw.rootWidget);
+  $tw.rootWidget.dispatchEvent = function(ev) { if (ev.type === "tm-modal") modalParams = ev.paramObject; return origDispatch(ev); };
+  addBtn.invokeActions(addBtn, {type: "click"});
+  $tw.rootWidget.dispatchEvent = origDispatch;
+  check("contacts roster: button opens the new-GSD modal as contact type",
+    [modalParams && modalParams["gsd-type"], (wiki.getTiddler("$:/temp/gsd-new-state") || {fields: {}}).fields["hgsd-type"]],
+    ["contact", "contact"]);
+}
+
 // 8b. Portion claims on the Contact surface: the Contacts page runs the shared
 // chassis, so Portion/2 members land in a second .hgsd-portion-columns child
 // (the old hand-rolled loop ignored claims — a settings promise the page broke)

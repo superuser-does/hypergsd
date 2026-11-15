@@ -31,7 +31,7 @@ logic is wikitext.
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
 | Main-plugin content | 235 files + `plugin.info` (217 tid + 17 multids + 1 js) |
-| Sub-plugin content | contacts 41 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 34 (29/4/1), trashbin 7 (5/1/0) — tid/multids/js |
+| Sub-plugin content | contacts 42 files (33/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 34 (29/4/1), trashbin 7 (5/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; the API documentation set lives as flat-titled content tiddlers in the site edition's `editions/site/tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
@@ -423,7 +423,10 @@ same resolved key; a
 │   derived intersect gate into its list-filter — an empty selection
 │   drops the gate and shows every contacted action; the roster
 │   (contact-list) claims Portion/Full on that page (heading "Contact
-│   list") and keeps its own strip controls; the by-contact trio stays in
+│   list"), keeps its own strip controls and carries the shared
+│   new-contact-button (ui/components) in its add-button slot — the roster
+│   heading's plus opens the new-GSD modal with the contact type, no
+│   project/realm pre-fill; the by-contact trio stays in
 │   the plugin untagged from the Contact tag list (available-but-hidden on
 │   the main Dashboard, titles intact for external references); the Contact
 │   tag tiddler ships there too, roster first; the Contacts PAGE renders
@@ -637,7 +640,8 @@ same resolved key; a
 │   EditTemplate imports NOTHING extra, so edit-mode chrome sees only
 │   Global; there is no Global/Page tag). Global/View-tagged: hgsd-list,
 │   hgsd-convert, view-body-slot, both view-body-*-buttons files, type-gate
-│   (the References sub-plugin adds new-reference-button to this scope).
+│   (the References sub-plugin adds new-reference-button, Contacts
+│   new-contact-button, to this scope).
 │   Staying Global — modal-blocked: hgsd-pick/-pick-field,
 │   create-and-add, run-after-create, realm-scopes, status-radios,
 │   event-handler; chrome-blocked: hgsd-new-button (capture sidebar +

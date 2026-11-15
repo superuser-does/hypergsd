@@ -9,4 +9,5 @@ title: $:/plugins/yan/hypergsd-contacts/ui/lists/contact-list
   list-filter="[tag[$:/GSD/Contact]]"
   group-select="yes"
   sort-select="yes"
-  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"/>
+  sort-default="$:/plugins/yan/hypergsd/ui/sort-by/title-asc"
+  add-button=<<new-contact-button>>/>
