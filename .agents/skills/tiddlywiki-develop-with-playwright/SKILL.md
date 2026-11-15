@@ -6,7 +6,7 @@ tools: ['bash']
 
 Work locally first; a deployed wiki is only for final verification. Try the steps in order and move to the next only when the current one cannot answer the question:
 
-1. **Edit sources locally** — plugin tiddlers in the plugin repository's `plugins/<name>/` folders; wiki content tiddlers in the wiki folder's `tiddlers/` directory (this repo: `editions/site/tiddlers/`).
+1. **Edit sources locally** — plugin tiddlers in the plugin repository's `plugins/<name>/` folders; wiki content tiddlers in the wiki folder's `tiddlers/` directory.
 2. **Verify headlessly** (fast, no browser) — parse checks and behaviour tests in node.
 3. **Verify in the browser locally** — a local server + Playwright.
 4. **Verify on a deployed server** (rarely) — final confirmation only.
@@ -14,8 +14,8 @@ Work locally first; a deployed wiki is only for final verification. Try the step
 Things you SHOULD AVOID:
 
 1. DO NOT read or edit a saved single-file wiki (`index.html` and friends) directly — it is an export, not a source.
-2. DO NOT use `$tw.wiki.addTiddler()` to modify **plugin** tiddlers on a running wiki — in-memory edits are ephemeral and, if saved, become shadow tiddlers that override the plugin files. Edit the source file under the root `plugins/` instead (never the generated `editions/site/plugins/` copy), then re-stage and restart the server (rule below).
-3. DO NOT change the `modified` timestamp, or alter the content, of any real tiddler in `editions/site/tiddlers/` while testing. Test with scratch tiddlers and delete them when done.
+2. DO NOT use `$tw.wiki.addTiddler()` to modify **plugin** tiddlers on a running wiki — in-memory edits are ephemeral and, if saved, become shadow tiddlers that override the plugin files. Edit the source file under the plugin repository's root `plugins/` instead (never a staged or generated copy inside a wiki's `plugins/` folder), then restart the server (rule below).
+3. DO NOT change the `modified` timestamp, or alter the content, of any real tiddler in the wiki's `tiddlers/` folder while testing. Test with scratch tiddlers and delete them when done.
 
 ## How to read TiddlyWiki docs
 
@@ -123,12 +123,11 @@ Caveats from real test runs:
 
 ## Step 3: local browser testing
 
-A TiddlyWiki node-server folder serves itself, and plugins auto-load: every subfolder of the wiki's `plugins/` directory is included as a plugin (no `tiddlywiki.info` changes needed). The site edition's `plugins/` is a staged copy of the repository root's `plugins/` — `npm run serve` and `npm run build:site` refresh it.
+A TiddlyWiki node-server folder serves itself, and plugins auto-load: every subfolder of the wiki's `plugins/` directory is included as a plugin (no `tiddlywiki.info` changes needed). A repository that keeps its plugin sources outside the wiki stages them into that folder — the hypergsd repository's workflow is in the hypergsd-maintenance skill.
 
 ```bash
-# start the local server (from the repository root)
-npm run serve
-# equivalent to: rm -rf editions/site/plugins && cp -r plugins editions/site/plugins && tiddlywiki ./editions/site --listen
+# start the local server (from the wiki folder)
+tiddlywiki . --listen
 
 # open a headed session (user can watch)
 playwright-cli -s=local open http://localhost:8080/ --headed
@@ -142,7 +141,7 @@ against the stale wiki (the nohup log is the only witness):
 
 ```bash
 # start detached for a review session
-(nohup npm run serve > /tmp/hypergsd-serve.log 2>&1 &)
+(nohup tiddlywiki . --listen > /tmp/tw-serve.log 2>&1 &)
 sleep 6 && curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/   # expect 200
 
 # kill it at the end of the session — match the node binary path, never a
@@ -162,9 +161,9 @@ playwright-cli -s=local run-code 'async page => {
 }'
 ```
 
-**Restart rule:** any change made through the filesystem (editing a `.tid`, saving from your editor) requires a server restart before the wiki serves it. This includes the `editions/site/plugins/` copy: a plugin source edit needs a re-stage (`rm -rf editions/site/plugins && cp -r plugins editions/site/plugins`) plus a restart. Changes made through TiddlyWiki's own UI are saved into `editions/site/tiddlers/` live and need no restart.
+**Restart rule:** any change made through the filesystem (editing a `.tid`, saving from your editor) requires a server restart before the wiki serves it. This includes any staged plugin copy inside the wiki's `plugins/` folder: re-stage it first, then restart (the hypergsd repository's staging commands are in the hypergsd-maintenance skill). Changes made through TiddlyWiki's own UI are saved into the wiki's `tiddlers/` folder live and need no restart.
 
-**Real-data rule:** a local server serves the real wiki content and saves edits back to `editions/site/tiddlers/`. Never alter real tiddlers' content or `modified` timestamps while testing — create scratch tiddlers (distinctive titles help) and delete them afterwards:
+**Real-data rule:** a local server serves the real wiki content and saves edits back to the wiki's `tiddlers/` folder. Never alter real tiddlers' content or `modified` timestamps while testing — create scratch tiddlers (distinctive titles help) and delete them afterwards:
 
 ```bash
 # scratch tiddler for testing

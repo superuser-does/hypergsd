@@ -9,6 +9,10 @@ This skill provides specialized knowledge for maintaining the HyperGSD plugin in
 
 CODEMAP.md maps the family surface by surface; when a change alters behaviour an entry documents, update that entry in the same change.
 
+## Serving the site edition locally
+
+The site wiki lives at `editions/site/`, and its `plugins/` folder is a STAGED, generated copy of the repository root's `plugins/` — never edit anything under it. `npm run serve` re-stages and listens (raw equivalent: `rm -rf editions/site/plugins && cp -r plugins editions/site/plugins && tiddlywiki ./editions/site --listen`); `npm run build:site` re-stages for a build. A plugin source edit therefore needs a re-stage plus a server restart before the wiki serves it; a wiki-content edit under `editions/site/tiddlers/` needs only the restart (the playwright skill's restart rule).
+
 ## Core architecture
 
 ### Tag-driven identity
@@ -147,6 +151,6 @@ Run the WHOLE battery after any change (`npm test` in the repo) — expectations
 
 ## Directory constraints
 - **Plugin source**: the canonical source is THIS repository — `plugins/<name>/` (main plugin plus the six sub-plugins). Any copies inside another wiki's `plugins/` directory are generated; never edit them directly, and never use `$tw.wiki.addTiddler()` to modify plugin tiddlers.
-- **The site wiki lives at `editions/site/`**: its `tiddlers/` folder holds the plugin family's documentation tiddlers (tagged `Documentation`/`HyperGSD API`), served by `npm run serve` (stages the root `plugins/` into `editions/site/plugins/`, then listens). Never treat that folder as scratch space. `editions/site/plugins/` is a generated copy — never edit it; edit the root `plugins/` and re-stage. `editions/plugin-library/` is a build-only edition that produces the deployed plugin library.
+- **The site wiki lives at `editions/site/`**: its `tiddlers/` folder holds the plugin family's documentation tiddlers (tagged `Documentation`/`HyperGSD API`) — never treat that folder as scratch space. Serving and the staged `editions/site/plugins/` copy: see Serving the site edition locally above. `editions/plugin-library/` is a build-only edition that produces the deployed plugin library.
 - **Tests**: the headless battery and fixture wikis live in the repo's `tests/` (`npm test`). Conventions for writing or modifying tests live in the tiddlywiki-develop-with-playwright skill.
 - **Shadow tiddlers**: Tiddlers in `editions/site/tiddlers/` override plugin tiddlers with the same `title:` field. Shadows can only come from historical in-memory pushes (no longer used) or intentional user overrides — the local-first workflow never creates them. If a plugin change doesn't take effect, check for a shadow; ask before deleting any shadow found (the grep recipe is the mechanics skill's Shadow tiddlers section; the ask-first rule is the preferences skill's).
