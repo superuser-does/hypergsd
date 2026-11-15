@@ -5,12 +5,12 @@ modifier: Yannis Anthymidis
 title: HyperGSD overview
 type: text/vnd.tiddlywiki
 
-''~HyperGSD'' is a series of plugins for [[TiddlyWiki|https://tiddlywiki.com/]] that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do. It aims to gracefully combine ~TiddlyWiki with David Allen's [[Getting Things Done|https://joecotellese.com/posts/getting-things-done-book-summary/]] workflow for task management.
+''~HyperGSD'' is a series of plugins for [[TiddlyWiki|https://tiddlywiki.com/]] that helps you <dfn>Get Stuff Done</dfn>, supported by a rich <dfn>Hypermedia</dfn> data model and associated tooling, all with the goal of helping you manage and prioritise the things you need to do. It aims to gracefully combine ~TiddlyWiki with David Allen's [[Getting Things Done workflow|https://hamberg.no/gtd]] for task management.
 
-~HyperGSD is designed to integrate with an all-in-one personal ~TiddlyWiki and exist alongside your information, but you may also use ~HyperGSD in a dedicated wiki.
+~HyperGSD is designed to integrate with an all-in-one personal ~TiddlyWiki and exist alongside your other information, but you may also use ~HyperGSD in a dedicated wiki.
 
 [[Learn more about the concepts of GSD task management|HyperGSD approach to task management]]
 
-~HyperGSD uses technologies from the core of ~TiddlyWiki as much as possible to make it feel native and easy to integrate into your wiki, and goes out of its way to work well with every part of core functionality, like tiddler folding and printing. It is intended for and tested with the //Vanilla// theme.
+~HyperGSD uses technologies from the core of ~TiddlyWiki as much as possible to make it feel native and easy to integrate into your wiki, and goes out of its way to work well with every part of core functionality, including tiddler folding and printing. It is intended for and tested with the //Vanilla// theme.
 
 //HyperGSD builds on a long series of previous "GSD" plugins for ~TiddlyWiki, which date back to the mid-2000s. See [[HyperGSD project background]] for more on how and why ~HyperGSD was created.//
