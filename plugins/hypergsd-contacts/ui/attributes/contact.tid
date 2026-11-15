@@ -17,6 +17,5 @@ title: $:/plugins/yan/hypergsd-contacts/ui/attributes/contact
   new-type="contact"
   new-status="next"
   new-update-status="true"
-  new-button={{{ [<section-mode>match[modal]then[hide]else[show]] }}}
 />
 <%endif%>

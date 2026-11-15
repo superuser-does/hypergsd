@@ -6,26 +6,13 @@ title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
 
 \whitespace trim
 \procedure hgsd-contextualise-add()
-<!-- Reads the pick at invoke time (enter and the Add button both route through here). tm-add-tag with an empty param would add an empty tag, so the guard is required (unlike the prereq picker's self-guarding listops). -->
+<!-- Read at click time by the Add button only (Enter rides the keyboard transclusion below). tm-add-tag with an empty param would add an empty tag, so the guard is required (unlike the prereq picker's self-guarding listops). -->
 <$let picked-context={{{ [<pick-temp>get[hgsd-pick]trim[]] }}}>
 <%if [<picked-context>!match[]] %>
 <$fieldmangler tiddler=<<currentTiddler>>>
   <$action-sendmessage $message="tm-add-tag" $param=<<picked-context>>/>
 </$fieldmangler>
 <$action-setfield $tiddler=<<pick-temp>> hgsd-pick=""/>
-<%endif%>
-</$let>
-\end
-\procedure hgsd-contextualise-create()
-<!-- Create-and-add reduced to context needs (no list-field target, no realm inheritance, no AfterCreation rules). The row-item tagging nests inside $action-createtiddler — createTiddler-title publishes only to its own subtree. -->
-<$let picked-context={{{ [<pick-temp>get[hgsd-pick]trim[]] }}}>
-<%if [<picked-context>!match[]] :and[!is[tiddler]] %>
-<$action-createtiddler $basetitle=<<picked-context>> tags="GSD/Contexts">
-  <$fieldmangler tiddler=<<currentTiddler>>>
-    <$action-sendmessage $message="tm-add-tag" $param=<<createTiddler-title>>/>
-  </$fieldmangler>
-  <$action-setfield $tiddler=<<pick-temp>> hgsd-pick=""/>
-</$action-createtiddler>
 <%endif%>
 </$let>
 \end
@@ -79,10 +66,16 @@ title: $:/plugins/yan/hypergsd-contexts/ui/list-items/context
           {{$:/language/hypergsd/Lists/Contextualise/Add}}
         </$button>
         <%if [<pick-temp>get[hgsd-pick]!match[]] :and[!is[tiddler]] %>
-          <$button tooltip={{$:/language/hypergsd/Lists/Contextualise/Create/Hint}}>
-            <$transclude $variable="hgsd-contextualise-create" />
-            {{$:/language/hypergsd/Lists/Contextualise/Create}}
-          </$button>
+          <!-- The combined create-«typed»-and-add button (the shared shell, upstream CreateAdd lingo): the own-kind listops appends the created title to the row's tags, the same write tm-add-tag performs. Riding the shared core, the created context also inherits the row's realm tags and runs the AfterCreation rules (both harmless here — panel-link gates on source=modal, priorities on action types), and context-type creations stay in place, so the reveal stays open for more picks. -->
+          <$transclude $variable="hgsd-create-and-add"
+            typed-pick={{{ [<pick-temp>get[hgsd-pick]] }}}
+            new-type="context"
+            new-status="next"
+            target-tiddler=<<currentTiddler>>
+            target-field="tags"
+            target-mode="append"
+            pick-tiddler=<<pick-temp>>
+            pick-field="hgsd-pick"/>
         <%endif%>
       </div>
     </div>

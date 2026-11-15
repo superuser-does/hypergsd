@@ -235,8 +235,9 @@ const findButtonByTooltip = (w, tooltip) => findWidgets(w,
   // typed unknown name -> create button appears; firing it creates + registers + applies
   wiki.addTiddler({title: temp, "hgsd-pick": "Brand new ctx"});
   w.refresh({[temp]: {modified: true}});
-  const createBtns = findButtonByTooltip(w, "Create a new context and add it");
-  t("create button offered for unknown name", createBtns.length >= 1, true);
+  const createBtns = findButtonByTooltip(w, "Create tiddler Brand new ctx and add it");
+  t("combined create-and-add button offered for unknown name", createBtns.length >= 1, true);
+  t("combined label sandwiches the typed name", createBtns[createBtns.length - 1].domNodes[0].textContent, "create Brand new ctx and add");
   createBtns[createBtns.length - 1].invokeActions(createBtns[createBtns.length - 1], {type: "click"});
   t("context tiddler created", wiki.tiddlerExists("Brand new ctx"), true);
   t("context registered", (wiki.getTiddler("Brand new ctx").fields.tags || []).indexOf("GSD/Contexts") !== -1, true);
@@ -249,7 +250,7 @@ const findButtonByTooltip = (w, tooltip) => findWidgets(w,
   const {w, temp} = renderOpen("GSD/Test");
   wiki.addTiddler({title: temp, "hgsd-pick": "@Phone"});
   w.refresh({[temp]: {modified: true}});
-  t("no create button for existing title", findButtonByTooltip(w, "Create a new context and add it").length, 0);
+  t("no create button for existing title", findButtonByTooltip(w, "Create tiddler @Phone and add it").length, 0);
 }
 
 // --- 6. applied-context pills: contexts already on the row item render as

@@ -7,24 +7,28 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sections/
 <%if [<current-type>!match[context]!match[reference]!match[contact]] %>
-<label>
+<$let picked-contexts={{{ [<new-state>get[gsd_context]enlist-input[]format:titlelist[]join[ ]] }}}>
+<!-- gsd_context is a LIST on new-state: pick-append appends into it (dropdown instant commit, Enter, the Add button), the pills strip from it, the Inheritance rule enlists it at submit. The caption stays unwrapped (the pick-append panels' shape — a wrapping label would send caption clicks to the first pill button, the first labelable descendant once any context is picked). The candidate exclusion rides the ambient let: already-picked contexts drop out of the dropdown, so the append cannot duplicate (the contextualise picker's shape). The plain new fallback self-suppresses in this modal host (hgsd-new-fallback's ambient section-mode gate); create-and-add for a typed unknown name stays. Candidates ride the pick's default realm selection — a realm-tagged context follows the realm selection, like projects and contacts. -->
 <<lingo Context/Label>>
 <br />
-<$hgsd.pick
+<div class="hgsd-context-entries">
+  <$list filter="[<new-state>get[gsd_context]enlist-input[]]" variable="context-item">
+    <span class="hgsd-context-entry">
+      <$macrocall $name="tag" tag=<<context-item>>/>
+      <$button class="tc-btn-invisible hgsd-clear-button" tooltip={{$:/language/Buttons/Clear/Caption}}>
+        <$action-listops $tiddler=<<new-state>> $field="gsd_context" $subfilter="-[<context-item>]"/>
+        {{$:/core/images/close-button}}
+      </$button>
+    </span>
+  </$list>
+</div>
+<$hgsd.pick-append
   tiddler=<<new-state>>
   field="gsd_context"
-  list-filter="[tag[GSD/Contexts]]"
-  initial={{{ [[$:/state/hypergsd/effective-context]get[text]] }}}
-  none-label={{$:/language/hypergsd/Sections/Context/None}}
   id="context"
-  realm-scope=""/>
-<%if [<new-state>get[gsd_context]!match[]] :and[!is[tiddler]] %>
-  <$transclude $variable="hgsd-create-and-add"
-    typed-pick={{{ [<new-state>get[gsd_context]] }}}
-    new-type="context"
-    new-status="next"
-    target-tiddler=<<new-state>>
-    target-field="gsd_context"/>
-<%endif%>
-</label>
+  list-filter="[tag[GSD/Contexts]] -[enlist<picked-contexts>]"
+  none-label={{$:/language/hypergsd/Sections/Context/Choose}}
+  new-type="context"
+  new-status="next"/>
+</$let>
 <%endif%>

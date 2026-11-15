@@ -16,6 +16,5 @@ title: $:/plugins/yan/hypergsd/ui/attributes/project
   label={{{ [<section-type>match[project]then[$:/language/hypergsd/Sections/Project/SubLabel]else[$:/language/hypergsd/Sections/Project/OfLabel]] +[get[text]] }}}
   new-type="project"
   new-status="active"
-  new-button={{{ [<section-mode>match[modal]then[hide]else[show]] }}}
 />
 <%endif%>

@@ -8,6 +8,23 @@ title: $:/plugins/yan/hypergsd-contexts/ui/stylesheet/context
   gap: 0.3em;
 }
 
+/* The modal's picked-context entries (ui/modal/context): the contact-entry shape — the container's flex + gap spaces the entries, the entry's inline-flex + gap the pill from its ×, because trim removes the inline whitespace between them; :empty collapses the container while no context is picked. */
+.hgsd-context-entries {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3em;
+  margin-block-end: 0.3em;
+  &:empty {
+    display: none;
+  }
+  .hgsd-context-entry {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+}
+
 /* Context view header */
 .context-view-template {
   margin-top: 2em;

@@ -20,11 +20,13 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 \end
 
 \procedure hgsd-new-fallback()
-<!-- The plain new-button for a blank box — the fallback half of the former create/new fork, self-gated (new-type set; pick blank or the temp absent, via the ELSE of the typed fork because a bare [get…match[]] run stays empty over a missing temp; new-button="hide" suppresses). Parameterless beyond its ambient reads, like hgsd-pick-commit. -->
+<!-- The plain new-button for a blank box — the fallback half of the former create/new fork, self-gated (new-type set; pick blank or the temp absent, via the ELSE of the typed fork because a bare [get…match[]] run stays empty over a missing temp). Never renders in a MODAL host: the ambient section-mode every modal section receives gates it out (modals do not stack), so modal sections need no new-button pass; new-button="hide" stays the explicit override for other hosts. Parameterless beyond its ambient reads, like hgsd-pick-commit. -->
 <%if [<new-type>!match[]] %>
 <%if [<pick-tiddler-title>get[hgsd-pick]!match[]] %>
   <!-- typed: the commit slot owns the row -->
-<%else%><%if [<new-button>!match[hide]] %>
+<%else%><%if [<new-button>match[hide]] [<section-mode>match[modal]] %>
+  <!-- suppressed: explicit hide or a modal host -->
+<%else%>
   <$hgsd.new-button
     gsd-type=<<new-type>>
     gsd-status=<<new-status>>

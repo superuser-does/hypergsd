@@ -109,9 +109,17 @@ Caveats from real test runs:
 - **Fixture-boot warnings about missing plugins are benign** when the fixture's `plugins/` folder symlinks/auto-loads the plugins anyway — folder auto-discovery loads every subfolder regardless of what `tiddlywiki.info` lists.
 - **Battery drift after string/UI edits:** changes to labels, lingo keys and sidebar order surface in a test battery as stale expectations, not code bugs — check the live value before touching the plugin. Worked set: `<q>`-wrapped labels lose their quotation marks in textContent (assert the unquoted text PLUS a structural `q`-element check); renames move lingo keys and render targets; a thin-space `&#8201;` entity in a label breaks exact-equality checks; a config-tiddler rename silently no-ops a test's kill switch; and a sidebar block reorder via entry RETAGGING must also update the block tag-list `list` fields — stale lists make within-block order fall back to alphabetical silently. After moving lingo keys, run an orphan audit: `grep -rhoE '\$:/language/<plugin>/[A-Za-z0-9/]+' <sources> | sort -u` then check each resolves in a booted wiki (trailing-slash lingo bases and runtime-assembled keys are expected "orphans"). When sweeping battery results, grep `"^FAIL |FAILURES|Error:"` — a loose case-insensitive `fail|error|stray` pattern false-positives on passing output.
 - **`wiki.filterTiddlers(filter, w, {variables})` does NOT bind those variables** — the third argument is not a variable-binding options bag; unresolved `<var>` references return `[]` silently while the logic under test is fine. Bind variables where the engine does: `wiki.makeWidget(parser, {variables: {...}})`, or `$let`/`$set` in the probe's wikitext. Symptom signature: a filter that works pasted into the wiki but "fails" headlessly with variables involved.
+- **`enlist<var>` word-splits unquoted prose, and an attribute filtered transclusion keeps only the first word** — `{{{ [<x>!match[]] :else[enlist<fallback>] }}}` with fallback holding "Create tiddler X and add it" yields just "Create" (enlist treats its operand as a space-separated title list, splitting the sentence into words; attribute position then keeps only the first title). Use the variable title run `:else[<fallback>]` (one whole title), or `format:titlelist[]join[ ]` before enlisting. Symptom signature: a prose fallback renders as its first word, only in attribute position, and only for callers that pass no explicit value — shipped callers passing the parameter keep the fallback path unexercised, so the bug hides until a caller relies on it.
 - **fakeDOM renders SVG image transclusions as fallback LETTER text** — glyph-bearing rows acquire stray letters before titles, and substring matching over row text can match link CLASS names as well. Match row identity by exact class on the identifying element, never by row-div substring.
 - **Never print a filter-string variable as wikitext to probe it** — rendering `<<var>>` or `[<var>]` parses the value's brackets/`<refs>` as markup — `[tag[…]]` linkifies, a `<ref>` inside the value swallows following closers (one debug line can render literal `</$let>` text and "break" a healthy file). Probe such variables through `<$text text={{{ [<var>length[]] }}}/>` sinks or evaluate `[subfilter<var>]` and inspect the OUTPUT titles.
 - **`pkill -f` on a server pattern can kill your own wrapper** — a bash command whose text contains both the pkill and the launcher line matches its own cmdline and dies with the fresh server. Kill by PID or run the pkill and the relaunch as separate commands — and after any restart, curl the server and check the SERVED content, not just the exit code. The subtler form hit three times in one session: `pgrep -f "listen port=8199" | head -1` returns YOUR OWN wrapper's PID first; killing it leaves the old server holding the port, the new server dies quietly on EADDRINUSE (its nohup log is the only witness), and every subsequent test runs against STALE content — "the fix doesn't work" that is really "the fix was never served". Reliable pattern: match the node binary path (`pgrep -f "bin/tiddlywiki"` — no wrapper carries it), kill every match, then curl and assert the SERVED content reflects the change before testing anything.
+
+- **`$hgsd.pick`'s popup state title is `pick-<id>-<currentTiddler>`** — currentTiddler at the pick's render position, NOT the pick's write target. To open a picker's dropdown in fakeDOM, derive the title from the ambient currentTiddler; when unsure, walk the rendered tree for `$reveal type="popup"` widgets and read `getAttribute("state")` instead of guessing (the same walk lists every popup title a surface renders, the quick way to audit gate prefixes).
+- **`get[field]` over an ARRAY-valued field joins with plain spaces, unquoted** — so `get[...]enlist-input[]` round-trips only titlelist-QUOTED strings, which is exactly what `$action-listops` writes. A fixture that `addTiddler`s a JS array directly into a list field splits multi-word titles silently (symptom: one pill per word, "ZZ two words" becomes pills "ZZ" and "two words"). Write list fixtures through the real UI paths (click the buttons) or store the titlelist string (`"[[ZZ two words]]"`) — and assert through `get[]enlist-input[]`, never by reading the raw field.
+- **Core `<<tag>>` pills open `<<qualify "$:/state/popup/tag">>`** (via `$:/core/ui/TagTemplate`) — a popup prefix OUTSIDE `$:/state/popup/pick-`. Any `$refresh` gate whose subtree renders tag pills must admit `[prefix[$:/state/popup/tag]]` or the dropdown freezes shut while the pill itself renders fine.
+- **Finding buttons by label inside the new-item modal:** the title row's create button and a create-and-add button ("create X and add") BOTH contain "create", so a substring search grabs the wrong one first. Match create-and-add by "and add", the pick Add button by exact textContent equality with "add".
+- **The lingo family-count test counts the MERGED namespace across every plugin's language files** — a new lingo key in any SUB-plugin's `.multids` bumps the main lingo-test's count expectation just like a main-plugin key would; check which file the key landed in before "fixing" the count.
+- **Rendering the new-item modal headlessly, as tm-modal would:** `makeWidget` with variables `{currentTiddler: "$:/temp/gsd-new-state", "gsd-type", "gsd-status", "gsd-complete", "gsd-update-status", "gsd-calling-tiddler"}` over a block transclusion of `$:/plugins/yan/hypergsd/ui/new-gsd-modal` (context-inherit-test.js is the worked shape). Modal pick popups derive from that currentTiddler, and state written to the temps (`gsd-new-title`, `gsd-new-state`, the `add-*` pick temps) is seen by the next fresh render — re-render per staged write rather than trying to drive the live widget.
 
 ## Step 3: local browser testing
 
@@ -124,6 +132,26 @@ npm run serve
 
 # open a headed session (user can watch)
 playwright-cli -s=local open http://localhost:8080/ --headed
+```
+
+**Background server + shutdown (standing rule):** a server started for a visual
+review is session-scoped — run it detached with a log, and KILL IT when the
+review is over. A forgotten `--listen` process holds port 8080 into the next
+session, and every later "restart" dies quietly on EADDRINUSE while checks run
+against the stale wiki (the nohup log is the only witness):
+
+```bash
+# start detached for a review session
+(nohup npm run serve > /tmp/hypergsd-serve.log 2>&1 &)
+sleep 6 && curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/   # expect 200
+
+# kill it at the end of the session — match the node binary path, never a
+# pattern that also appears in your own wrapper's command line (see the pkill caveat above)
+pgrep -af "bin/tiddlywiki"    # see what will die first
+pkill -f "bin/tiddlywiki"
+curl -s --max-time 2 -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/ || echo "server down"
+```
+
 
 # reload after editing source files: RESTART the server (edits outside
 # TiddlyWiki itself are not indexed until restart), then refresh in-place

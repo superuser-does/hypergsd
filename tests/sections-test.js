@@ -144,14 +144,16 @@ t("project modal: save writes the DATA TEMP (drafting, not the host)",
 t("project modal: host action untouched by modal drafting",
   wiki.getTiddler("Host action").fields.gsd_project, "Some project");
 
-// refresh whitelist: the modal chassis must wake on pick-field's add- temps
-// (scoped to the modal's own temp suffix), or typing never filters the dropdown
+// refresh whitelist: the modal chassis must wake on every picker draft (one plain
+// add- prefix run, FIRST — the modal's mask makes suffix scoping unnecessary), and
+// never carry a run-level :and (it replaces the accumulated output; a second scoped
+// chain mid-list starves the earlier runs — the create-buttons-after-outside-click regression)
 (() => {
   const src = (wiki.getTiddler("$:/plugins/yan/hypergsd/ui/new-gsd-modal") || {fields: {}}).fields.text || "";
   const wl = (src.match(/<\$refresh subfilter="([^"]+)"/) || [])[1] || "";
-  t("modal whitelist: scoped add- pair present and FIRST (the :and trap)",
-    [wl.indexOf("[prefix[$:/temp/hypergsd/add-]] :and[suffix<new-data-title>]") === 0,
-     wl.indexOf("[prefix[$:/temp/hypergsd/add-]] :and") < wl.indexOf("[tag[$:/tags/hypergsd/ModalTemplate]]")],
+  t("modal whitelist: plain add- run FIRST, no run-level :and (the accumulator trap)",
+    [wl.indexOf("[prefix[$:/temp/hypergsd/add-]]") === 0,
+     wl.indexOf(":and[") === -1],
     [true, true]);
 })();
 
