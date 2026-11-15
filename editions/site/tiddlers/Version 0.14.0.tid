@@ -26,7 +26,7 @@ type: text/vnd.tiddlywiki
 * You can now add contacts directly from the "Contact list" heading of [[GSD/Contacts]]
 * All realms are now selected by default -- much more straightforward for new users
 * The button on the [[GSD/Contacts]] now helpfully says "add to filter", for avoidance of any doubt.
-* Tidied up the readme of [[HyperGSD Trashbin|$:/plugins/yan/hypergsd-trashbin]].<br>It will be rebadged to 1.0 in a future release if nothing changes.
+* Tidied up the readme of [[HyperGSD Trashbin|$:/plugins/yan/hypergsd-trashbin]].<br />It will be rebadged to 1.0 in a future release if nothing changes.
 * Renamed some `lingo` keys (i.e. tiddler titles of user-facing text strings), so there may be some stray tiddlers left after you update most of the sub-plugins
 * For people who turn on ~CamelCase tiddler linking, plugin readmes, settings and the site have been updated to respect that setting
 
