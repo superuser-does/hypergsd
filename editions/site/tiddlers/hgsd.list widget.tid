@@ -7,7 +7,7 @@ The `$hgsd.list` widget is the single list engine behind every dashboard and reu
 ! Content and Attributes
 
 |Attribute |Default |Description |h
-|list-heading |— |Heading shown on the collapsible list block. |
+|list-heading |— |Heading ''declaration'': a `$:/`-prefixed language title (resolved to that tiddler's text) or any other string, taken literally as the heading — a hardcoded heading needs no language tiddler. A missing language tiddler renders the raw title instead of an empty heading, and an older caller's pre-resolved `{{...}}` transclusion passes through the same rule unchanged. The resolved text is the list's identity: it keys the view state, the fold state and the list default, and binds strip members. |
 |list-filter |— |''Required.'' Any filter over tiddler titles; the widget applies realm scoping to its output. Drafts never list — the widget excludes them from the filter output (they inherit the base tiddler's fields and would otherwise appear mid-edit). |
 |group-by |(blank) |Field to group rows by (e.g. `gsd_project`). Blank renders a flat list. |
 |group-state |`false` |`false` renders flat; any other value renders grouped (legacy fixed grouping — the contexts view's lists use it). |
