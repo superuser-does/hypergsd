@@ -1295,7 +1295,9 @@ Ordered broadest → narrowest scope.
 literal `no-realm` sentinel = "include realm-less"; missing = pristine =
 all+sentinel, empty = nothing; written by the realm-selection component's
 checkboxes/Select
-all/none via action-listops; read by $hgsd.list's shown-realms/show-realmless
+all/none via action-listops — reads AND writes route through hgsd-realm-selection
+($filter replace from the effective selection), so pristine renders every box
+ticked and a first toggle materialises all±one; read by $hgsd.list's shown-realms/show-realmless
 derivation — see Boilerplate: realm scoping for the contract),
 `effective-realm`, `effective-context` (creation side,
 separate vocabulary); UI state —
