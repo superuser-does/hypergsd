@@ -328,10 +328,12 @@ t("navigate: hook never dispatches (creation paths own it)",
   [runHook("action", "modal"), runHook("project", "modal"), runHook("reference", "modal"), runHook("action", "picker"), runHook("contact", "picker")],
   [0, 0, 0, 0, 0]);
 
-// hook membership: the navigate rule is gone; the shipped pair is the contacts
-// delegation plus the priorities default (list field empty, engine order).
-t("AfterCreation members are the shipped pair",
-  JSON.stringify(wiki.filterTiddlers("[[$:/tags/hypergsd/AfterCreation]] :and[tagging[]]")) === JSON.stringify(["$:/plugins/yan/hypergsd-contacts/modules/after-create/contact-delegation", "$:/plugins/yan/hypergsd-priorities/modules/after-create/default-priority"]), true);
+// hook membership: the navigate rule is gone; the contacts delegation rule is
+// retired (the contact field's own panel-link write covers both creation
+// paths) and the generic panel-link rule takes its place; the priorities
+// default remains (list field empty; order-insensitive compare).
+t("AfterCreation members are panel-link + priorities default",
+  JSON.stringify(wiki.filterTiddlers("[[$:/tags/hypergsd/AfterCreation]] :and[tagging[]]").sort()) === JSON.stringify(["$:/plugins/yan/hypergsd/modules/after-create/panel-link", "$:/plugins/yan/hypergsd-priorities/modules/after-create/default-priority"].sort()), true);
 
 // end-to-end picker creation dispatches no navigation
 wiki.deleteTiddler(ADDTEMP);

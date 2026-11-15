@@ -21,7 +21,7 @@ A one-row list adder wrapping `<$hgsd.pick>` — the pick family's list member, 
 |new-update-status |`no` |Passed to the new button |
 |new-project |(blank) |Project written to created tiddlers (the panels pass the host's `gsd_project`) |
 |new-complete |`false` |Completion written to created tiddlers |
-|tooltip |(blank) |Overrides the new button's tooltip; blank = the generic "Add new «type»" |
+|tooltip |(blank) |Overrides the new button's tooltip; blank = the generic "Add new «type»". The plain new fallback links the created item per this row's direction through the [[panel-link stamp|hgsd.new-button widget]] and forwards the row target as the calling tiddler |
 |caption |(blank) |Overrides the new button's label; blank = the generic "new" |
 
 ! Notes

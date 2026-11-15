@@ -29,14 +29,6 @@ title: $:/plugins/yan/hypergsd/ui/new-gsd-modal
     <$list filter="[[$:/temp/gsd-new-temp]fields[]] -title -text -tags -type -created -modified" variable="copy-field">
       <$transclude $variable="hgsd-set-field-if-present" target=<<createTiddler-title>> field=<<copy-field>> value={{{ [[$:/temp/gsd-new-temp]get<copy-field>] }}} />
     </$list>
-    <!-- Prereq linking: when creating an action from within another action, add the calling action to the new tiddler's gsd_prerequisites -->
-    <%if [<gsd-type>match[action]] %>
-      <%if [<gsd-calling-tiddler>!is[blank]] %>
-        <%if [<gsd-calling-tiddler>tag[$:/GSD/Action]] %>
-          <$action-listops $tiddler=<<createTiddler-title>> $field="gsd_prerequisites" $subfilter="[<gsd-calling-tiddler>]" />
-        <%endif%>
-      <%endif%>
-    <%endif%>
     <!-- Status updates via gsd-calling-tiddler (for contact delegation, etc.). Nested ifs rather than [X]:and[Y]: a variable run inside :and acts as a constructor and replaces the input, so both branches would always fire. -->
     <%if [<gsd-calling-tiddler>!is[blank]] %>
       <%if [<gsd-calling-tiddler>tag[$:/GSD/Action]] %>

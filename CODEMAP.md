@@ -29,7 +29,7 @@ logic is wikitext.
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |
 | Main-plugin content | 235 files + `plugin.info` (217 tid + 17 multids + 1 js) |
-| Sub-plugin content | contacts 42 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 34 (29/4/1), trashbin 7 (5/1/0) — tid/multids/js |
+| Sub-plugin content | contacts 41 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 34 (29/4/1), trashbin 7 (5/1/0) — tid/multids/js |
 | Docs | `readme.tid` is the stub entry point; the API documentation set lives as flat-titled content tiddlers in the site edition's `editions/site/tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
@@ -67,20 +67,24 @@ plugins/hypergsd/
 │   │                            arithmetic (must stay Global — pick/pick-field
 │   │                            reach the modal, where Global/View resolves not)
 │   │                            (hgsd-realm-selection/-all, hgsd-scope-include/exclude)
-│   ├── create-and-add.tid       Global \procedure pair: hgsd-create-and-add
+│   ├── create-and-add.tid       Global \procedure family: hgsd-create-and-add
 │   │                            (the shared "create «typed» and add" picker
 │   │                            button) is a thin shell over
 │   │                            hgsd-create-and-add-actions (the creation
 │   │                            core — callable from actions strings, every
 │   │                            dynamic attribute a {{{ }}} filtered
-│   │                            transclusion); gate at each caller:
+│   │                            transclusion) plus hgsd-link-created (the
+│   │                            ONE kind-mapped contextual write — field/own/item
+│   │                            — shared by the core and the AfterCreation
+│   │                            panel-link rule so picker and modal paths
+│   │                            cannot drift); gate at each caller:
 │   │                            [<typed-pick>!match[]] :and[!is[tiddler]];
 │   │                            callers: hgsd-new-options (pick-field's two set
 │   │                            states and pick-append's kind=own/item forks),
 │   │                            the modal's project/contact/context pickers and
 │   │                            hgsd-pick-keyboard-commit (the keyboard fork);
-│   │                            target-mode=append uses
-│   │                            action-listops so list fields (gsd_prerequisites)
+│   │                            target-mode=append maps to the own-kind
+│   │                            listops write so list fields (gsd_prerequisites)
 │   │                            gain the title rather than being replaced, and
 │   │                            new-project passes the host's project through;
 │   │                            after the hook the core navigates honouring
@@ -253,7 +257,13 @@ plugins/hypergsd/
 │       │                        replaces accumulated output, wiping the
 │       │                        type-gate run (only one :and chain per filter;
 │       │                        suffix runs append).
-│       ├── hgsd-new-button.tid  $hgsd.new-button + gsd-select-action
+│       ├── hgsd-new-button.tid  $hgsd.new-button + gsd-select-action; the
+│       │                        click actions also stamp the panel-link
+│       │                        context (hgsd-link-kind/-field/-type onto
+│       │                        $:/temp/gsd-new-state) from the ambient
+│       │                        new-kind/new-link-field a pick-row fallback
+│       │                        binds — blank for every non-pick caller, the
+│       │                        same reset principle as the hgsd-type write
 │       ├── hgsd-pick.tid        $hgsd.pick searchable picker (generic group-by,
 │       │                        realm scoping; 6 internal procedures — the fifth,
 │       │                        hgsd-pick-commit, runs from the select's actions
@@ -376,7 +386,7 @@ plugins/hypergsd/
 │   SUB-PLUGINS (siblings under plugins/, parent-plugin + dependents wired,
 │   degrade fully when absent — sidebar entries gate on has[title] of the
 │   type-member tiddler): plugins/hypergsd-contacts ships the contact type +
-│   all contact surfaces incl. contact-delegation, the waiting-by-contact
+│   all contact surfaces incl. the waiting-by-contact
 │   action list (grouped by contact; a $:/tags/hypergsd/Lists/Waiting member
 │   — the visible default on the Actions waiting page — plus a hidden
 │   Dashboard membership), and the Contacts page's multi-contact search:
@@ -628,7 +638,10 @@ plugins/hypergsd/
 │                                use)
 └── ui/
     ├── new-gsd-modal.tid        creation modal chassis (title+create+submit; sections
-    │                            are tag-driven, see ui/attributes/ + ui/modal/). Submit
+    │                            are tag-driven, see ui/attributes/ + ui/modal/); carries
+    │                            NO linking of its own — a pick row's plain new
+    │                            button links through the AfterCreation panel-link
+    │                            rule reading the state stamp. Submit
     │                            tail: $:/state/hypergsd/create-another=yes keeps both
     │                            temps and re-sends tm-modal (only the title wiped);
     │                            else closes and deletes all three temps
@@ -1113,7 +1126,7 @@ Persisted fields (set by modal/panel fragments/handler):
 | `gsd_comp_date` | UTC timestamp `YYYY0MM0DD0hh0mm0ssXXX` | completion actions (cleared on uncomplete) |
 | `gsd_project` | parent project title | project picker, modal |
 | `gsd_contact` | **single** contact title (design decision) | contact picker, delegation |
-| `gsd_prerequisites` | title **list** of actions this one depends on | prereq picker `listops`, modal back-linking |
+| `gsd_prerequisites` | title **list** of actions this one depends on | prereq picker `listops`, panel-link stamp |
 | `gsd_action_status` / `gsd_project_status` | per-type radio memory (modal UI persistence across type switches) | status radios with `data-hgsd-status-field` |
 
 Working-only fields (never persisted on real tiddlers): `hgsd-type`,
@@ -1233,7 +1246,7 @@ enter/escape per-widget.
 | `$:/config/hypergsdPanel/visibility/<section>` / `$:/config/hypergsdModal/visibility/<section>` | per-section show/hide (`show`\|`hide`, default show) — written by Sections tab checkboxes, read by the panel/modal tag loops |
 | `$:/tags/hypergsd/Type` + members (`hgsd-type` field) | **type tag list** — item-type tag-tiddlers (the `context` member ships from the HyperGSD-Contexts sub-plugin, `contact` from HyperGSD-Contacts, `reference` from HyperGSD-References); drives the generic refresh gate (`modules/type-gate.tid` `\procedure hgsd-type-gate`), the modal Type dropdown, and the creation paths' type→tag mapping (`\function hgsd-type-tag` in modules/create-and-add.tid; unique `hgsd-type` values are an extension-author contract, `first[]` guards duplicates). Naming: `hgsd-type` follows core's hyphenated shadow-config convention (caption, list-after, plugin-type) — dotted fields (draft.of, throttle.refresh) are transient/behavioral, not config. The modal temp's selected type is also `hgsd-type` |
 | `ui/panel/dependants` mirror picker | the "Prerequisite of" section carries the full DependsOn interaction writing the OTHER side: picker over incomplete actions minus self (the literal filter carries a `-[<currentTiddler>]` run — variable operands resolve at evaluation, so self-exclusion needs no dynamic composition), add/remove write the PICKED action's `gsd_prerequisites` (both sections' rows sort `gsd_complete` — incomplete first, stable within groups — and every add path clears the per-action pick afterwards), typed new picks go through `hgsd-create-and-add` with `new-prereq` (blank `target-field` skips the target write; `target-tiddler` still names the caller for AfterCreation rules) |
-| `$:/tags/hypergsd/AfterCreation` | post-create extension point — tagged rules transcluded by the shared runner `hgsd-run-after-create` (modules/run-after-create.tid, $:/tags/Global) after EVERY creation: the modal (new-source=modal) AND create-and-add pickers (new-source=picker, calling-tiddler = the tiddler whose field receives the item). Contract vars `hgsd-new-title`/`hgsd-new-type`/`hgsd-calling-tiddler`/`hgsd-new-source` are `$let` into scope (plain tiddler transclusion inherits caller scope but DROPS extra <$transclude> attributes — those only reach procedures/widgets). No list-field pinning: navigation is not a member — each creation path navigates itself after the hook honouring new-action-navigate / new-project-navigate (the modal always for other types; pickers stay in place for them), so members are order-independent and no rule invalidates the invoking tree mid-chain. Members must read created-item data through ACTION attributes (invoke-time) — the calling tree renders before the item exists; the priorities default-priority rule is the reference. Shipped rules: contact-delegation + priorities default-priority (sub-plugins) |
+| `$:/tags/hypergsd/AfterCreation` | post-create extension point — tagged rules transcluded by the shared runner `hgsd-run-after-create` (modules/run-after-create.tid, $:/tags/Global) after EVERY creation: the modal (new-source=modal) AND create-and-add pickers (new-source=picker, calling-tiddler = the tiddler whose field receives the item). Contract vars `hgsd-new-title`/`hgsd-new-type`/`hgsd-calling-tiddler`/`hgsd-new-source` are `$let` into scope (plain tiddler transclusion inherits caller scope but DROPS extra <$transclude> attributes — those only reach procedures/widgets). No list-field pinning: navigation is not a member — each creation path navigates itself after the hook honouring new-action-navigate / new-project-navigate (the modal always for other types; pickers stay in place for them), so members are order-independent and no rule invalidates the invoking tree mid-chain. Members must read created-item data through ACTION attributes (invoke-time) — the calling tree renders before the item exists; the priorities default-priority rule is the reference. Shipped rules: panel-link + priorities default-priority — panel-link (main plugin) consumes the new-button's state stamp (hgsd-link-kind/-field/-type on $:/temp/gsd-new-state) and runs the shared hgsd-link-created write for modal creations, gated on source=modal (a cancelled modal leaves a stale stamp the picker path must ignore), a non-blank field and a type match; the contacts delegation rule it generalises is retired |
 | `$:/tags/hypergsd/Ticklers/Shift` + `$:/tags/hypergsd/Ticklers/Alert` + members | shift-button tag lists (sub-plugin) — Shift is the panel set beside the tickler date, Alert the banner set; each member carries `days` + `label` + `tooltip` (+optional `class`), rendered by the shared `$hgsd.tickler-shift` widget (the Alert list's `list` field pins day → week; per-member visibility knobs under `$:/config/hypergsd/Ticklers/Shift\|Alert/visibility/`, the year member ships withdrawn) |
 | `$:/tags/hypergsd/Capture` / `$:/tags/hypergsd/Review` + members | **sidebar tag lists** — members own the capture/review sidebars outright, rendered through hgsd-portions-core grouped by their numeric `Portion/<n>` tag (numbers only, no Top/Full bands; untagged members land in Portion/1; the review list ships 1-4 then 7-9 deliberately — 7 references/ticklers, 8 contexts/contacts, 9 the cleanup pair — leaving 5-6 free for later additions; portion numbers order numerically past 9). Capture: 1 the two defaults selects, 2 the common new-item buttons (action/project/reference — new-reference pins list-after new-project), 3 the rarer pair (contact/context), 4 the realm note. Review: 1 realm selection, 2 the dashboard link, 3 the action links, 4 the project links. Within-portion order is the engine's sortByList (the tag list's core-only `list` field first, member list-before/list-after pins, then engine registration order — the sub-plugin pairs in 7 and 8 ride engine order, no pin and no core anchor lives there); the Settings → Sidebar tab renders one `hgsd-visibility-list` draggable per tab (`bands="no"` — numeric Portion picker per row, no band options); hide writes `$:/config/hypergsd/Capture\|Review/visibility/<title>` (default show), gated per entry by the renderer. Buttons are single `<$hgsd.new-button>` invocations; members ship from whichever plugin owns the type, so an absent sub-plugin is a missing entry (a portion whose members are all absent never exists; an all-hidden one renders an empty div collapsed by `:empty`) |
 | `$:/config/hypergsd*/visibility/*` (11 list .multids across main + sub-plugins) | per-dashboard list visibility + drag-order seeds — live, consumed by the dashboard tag loops (see §7) |
@@ -1602,7 +1615,7 @@ tiddlers plus both codebases.
 | Item identity | `gsd_type` field | `$:/GSD/Action\|Project\|Contact\|Reference` tags (C-level tag index; "100% tags") |
 | Realms | `gsd_realm` field + `$:/currentRealm` ("all" default) | `$:/GSD/Realm/<name>` tags + `$:/config/hypergsd/realm-selection` (multi-select set + `no-realm` sentinel; pristine=all; realm-less inclusion orthogonal); realms creatable in-modal |
 | Contexts | gen-1 `gsd_type[context]` vs gen-2 "any tag" tension | explicit opt-in `GSD/Contexts` (the dashboard is the tag list); per-context view template + dashboard; excluded for contacts/references |
-| Dependencies | `gsd_action` (single) | `gsd_prerequisites` list + picker + promotion + dependants section + modal back-linking |
+| Dependencies | `gsd_action` (single) | `gsd_prerequisites` list + picker + promotion + dependants section + panel-link stamp |
 | Contacts | `gsd_contact` field (34 sites) | same field, deliberately single; "new contact from action" auto-assigns |
 | Rendering | gen-1 JS widgets; gen-2 `$gsd5.*` + dynamic `$:/tags/GSD5*` shadow-tag loops | `$hgsd.*` wikitext widgets; dashboard/list/section composition tag-driven (Lists/*, Panel/ModalTemplate, Capture, Review, ContactAction hooks) |
 | Refresh | default widget refresh | `<$refresh>` freeze wrappers + whitelists; invisible to CPU until GSD item changes |

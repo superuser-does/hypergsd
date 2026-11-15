@@ -25,7 +25,7 @@ The creation paths render their action trees BEFORE the item exists — the moda
 The shipped rules:
 
 | !Rule | !Behaviour |
-|`$:/plugins/yan/hypergsd-contacts/modules/after-create/contact-delegation` |A contact created from an action gets written to that action's `gsd_contact` field |
+|`$:/plugins/yan/hypergsd/modules/after-create/panel-link` |A tiddler created from a pick row's plain "new" button gets linked to the calling tiddler exactly as the row's create-and-add would (single field set, or either side of a list relation) |
 |`$:/plugins/yan/hypergsd-priorities/modules/after-create/default-priority` |A new action or project inherits its linked project's priority, else the configured default; writes only valid values, never over an existing one (all reads ride action attributes — the reference implementation of the render-time trap) |
 
 ! Best Practice

@@ -30,6 +30,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-new-button
     <$slot $name="ts-raw">{{$:/language/hypergsd/Widgets/NewButtonDefault}}</$slot>
     <!-- Always reset the type to ensure the button's intent wins over any stale temp state. -->
     <$action-setfield $tiddler="$:/temp/gsd-new-state" hgsd-type=<<gsd-type>> />
+    <!-- Panel-link stamp, same reset principle as the type: pick-row fallbacks render inside the pick widget's scope, where new-kind/new-link-field are bound; every other caller leaves them undefined, and a filtered transclusion of an undefined variable is blank, so each button open overwrites any stale stamp. The AfterCreation panel-link rule consumes the stamp at submit. -->
+    <$action-setfield $tiddler="$:/temp/gsd-new-state" hgsd-link-kind={{{ [<new-kind>] }}} hgsd-link-field={{{ [<new-link-field>] }}} hgsd-link-type={{{ [<gsd-type>] }}} />
     <!-- Only overwrite project inheritance when the button explicitly belongs to a project. -->
     <%if [<gsd-project>!is[blank]] %>
       <$action-setfield $tiddler="$:/temp/gsd-new-temp" gsd_project=<<gsd-project>> />

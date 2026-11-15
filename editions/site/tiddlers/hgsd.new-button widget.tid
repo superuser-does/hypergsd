@@ -17,8 +17,14 @@ Content becomes the button label.
 |gsd-context |Context tag to preselect |
 |gsd-realm |Realm tag name to preselect |
 |gsd-update-status |`yes` lets creation also update the calling tiddler's status (used by the convert-to-project flow) |
-|gsd-calling-tiddler |Title of the invoking tiddler; enables AfterCreation rules like contact delegation |
+|gsd-calling-tiddler |Title of the invoking tiddler; blank = the tiddler the button renders in. Resolves the Inheritance rules' caller harvest (realms, informal tags) and the AfterCreation rules |
 |class, style, aria-label, role, tooltip, disabled |Standard button attributes |
+
+! Panel-link stamp
+
+When this button is rendered by a pick row (the plain "new" fallback of [[$hgsd.pick-field|hgsd.pick-field widget]] or [[$hgsd.pick-append|hgsd.pick-append widget]]), its click also stamps the row's write shape onto `$:/temp/gsd-new-state` (`hgsd-link-kind`, `hgsd-link-field`, `hgsd-link-type`), and the created item is linked to the calling tiddler exactly as the row's create-and-add would: the calling tiddler's field is set (pick-field), the created title is appended to the calling tiddler's list ("Depends on"), or the calling tiddler is appended to the created tiddler's list ("Prerequisite of"). A type switched inside the modal skips the write, and every non-pick button stamps blanks, so standalone buttons never link.
+
+''For plugin authors'': you are unlikely to need any of this. Buttons you place yourself behave like the shipped sidebar and quick-add buttons (no link), and any pick-field/pick-append section you write links automatically, for any item type or field, with no extra wiring. The one escape hatch: a hand-rolled picker built from raw `$hgsd.pick` plus its own buttons can opt into the same linking by binding `new-kind` (`field`, `own` or `item`) and `new-link-field` in the scope around its `$hgsd.new-button`. Without them the button links nothing, exactly as before.
 
 ! Example
 ```

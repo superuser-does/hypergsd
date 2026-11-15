@@ -1,0 +1,13 @@
+tags: $:/tags/hypergsd/AfterCreation
+title: $:/plugins/yan/hypergsd/modules/after-create/panel-link
+
+\whitespace trim
+
+<!-- The pick family's rule: a pick row's new-button stamps the row's write shape (kind/field/type) onto $:/temp/gsd-new-state at click, and this rule performs that write for modal creations (hgsd-link-created, shared with the picker core). The source gate is load-bearing: on picker creations the state temp may hold a stale stamp from a cancelled modal, and the picker core performs its own write anyway. A type switched in-modal fails the type gate, so the write is skipped. -->
+<%if [<hgsd-new-source>match[modal]] %>
+  <%if [[$:/temp/gsd-new-state]get[hgsd-link-field]!match[]] %>
+    <%if [[$:/temp/gsd-new-state]get[hgsd-link-type]match<hgsd-new-type>] %>
+      <$transclude $variable="hgsd-link-created" created-title={{{ [<hgsd-new-title>] }}} link-target={{{ [<hgsd-calling-tiddler>] }}} link-field={{{ [[$:/temp/gsd-new-state]get[hgsd-link-field]] }}} link-kind={{{ [[$:/temp/gsd-new-state]get[hgsd-link-kind]] }}} />
+    <%endif%>
+  <%endif%>
+<%endif%>
