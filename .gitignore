@@ -12,6 +12,7 @@ AGENTS.md
 # TiddlyWiki
 tmp/
 output/
+editions/site/plugins/
 node_modules/
 $__Import.tid
 $__StoryList.tid

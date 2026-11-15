@@ -1,10 +1,11 @@
 # HyperGSD plugin code map
 
-This repository is the HyperGSD wiki: a TiddlyWiki wiki folder that exists to
-develop and host the HyperGSD plugin family. `plugins/` carries the family
-source (any wiki holding these folders loads them automatically), `tiddlers/` carries
-the plugin's documentation as wiki content, and serving the repository itself
-(`tiddlywiki . --listen`) publishes both. The family is a hard fork of GSD5
+This repository develops and hosts the HyperGSD plugin family. `plugins/` carries the
+family source (any wiki holding these folders loads them automatically), the
+`editions/site/` edition is the showcase/documentation wiki
+(`editions/site/tiddlers/` carries the documentation as wiki content;
+`editions/site/plugins/` is a generated copy of `plugins/`, staged at build
+time), and serving the site edition (`npm run serve`) publishes both. The family is a hard fork of GSD5
 (MIT; GSD5 lineage credited in `contributors.tid`). Requires core >= 5.4.0
 (uses `\widget`/`\procedure`, `<$eventcatcher>`, `<$messagecatcher>`,
 `\whitespace trim`). Everything below is hand-verified against the sources.
@@ -29,7 +30,7 @@ logic is wikitext.
 | Core requirement | >= 5.4.0 |
 | Main-plugin content | 235 files + `plugin.info` (217 tid + 17 multids + 1 js) |
 | Sub-plugin content | contacts 42 files (32/9/0), contexts 28 (21/6/0), priorities 19 (14/4/0), references 16 (11/4/0), ticklers 34 (29/4/1), trashbin 7 (5/1/0) — tid/multids/js |
-| Docs | `readme.tid` is the stub entry point; the API documentation set lives as flat-titled content tiddlers in the repository wiki's `tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
+| Docs | `readme.tid` is the stub entry point; the API documentation set lives as flat-titled content tiddlers in the site edition's `editions/site/tiddlers/` (tagged `Documentation`/`HyperGSD API`, indexed from `HyperGSD API`) |
 | Language | English (en-GB) |
 
 ## 2. Code organisation

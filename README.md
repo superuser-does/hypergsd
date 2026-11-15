@@ -35,21 +35,23 @@ Each sub-plugin needs the main plugin installed.
 
 ## Development
 
-The repository root is itself a TiddlyWiki wiki folder (`tiddlywiki.info`, `tiddlers/`, `plugins/`), so the stock `tiddlywiki` command works on it directly:
+The main wiki lives in the `editions/site/` edition. TiddlyWiki automatically loads every folder under a wiki's `plugins/` directory, so both scripts below stage a copy of the root `plugins/` into `editions/site/plugins/` (gitignored) before doing anything:
 
 ```
 npm install
-tiddlywiki --listen              # serve the wiki: documentation and plugins together. Not recommended to edit directly from this
-tiddlywiki --build single-file   # build a single-file wiki into output/
+npm run serve        # serve the wiki at localhost:8080: documentation and plugins together. Not recommended to edit directly from this
+npm run build:site   # build a single-file wiki into output/
 ```
 
 `npm install` will install the pinned version of the `tiddlywiki` package. GitHub Pages will deploy the single-file build to the site above on most _relevant_ pushes to `main`; each build ships `plugins/` from the latest `v*` tag, so documentation deploys immediately while the plugin code the site carries advances only on a tag push.
 
+The plugin library is built by a separate build-only edition, `editions/plugin-library/` (see `editions/README.txt`), deployed at `/library/pluginlibrary.html` by the same workflows.
+
 ### Repository layout
 
 - `plugins/` is the canonical source of the plugin family: the main plugin plus one folder per sub-plugin.
-  TiddlyWiki automatically loads every folder under a wiki's `plugins/` directory, so serving or building this repository will publish the plugins alongside their documentation.
-- `tiddlers/` is the showcase/documentation wiki's own content. Edits to these will update the static documentation site hosting HyperGSD, without advancing the shipped plugin code.
+- `editions/site/tiddlers/` is the showcase/documentation wiki's own content. Edits to these will update the static documentation site hosting HyperGSD, without advancing the shipped plugin code.
+- `editions/plugin-library/` builds the plugin library; `editions/site/plugins/` is a generated copy, never committed.
 
 ### Verifying
 

@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "test": "node tests/run-all.js",
-    "bench": "node tests/run-bench.js"
+    "bench": "node tests/run-bench.js",
+    "build:site": "rm -rf editions/site/plugins && cp -r plugins editions/site/plugins && tiddlywiki ./editions/site --output ./output --build single-file",
+    "serve": "rm -rf editions/site/plugins && cp -r plugins editions/site/plugins && tiddlywiki ./editions/site --listen"
   },
   "devDependencies": {
     "tiddlywiki": "5.4.1"

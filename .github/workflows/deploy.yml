@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'tiddlers/**'
-      - 'editions/plugin-library/**'
+      - 'editions/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -44,7 +43,9 @@ jobs:
 
       - name: Build wiki
         run: |
-          npx tiddlywiki . --build single-file
+          rm -rf editions/site/plugins
+          cp -r plugins editions/site/plugins
+          npx tiddlywiki ./editions/site --output ./output --build single-file
           mv output/single-file.html output/index.html
 
       - name: Build plugin library

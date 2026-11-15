@@ -14,7 +14,7 @@ description: How I want TiddlyWiki work done — British English, names spelled 
 - **Plans before builds**: propose the change set, wait for the go-ahead.
 - **Versioning**: releases are `X.Y.0`; the in-flight working version is `X.Y.1`. Never bump or edit version numbers yourself — versioning is entirely the user's move; the scheme here is context for reading versions, not an instruction to change them.
 - **Park, don't delete**: when a shipped plugin member stops being used on a surface, untag it from the page/tag list rather than deleting the tiddler — external references by title (user overrides, visibility configs, lingo keys) keep resolving.
-- **Never change tiddlers in `tiddlers/` without permission** — the folder is the user's live content, not a build artefact; ask before creating, editing or deleting anything there.
+- **Never change tiddlers in `editions/site/tiddlers/` without permission** — the folder is the user's live content, not a build artefact; ask before creating, editing or deleting anything there.
 - **Never tick items off the user's own task list** — completing a GSD action (stamping `gsd_complete`/`gsd_comp_date`) is the user's move, even after they verify the work.
 - **Never delete shadow tiddlers without asking first** — they may contain intentional overrides.
 - **Users don't know CSS**: prefer markup-level/native mechanisms over new stylesheet rules; when the markup can do it, delete the rule.
@@ -37,7 +37,7 @@ description: How I want TiddlyWiki work done — British English, names spelled 
 - **Shortcut conditionals**: `<%if ... %>` and `<%endif%>`, never `<$endif%>`.
 - **Explicit ends**: every `\procedure`/`\widget` ends with an explicit `\end` — a single `\` breaks global registration.
 - **Indentation in code blocks is 2 spaces**: one nesting level = +2; attribute continuation lines sit at their governing tag's indent + 2 (never aligned to the first attribute). Only already-indented code — never create indents or linebreaks for style, and never re-indent triple-quoted content where whitespace is literal output. Comment interiors keep their prose alignment.
-- **Filename matching**: filenames for `.tid` files match their `title:` field exactly. Standard tiddlers use the title (`My Tiddler.tid`); system/override tiddlers in `tiddlers/` replace `/` and `:` with `_` (`$__plugins_Foo_ui_bar.tid`); plugin source files' relative path matches the title suffix (`plugins/Foo/ui/bar.tid`).
+- **Filename matching**: filenames for `.tid` files match their `title:` field exactly. Standard tiddlers use the title (`My Tiddler.tid`); system/override tiddlers in a wiki's `tiddlers/` folder (this repo: `editions/site/tiddlers/`) replace `/` and `:` with `_` (`$__plugins_Foo_ui_bar.tid`); plugin source files' relative path matches the title suffix (`plugins/Foo/ui/bar.tid`).
 - **Header separation**: exactly one blank line between the tiddler headers (title, tags) and the first pragma.
 - **Pragma blocks**: all pragmas (`\whitespace trim`, `\procedure`, `\widget`) on consecutive lines — NEVER a blank line within the block (it terminates global registration).
 - **Trailing newlines**: files without a final newline are stripped deliberately — never restore, flag or "clean up" one.
