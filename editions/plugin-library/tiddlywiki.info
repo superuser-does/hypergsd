@@ -1,0 +1,32 @@
+{
+    "description": "HyperGSD plugin library builder",
+    "plugins": [
+        "tiddlywiki/pluginlibrary"
+    ],
+    "themes": [
+        "tiddlywiki/vanilla",
+        "tiddlywiki/snowwhite"
+    ],
+    "build": {
+        "library": [
+            "--output",
+            "./output/library",
+            "--makelibrary",
+            "$:/UpgradeLibrary",
+            "--savelibrarytiddlers",
+            "$:/UpgradeLibrary",
+            "[prefix[$:/plugins/yan/hypergsd]]",
+            "recipes/library/tiddlers/",
+            "$:/UpgradeLibrary/List",
+            "--render",
+            "$:/UpgradeLibrary/List",
+            "recipes/library/tiddlers.json",
+            "text/plain",
+            "$:/hypergsd/plugin-library/catalogue-template",
+            "--render",
+            "$:/plugins/tiddlywiki/pluginlibrary/library.template.html",
+            "pluginlibrary.html",
+            "text/plain"
+        ]
+    }
+}

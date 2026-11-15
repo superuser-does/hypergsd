@@ -1,6 +1,6 @@
 created: 20261114150154919
 creator: Yannis Anthymidis
-modified: 20261114150318570
+modified: 20261115154644000
 modifier: Yannis Anthymidis
 tags: [[Get HyperGSD]]
 title: Install HyperGSD on Node.js
@@ -11,3 +11,7 @@ If you host your TiddlyWiki through Node.js, you may install HyperGSD through th
 # Download the [[source code to HyperGSD|https://github.com/superuser-does/hypergsd]]
 # Extract the sub-folder of each plugin you want from `plugins/` to your TiddlyWiki's `/plugins/` folder //(i.e. a `plugins/` folder under the root folder that TiddlyWiki server starts from)//<br /><small>Note that the main plugin of `plugins/hypergsd/` is required for all other plugins listed.</small>
 # Restart the server
+
+To avoid side effects, this method should not be combined with any other install/update method.
+Installing the plugin(s) through drag-and-drop or the [[plugin library|HyperGSD plugin library]] will add it in as shadow tiddlers in your `tiddlers/` directory.
+As such, you will need to repeat this process each time you want to update to a newer version.

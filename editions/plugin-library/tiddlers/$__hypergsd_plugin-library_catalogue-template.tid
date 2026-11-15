@@ -1,0 +1,5 @@
+title: $:/hypergsd/plugin-library/catalogue-template
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<$view tiddler="$:/UpgradeLibrary/List"/>

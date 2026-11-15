@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261114150419788
+modified: 20261114160000000
 modifier: Yannis Anthymidis
 title: Get HyperGSD
 type: text/vnd.tiddlywiki
@@ -11,6 +11,8 @@ type: text/vnd.tiddlywiki
   <div>
     <h1>{{Add to an existing wiki!!title}}</h1>
     <$transclude $tiddler="Add to an existing wiki" $mode="block" />
+    <h2>Install or update through the plugin library</h2>
+    <$transclude $tiddler="HyperGSD plugin library" $mode="block" />
   </div>
   <div>
     <h1>{{Download a full wiki!!title}}</h1>

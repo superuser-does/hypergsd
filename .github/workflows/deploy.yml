@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'tiddlers/**'
+      - 'editions/plugin-library/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -44,6 +46,12 @@ jobs:
         run: |
           npx tiddlywiki . --build single-file
           mv output/single-file.html output/index.html
+
+      - name: Build plugin library
+        run: |
+          mkdir -p /tmp/lib/plugins/yan
+          cp -r plugins/hypergsd* /tmp/lib/plugins/yan/
+          TIDDLYWIKI_PLUGIN_PATH=/tmp/lib/plugins npx tiddlywiki ./editions/plugin-library --build library
 
       - uses: actions/configure-pages@v5
 
