@@ -280,11 +280,7 @@ plugins/hypergsd/
 │       │                        neutral: no root wrapper — the handle input is a
 │       │                        native inline element carrying hgsd-sizer-select
 │       │                        (flex hosts stretch it); the popup's inner
-│       │                        dropdown div stays block. label= renders a
-│       │                        wrapping label (caption + picker) naming the
-│       │                        input ($edit-text passes no id, so for/id is
-│       │                        unreachable); the input stays the first
-│       │                        labelable descendant.
+│       │                        dropdown div stays block.
 │       ├── hgsd-pick-field.tid  $hgsd.pick-field 3-state field editor widget
 │       │                        (both $hgsd.pick invocations pass commit-kind
 │       │                        "field" — picking drafts the target directly in
