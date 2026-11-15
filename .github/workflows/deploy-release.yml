@@ -18,9 +18,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -44,9 +44,28 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
-            || gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --draft --generate-notes
-          gh release upload "$GITHUB_REF_NAME" dist/*.json --repo "$GITHUB_REPOSITORY" --clobber
+          # `gh release view` cannot see draft releases, so resolve the target
+          # by tag through the list endpoint (drafts included) and upload by ID
+          release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq "[.[] | select(.tag_name == \"$GITHUB_REF_NAME\")][0].id // empty")"
+          if [ -z "$release_id" ]; then
+            gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+              --verify-tag --draft --generate-notes >/dev/null
+            release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+              --jq "[.[] | select(.tag_name == \"$GITHUB_REF_NAME\")][0].id")"
+          fi
+          echo "Attaching plugin JSONs to release $release_id ($GITHUB_REF_NAME)"
+          uploads_url="https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$release_id/assets"
+          for f in dist/*.json; do
+            name="${f##*/}"
+            old_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id/assets" \
+              --jq ".[] | select(.name == \"$name\") | .id")"
+            if [ -n "$old_id" ]; then
+              gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$old_id"
+            fi
+            gh api --method POST "$uploads_url?name=$name" \
+              -H "Content-Type: application/json" --input "$f" >/dev/null
+          done
 
   deploy:
     runs-on: ubuntu-latest
@@ -58,7 +77,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -68,7 +87,7 @@ jobs:
           echo "Pinning plugins/ to $tag"
           git checkout "$tag" -- plugins/
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -88,11 +107,11 @@ jobs:
           cp -r plugins/hypergsd* /tmp/lib/plugins/yan/
           TIDDLYWIKI_PLUGIN_PATH=/tmp/lib/plugins npx tiddlywiki ./editions/plugin-library --build library
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: output
 
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deployment
