@@ -147,12 +147,19 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick
 </$reveal>
 \end
 
-\widget $hgsd.pick(tiddler, field:"hgsd-pick", list-filter, placeholder:"", none-label:"", none-value:"", group-by:"", none-group-label:"", initial:"", id:"", search-mode:"title", focus:"no", realm-scope:"[subfilter<hgsd-realm-selection>]", commit-kind:"", commit-tiddler:"", commit-field:"", commit-value:"", commit-clear:"")
-<!-- qualify() hashes the transduction variable chain — identical for every picker within one tiddler — so multiple pickers would share a popup state and all open together. The state title is therefore built deterministically from id + current tiddler, keeping the $:/state/popup/pick- prefix the view-body refresh guard whitelists. none-group-label defaults at runtime because a ) inside a pragma parameter default terminates the parameter list. realm-scope is an EVALUATED FILTER EXPRESSION outputting the scope list (contract in modules/realm-scopes.tid); "" falls back to everything, an unknown variable or broken filter yields an empty picker. The commit-* params opt a call site into instant commits (hgsd-pick-commit): kind "field" sets a single-value field, "append" appends the pick to a list field, "append-to-picked" appends commit-value to the PICKED tiddler's list field; commit-clear additionally blanks a state tiddler's text on commit. -->
+\widget $hgsd.pick(tiddler, field:"hgsd-pick", list-filter, placeholder:"", none-label:"", none-value:"", group-by:"", none-group-label:"", initial:"", id:"", label:"", search-mode:"title", focus:"no", realm-scope:"[subfilter<hgsd-realm-selection>]", commit-kind:"", commit-tiddler:"", commit-field:"", commit-value:"", commit-clear:"")
+<!-- qualify() hashes the transduction variable chain — identical for every picker within one tiddler — so multiple pickers would share a popup state and all open together. The state title is therefore built deterministically from id + current tiddler, keeping the $:/state/popup/pick- prefix the view-body refresh guard whitelists. none-group-label defaults at runtime because a ) inside a pragma parameter default terminates the parameter list. realm-scope is an EVALUATED FILTER EXPRESSION outputting the scope list (contract in modules/realm-scopes.tid); "" falls back to everything, an unknown variable or broken filter yields an empty picker. The commit-* params opt a call site into instant commits (hgsd-pick-commit): kind "field" sets a single-value field, "append" appends the pick to a list field, "append-to-picked" appends commit-value to the PICKED tiddler's list field; commit-clear additionally blanks a state tiddler's text on commit. label renders a wrapping label element (caption, br, picker) so the caption becomes the input's accessible name — $edit-text forwards no id, which rules out the for/id pairing; the label wraps the whole pick output, keeping the input the first labelable descendant (call sites must not park buttons before the pick inside their own wrapping label). -->
 <$let none-group-label={{{ [<none-group-label>!match[]else{$:/language/hypergsd/Widgets/PickNoGroup}] }}}>
 <$let none-label={{{ [<none-label>!match[]then<none-label>else{$:/language/hypergsd/Widgets/NoneOption}] }}}>
 <$let pop={{{ [[$:/state/popup/pick-]addsuffix<id>addsuffix[-]addsuffix<currentTiddler>] }}}>
+<!-- The label opens and closes inside one branch: an element opened in one <%if%> branch auto-closes at the branch boundary and cannot span the transclusion. -->
+<%if [<label>!match[]] %>
+<label><<label>><br/>
 <<hgsd-pick-ui>>
+</label>
+<%else%>
+<<hgsd-pick-ui>>
+<%endif%>
 </$let>
 </$let>
 \end

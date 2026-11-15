@@ -7,9 +7,6 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
 \whitespace trim
 \procedure lingo-base() $:/language/hypergsd/Sections/
 <%if [<current-type>!match[context]!match[reference]!match[contact]] %>
-<label>
-<<lingo Context/Label>>
-<br/>
 <$hgsd.pick
   tiddler=<<new-state>>
   field="gsd_context"
@@ -17,6 +14,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
   initial={{{ [[$:/state/hypergsd/effective-context]get[text]] }}}
   none-label={{$:/language/hypergsd/Sections/Context/None}}
   id="context"
+  label=<<lingo Context/Label>>
   realm-scope=""/>
 <%if [<new-state>get[gsd_context]!match[]] :and[!is[tiddler]] %>
   <$transclude $variable="hgsd-create-and-add"
@@ -26,5 +24,4 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
     target-tiddler=<<new-state>>
     target-field="gsd_context"/>
 <%endif%>
-</label>
 <%endif%>

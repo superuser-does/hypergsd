@@ -97,6 +97,13 @@ if (captureRow) {
 }
 t("radios claim the first portion column (Portion/0)", inFirstPortion);
 
+// radio-group naming: the caption is the legend of a fieldset around the radios (a wrapping label would forward caption clicks to the FIRST radio — High — silently rewriting the field)
+const groupFieldset = (function f(n) { if (!n || typeof n !== "object") return null; if (Array.isArray(n)) { for (const x of n) { const r = f(x); if (r) return r; } return null; }
+	if (n.tag === "fieldset" && findRadioInputs([n]).length === 3) return n; return f(n.children); })(panel.c.children);
+const legendOf = n => (function f(m) { if (!m || typeof m !== "object") return null; if (Array.isArray(m)) { for (const x of m) { const r = f(x); if (r) return r; } return null; }
+	return m.tag === "legend" ? m : f(m.children); })(n);
+t("radios sit in a fieldset whose legend carries the caption", !!groupFieldset && !!legendOf(groupFieldset) && textOf(legendOf(groupFieldset).children).indexOf("Priority") !== -1);
+
 // type gate: contacts render no radios
 t("no radios on a contact", findRadioInputs(renderPanel("ZZ prio contact").c.children).length === 0);
 

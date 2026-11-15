@@ -18,7 +18,9 @@ title: $:/plugins/yan/hypergsd-priorities/ui/panel/priority
 
 <!-- Panel folding, decided in-member: the section ships Shown-when-folded and reads the host's core fold state itself ($:/state/folded/<title> — the same state the body and the section slots key on; the view-body gate admits the prefix, so the frozen panel re-renders on the toggle). A folded tiddler keeps only the selected block, checked and read-only (the ✕ is an open-panel control — clearing needs the tiddler unfolded); a tiddler with no priority folds the whole section away, the outer gate rendering nothing so the chassis collapse guard drops the empty column. The modal needs no case of its own: its hosts never carry a fold state, the else[show] default holds the panel open. -->
 <%if [<priority-letter>!match[]] [<priority-fold-state>get[text]else[show]match[show]] :and[limit[1]] %>
-<span><<lingo Priority/Label>></span>
+<!-- A named fieldset, the status section's radio-group pattern: a wrapping label would forward caption clicks to the FIRST radio (High), silently rewriting the field; the legend names the group without creating a click target. The panel chassis rule strips the fieldset's native chrome. -->
+<fieldset>
+<legend><<lingo Priority/Label>></legend>
 <$eventcatcher tag="div" selector=".hgsd-priority-option input" $click=<<hgsd-priority-click>>>
 <%if [<priority-fold-state>get[text]else[show]match[show]] %>
 <div class="hgsd-priority-row hgsd-priority-A">
@@ -96,6 +98,7 @@ title: $:/plugins/yan/hypergsd-priorities/ui/panel/priority
 <%endif%>
 <%endif%>
 </$eventcatcher>
+</fieldset>
 <%endif%>
 </$let>
 <%endif%>

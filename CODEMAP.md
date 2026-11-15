@@ -280,12 +280,23 @@ plugins/hypergsd/
 │       │                        neutral: no root wrapper — the handle input is a
 │       │                        native inline element carrying hgsd-sizer-select
 │       │                        (flex hosts stretch it); the popup's inner
-│       │                        dropdown div stays block.
+│       │                        dropdown div stays block. label= renders a
+│       │                        wrapping label (caption + picker) naming the
+│       │                        input ($edit-text passes no id, so for/id is
+│       │                        unreachable); the input stays the first
+│       │                        labelable descendant.
 │       ├── hgsd-pick-field.tid  $hgsd.pick-field 3-state field editor widget
 │       │                        (both $hgsd.pick invocations pass commit-kind
 │       │                        "field" — picking drafts the target directly in
 │       │                        the modal and writes it live in the panel; the
-│       │                        editing state also commit-clears edit-state-title). Both
+│       │                        editing state also commit-clears edit-state-title). label=
+│       │                        renders the caption in every state and a
+│       │                        wrapping label (caption + row) in the empty
+│       │                        state only, where it also carries the
+│       │                        hgsd-print-hide-blank hook — the set states
+│       │                        need no hook (a set field always renders a
+│       │                        link) and no label (their first labelable
+│       │                        element is the clear ✕). Both
 │       │                        keyboard-commit sites route through
 │       │                        hgsd-pick-keyboard-commit (create-if-missing at
 │       │                        keypress; the editing state passes edit-state-title as

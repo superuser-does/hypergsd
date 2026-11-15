@@ -111,6 +111,19 @@ if (saveBtn) fireActions(buttonWidgets(prPanelR.w)[0]);
 t("project panel: save writes the HOST immediately",
   wiki.getTiddler("Host action").fields.gsd_project, "Some project");
 
+// label association: the empty state's caption names the pick input ($edit-text passes no id, so a wrapping label is the only pairing); the set state must NOT wrap — its first labelable element is the clear ✕, so a label would forward caption clicks to it
+const labelWithInput = (c, caption) => { let hit = false; (function f(n){ if(hit||!n||typeof n!=="object") return; if(Array.isArray(n)) return n.forEach(f);
+  if(n.isTiddlyWikiFakeDom && n.tag === "label") { const hasCap = (n.textContent||"").indexOf(caption) !== -1; let hasInput = false;
+    (function g(m){ if(hasInput||!m||typeof m!=="object") return; if(Array.isArray(m)) return m.forEach(g); if(m.isTiddlyWikiFakeDom && m.tag === "input" && m.attributes && m.attributes.type === "text") hasInput = true; (m.children||[]).forEach(g); })(n);
+    if(hasCap && hasInput) { hit = true; return; } } (n.children||[]).forEach(f); })(c); return hit; };
+const anyLabel = c => { let hit = false; (function f(n){ if(hit||!n||typeof n!=="object") return; if(Array.isArray(n)) return n.forEach(f); if(n.isTiddlyWikiFakeDom && n.tag === "label") { hit = true; return; } (n.children||[]).forEach(f); })(c); return hit; };
+const buttonInsideLabel = (c, cls) => { let hit = false; (function f(n, inLabel){ if(hit||!n||typeof n!=="object") return; if(Array.isArray(n)) return n.forEach(n2 => f(n2, inLabel));
+  if(n.isTiddlyWikiFakeDom) { const isLabel = n.tag === "label"; const isBtn = n.tag === "button" && n.attributes && (n.attributes.class||"").indexOf(cls) !== -1; if(isBtn && inLabel) { hit = true; return; } (n.children||[]).forEach(ch => f(ch, inLabel || isLabel)); } })(c, false); return hit; };
+t("project panel: empty state wraps caption + pick input in a label", labelWithInput(prPanelR.c, L("$:/language/hypergsd/Sections/Project/OfLabel")), true);
+const prSetR = render(panelCtx('<$transclude $tiddler="$:/plugins/yan/hypergsd/ui/attributes/project" $mode="block"/>', "Host action"));
+t("project panel: set state renders no label element at all", anyLabel(prSetR.c), false);
+t("project panel: set state's clear button sits outside any label", buttonInsideLabel(prSetR.c, "hgsd-clear-button"), false);
+
 // project: modal branch — pick-field over the temp, new-button suppressed
 wiki.deleteTiddler("$:/temp/hypergsd/add-project-Host action");
 wiki.addTiddler({title: "$:/temp/gsd-new-temp"});

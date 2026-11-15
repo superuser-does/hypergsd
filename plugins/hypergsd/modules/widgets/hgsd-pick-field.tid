@@ -40,16 +40,9 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
 <%endif%>
 \end
 
-\widget $hgsd.pick-field(field, tiddler:"", new-button:"show", clear-button:"show", list-filter, id, label:"", group-by:"", none-label:"", none-group-label:"", new-type:"", new-status:"next", new-update-status:"no", search-mode:"title", placeholder:"", edit-placeholder:"", realm-scope:"[subfilter<hgsd-realm-selection>]", panel-items:"show")
-<!-- Three-state field editor for a single-value gsd_* field, wrapping $hgsd.pick: empty -> picker row + new button; set -> link + change button + explicit clear button; editing -> fieldset with the value as legend, keyboard-save (Enter by default) / Escape-cancel. The Save button of either set state renders ONLY while the pick is commitable without creation (2026-09-27, one affordance per pick state: blank shows the new cluster alone, a typed pick shows the commit step, a typed non-existent pick swaps it for create-and-add — one elseif chain on hgsd-pick-keyboard-commit's create gate, with hgsd-new-options (the kind-mapped create button) in the then-branch; a combined one-filter form does not parse and its error literal is truthy). Clearing therefore moved OUT of the commit flow: the set state's clear button — icon-only with core's Buttons/Clear/Caption as its tooltip, placed between the value link and change — blanks the field directly (clear-button="hide" suppresses it), and the keyboard's blank commit still clears — the mouse path no longer relies on "open the editor, leave it empty, save". The keyboard wrappers of both commit sites route through hgsd-pick-keyboard-commit (in hgsd-pick.tid): a typed non-existent pick is created and linked (the create-and-add button's fork, direction blank = plain set), anything else writes the field exactly as the Save button does; the editing state passes its reveal as close-state so a create closes the editor. Opening the editor clears the pick for type-to-search. edit-state-title and pick-tiddler-title are deterministic per field/id plus write target (qualify() would collide two simultaneously open tiddlers) and live under the prefixes the view-body refresh guard whitelists — the pick-gated buttons ride the same per-keystroke refresh the create-and-add gate always used. tiddler names the write target (blank = currentTiddler; the modal passes its data temp, making the control a drafting editor). new-type blank omits the new button; new-button="hide" suppresses only the plain fallbacks — typed non-existent picks still get create-and-add (for hosts that cannot stack modals). panel-items renders the Panel placement's adornments in the set state ("hide" suppresses them; the placement is fixed — applicability via the type tick boxes). -->
-<$let target={{{ [<tiddler>!match[]then<tiddler>else<currentTiddler>] }}}>
-<$let edit-state-title={{{ [[$:/state/hypergsd/edit-]addsuffix<field>addsuffix[-]addsuffix<target>] }}}
-  pick-tiddler-title={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
-<$let current-value={{{ [<target>get<field>] }}}>
-<$let effective-none-label={{{ [<none-label>!match[]then<none-label>else{$:/language/hypergsd/Widgets/NoneOption}] }}}>
-<%if [<label>!match[]] %><<label>>:<br/><%endif%>
+\procedure hgsd-pick-field-ui()
+<!-- The state row, extracted so the label wrapper can open and close around the whole row inside one <%if%> branch (an element opened in one branch auto-closes at the branch boundary and cannot span the states). -->
 <div class="gsd-list-item hgsd-sizer-droplist">
-
   <!-- State 2: field set, not editing: link + change button on one line (separate reveals keep them side-by-side flex items; both hide while editing). The link's reveal is NOT a sizer: display rows must not stretch, or the clear/change buttons land at the host's right edge far from the value (the picker input alone owns the stretch); the stylesheet's title rule reaches links inside their reveal, so long values shrink and wrap. The change button's hgsd-change-button is print-ONLY: the print stylesheet hides it on paper, nothing styles it on screen (same contract as the clear button's hgsd-clear-button). -->
   <%if [<current-value>!match[]] %>
   <$reveal type="nomatch" state=<<edit-state-title>> text="yes">
@@ -137,8 +130,28 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-pick-field
     <$transclude $variable="hgsd-new-fallback"/>
   </div>
   <%endif%>
-
 </div>
+\end
+
+\widget $hgsd.pick-field(field, tiddler:"", new-button:"show", clear-button:"show", list-filter, id, label:"", group-by:"", none-label:"", none-group-label:"", new-type:"", new-status:"next", new-update-status:"no", search-mode:"title", placeholder:"", edit-placeholder:"", realm-scope:"[subfilter<hgsd-realm-selection>]", panel-items:"show")
+<!-- Three-state field editor for a single-value gsd_* field, wrapping $hgsd.pick: empty -> picker row + new button; set -> link + change button + explicit clear button; editing -> fieldset with the value as legend, keyboard-save (Enter by default) / Escape-cancel. The Save button of either set state renders ONLY while the pick is commitable without creation (2026-09-27, one affordance per pick state: blank shows the new cluster alone, a typed pick shows the commit step, a typed non-existent pick swaps it for create-and-add — one elseif chain on hgsd-pick-keyboard-commit's create gate, with hgsd-new-options (the kind-mapped create button) in the then-branch; a combined one-filter form does not parse and its error literal is truthy). Clearing therefore moved OUT of the commit flow: the set state's clear button — icon-only with core's Buttons/Clear/Caption as its tooltip, placed between the value link and change — blanks the field directly (clear-button="hide" suppresses it), and the keyboard's blank commit still clears — the mouse path no longer relies on "open the editor, leave it empty, save". The keyboard wrappers of both commit sites route through hgsd-pick-keyboard-commit (in hgsd-pick.tid): a typed non-existent pick is created and linked (the create-and-add button's fork, direction blank = plain set), anything else writes the field exactly as the Save button does; the editing state passes its reveal as close-state so a create closes the editor. Opening the editor clears the pick for type-to-search. edit-state-title and pick-tiddler-title are deterministic per field/id plus write target (qualify() would collide two simultaneously open tiddlers) and live under the prefixes the view-body refresh guard whitelists — the pick-gated buttons ride the same per-keystroke refresh the create-and-add gate always used. tiddler names the write target (blank = currentTiddler; the modal passes its data temp, making the control a drafting editor). new-type blank omits the new button; new-button="hide" suppresses only the plain fallbacks — typed non-existent picks still get create-and-add (for hosts that cannot stack modals). panel-items renders the Panel placement's adornments in the set state ("hide" suppresses them; the placement is fixed — applicability via the type tick boxes). label names the section: the caption in every state, and a wrapping label element (caption + row) in the empty state so the caption becomes the pick input's accessible name — $edit-text forwards no id, ruling out for/id, and the set states cannot wrap (their first labelable element is the clear button, so caption clicks would wipe the field); the empty state's label doubles as the print-hook host, the only state the blank-field hiding applies to (a set field always renders a link, and the print rule keys on :not(:has(a.tc-tiddlylink))). -->
+<$let target={{{ [<tiddler>!match[]then<tiddler>else<currentTiddler>] }}}>
+<$let edit-state-title={{{ [[$:/state/hypergsd/edit-]addsuffix<field>addsuffix[-]addsuffix<target>] }}}
+  pick-tiddler-title={{{ [[$:/temp/hypergsd/add-]addsuffix<id>addsuffix[-]addsuffix<target>] }}}>
+<$let current-value={{{ [<target>get<field>] }}}>
+<$let effective-none-label={{{ [<none-label>!match[]then<none-label>else{$:/language/hypergsd/Widgets/NoneOption}] }}}>
+<%if [<label>!match[]] %>
+<%if [<current-value>!match[]] %>
+<<label>><br/>
+<<hgsd-pick-field-ui>>
+<%else%>
+<label class={{{ [[$:/config/hypergsd/print-blank-fields]get[text]else[show]match[hide]then[hgsd-print-hide-blank]] }}}><<label>><br/>
+<<hgsd-pick-field-ui>>
+</label>
+<%endif%>
+<%else%>
+<<hgsd-pick-field-ui>>
+<%endif%>
 </$let>
 </$let>
 </$let>
