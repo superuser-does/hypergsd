@@ -79,6 +79,8 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
   <$slot $name="label">{{$:/language/hypergsd/Widgets/CreateAdd/LabelA}}<q><$text text=<<typed-pick>>/></q>{{$:/language/hypergsd/Widgets/CreateAdd/LabelB}}</$slot>
   <%endif%>
 </$button>
+<!-- Core's bad-character warning rides the shared shell itself, not per call site: every button-path typed creation (pick-field both states, pick-append rows, direct shell callers such as sub-plugin row fragments, the modal's pickers — and any future surface transcluding this shell) inherits the indicator with zero wiring. The entity carries the gap in inline-flow hosts (pick-append's and the direct callers' cluster divs; flex-row hosts add their own gap on top). The keyboard fork routes through hgsd-create-and-add-actions at keypress and never renders here — the row's create branch has already shown the icon on the same typed pick. -->
+&nbsp;<$transclude $variable="hgsd-title-warning" typed-value={{{ [<typed-pick>] }}} />
 </$let>
 </$let>
 \end

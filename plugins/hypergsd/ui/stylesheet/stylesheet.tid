@@ -87,6 +87,21 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/stylesheet
   font: inherit;
 }
 
+/* Title-warning presentation (ui/components/title-warning.tid): the icon mode needs the family svg clamp (core's warning svg ships viewBox-only; outside the box's own rule nothing sizes it). The box mode keeps core's tc-message-box chrome — ink, 12px typography, the svg clamp — and overrides only GEOMETRY through the shared hook: the theme's 21px padding and wide-viewport ±21px margins are sized for page-level notices that bleed to the tiddler frame edges, and as a per-keystroke hint below an input they stretch the host (the modal visibly resizes on every appearance). inline-block hugs the one-line message; max-inline-size caps it so narrow hosts wrap the text instead of overflowing (a warning must stay readable — no ellipsis); (0,2,0) beats the theme's (0,1,0) without order games. Vertical padding is a full em of the box's own 12px font (the notice density — 76% of core's edit-template band — where 0.5em read as chip density), horizontal 1.25em keeps every core notice's flatter-than-tall proportion (tag-label 0.16:0.7, alert 1:1, message-box 0:1.75); the block margins neutralise the theme's wide-viewport ±21px pair (bottom stays 0 — every host already gaps below). */
+.hgsd-title-warning {
+  & svg {
+    height: 1em;
+  }
+  &.tc-message-box {
+    display: inline-block;
+    max-inline-size: 100%;
+    margin-block: 0.25em 0;
+    margin-inline: 0;
+    padding-block: 1em;
+    padding-inline: 1.25em;
+  }
+}
+
 /* 2026-09-27: the former margin-inline-start sat INSIDE the fallback button,
    an asymmetric gap before the word with none after — the button's own padding
    separates it now (the row carries no flex gap; adjacent buttons space

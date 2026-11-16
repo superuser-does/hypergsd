@@ -1,0 +1,19 @@
+title: $:/plugins/yan/hypergsd/ui/components/title-warning
+tags: $:/tags/Global
+
+\whitespace trim
+
+<!-- Bad-character title warning — core's edit-template mechanism pointed at HyperGSD's creation surfaces: the same character set (the [\|\[\]{}] regexp core ships in $:/core/ui/EditTemplate/title.tid), the same lingo key ($:/language/EditTemplate/Title/BadCharacterWarning, so every core translation renders), the same icon and tc-message-box presentation. The test takes the TYPED VALUE, not a tiddler+field pair: regexp's missing-tiddler fallback tests the input title string itself, and an existing tiddler's title field equals the value, so one parameter serves every surface (variable operator suffixes do not exist — regexp:<fld> parses as a variable operand, and the trailing <pattern> becomes a runaway title run whose output is truthy on every input; probed). warning-style picks the presentation: "box" is core's own message box (modal title row, contexts add-row — the titled rows with vertical room); "icon" (the default) is the realm-warning shape, a 1em warning glyph whose tooltip carries the substituted message (pick rows, and any compact one-line control such as the realm pill — a box would stretch the row). bad-chars replicates core's backticked character list verbatim: the lingo macrocall renders it as code in box mode, and in icon mode search-replace substitutes it into the tooltip because attribute values never re-parse macrocalls (<<lingo>> in attribute position leaks the literal {{transclusion}} — probed). -->
+\procedure hgsd-title-warning(typed-value, warning-style:"icon")
+<$let pattern="""[\|\[\]{}]"""
+  bad-chars="""`| [ ] { }`"""
+  bad-literal="<<bad-chars>>">
+<%if [<typed-value>regexp<pattern>] %>
+<%if [<warning-style>match[box]] %>
+<div class="tc-message-box hgsd-title-warning">{{$:/core/images/warning}}&#x20;{{$:/language/EditTemplate/Title/BadCharacterWarning}}</div>
+<%else%>
+<span class="hgsd-title-warning" title={{{ [[$:/language/EditTemplate/Title/BadCharacterWarning]] :map[get[text]search-replace<bad-literal>,<bad-chars>] }}}>{{$:/core/images/warning}}</span>
+<%endif%>
+<%endif%>
+</$let>
+\end

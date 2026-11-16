@@ -28,5 +28,7 @@ title: $:/plugins/yan/hypergsd/ui/modal/realm
       colour-a={{{ [[$:/palette]get[text]getindex[foreground]] }}}
       colour-b={{{ [[$:/palette]get[text]getindex[background]] }}}>
 <$transclude $variable="hgsd-realm-pill" fallbackTarget=<<fallback-target>> colourA=<<colour-a>> colourB=<<colour-b>> />
+<!-- Core's bad-character warning over the typed realm name (the name becomes the $:/GSD/Realm/<name> tag title at submit), the small icon form beside the pill — a one-line control takes a one-line warning, not the box; live-updates through the modal gate's gsd-new-realm-name prefix run. The entity carries the gap (element interiors parse inline and trim eats plain spaces). -->
+&nbsp;<$transclude $variable="hgsd-title-warning" typed-value={{{ [[$:/temp/gsd-new-realm-name]get[text]] }}} />
 </$let>
 </$list>

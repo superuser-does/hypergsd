@@ -40,6 +40,8 @@ title: GSD/Contexts
       </$button>
     </$let>
   </div>
+  <!-- Core's bad-character title warning over the typed context name (the name becomes both a tiddler title and a tag); the page body carries no refresh gate, so the box live-updates per keystroke -->
+  <$transclude $variable="hgsd-title-warning" typed-value={{{ [[$:/temp/hypergsd/NewContextName]get[text]] }}} warning-style="box" />
 </div>
 
 <!-- The context list: each li is a real tag pill via tag-pill-BODY directly — the row fragment's mechanism (the outer tag-pill hop only wraps and rebinds currentTiddler), so colour and icon ride the standard cascades and the pill's ink is core's own contrastcolour — clicking navigates, the list keeping its ul/li structure. -->

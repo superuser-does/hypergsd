@@ -740,7 +740,35 @@ same resolved key; a
     │                            local lists — scoped dashboards never show it,
     │                            outside rows are invisible by construction; one
     │                            switch $:/config/hypergsd/realm-warning show/hide
-    │                            in Settings), list-item-template (the per-list
+    │                            in Settings), title-warning (Global — core's
+    │                            bad-character title warning [\|\[\]{}] as ONE
+    │                            procedure hgsd-title-warning(typed-value, mode)
+    │                            over the TYPED VALUE (regexp's missing-tiddler
+    │                            fallback tests the value itself, so one parameter
+    │                            serves every surface); reuses core's lingo key
+    │                            EditTemplate/Title/BadCharacterWarning (every
+    │                            core translation renders), core's warning svg and
+    │                            tc-message-box; the icon rides INSIDE the shared
+    │                            hgsd-create-and-add shell (not per call site), so
+    │                            every button-path typed creation inherits it with
+    │                            zero wiring — pick-field both states, pick-append
+    │                            rows, the contextualise fragment (a direct shell
+    │                            caller), the modal's pickers, and any future
+    │                            surface transcluding the shell; the keyboard fork
+    │                            (hgsd-create-and-add-actions) is action-time and
+    │                            never renders it; the titled rows with vertical
+    │                            room take core's own box (warning-style="box":
+    │                            modal title row, contexts add-row) — every other
+    │                            surface renders the default icon form, the
+    │                            realm-warning shape, including the realm pill
+    │                            beside the pill (a one-line control takes a
+    │                            one-line warning), live-updating through a
+    │                            dedicated
+    │                            [prefix[$:/temp/gsd-new-realm-name]] run in the
+    │                            modal gate); the tooltip carries the substituted
+    │                            message via search-replace (attribute values never
+    │                            re-parse macrocalls); advisory only, never blocks
+    │                            creation), list-item-template (the per-list
     │                            Settings row: core row + portion-picker + a
     │                            Group by / Sort by pair binding list-default
     │                            config natively; the member's heading field
@@ -1341,7 +1369,10 @@ popups; prefix whitelisted by refresh guards); temps — `$:/temp/gsd-new-temp`
 (modal working tiddler), `$:/temp/gsd-new-title` (modal title; separate tiddler
 so keystrokes stay outside the modal refresh gate; deleted on submit, kept on
 cancel like the main temp), `$:/temp/gsd-new-realm-name` (modal "new realm"
-typed name; outside every refresh-gate prefix for the same reason), `$:/temp/hypergsd/add-<id>-<title>` (per-tiddler
+typed name; outside every OTHER refresh-gate prefix — the modal's own gate
+carries a `[prefix[$:/temp/gsd-new-realm-name]]` run so the pill's title-warning
+box live-updates per keystroke at the same chassis re-render the unscoped add-
+run already costs on picker typing), `$:/temp/hypergsd/add-<id>-<title>` (per-tiddler
 picker state; ids: contact/project/prereq), `$:/temp/hypergsd/NewContextName`, `$:/temp/gsd-list/<tiddler>-<title>`
 (`$qualify`d collapse state).
 
