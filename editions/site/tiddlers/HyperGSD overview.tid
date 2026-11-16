@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261115213952158
+modified: 20261116165926382
 modifier: Yannis Anthymidis
 title: HyperGSD overview
 type: text/vnd.tiddlywiki
@@ -12,5 +12,3 @@ type: text/vnd.tiddlywiki
 [[Learn more about the concepts of GSD task management|HyperGSD approach to task management]]
 
 ~HyperGSD uses technologies from the core of ~TiddlyWiki as much as possible to make it feel native and easy to integrate into your wiki, and goes out of its way to work well with every part of core functionality, including tiddler folding and printing. It is intended for and tested with the //Vanilla// theme.
-
-//HyperGSD builds on a long series of previous "GSD" plugins for ~TiddlyWiki, which date back to the mid-2000s. See [[HyperGSD project background]] for more on how and why ~HyperGSD was created.//

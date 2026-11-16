@@ -1,6 +1,6 @@
 title: $:/plugins/yan/hypergsd-ticklers/readme
 type: text/vnd.tiddlywiki
-modified: 20261112195909000
+modified: 20261116170337000
 
 A ''~HyperGSD tickler'' is a reminder you can attach to a ~HyperGSD action. You pick a date for it. When the date arrives, an alert appears with a link to the action. You can also set the tickler to repeat every //n// days.
 
@@ -32,7 +32,7 @@ The [[GSD/Ticklers]] dashboard lists ticklers in three sections:
 
 ! Settings
 
-You can switch the date-shift buttons (<kbd>+d</kbd>, <kbd>+w</kbd>, etc) on or off in Settings → ~HyperGSD → [[Ticklers|$:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers]]. The buttons beside the tickler date and the buttons on the banner are set separately.
+You can switch the date-shift buttons (<kbd>+d</kbd>, <kbd>+w</kbd>, etc) on or off in ''Settings'' → ''~HyperGSD'' → [[Ticklers|$:/plugins/yan/hypergsd-ticklers/ui/control-panel/ticklers]]. The buttons beside the tickler date and the buttons on the alert banner are set separately.
 
 ! Fields
 
@@ -40,35 +40,6 @@ You can switch the date-shift buttons (<kbd>+d</kbd>, <kbd>+w</kbd>, etc) on or 
 |`gsd_tickler_date` |When the tickler fires, as a ~TiddlyWiki UTC date string at midnight |
 |`gsd_tickler_date_history` |Every date the tickler has had, oldest first. The last entry is the current date. The plugin does not display this list anywhere. |
 |`gsd_tickler_repeat_days` |How many days between repeats. Zero or empty means the tickler does not repeat. It alerts only on its due date. |
-
-! Shift buttons
-
-Each shift button is a small tiddler.
-
-* Tag a button with <<tag $:/tags/hypergsd/Ticklers/Shift>> to show it beside the tickler date.
-* Tag a button with <<tag $:/tags/hypergsd/Ticklers/Alert>> to show it on the alert banner.
-
-The buttons are rendered by the shared `$hgsd.tickler-shift` widget. A button tiddler carries these fields:
-
-|Field |Meaning |h
-|`days` |Whole days to move the date by. Minus values bring the date forward. |
-|`label` |Button text. |
-|`tooltip` |Button tooltip, plain text or a `<<lingo>>` key. |
-|`class` |Optional CSS class for the button. |
-
-The widget can also be used on its own, with explicit parameters:
-
-|Parameter |Meaning |h
-|`target-tiddler` |The tiddler whose `gsd_tickler_date` is written. |
-|`base-date` |The date the shift starts from. The panel passes the stored date, the banner passes now. |
-|`days` |Whole days to move the date by. |
-|`label` |Button text. |
-|`tooltip` |Button tooltip, plain text or a `<<lingo>>` key (see `lingo-base`). |
-|`class` |Optional CSS class for the button. |
-|`after-shift-actions` |Optional wikitext actions to run after the date is written. The banner uses this to close itself. |
-|`lingo-base` |Base title for `<<lingo>>` keys. Defaults to the shared Sections namespace. |
-
-As with a change of date through the widget, every shift is also recorded on the `gsd_tickler_date_history`.
 
 ---
 

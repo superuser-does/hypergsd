@@ -1,6 +1,6 @@
 created: 20261115210558125
 creator: Yannis Anthymidis
-modified: 20261115212646162
+modified: 20261116165911599
 modifier: Yannis Anthymidis
 tags: 
 title: HyperGSD approach to task management
@@ -20,3 +20,5 @@ The [[basic HyperGSD plugin|$:/plugins/yan/hypergsd]] offers these features to h
 There are many ways to [[customise|Customise HyperGSD]] a. This wiki has several sub-plugins already installed providing more capabilities, like listing [[Contacts|$:/plugins/yan/hypergsd-contacts]] and setting [[Priorities|$:/plugins/yan/hypergsd-priorities]].
 
 You can interact with these through the options available on the //Capture// and //Review// sidebar tabs, as well buttons on the Page Toolbar, like {{$:/plugins/yan/hypergsd/ui/sidebar/capture/new-action}}
+
+//HyperGSD builds on a long series of previous "GSD" plugins for ~TiddlyWiki, which date back to the mid-2000s. See [[HyperGSD project background]] for more on how and why ~HyperGSD was created.//

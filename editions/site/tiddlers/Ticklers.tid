@@ -1,15 +1,18 @@
 caption: ticklers
-title: Ticklers
+created: 20261116170159085
+modified: 20261116170337000
 tags: Documentation [[HyperGSD API]]
+title: Ticklers
+type: text/vnd.tiddlywiki
 
 ! Ticklers
 
 A tickler is an action carrying extra fields. On the due day the plugin raises an alert banner with a link back to the action; the date field is ''never'' consumed by firing — an overdue tickler stays visible in the dashboard (and recoverable) until handled, so no unseen login on another device can silently eat the date.
 
 |! Field |! Meaning |
-| `gsd_tickler_date` | Due date, as a ~TiddlyWiki UTC date string at midnight (the date input and the alert shift arithmetic write no time of day). |
-| `gsd_tickler_date_history` | Chronological list of every date the tickler has carried — each pick, shift-button press and automatic roll appends the new date; the last entry is always the current date. Not displayed anywhere yet. |
-| `gsd_tickler_repeat_days` | Repeat interval in days. Absent, empty, zero or non-numeric means one-shot: the alert fires on the due day and the date is kept. A repeating tickler advances by whole intervals from the fired date (phase preserved). |
+|`gsd_tickler_date` |Due date, as a ~TiddlyWiki UTC date string at midnight (the date input and the alert shift arithmetic write no time of day). |
+|`gsd_tickler_date_history` |Chronological list of every date the tickler has carried — each pick, shift-button press and automatic roll appends the new date; the last entry is always the current date. Not displayed anywhere yet. |
+|`gsd_tickler_repeat_days` |Repeat interval in days. Absent, empty, zero or non-numeric means one-shot: the alert fires on the due day and the date is kept. A repeating tickler advances by whole intervals from the fired date (phase preserved). |
 
 A repeating tickler marked complete stays complete — on each due date it raises its banner once regardless of completion, and the same run's rollover books the next date, so the banner is once per cycle; completing a one-shot deletes its alert and it never raises again. A tickler missed while the wiki was closed raises a //Tickler overdue// banner at the first check after — repeating ticklers get one per missed occurrence (the same run books the next date), while an overdue one-shot keeps re-raising once a day until handled; the dashboard's date sort remains the catch-up view. Snoozing deletes the alert; a banner closed with the toolbar close button is re-raised at the next day's first check while the tickler still qualifies.
 
@@ -29,7 +32,7 @@ The check writes `<$transclude $variable="hgsd-tickler-alert" />` into each aler
 
 !! Extending
 
-Shift buttons: members are data-only tiddlers tagged `$:/tags/hypergsd/Ticklers/Shift` (the panel set) — fields `days` (whole days, negative brings the date forward), `label` and `tooltip` (plain text or `<<lingo>>` keys), optional `class`. The shared `$hgsd.tickler-shift` widget (`modules/widgets/hgsd-tickler-shift`, Global) renders any member: parameters `target-tiddler`, `base-date` (the panel binds the stored date, the alert binds now), `days`, `label`, `tooltip`, `class`, `after-shift-actions`, `lingo-base`. Members tagged `$:/tags/hypergsd/Ticklers/Alert` (its own list field orders them) also appear on the alert banner with the browser-default button look; the panel set renders as invisible buttons. The year member ships withdrawn (its `$:/config/hypergsd/Ticklers/Shift/visibility/` entry reads hide — the GroupBy/status mechanism under the visibility vocabulary, matching core's own `$:/config/…/Visibility/<title>` show/hide convention); ticking its row in settings writes show and offers +y. The widget is equally invocable directly with explicit parameters, no tag-list tiddler needed. Each render site drops members whose own visibility-base entry reads hide — the panel section `ui/attributes/tickler` gates on `$:/config/hypergsd/Ticklers/Shift/visibility/`, the alert body on `$:/config/hypergsd/Ticklers/Alert/visibility/`; the Settings → ~HyperGSD → Ticklers tab (`ui/control-panel/ticklers`) is a visibility list over each tag.
+Shift buttons: members are data-only tiddlers tagged `$:/tags/hypergsd/Ticklers/Shift` (the panel set) — fields `days` (whole days, negative brings the date forward), `label` and `tooltip` (plain text or `<<lingo>>` keys), optional `class`. The shared `$hgsd.tickler-shift` widget (`modules/widgets/hgsd-tickler-shift`, Global) renders any member: parameters `target-tiddler`, `base-date` (the panel binds the stored date, the alert binds now), `days`, `label`, `tooltip`, `class`, `after-shift-actions`, `lingo-base` (defaults to the shared Sections namespace). Members tagged `$:/tags/hypergsd/Ticklers/Alert` (its own list field orders them) also appear on the alert banner with the browser-default button look; the panel set renders as invisible buttons. The year member ships withdrawn (its `$:/config/hypergsd/Ticklers/Shift/visibility/` entry reads hide — the GroupBy/status mechanism under the visibility vocabulary, matching core's own `$:/config/…/Visibility/<title>` show/hide convention); ticking its row in settings writes show and offers +y. The widget is equally invocable directly with explicit parameters, no tag-list tiddler needed. Each render site drops members whose own visibility-base entry reads hide — the panel section `ui/attributes/tickler` gates on `$:/config/hypergsd/Ticklers/Shift/visibility/`, the alert body on `$:/config/hypergsd/Ticklers/Alert/visibility/`; the Settings → ~HyperGSD → Ticklers tab (`ui/control-panel/ticklers`) is a visibility list over each tag.
 
 !! Architecture
 

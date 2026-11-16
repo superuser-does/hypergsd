@@ -1,0 +1,31 @@
+created: 20261116165509694
+modified: 20261116165558778
+tags: 
+title: Integration with Drawers/Configure grouping options
+type: text/vnd.tiddlywiki
+
+The //Group by// options are provided by a single filter: search it for `offered-members`. Each grouping option is named twice: a `...-member` line with its title above the filter, and a `...-member` run inside it.
+
+!! Removing a grouping option
+
+To remove a grouping option, delete its run from the filter.
+
+For example, removing Priority leaves the filter reading:
+
+```
+offered-members={{{ [<project-member>] :filter[has[title]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]] +[format:titlelist[]join[ ]] }}}
+```
+
+!! Adding a grouping option
+
+To add a grouping option, add a //Group by// tiddler's title (for example `$:/plugins/yan/hypergsd/ui/group-by/realm`) to the filter run. The first tiddler you name will be the default grouping.
+
+
+As an example, adding Realms takes one line plus its run:
+
+```
+realm-member="$:/plugins/yan/hypergsd/ui/group-by/realm"
+offered-members={{{ [<priority-member>] [<realm-member>] [<project-member>] :filter[has[title]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]] +[format:titlelist[]join[ ]] }}}
+```
+
+You can find every standard grouping option by [[searching shadow tiddlers|$:/core/ui/AdvancedSearch/Shadows]] for `ui/group-by/`.

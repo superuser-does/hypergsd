@@ -11,12 +11,12 @@ type: text/vnd.tiddlywiki
 \import $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
 \import $:/core/ui/PageMacros
 
-<!-- Local shadow of the engine's row composer (hgsd-render-grouped calls it by name): identical except the contexts and contact-link fragments are withdrawn from the suffix loop only for this list, because the global visibility config would pull them off every dashboard. -->
+<!-- Local shadow of the engine's row composer (hgsd-render-grouped calls it by name): identical except the contexts and contact-link fragments are withdrawn from the suffix loop only for this list, because the global visibility config would pull them off every dashboard — and the priority row select rides the grouping filter's offered set (delete its candidate run to take priorities off this drawer whole; procedures read the outer lets at call time). -->
 \procedure hgsd-item()
 <$refresh subfilter={{{ [function[hgsd-row-whitelist-expression]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix">
 <$let item-type={{{ [all[current]tags[]] :filter[tag[$:/tags/hypergsd/Type]] :and[get[hgsd-type]] }}}>
 <div class="gsd-list-item">
-  <$list filter="[[$:/tags/hypergsd/Fragment/Row/Prefix]] :and[tagging[]]" variable="list-item">
+  <$list filter="[[$:/tags/hypergsd/Fragment/Row/Prefix]] :and[tagging[]] -[<row-prefix-exclusions>]" variable="list-item">
     <%if [[$:/config/hypergsd/Fragment/Row/Prefix/visibility/]addsuffix<list-item>get[text]else[show]match[show]] %>
       <%if [[$:/config/hypergsd/Fragment/type-hide/]addsuffix<list-item>addsuffix[/]addsuffix<item-type>get[text]else[show]match[hide]] %>
         <!-- suppressed for this row type -->
@@ -44,20 +44,26 @@ type: text/vnd.tiddlywiki
 <!-- The list engine ships View-scoped and the drawer mounts at page level, outside ViewTemplate imports — the two \import lines carry it here; everything Global (realm scoping, click handling, priority writes) resolves ambiently. -->
 <$let view-state-title="$:/config/hypergsd/list-view/GSD drawer actions/Actions"
     priority-member="$:/plugins/yan/hypergsd-priorities/ui/group-by/priority"
+    priority-row-member="$:/plugins/yan/hypergsd-priorities/ui/list-items/priority"
     project-member="$:/plugins/yan/hypergsd/ui/group-by/project"
-    effective-group={{{ [<view-state-title>get[hgsd-group]match<priority-member>then<priority-member>] [<view-state-title>get[hgsd-group]match<project-member>then<project-member>] [<priority-member>] +[first[1]] }}}>
-<!-- The grouping choice: exactly the two dimensions (the engine's strip always adds its leading None and the $hgsd.list chassis renders a heading block — hand-rolled radios keep it to two with no heading). Labels follow the engine's caption-driven resolution; the state tiddler is the engine's own view-state contract, so radio writes re-render through the config prefix run. -->
+    priority-sort-run=":sort[get[gsd_priority]else[zz]]"
+    status-sort-run=":sort[get[gsd_status]]"
+    offered-members={{{ [<priority-member>] [<project-member>] :filter[has[title]] :filter[<currentTiddler>addprefix[$:/config/hypergsd/GroupBy/hidden/]get[text]else[show]match[show]] +[format:titlelist[]join[ ]] }}}
+    group-view-choice={{{ [<view-state-title>get[hgsd-group]else[]] }}}
+    effective-group-default={{{ [enlist<offered-members>first[1]] }}}
+    effective-group={{{ [enlist<offered-members>match<group-view-choice>] [<effective-group-default>] +[first[1]] }}}
+    row-prefix-exclusions={{{ [<priority-row-member>] [enlist<offered-members>match<priority-member>limit[1]] +[count[]compare:integer:equal[2]then[]else<priority-row-member>] }}}>
+<!-- The grouping choice: the two candidate dimensions only, each joining while its plugin is present (has[title] resolves shadows) and Settings has not withdrawn it (the engine's own hidden config) — an uninstalled or unticked Priorities drops its radio with no edit here, and a drawer-local removal is one manual edit: delete the run naming the candidate from the offered-members filter below (the default, the sort run and the row select all follow that one source). An empty offered set withdraws the strip whole so the list renders flat (the engine's strip-withdrawal contract). Radios are the engine's own hgsd-strip-radio over the ambient view-state-title/effective-group-default; hand-rolled mounting keeps the row light (no leading None, no heading block), and the state tiddler is the engine's own view-state contract, so radio writes re-render through the config prefix run. -->
+<%if [<offered-members>!match[]] %>
 <div class="hgsd-group-strip">
     <span class="gsd-muted">{{$:/language/hypergsd/Lists/GroupBy}}</span>
-    <$radio tiddler=<<view-state-title>> field="hgsd-group" value=<<priority-member>> default=<<priority-member>>>
-        <span class="tc-tiny-gap-left"><$transclude $variable="hgsd-view-label" view-member=<<priority-member>> view-key-field="hgsd-group-key" view-lingo-base="$:/language/hypergsd/Lists/GroupBy/"/></span>
-    </$radio>
-    <$radio tiddler=<<view-state-title>> field="hgsd-group" value=<<project-member>>>
-        <span class="tc-tiny-gap-left"><$transclude $variable="hgsd-view-label" view-member=<<project-member>> view-key-field="hgsd-group-key" view-lingo-base="$:/language/hypergsd/Lists/GroupBy/"/></span>
-    </$radio>
+    <$list filter="[enlist<offered-members>]" variable="strip-member">
+        <$transclude $variable="hgsd-strip-radio" strip-member=<<strip-member>>/>
+    </$list>
 </div>
+<%endif%>
 
-<!-- The engine's outer derivation, inlined: open next/waiting actions, realm scoping from the review sidebar's selection, the future-project sweep. Row order is status → priority → title: the base filter title-sorts, each :sort run layers one key over the last (index-stable), the most significant key last — project groups thereby order next-then-waiting before priority. -->
+<!-- The engine's outer derivation, inlined: open next/waiting actions, realm scoping from the review sidebar's selection, the future-project sweep. Row order is status → priority → title: the base filter title-sorts, each :sort run layers one key over the last (index-stable), the most significant key last — project groups thereby order next-then-waiting before priority; the priority run rides the member's offered presence (then<var> transports the bracketed run wholesale — operand brackets cannot nest), so withdrawn priorities degrades the order to status → title and stale gsd_priority fields order nothing. -->
 <$refresh subfilter={{{ [function[hgsd-list-outer-whitelist]] }}} subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip">
 <$let list-filter="[tag[$:/GSD/Action]gsd_complete[false]gsd_status[next]] [tag[$:/GSD/Action]gsd_complete[false]gsd_status[waiting]] +[sort[title]]"
     future-items-visibility={{{ [[$:/config/hypergsd/dashboard-future-project-items]get[text]else[hide]] }}}>
@@ -77,7 +83,7 @@ type: text/vnd.tiddlywiki
 <$let group-filter={{{ [<effective-group>get[hgsd-group-filter]else[]] }}}
     member-label-filter={{{ [<effective-group>get[hgsd-label-filter]else[]] }}}
     show-ungrouped="yes"
-    sort-expression=":sort[get[gsd_priority]else[zz]] :sort[get[gsd_status]]">
+    sort-expression={{{ [enlist<offered-members>match<priority-member>then<priority-sort-run>] [<status-sort-run>] +[join[ ]] }}}>
 <<hgsd-render-grouped>>
 </$let>
 </$eventcatcher>

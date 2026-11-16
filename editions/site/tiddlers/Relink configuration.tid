@@ -1,6 +1,6 @@
 created: 20260614130152676
 creator: Yannis Anthymidis
-modified: 20261115222909734
+modified: 20261116165801681
 modifier: Yannis Anthymidis
 tags: [[Other plugins]]
 title: Relink configuration
@@ -8,7 +8,7 @@ type: text/vnd.tiddlywiki
 
 From time to time, you may want to re-title action, project or contact tiddlers.
 
-To ensure other tiddlers get updated when you re-title, install [[Relink|https://flibbles.github.io/tw5-relink/]], and to import them the following tiddlers by dragging-and-dropping them into your wiki:
+To ensure other tiddlers get updated when you re-title, install [[Relink|https://flibbles.github.io/tw5-relink/]], and to import the following tiddlers by dragging-and-dropping them into your wiki:
 
 * [[$:/config/flibbles/relink/fields/gsd_project]]
 * [[$:/config/flibbles/relink/fields/gsd_prerequisites]]

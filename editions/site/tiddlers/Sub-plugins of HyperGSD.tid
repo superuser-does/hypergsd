@@ -1,13 +1,13 @@
 created: 20261115211159510
 creator: Yannis Anthymidis
-modified: 20261115222841812
+modified: 20261116165834931
 modifier: Yannis Anthymidis
 tags: [[Other plugins]]
 title: Sub-plugins of HyperGSD
 type: text/vnd.tiddlywiki
 
 The following ''sub-plugins'' require the main plugin to be installed.
-They provide more helpful ways to track things you need to do and manage associated information:
+They provide more helpful ways to track things you need to do and manage associated information.
 
 <$set name="qualified-state" value=<<qualify "$:/state/plugin">>>
 {{$:/plugins/yan/hypergsd-contacts||$:/core/ui/Components/plugin-info}}
