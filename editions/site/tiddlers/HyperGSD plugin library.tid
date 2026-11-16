@@ -6,9 +6,9 @@ tags: [[Get HyperGSD]]
 title: HyperGSD plugin library
 type: text/vnd.tiddlywiki
 
-The ''~HyperGSD plugin library'' let you install each plugin in the ~HyperGSD family and have easy updates, without ever leaving your wiki.
+The ''~HyperGSD plugin library'' lets you install and update the ~HyperGSD family and associated plugins, entirely within your wiki.
 
 To use it in your wiki, drag the [[$:/config/HyperGSDPluginLibrary]] tiddler into your wiki and import it.
 You can then access the plugin library from ''Control panel'' →&nbsp;''Plugins'' →&nbsp;''Get more plugins'' →&nbsp;''~HyperGSD plugin library''.
 
-Once the plugin/sub-plugins are installed, the ''Updates'' tab will list newer versions of the plugin and let you update with ease.
+Once the plugin are installed, visit this screen again for the ''Updates'' tab to update to newer versions of the plugins with ease.

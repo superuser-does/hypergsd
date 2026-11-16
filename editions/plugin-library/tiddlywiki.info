@@ -15,7 +15,7 @@
             "$:/UpgradeLibrary",
             "--savelibrarytiddlers",
             "$:/UpgradeLibrary",
-            "[prefix[$:/plugins/yan/hypergsd]]",
+            "[prefix[$:/plugins/yan/hypergsd]] [[$:/plugins/flibbles/relink]] [[$:/plugins/kookma/trashbin]] [[$:/plugins/euth/drawers]]",
             "recipes/library/tiddlers/",
             "$:/UpgradeLibrary/List",
             "--render",

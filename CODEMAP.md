@@ -26,7 +26,7 @@ logic is wikitext.
 |---|---|
 | Main plugin | `$:/plugins/yan/hypergsd` v0.12.0 (`plugin.info`) — "Get Stuff Done in hypermedia" |
 | Sub-plugins | hypergsd-contacts v0.2.2, hypergsd-contexts v0.2.2, hypergsd-priorities v0.1.1, hypergsd-references v0.2.2, hypergsd-ticklers v0.3.1, hypergsd-trashbin v0.2.2 |
-| Vendored dependency | `$:/plugins/kookma/trashbin` v1.3.6 under `plugins/trashbin/` (third-party, soft dependency of hypergsd-trashbin) |
+| Vendored third-party plugins | kookma/trashbin v1.3.6 and flibbles/relink v2.6.1 as JSON tiddlers in `editions/site/tiddlers/` (loaded by the site wiki; trashbin is a soft dependency of hypergsd-trashbin), euth/drawers v0.1.1 in `editions/plugin-library/thirdparty/` (library-only, never loaded by any wiki) — all three ship through the plugin library, staged into plugin folders by `scripts/stage-plugin-json.js` |
 | Author | Yannis Anthymidis (fork); upstream GSD5 by Roma Quintin Hicks et al. |
 | License | MIT (`license.tid`, (c) 2023 roma.hicks) |
 | Core requirement | >= 5.4.0 |

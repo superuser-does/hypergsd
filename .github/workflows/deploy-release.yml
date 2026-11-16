@@ -105,6 +105,11 @@ jobs:
         run: |
           mkdir -p /tmp/lib/plugins/yan
           cp -r plugins/hypergsd* /tmp/lib/plugins/yan/
+          node scripts/stage-plugin-json.js \
+            'editions/site/tiddlers/$__plugins_flibbles_relink.json' \
+            'editions/site/tiddlers/$__plugins_kookma_trashbin.json' \
+            'editions/plugin-library/thirdparty/$__plugins_euth_drawers.json' \
+            --out /tmp/lib/plugins
           TIDDLYWIKI_PLUGIN_PATH=/tmp/lib/plugins npx tiddlywiki ./editions/plugin-library --build library
 
       - uses: actions/configure-pages@v6
