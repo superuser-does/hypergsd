@@ -13,6 +13,16 @@ CODEMAP.md maps the family surface by surface; when a change alters behaviour an
 
 The site wiki lives at `editions/site/`, and its `plugins/` folder is a STAGED, generated copy of the repository root's `plugins/` — never edit anything under it. `npm run serve` re-stages and listens (raw equivalent: `rm -rf editions/site/plugins && cp -r plugins editions/site/plugins && tiddlywiki ./editions/site --listen`); `npm run build:site` re-stages for a build. A plugin source edit therefore needs a re-stage plus a server restart before the wiki serves it; a wiki-content edit under `editions/site/tiddlers/` needs only the restart (the playwright skill's restart rule).
 
+## The download editions (what ships where)
+
+The site's two download buttons (in "Download a full wiki with HyperGSD") send `tm-download-file` naming an edition tiddler: `$:/editions/hypergsd/download-empty` (main plugin + Relink, saved as `hypergsd-empty.html`) and `$:/editions/hypergsd/download-complete` (the whole family + Relink + Trashbin, `hypergsd-complete.html`). The saver handler's `saveWiki` renders the edition tiddler through `$:/core/templates/tiddlywiki5.html`, and the store area fills from that tiddler's OWN `\procedure saveTiddlerFilter()`: an explicit title list over core, themes, plugins and individually named config tiddlers.
+
+- **A tiddler under `editions/site/tiddlers/` never ships in the downloads** unless its title joins an edition's list (the precedent for a config tiddler that must ship: the delete-fragment visibility override on `download-complete`'s list). Site-only chrome therefore needs no filter edits to stay out: `$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/home` (show) ships on the site only, and downloaded wikis keep core's shadow default (hide).
+- **Plugin members ship whole**: the template's `saveTiddlerAndShadowsFilter` runs `plugintiddlers[]` over every listed plugin, so anything moved into a listed plugin rides along everywhere that plugin is listed. The per-title list is the only gate for non-plugin tiddlers.
+- **The site build ships everything**: `build:site` renders `$:/plugins/tiddlywiki/tiddlyweb/save/offline`, whose filter is `[is[tiddler]]` minus exclusions, so every real tiddler in the wiki ships, all of `editions/site/tiddlers/` included.
+- The edition tiddlers themselves are wiki content (`editions/site/tiddlers/$__editions_hypergsd_download-*.tid`); the ask-first rule for that folder applies to edits.
+- Headless verification (after staging plugins): `tiddlywiki ./editions/site --output <dir> --render '[[$:/editions/hypergsd/download-empty]]' 'download-empty.html' 'text/plain'`, same shape for the other edition and for the `save/offline` template. With the home-visibility tiddler present, the editions carry core's shadow (hide) only, while the site render carries the show override.
+
 ## Core architecture
 
 ### Tag-driven identity
