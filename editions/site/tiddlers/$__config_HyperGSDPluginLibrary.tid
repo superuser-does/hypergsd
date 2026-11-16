@@ -3,6 +3,6 @@ tags: $:/tags/PluginLibrary
 url: https://superuser-does.github.io/hypergsd/library/pluginlibrary.html
 caption: HyperGSD plugin library
 
-The ~HyperGSD plugin library distributes the the main ~HyperGSD plugin and as well as supplemental plugins.
+The ''~HyperGSD plugin library'' lets you install and update the HyperGSD family and associated plugins, entirely within your wiki.
 
-Drag-and-drop this link into your wiki and import the tiddler to use the library: [[HyperGSD plugin library|$:/config/HyperGSDPluginLibrary]]
+To use in other wikis, drag-and-drop this link into your wiki and import it: [[HyperGSD plugin library|$:/config/HyperGSDPluginLibrary]]
