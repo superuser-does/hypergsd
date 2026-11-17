@@ -665,7 +665,14 @@ same resolved key; a
 │                                use)
 └── ui/
     ├── new-gsd-modal.tid        creation modal chassis (title+create+submit; sections
-    │                            are tag-driven, see ui/attributes/ + ui/modal/); carries
+    │                            are tag-driven, see ui/attributes/ + ui/modal/); the
+    │                            title input and Create button share a wrapping
+    │                            gsd-list-item label (the input stays the first
+    │                            labelable descendant, its button following never
+    │                            preceding; the create-another checkbox stays outside
+    │                            in core's own $checkbox label, whose caption clicks
+    │                            inside the wrapper would focus the input instead of
+    │                            toggling); carries
     │                            NO linking of its own — a pick row's plain new
     │                            button links through the AfterCreation panel-link
     │                            rule reading the state stamp. Submit
