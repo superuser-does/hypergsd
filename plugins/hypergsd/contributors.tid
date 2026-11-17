@@ -3,7 +3,10 @@ title: $:/plugins/yan/hypergsd/contributors
 The following people have contributed code to the ~HyperGSD project:
 
 * Yannis Anthymidis
-* Eric Shulman (dependency field picker)
+
+The following people have contributed indirectly to the ~HyperGSD project:
+
+* Eric Shulman -- for the dropdown field picker proof of concept
 
 The following people have contributed code to the GSD5 project:
 
