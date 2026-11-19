@@ -669,7 +669,12 @@ same resolved key; a
     │                            title input and Create button share a wrapping
     │                            gsd-list-item label (the input stays the first
     │                            labelable descendant, its button following never
-    │                            preceding; the create-another checkbox stays outside
+    │                            preceding; a screen-reader-only caption names the
+    │                            input, because label content displaces the
+    │                            placeholder in the name cascade and the button's
+    │                            caption would otherwise be its whole name, still
+    │                            trailing the computed one; the create-another
+    │                            checkbox stays outside
     │                            in core's own $checkbox label, whose caption clicks
     │                            inside the wrapper would focus the input instead of
     │                            toggling); carries
