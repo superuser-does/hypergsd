@@ -452,10 +452,11 @@ same resolved key; a
 │   — next/waiting/future actions plus the Portion/Full projects member —
 │   their tag tiddler, visibility multids and Settings tab), modal context
 │   section (a multi-pick: $hgsd.pick-append appends into new-state's
-│   gsd_context LIST, candidates riding the pick's default realm selection,
-│   and the picked
-│   contexts render as core <<tag>> pills whose × strips the list; the
-│   Inheritance rule enlists the list at submit), capture
+│   gsd_context LIST, candidates riding the pick's default realm selection;
+│   the append row shares the single-value picker's flex layout with separate
+│   controls, and create-and-add labels reuse the list title wrapping rule;
+│   picked contexts render as core <<tag>> pills whose × strips the list;
+│   the Inheritance rule enlists it at submit), capture
 │   default + entry button, and the contextualise Row/Suffix row
 │   fragment (ui/list-items/context: contexts-icon toggle opens an inline
 │   reveal holding an unmodified $hgsd.pick + the Add button and the shared

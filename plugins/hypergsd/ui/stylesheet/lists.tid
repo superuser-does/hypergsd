@@ -44,7 +44,7 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   flex-shrink: 0;
 }
 
-/* The title link opts out of the defaults that overflow narrow screens:
+/* Title links and create-and-add labels opt out of the defaults that overflow narrow screens:
    core sets overflow-wrap:break-word on body.tc-body, which breaks an
    over-long word in flowing text but does NOT lower min-content — so the
    flexbox floor (min-width:auto) kept the item at its longest token and one
@@ -56,9 +56,11 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
    arm covers a title link inside its own show/hide reveal (pick-field's set
    state): the span is the flex item, so IT needs the shrink release —
    flex-shrink beats the >span rule above, and overflow-wrap inherits into
-   the link. */
+   the link. The create-and-add button carries the same potentially unbroken
+   title before it exists as a link. */
 .gsd-list-item > a,
-.gsd-list-item > .tc-reveal:has(> a) {
+.gsd-list-item > .tc-reveal:has(> a),
+.hgsd-create-and-add {
   min-width: 0;
   flex-shrink: 1;
   overflow-wrap: anywhere;

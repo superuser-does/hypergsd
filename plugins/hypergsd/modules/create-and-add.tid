@@ -71,7 +71,7 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
 <!-- The editing state passes close-state, and its commit REPLACES the field's value, so the button reads "create «typed» and change"; the empty state and list rows (no close-state) keep "and add". The fallback branch's else operand is the VARIABLE TITLE RUN, never enlist<> — enlist splits the unquoted prose sandwich into words and in attribute position only the first word survives the filtered transclusion (every shipped caller passes tooltip, so the fallback path rode unexercised until a caller relied on it). -->
 <$let fallback-tooltip={{{ [<hint-a-text>] +[addsuffix[ ]] +[addsuffix<typed-pick>] +[addsuffix[ ]] +[addsuffix<hint-b-text>] }}}
   btn-tooltip={{{ [<tooltip>!match[]] :else[<fallback-tooltip>] }}}>
-<$button tooltip=<<btn-tooltip>>>
+<$button tooltip=<<btn-tooltip>> class="hgsd-create-and-add">
   <$transclude $variable="hgsd-create-and-add-actions" typed-pick=<<typed-pick>> new-type=<<new-type>> new-status=<<new-status>> target-tiddler=<<target-tiddler>> target-field=<<target-field>> pick-tiddler=<<pick-tiddler>> pick-field=<<pick-field>> close-state=<<close-state>> new-project=<<new-project>> target-mode=<<target-mode>> new-prereq=<<new-prereq>>/>
   <%if [<close-state>!match[]] %>
   <$slot $name="label">{{$:/language/hypergsd/Widgets/CreateChange/LabelA}}<q><$text text=<<typed-pick>>/></q>{{$:/language/hypergsd/Widgets/CreateChange/LabelB}}</$slot>
@@ -79,7 +79,7 @@ title: $:/plugins/yan/hypergsd/modules/create-and-add
   <$slot $name="label">{{$:/language/hypergsd/Widgets/CreateAdd/LabelA}}<q><$text text=<<typed-pick>>/></q>{{$:/language/hypergsd/Widgets/CreateAdd/LabelB}}</$slot>
   <%endif%>
 </$button>
-<!-- Core's bad-character warning rides the shared shell itself, not per call site: every button-path typed creation (pick-field both states, pick-append rows, direct shell callers such as sub-plugin row fragments, the modal's pickers — and any future surface transcluding this shell) inherits the indicator with zero wiring. The entity carries the gap in inline-flow hosts (pick-append's and the direct callers' cluster divs; flex-row hosts add their own gap on top). The keyboard fork routes through hgsd-create-and-add-actions at keypress and never renders here — the row's create branch has already shown the icon on the same typed pick. -->
+<!-- Core's bad-character warning rides the shared shell itself, not per call site: every button-path typed creation (pick-field both states, pick-append rows, direct shell callers such as sub-plugin row fragments, the modal's pickers — and any future surface transcluding this shell) inherits the indicator with zero wiring. The entity carries the gap in inline-flow hosts (the direct callers' clusters; flex-row hosts add their own gap on top). The keyboard fork routes through hgsd-create-and-add-actions at keypress and never renders here — the row's create branch has already shown the icon on the same typed pick. -->
 &nbsp;<$transclude $variable="hgsd-title-warning" typed-value={{{ [<typed-pick>] }}} />
 </$let>
 </$let>
