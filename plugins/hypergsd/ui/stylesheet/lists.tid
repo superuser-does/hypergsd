@@ -59,7 +59,7 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
    the link. The create-and-add button carries the same potentially unbroken
    title before it exists as a link. */
 .gsd-list-item > a,
-.gsd-list-item > .tc-reveal:has(> a),
+.gsd-list-item > .hgsd-pick-field-reveal:has(> a),
 .hgsd-create-and-add {
   min-width: 0;
   flex-shrink: 1;
@@ -77,8 +77,8 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/lists
   }
 }
 
-/* pick-field's set state wraps each control in its own reveal, so an empty link-items span hides behind a bare tc-reveal flex item — the wrapper collapses too, or the clear button would sit two gaps from the value. */
-.gsd-list-item > .tc-reveal:has(> .hgsd-panel-items:empty) {
+/* Collapse the reveal so an empty panel-items span does not leave an extra gap before the clear button. */
+.gsd-list-item > .hgsd-pick-field-reveal:has(> .hgsd-panel-items:empty) {
   display: none;
 }
 
