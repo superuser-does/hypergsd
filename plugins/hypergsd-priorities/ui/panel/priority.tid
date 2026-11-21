@@ -21,7 +21,7 @@ title: $:/plugins/yan/hypergsd-priorities/ui/panel/priority
 <!-- A named fieldset, the status section's radio-group pattern: a wrapping label would forward caption clicks to the FIRST radio (High), silently rewriting the field; the legend names the group without creating a click target. The panel chassis rule strips the fieldset's native chrome. -->
 <fieldset>
 <legend><<lingo Priority/Label>></legend>
-<$eventcatcher tag="div" selector=".hgsd-priority-option input" $click=<<hgsd-priority-click>>>
+<$eventcatcher tag="div" selector=".hgsd-priority-option input" $click=<<hgsd-priority-click>> $change=<<hgsd-priority-click>>>
 <%if [<priority-fold-state>get[text]else[show]match[show]] %>
 <div class="hgsd-priority-row hgsd-priority-A">
   <label class="hgsd-priority-option">

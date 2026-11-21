@@ -16,7 +16,7 @@ title: $:/plugins/yan/hypergsd-priorities/modules/priority-sets
 <%endif%>
 \end
 
-<!-- The panel radios' click handler: the catcher catches the label-forwarded synthetic click (display:none inputs skip the change cascade, so the write rides the click), and the dom-data-* variables carry the input's static attributes. -->
+<!-- The panel radios' write handler: the catcher receives the label-forwarded click (the click handler's preventDefault suppresses the native check and its change cascade, so the write rides the click) and the $change binding carries arrow-key selection, which fires change without a click. The dom-data-* variables carry the input's static attributes. -->
 \procedure hgsd-priority-click()
 <$let clicked-tiddler=<<dom-data-tiddler>> clicked-priority=<<dom-data-priority>>>
 <$transclude $variable="hgsd-priority-set" item-title=<<clicked-tiddler>> priority-value=<<clicked-priority>>/>

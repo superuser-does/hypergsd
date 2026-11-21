@@ -8,7 +8,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
 \procedure lingo-base() $:/language/hypergsd/Sections/
 <%if [<current-type>!match[context]!match[reference]!match[contact]] %>
 <$let picked-contexts={{{ [<new-state>get[gsd_context]enlist-input[]format:titlelist[]join[ ]] }}}>
-<!-- gsd_context is a LIST on new-state: pick-append appends into it (dropdown instant commit, Enter, the Add button), the pills strip from it, the Inheritance rule enlists it at submit. The caption stays unwrapped (the pick-append panels' shape — a wrapping label would send caption clicks to the first pill button, the first labelable descendant once any context is picked). The candidate exclusion rides the ambient let: already-picked contexts drop out of the dropdown, so the append cannot duplicate (the contextualise picker's shape). The plain new fallback self-suppresses in this modal host (hgsd-new-fallback's ambient section-mode gate); create-and-add for a typed unknown name stays. Candidates ride the pick's default realm selection — a realm-tagged context follows the realm selection, like projects and contacts. -->
+<!-- gsd_context is a LIST on new-state: pick-append appends into it (dropdown instant commit, Enter, the Add button), the pills strip from it, the Inheritance rule enlists it at submit. The caption renders as plain text above and the label wraps the add-row alone: the label cannot start at the caption because the pills strip renders between them, and a label's whole content becomes the input's accessible name — every pill and its clear button would join it (label activation would reach the picker, never a pill button, but the name would carry them all). $edit-text forwards no id, so for/id cannot reach the widget's input either; the sr-only caption inside the label is the one naming path, its text a deliberate duplicate of the visible caption. The candidate exclusion rides the ambient let: already-picked contexts drop out of the dropdown, so the append cannot duplicate (the contextualise picker's shape). The plain new fallback self-suppresses in this modal host (hgsd-new-fallback's ambient section-mode gate); create-and-add for a typed unknown name stays, its caption trailing the accessible name while visible. Candidates ride the pick's default realm selection — a realm-tagged context follows the realm selection, like projects and contacts. -->
 <<lingo Context/Label>>
 <br />
 <div class="hgsd-context-entries">
@@ -22,6 +22,7 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
     </span>
   </$list>
 </div>
+<label><span class="hgsd-screen-reader-only"><<lingo Context/Label>></span>
 <$hgsd.pick-append
   tiddler=<<new-state>>
   field="gsd_context"
@@ -30,5 +31,6 @@ title: $:/plugins/yan/hypergsd-contexts/ui/modal/context
   none-label={{$:/language/hypergsd/Sections/Context/Choose}}
   new-type="context"
   new-status="next"/>
+</label>
 </$let>
 <%endif%>

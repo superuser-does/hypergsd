@@ -155,8 +155,8 @@ title: $:/plugins/yan/hypergsd/modules/widgets/hgsd-list
       subfilter-tag-inputs="$:/tags/hypergsd/Fragment/Row/Prefix $:/tags/hypergsd/Fragment/Row/Suffix $:/tags/hypergsd/Strip"
       hgsd-group-buster=<<group-state>>
       hgsd-filter-buster=<<hgsd-titles>> >
-    <!-- Performance note: Centralised O(1) event listener for all checkboxes and buttons in this list. -->
-    <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> >
+    <!-- Performance note: Centralised O(1) event listener for all checkboxes and buttons in this list. $change carries keyboard pill selection: arrow keys fire change, not click, and the handler's chain no-ops for inputs without data-hgsd-action (pickers inside hgsd-interactive). -->
+    <$eventcatcher selector=".hgsd-interactive input, .hgsd-interactive button" $click=<<hgsd-handle-click>> $change=<<hgsd-handle-click>> >
 
     <!-- ROW FREEZE WHITELIST, derived once per list via the file-top hgsd-row-whitelist-expression function (the engine base plus every ListItem member's refresh-whitelist field — each stateful fragment declares its own state deps there; runs must be single tokens / bracketed, no bare spaces inside). Derived inside this gate, so tag-list edits that change it re-render. -->
     <$let hgsd-row-whitelist={{{ [function[hgsd-row-whitelist-expression]] }}}>

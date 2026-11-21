@@ -15,6 +15,8 @@ title: $:/plugins/yan/hypergsd/ui/panel/prereq
     <$list filter="[all[current]get[gsd_prerequisites]enlist-input[]] +[sort[gsd_complete]]" variable="prereq-item">
       <$transclude $variable="hgsd-prereq-row" item=<<prereq-item>>/>
     </$list>
+    <!-- The label names the add-row's picker and cannot start at the visible caption: the section's rows render between caption and picker, and a label's whole content becomes the input's accessible name — every row title and × button would join it. $edit-text forwards no id, so for/id cannot reach the widget's input either; the sr-only caption inside the label is the one naming path, its text a deliberate duplicate of the visible caption. The commit buttons ride inside the label, their captions trailing the accessible name, the accepted cost of caller-owned label markup -->
+    <label><span class="hgsd-screen-reader-only"><<lingo DependsOn/Label>></span>
     <$hgsd.pick-append
       field="gsd_prerequisites"
       id="prereq"
@@ -27,6 +29,7 @@ title: $:/plugins/yan/hypergsd/ui/panel/prereq
       new-project={{!!gsd_project}}
       tooltip={{$:/language/hypergsd/Sections/DependsOn/Add/Hint}}
       caption={{$:/language/hypergsd/Sections/DependsOn/Add/Caption}}/>
+    </label>
   </div>
 </div>
 <%endif%>

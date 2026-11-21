@@ -42,7 +42,12 @@ plugins/hypergsd/
 ├── plugin.info                  plugin manifest (list: readme)
 ├── readme.tid, license.tid, contributors.tid
 ├── modules/
-│   ├── event-handler.tid        hgsd-handle-click — THE click dispatcher ($:/tags/Global);
+│   ├── event-handler.tid        hgsd-handle-click — THE click/change dispatcher
+│   │                            (the catchers bind it to $click AND $change:
+│   │                            clicks ride the label-forwarded click, whose
+│   │                            preventDefault suppresses the change cascade,
+│   │                            while arrow-key pill selection fires change
+│   │                            without a click) ($:/tags/Global);
 │   │                            hgsd-handle-complete-event(item-title) = the
 │   │                            completion cluster (warning gate + confirm modal +
 │   │                            hgsd-do-complete + the optional story close);
@@ -311,12 +316,13 @@ same resolved key; a
 │       │                        "field" — picking drafts the target directly in
 │       │                        the modal and writes it live in the panel; the
 │       │                        editing state also commit-clears edit-state-title). label=
-│       │                        renders the caption in every state and a
-│       │                        wrapping label (caption + row) in the empty
-│       │                        state only, where it also carries the
-│       │                        hgsd-print-hide-blank hook — the set states
-│       │                        need no hook (a set field always renders a
-│       │                        link) and no label (their first labelable
+│       │                        renders the caption as plain text above the row in
+│       │                        every state; the empty state alone wraps its picker
+│       │                        in a class-free label (sr-only caption names the
+│       │                        input, no sibling button caption trailing it) inside
+│       │                        a plain div carrying the hgsd-print-hide-blank hook —
+│       │                        the set states need no hook (a set field always
+│       │                        renders a link) and no label (their first labelable
 │       │                        element is the clear ✕). Both
 │       │                        keyboard-commit sites route through
 │       │                        hgsd-pick-keyboard-commit (create-if-missing at
@@ -588,8 +594,9 @@ same resolved key; a
 │   panel's Portion/0 section (ui/panel/
 │   priority — the first portion claim below Portion/1) is three raw
 │   radios behind the section's OWN eventcatcher (the status-pill
-│   architecture: the catcher receives the label-forwarded click —
-│   display:none inputs skip the change cascade — and hgsd-priority-click
+│   architecture: the catcher receives the label-forwarded click, whose
+│   preventDefault suppresses the change cascade, plus the $change binding
+│   for arrow-key selection, and hgsd-priority-click
 │   commits through hgsd-priority-set) inside hairline option blocks, each
 │   row carries its letter as a hook class and the stylesheet's generated
 │   rules hang the --priority-* custom properties on it (fill / ink / line
@@ -667,18 +674,15 @@ same resolved key; a
 └── ui/
     ├── new-gsd-modal.tid        creation modal chassis (title+create+submit; sections
     │                            are tag-driven, see ui/attributes/ + ui/modal/); the
-    │                            title input and Create button share a wrapping
-    │                            gsd-list-item label (the input stays the first
-    │                            labelable descendant, its button following never
-    │                            preceding; a screen-reader-only caption names the
-    │                            input, because label content displaces the
-    │                            placeholder in the name cascade and the button's
-    │                            caption would otherwise be its whole name, still
-    │                            trailing the computed one; the create-another
-    │                            checkbox stays outside
-    │                            in core's own $checkbox label, whose caption clicks
-    │                            inside the wrapper would focus the input instead of
-    │                            toggling); carries
+    │                            title row carries NO wrapping label — the
+    │                            placeholder names the input (label content would
+    │                            displace the placeholder and pull sibling button
+    │                            captions into the accessible name, and hidden
+    │                            caption text must render through <$text> or it
+    │                            linkifies, a hidden link voice access reads as a
+    │                            click target) — the input, Create button and
+    │                            create-another checkbox (core's own $checkbox
+    │                            label) sit as flex siblings; carries
     │                            NO linking of its own — a pick row's plain new
     │                            button links through the AfterCreation panel-link
     │                            rule reading the state stamp. Submit
@@ -854,7 +858,16 @@ same resolved key; a
     │                            $hgsd.pick-append adds, both keyed by one
     │                            direction bit ("own" vs "item") — commit-kind
     │                            append/append-to-picked rides inside
-    │                            pick-append
+    │                            pick-append; both wrap the add-row in a
+    │                            caller-side label naming its picker (sr-only
+    │                            caption duplicating the visible one — the
+    │                            label cannot start at the caption, the rows
+    │                            between would join the input's accessible
+    │                            name, and $edit-text forwards no id, so
+    │                            for/id cannot reach the widget's input;
+    │                            commit-button captions trail the name, the
+    │                            accepted cost — the contexts modal's add-row
+    │                            label is the same shape over its pills strip)
     ├── list-items/              7 self-gating row fragments (complete/status/
     │                            body-text/delete/comp-date/project/project-link;
     │                            + the trash alternative shipped from the
@@ -1258,7 +1271,10 @@ Event delegation contract (all interactive HTML controls):
 `data-tiddler` (target title) + `data-hgsd-action` ∈ {`complete`,`complete-confirmed`,`status`,`delete`}
 + `data-status` (new status) + `data-hgsd-status-field` (optional per-type
 persist); controls must sit inside `.hgsd-interactive` under an `$eventcatcher`
-with selector `.hgsd-interactive input, .hgsd-interactive button`.
+with selector `.hgsd-interactive input, .hgsd-interactive button` and both
+`$click` and `$change` bound to the handler (keyboard pill changes arrive as
+change events; inputs without data-hgsd-action — pickers inside
+hgsd-interactive — fall through the handler's chain with no writes).
 
 Completion side-effects — ONE mechanism: raw-HTML checkboxes inside `$eventcatcher` regions
 dispatch to `hgsd-handle-click`, whose `hgsd-do-complete` sets

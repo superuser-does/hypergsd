@@ -16,13 +16,26 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/pills
   font-weight: 600;
   color: <<colour sidebar-controls-foreground>>;
 }
+<!-- The radios ride visually hidden (out of flow, 1px, clipped) so the accessibility tree keeps them: name from the wrapping label, focus, checked state, arrow-key group navigation. The row pill's label content is the glyph, so the input itself carries the full word as aria-label. -->
 .item-status input[type=radio] {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 .item-status input[type=radio]:checked + span {
   background-color: var(&#x2D;&#x2D;pill-bg);
   color: var(&#x2D;&#x2D;pill-fg);
   border-color: var(&#x2D;&#x2D;pill-fg);
+}
+.item-status:has(input:focus-visible) {
+  outline: 2px solid <<colour foreground>>;
+  outline-offset: 1px;
 }
 
 <!-- Pill colour classes are generated per status from the hgsd-status-colours dictionary -->
@@ -52,7 +65,10 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/pills
 /* The label is the pill: :has() carries the checked state, so no span
    is needed, and the fill reads the --pill-* properties the generated
    rules above hang on the label's view-status <type>-<status> hook
-   classes. */
+   classes. The radio rides visually hidden (out of flow, 1px, clipped)
+   so the accessibility tree keeps it — name from the label's status
+   word, focus, checked state, arrow-key group navigation — and the
+   focus ring surfaces on the label, the only visible box. */
 .view-status {
   display: inline-block;
   border: 1px solid <<colour sidebar-controls-foreground>>;
@@ -62,11 +78,23 @@ title: $:/plugins/yan/hypergsd/ui/stylesheet/pills
   font-weight: 600;
   color: <<colour sidebar-controls-foreground>>;
   & input[type=radio] {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
   }
   &:has(input:checked) {
     background-color: var(&#x2D;&#x2D;pill-bg);
     color: var(&#x2D;&#x2D;pill-fg);
     border-color: var(&#x2D;&#x2D;pill-fg);
+  }
+  &:has(input:focus-visible) {
+    outline: 2px solid <<colour foreground>>;
+    outline-offset: 1px;
   }
 }
